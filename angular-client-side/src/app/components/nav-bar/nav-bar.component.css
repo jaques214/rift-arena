@@ -1,0 +1,20 @@
+.navbar-brand {
+  width: 120px;
+  height: 60px;
+  text-align: left;
+}
+
+.navbar-brand img {
+  height: 100%;
+}
+
+button:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.dropdown-menu {
+  right: 0;
+  left: auto;
+}
+
