@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using RiftARENA.Models;
+using RiftArena.Models.Contexts;
+using RiftArena.Models;
 
-namespace RiftARENA.Controllers
+namespace RiftArena.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
