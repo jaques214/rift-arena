@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
-import {MatInputModule} from '@angular/material/input';
-import {MatCardModule} from '@angular/material/card';
 
 const routes: Routes = [
   { 
@@ -21,3 +19,9 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
+
+/*"angular-bootstrap-md": "^12.1.0",
+    "bootstrap": "^5.1.3",
+    "ngx-bootstrap": "^7.1.0",
+*/
+
