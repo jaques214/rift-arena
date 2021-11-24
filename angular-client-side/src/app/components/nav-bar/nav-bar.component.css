@@ -8,6 +8,10 @@
   height: 100%;
 }
 
+.dropdown-toggle::after {
+  display: none;
+}
+
 button:focus {
   outline: none;
   box-shadow: none;
@@ -18,3 +22,18 @@ button:focus {
   left: auto;
 }
 
+.username-btn{
+  color: rgba(0,0,0,.55);
+}
+
+.badge {
+  background-color: rgb(186, 39, 42)
+}
+
+.a-btn{
+text-align: left;
+}
+.a-btn:focus{
+  outline: none;
+  box-shadow: none;
+}
