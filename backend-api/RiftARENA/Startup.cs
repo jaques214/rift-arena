@@ -1,20 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using RiftARENA.Models;
 
-namespace RiftARENA
+using Microsoft.EntityFrameworkCore;
+using RiftArena.Models.Contexts;
+
+
+namespace RiftArena
 {
     public class Startup
     {
@@ -30,13 +24,12 @@ namespace RiftARENA
         {
             services.AddControllers();
 
-            services.AddDbContext<TeamContext>(opt =>
-                                               opt.UseInMemoryDatabase("RiftArena"));//a mudar para SQL server
+            services.AddDbContext<RiftArenaContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("RiftArena")));
             services.AddControllers();
-            services.AddSwaggerGen(c =>
+            /*services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RiftARENA", Version = "v1" });
-            });
+            });*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,8 +38,8 @@ namespace RiftARENA
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RiftARENA v1"));
+                /*app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RiftARENA v1"));*/
             }
 
             app.UseHttpsRedirection();

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-namespace RiftARENA.Models
+namespace RiftArena.Models
 {
     public class TeamContext : DbContext
     {

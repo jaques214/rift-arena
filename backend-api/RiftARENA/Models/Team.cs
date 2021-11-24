@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace RiftARENA.Models
+namespace RiftArena.Models
 {
     public class Team
     {
