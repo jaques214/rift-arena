@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace RiftARENA.Models
+namespace RiftArena.Models
 {
     public class Team
     {
@@ -28,7 +28,7 @@ namespace RiftARENA.Models
 
         //public List<int> tournamentsWon  { get; set; }
 
-        public string avatar { get; set; }
+        public string poster { get; set; }
 
     }
 }
