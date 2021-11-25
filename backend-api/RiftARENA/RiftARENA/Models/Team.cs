@@ -28,7 +28,7 @@ namespace RiftArena.Models
 
         //public List<int> tournamentsWon  { get; set; }
 
-        public string avatar { get; set; }
+        public string poster { get; set; }
 
     }
 }
