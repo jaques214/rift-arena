@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace RiftARENA.Services
+namespace RiftArena.Services
 {
     [Serializable]
     internal class AppException : Exception
