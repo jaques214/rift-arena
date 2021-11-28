@@ -11,23 +11,16 @@ using RiftArena.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using RiftArenaAPI.Models.Contexts;
+using RiftArena.Models.Contexts;
 using RiftARENA.Services;
 
-<<<<<<< HEAD
 namespace RiftArena.Controllers
-=======
-namespace RiftArenaAPI.Controllers
-    //TO DO 
-    //Adicionar o DTO e implementar no CRUD
->>>>>>> 44bf83c2bd4e6f51a93372c9ae34c509e1cd9cba
 {
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
         private readonly RiftArenaContext _context;
-        private readonly UserContext _context2;
         private userServices _userService;
 
         public UsersController(RiftArenaContext context,userServices userService)
@@ -127,7 +120,7 @@ namespace RiftArenaAPI.Controllers
                 Token = tokenString
             });*/
             
-        }*/
+        
 
         //POST: /login
         [HttpPost("Login")]
