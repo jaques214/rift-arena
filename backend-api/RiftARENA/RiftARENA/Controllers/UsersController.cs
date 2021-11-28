@@ -23,7 +23,7 @@ namespace RiftArena.Controllers
         private readonly RiftArenaContext _context;
         private userServices _userService;
 
-        public UsersController(RiftArenaContext context,userServices userService)
+        public UsersController(RiftArenaContext context, userServices userService)
         {
             _context = context;
             _userService = userService;
@@ -31,17 +31,21 @@ namespace RiftArena.Controllers
 
         //POST: /register
         [HttpPost("register")]
-        public IActionResult Register([FromBody]User user){
-            try {
+        public IActionResult Register([FromBody] User user)
+        {
+            try
+            {
                 _userService.Create(user, user.Password);
                 _context.SaveChanges();
                 return CreatedAtRoute("GetUser", new { id = user.UserID }, user);
-            } catch(ApplicationException ex){
-                return BadRequest(new {message = ex.Message });
+            }
+            catch (ApplicationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
             }
         }
 
-        [HttpGet("{id}",Name = "GetUser")]
+        [HttpGet("{id}", Name = "GetUser")]
         public ActionResult<User> GetById(long id)
         {
 
@@ -64,8 +68,8 @@ namespace RiftArena.Controllers
                 return NoContent();
             }
 
-           
-         return Ok(users);
+
+            return Ok(users);
         }
 
         [HttpDelete("{id}")]
@@ -85,12 +89,12 @@ namespace RiftArena.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody]User user)
+        public IActionResult Update(int id, [FromBody] User user)
         {
 
-            var userUp = _context2.Users.Find(id);
+            var userUp = _context.User.Find(id);
 
-            if(userUp == null)
+            if (userUp == null)
             {
                 return NotFound();
             }
@@ -104,7 +108,7 @@ namespace RiftArena.Controllers
                     userUp.Email = user.Email;
 
                     _userService.Update(userUp);
-                    _context2.SaveChanges();
+                    _context.SaveChanges();
                     return Ok();
                 }
                 catch (AppException ex)
@@ -114,10 +118,9 @@ namespace RiftArena.Controllers
                 }
 
             }
-      
+
         }
 
-<<<<<<< HEAD
         //POST
         /*[HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody]User user){
@@ -135,25 +138,6 @@ namespace RiftArena.Controllers
             }
             var token = tokenHandler.createToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
-=======
-        ////POST
-        //[HttpPost("authenticate")]
-        //public IActionResult Authenticate([FromBody]User user){
-        //    if(user == null) {
-        //        return BadRequest(new { message = "Username or password is incorrect."});
-        //    }
-        //    var tokenHandler = new JWTSecurityTokenHandler();
-        //    var key = Encoding.ASCII.GetBytes(_appSetting.Secret);
-        //    var tokenDescription = new SecurityTokenDescriptor {
-        //        Subject = new ClaimsIdentity(new Claim[] {
-        //            new Claim(ClaimTypes.Name, user.UserID.ToString())
-        //        });
-        //        var Expires = DateTime.UtcNow.AddDays(7);
-        //        var SigningCredentials = new Microsoft.IdentityModel.Tokens.SigningCredentials(new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-        //    }
-        //    var token = tokenHandler.createToken(tokenDescriptor);
-        //    var tokenString = tokenHandler.WriteToken(token);
->>>>>>> 9dc2c3d9c19bfc70fb868ef4dfcbb5bf1a6f97bc
 
             /*return Ok(new {
                 Id = user.UserId,
@@ -161,8 +145,8 @@ namespace RiftArena.Controllers
                 Name = user.name,
                 Token = tokenString
             });*/
-            
-        
+
+
 
         //POST: /login
         [HttpPost("Login")]
@@ -171,12 +155,13 @@ namespace RiftArena.Controllers
             User user = null;
             try
             {
-                var sqlQuery = from User in _context.User 
+                var sqlQuery = from User in _context.User
                                select * ;
 
                 if (!String.IsNullOrEmpty(usernameVal) || !String.IsNullOrEmpty(passwordVal))
                 {
-                    user = sqlQuery.Where(user => {
+                    user = sqlQuery.Where(user =>
+                    {
                         user.Nickname = usernameVal;
                         user.Password = passwordVal;
                     });
@@ -271,9 +256,10 @@ namespace RiftArena.Controllers
             return NoContent();
         } */
 
-        //private bool UserExists(int id)
-        //{
-        //    return _context.RiftArenaItems.Any(e => e.UserID == id);
-        //}
-    
+        private bool UserExists(int id)
+        {
+            return _context.RiftArenaItems.Any(e => e.UserID == id);
+        }
+
+    }
 }

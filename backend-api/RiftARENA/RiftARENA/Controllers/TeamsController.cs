@@ -94,7 +94,7 @@ namespace RiftArena.Controllers
                 return NotFound();
             }
 
-            _context.Teams.Remove(team);
+            _context.Teams.Delete(team);
             await _context.SaveChangesAsync();
 
             return NoContent();
