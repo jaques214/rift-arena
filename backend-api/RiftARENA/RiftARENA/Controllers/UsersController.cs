@@ -36,7 +36,6 @@ namespace RiftArenaAPI.Controllers
         [HttpPost("register")]
         public IActionResult Register([FromBody]User user){
             try {
-                //Create(user.email, user.password);
                 _userService.Create(user, user.Password);
                 _context.SaveChanges();
                 return CreatedAtRoute("GetUser", new { id = user.UserID }, user);
@@ -75,46 +74,69 @@ namespace RiftArenaAPI.Controllers
         [HttpDelete("{id}")]
         public ActionResult<User> Delete(long id)
         {
-            _userService.Delete(id);
+            var user = _userService.GetById(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                _userService.Delete(id);
+                return Ok();
+            }
 
-            return Ok();
         }
 
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody]User user)
         {
-            user.UserID = id;
 
-            try
+            var userUp = _context2.Users.Find(id);
+
+            if(userUp == null)
             {
-                // save 
-                _userService.Update(user, user.Password);
-                return Ok();
+                return NotFound();
             }
-            catch (AppException ex)
+            else
             {
-                // return error message if there was an exception
-                return BadRequest(new { message = ex.Message });
+                try
+                {
+                    // save 
+                    userUp.Nickname = user.Nickname;
+                    userUp.Password = user.Password;
+                    userUp.Email = user.Email;
+
+                    _userService.Update(userUp);
+                    _context2.SaveChanges();
+                    return Ok();
+                }
+                catch (AppException ex)
+                {
+                    // return error message if there was an exception
+                    return BadRequest(new { message = ex.Message });
+                }
+
             }
+      
         }
 
-        //POST
-        [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody]User user){
-            if(user == null) {
-                return BadRequest(new { message = "Username or password is incorrect."});
-            }
-            var tokenHandler = new JWTSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSetting.Secret);
-            var tokenDescription = new SecurityTokenDescriptor {
-                Subject = new ClaimsIdentity(new Claim[] {
-                    new Claim(ClaimTypes.Name, user.UserID.ToString())
-                });
-                var Expires = DateTime.UtcNow.AddDays(7);
-                var SigningCredentials = new Microsoft.IdentityModel.Tokens.SigningCredentials(new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            }
-            var token = tokenHandler.createToken(tokenDescriptor);
-            var tokenString = tokenHandler.WriteToken(token);
+        ////POST
+        //[HttpPost("authenticate")]
+        //public IActionResult Authenticate([FromBody]User user){
+        //    if(user == null) {
+        //        return BadRequest(new { message = "Username or password is incorrect."});
+        //    }
+        //    var tokenHandler = new JWTSecurityTokenHandler();
+        //    var key = Encoding.ASCII.GetBytes(_appSetting.Secret);
+        //    var tokenDescription = new SecurityTokenDescriptor {
+        //        Subject = new ClaimsIdentity(new Claim[] {
+        //            new Claim(ClaimTypes.Name, user.UserID.ToString())
+        //        });
+        //        var Expires = DateTime.UtcNow.AddDays(7);
+        //        var SigningCredentials = new Microsoft.IdentityModel.Tokens.SigningCredentials(new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        //    }
+        //    var token = tokenHandler.createToken(tokenDescriptor);
+        //    var tokenString = tokenHandler.WriteToken(token);
 
             /*return Ok(new {
                 Id = user.UserId,
@@ -205,9 +227,9 @@ namespace RiftArenaAPI.Controllers
             return NoContent();
         } */
 
-        private bool UserExists(int id)
-        {
-            return _context.RiftArenaItems.Any(e => e.UserID == id);
-        }
-    }
+        //private bool UserExists(int id)
+        //{
+        //    return _context.RiftArenaItems.Any(e => e.UserID == id);
+        //}
+    
 }
