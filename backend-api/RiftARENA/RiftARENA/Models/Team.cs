@@ -8,27 +8,27 @@ namespace RiftArena.Models
 
         [Key]
         public int Id { get; set; }
-        public string teamName { get; set; }
-        public string teamTag { get; set; }
+        public string TeamName { get; set; }
+        public string TeamTag { get; set; }
 
-        public User teamLeader { get; set; }
+        public User TeamLeader { get; set; }
 
-        public string teamRank { get; set; }
+        public string TeamRank { get; set; }
 
-        public int numberMembers { get; set; }
+        public int NumberMembers { get; set; }
 
-        public int numberOfWins { get; set; }
+        public int NumberOfWins { get; set; }
 
-        public int numberOfDefeats { get; set; }
+        public int NumberOfDefeats { get; set; }
 
-        public int gamesPlayed { get; set; }
+        public int GamesPlayed { get; set; }
 
         // [ForeignKey("Id")]
-        public List<User> members { get; set; }
+        public List<User> Members { get; set; }
 
-        //public List<int> tournamentsWon  { get; set; }
+        //public List<int> TournamentsWon  { get; set; }
 
-        public string poster { get; set; }
+        public string Poster { get; set; }
 
     }
 }

@@ -8,19 +8,86 @@ using Microsoft.EntityFrameworkCore;
 using RiftArena.Models.Contexts;
 using RiftArena.Models;
 
-namespace RiftArena.Controllers
+namespace RiftArenaAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class TeamsController : ControllerBase
     {
+        private readonly RiftArenaContext _context;
         private readonly TeamContext _context;
+        private teamServices _teamService;
 
-        public TeamsController(TeamContext context)
+        public TeamsController(RiftArenaContext context)
         {
             _context = context;
         }
 
+
+
+        [HttpPost]
+        public IActionResult CreateTeam([FromBody]Team team)
+        {
+            try
+            {
+                _teamService.CreateTeam(team);
+                _context.SaveChanges();
+                return CreatedAtRoute("GetTeam", new {id = team.Id}, team)
+            }catch (AppException ex)
+            {
+                return BadRequest(new {message = ex.message});
+            }
+        }
+
+        [HttpGet]
+        public IActionResult<Team> GetByID(long id)
+        { 
+        
+            var teamCon = _teamService.GetByID(id);
+            if (teamCon == null)
+                return NotFound();
+            else
+                return teamCon;
+          
+        }
+
+        [HttpGet]
+        public IActionResult<Team> GetAll()
+        {
+            var teamsCon = _teamService.GetAll();
+            if (teamsCon == null)
+               return NoContent;
+            else
+                return Ok(teamsCon);
+        }
+
+        [HttpDelete]
+        public IActionResult<Team> DeleteTeam(long id)
+        {
+            _teamService.DeleteTeam(id);
+
+            return Ok();
+        }
+
+        [HttpPut]
+        public IActionResult UpdateTeam(int id,[FromBody] Team team)
+        {
+            var teamUP = _context.Teams.Find(id);
+            if (teamUP == null)
+                return NotFound();
+
+            teamUP.TeamName = team.TeamName;
+            teamUP.TeamTag = team.TeamTag;
+
+            _context.Teams.Update(teamUp);
+            _context.SaveChanges();
+
+            return NoContent();
+            
+        }
+    
+
+/*
         // GET: api/Teams
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Team>>> GetTeams()
@@ -103,6 +170,6 @@ namespace RiftArena.Controllers
         private bool TeamExists(int id)
         {
             return _context.Teams.Any(e => e.Id == id);
-        }
+        }*/
     }
 }

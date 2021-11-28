@@ -147,5 +147,5 @@ namespace RiftArenaAPI.Controllers
         {
             return _context.RiftArenaItems.Any(e => e.UserID == id);
         }
-    }
+    }\
 }
