@@ -11,18 +11,25 @@ using RiftArena.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using RiftArenaAPI.Models.Contexts;
+using RiftARENA.Services;
 
 namespace RiftArenaAPI.Controllers
+    //TO DO 
+    //Adicionar o DTO e implementar no CRUD
 {
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
         private readonly RiftArenaContext _context;
+        private readonly UserContext _context2;
+        private userServices _userService;
 
-        public UsersController(RiftArenaContext context)
+        public UsersController(RiftArenaContext context,userServices userService)
         {
             _context = context;
+            _userService = userService;
         }
 
         //POST: /register
@@ -30,9 +37,64 @@ namespace RiftArenaAPI.Controllers
         public IActionResult Register([FromBody]User user){
             try {
                 //Create(user.email, user.password);
-                return Ok();
+                _userService.Create(user, user.Password);
+                _context.SaveChanges();
+                return CreatedAtRoute("GetUser", new { id = user.UserID }, user);
             } catch(ApplicationException ex){
                 return BadRequest(new {message = ex.Message });
+            }
+        }
+
+        [HttpGet("{id}",Name = "GetUser")]
+        public ActionResult<User> GetById(long id)
+        {
+
+            var user = _userService.GetById(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return user;
+            }
+        }
+
+        public ActionResult GetAll(long id)
+        {
+            var users = _userService.GetAll();
+            if (users == null)
+            {
+                return NoContent();
+            }
+
+           
+         return Ok(users);
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult<User> Delete(long id)
+        {
+            _userService.Delete(id);
+
+            return Ok();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, [FromBody]User user)
+        {
+            user.UserID = id;
+
+            try
+            {
+                // save 
+                _userService.Update(user, user.Password);
+                return Ok();
+            }
+            catch (AppException ex)
+            {
+                // return error message if there was an exception
+                return BadRequest(new { message = ex.Message });
             }
         }
 
