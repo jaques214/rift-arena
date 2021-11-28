@@ -25,14 +25,14 @@ namespace RiftArena.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Team>>> GetTeams()
         {
-            return await _context.Teams.ToListAsync();
+            return await _context.Team.ToListAsync();
         }
 
         // GET: api/Teams/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Team>> GetTeam(int id)
         {
-            var team = await _context.Teams.FindAsync(id);
+            var team = await _context.Team.FindAsync(id);
 
             if (team == null)
             {
@@ -78,7 +78,7 @@ namespace RiftArena.Controllers
         [HttpPost]
         public async Task<ActionResult<Team>> PostTeam(Team team)
         {
-            _context.Teams.Add(team);
+            _context.Team.Add(team);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetTeam", new { id = team.Id }, team);
@@ -88,13 +88,13 @@ namespace RiftArena.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTeam(int id)
         {
-            var team = await _context.Teams.FindAsync(id);
+            var team = await _context.Team.FindAsync(id);
             if (team == null)
             {
                 return NotFound();
             }
 
-            _context.Teams.Delete(team);
+            _context.Team.Delete(team);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -102,7 +102,7 @@ namespace RiftArena.Controllers
 
         private bool TeamExists(int id)
         {
-            return _context.Teams.Any(e => e.Id == id);
+            return _context.Team.Any(e => e.Id == id);
         }
     }
 }

@@ -7,12 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RiftArena.Models.Contexts;
 using RiftArena.Models;
+using RiftArena.Services;
 
 using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using RiftArena.Models.Contexts;
-using RiftARENA.Services;
 
 namespace RiftArena.Controllers
 {
@@ -21,9 +20,9 @@ namespace RiftArena.Controllers
     public class UsersController : ControllerBase
     {
         private readonly RiftArenaContext _context;
-        private userServices _userService;
+        private UserServices _userService;
 
-        public UsersController(RiftArenaContext context, userServices userService)
+        public UsersController(RiftArenaContext context, UserServices userService)
         {
             _context = context;
             _userService = userService;
