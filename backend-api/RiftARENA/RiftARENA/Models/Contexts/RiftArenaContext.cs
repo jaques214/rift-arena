@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using RiftARENA.Models;
+using RiftArena.Models;
 
 namespace RiftArena.Models.Contexts
 {

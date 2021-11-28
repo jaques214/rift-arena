@@ -12,7 +12,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 
-namespace RiftArenaAPI.Controllers
+namespace RiftArena.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -37,7 +37,7 @@ namespace RiftArenaAPI.Controllers
         }
 
         //POST
-        [HttpPost("authenticate")]
+        /*[HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody]User user){
             if(user == null) {
                 return BadRequest(new { message = "Username or password is incorrect."});
@@ -61,6 +61,33 @@ namespace RiftArenaAPI.Controllers
                 Token = tokenString
             });*/
             
+        }*/
+
+        //POST: /login
+        [HttpPost("Login")]
+        public async Task<User> LoginByUsernamePasswordMethod(string usernameVal, string passwordVal)
+        {
+            User user = null;
+            try
+            {
+                var sqlQuery = from User in _context.User 
+                               select *;
+
+                if (!String.IsNullOrEmpty(usernameVal) || !String.IsNullOrEmpty(passwordVal))
+                {
+                    user = sqlQuery.Where(user => {
+                        user.Nickname = usernameVal;
+                        user.Password = passwordVal;
+                    });
+                }
+
+                //user = await this.Query<User>.FromSql(sqlQuery, usernameParam, passwordParam).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return user;
         }
 
 
