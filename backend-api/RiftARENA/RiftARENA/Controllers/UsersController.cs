@@ -130,7 +130,7 @@ namespace RiftArena.Controllers
             try
             {
                 var sqlQuery = from User in _context.User 
-                               select *;
+                               select * ;
 
                 if (!String.IsNullOrEmpty(usernameVal) || !String.IsNullOrEmpty(passwordVal))
                 {

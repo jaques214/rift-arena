@@ -14,9 +14,9 @@ namespace RiftArena.Controllers
     [ApiController]
     public class TeamsController : ControllerBase
     {
-        private readonly TeamContext _context;
+        private readonly RiftArenaContext _context;
 
-        public TeamsController(TeamContext context)
+        public TeamsController(RiftArenaContext context)
         {
             _context = context;
         }
