@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RiftArena.Models.Contexts;
 using RiftArena.Models;
-using RiftArena.Services;
+using RiftArena.Models.Services;
 
 using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
@@ -34,6 +34,7 @@ namespace RiftArena.Controllers
         {
             try
             {
+                Console.WriteLine("chego aqui");
                 _userService.Create(user, user.Password);
                 _context.SaveChanges();
                 return CreatedAtRoute("GetUser", new { id = user.UserID }, user);

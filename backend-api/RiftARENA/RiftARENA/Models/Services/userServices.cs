@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RiftArena.Services
+namespace RiftArena.Models.Services
     //TO DO 
     //Add Hashs da Password
 {

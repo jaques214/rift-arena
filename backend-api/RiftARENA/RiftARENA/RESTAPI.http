@@ -1,5 +1,5 @@
 ### POST
-POST https://localhost:5001/api/register
+POST https://localhost:5001/api/Users/register
 Content-Type: application/json
 
 {
