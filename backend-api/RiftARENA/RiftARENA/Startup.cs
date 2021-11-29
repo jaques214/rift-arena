@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Server.IISIntegration;
 
 using Microsoft.EntityFrameworkCore;
 using RiftArena.Models.Contexts;
@@ -40,6 +41,8 @@ namespace RiftArena
                     ValidateAudience = false
                 };
             });*/
+            services.AddTransient<IUserService, UserServices>();
+            services.AddAuthentication(IISDefaults.AuthenticationScheme);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

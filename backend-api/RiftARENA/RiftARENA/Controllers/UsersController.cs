@@ -20,9 +20,9 @@ namespace RiftArena.Controllers
     public class UsersController : ControllerBase
     {
         private readonly RiftArenaContext _context;
-        private readonly UserServices _userService;
+        private readonly IUserService _userService;
 
-        public UsersController(RiftArenaContext context, UserServices userService)
+        public UsersController(RiftArenaContext context, IUserService userService)
         {
             _context = context;
             _userService = userService;
@@ -61,7 +61,9 @@ namespace RiftArena.Controllers
             }
         }
 
-        public ActionResult GetAll(long id)
+        //GET: api/Users 
+        [HttpGet]
+        public ActionResult GetAll()
         {
             var users = _userService.GetAll();
             if (users == null)
