@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using RiftArena.Models.Contexts;
 using RiftArena.Models;
 
-namespace RiftArenaAPI.Controllers
+namespace RiftArena.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

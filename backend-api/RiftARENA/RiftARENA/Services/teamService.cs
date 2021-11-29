@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using RiftARENA.Models;
-using RiftARENA.Models.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using RiftArena.Models;
+using RiftArena.Models.Context;
 
 
-namespace RiftARENA.Services
+namespace RiftArena.Services
 
 {
     public interface ITeamService
@@ -29,7 +29,7 @@ namespace RiftARENA.Services
             _context = context;
         }
 
-        public IEnumerable<Team> GetAll()
+        public List<Team> GetAll()
         {
             return _context.Team;
         }
