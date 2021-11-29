@@ -30,17 +30,17 @@ namespace RiftArena.Services
 
         public IEnumerable<User> GetAll()
         {
-            return _context.User;
+            return _context.Users;
         }
 
         public User GetById(long id)
         {
-            return _context.User.Find(id);
+            return _context.Users.Find(id);
         }
 
         public void Update(User userParam, string password = null)
         {
-            var user = _context.User.Find(userParam.UserID);
+            var user = _context.Users.Find(userParam.UserID);
 
             if (user == null)
                 throw new AppException("User not found");
@@ -48,7 +48,7 @@ namespace RiftArena.Services
             if (userParam.Nickname != user.Nickname)
             {
                 // username has changed so check if the new username is already taken
-                if (_context.User.Any(x => x.Nickname == userParam.Nickname))
+                if (_context.Users.Any(x => x.Nickname == userParam.Nickname))
                     throw new AppException("Username " + userParam.Nickname + " is already taken");
             }
 
@@ -66,16 +66,16 @@ namespace RiftArena.Services
                 //user.PasswordSalt = passwordSalt;
             }
 
-            _context.User.Update(user);
+            _context.Users.Update(user);
             _context.SaveChanges();
         }
 
         public void Delete(long id)
         {
-            var user = _context.User.Find(id);
+            var user = _context.Users.Find(id);
             if (user != null)
             {
-                _context.User.Delete(user);
+                _context.Users.Remove(user);
                 _context.SaveChanges();
             }
         }
@@ -86,16 +86,16 @@ namespace RiftArena.Services
             if (string.IsNullOrWhiteSpace(password))
                 throw new AppException("Password is required");
 
-            if (_context.User.Any(x => x.Nickname == user.Nickname))
+            if (_context.Users.Any(x => x.Nickname == user.Nickname))
                 throw new AppException("Username \"" + user.Nickname + "\" is already taken");
 
             byte[] passwordHash, passwordSalt;
             CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
-            //user.PasswordHash = passwordHash;
-            //user.PasswordSalt = passwordSalt;
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
 
-            _context.User.Add(user);
+            _context.Users.Add(user);
             _context.SaveChanges();
 
             return user;
@@ -113,7 +113,7 @@ namespace RiftArena.Services
             }
         }
 
-        private static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
+        public static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
         {
             if (password == null) throw new ArgumentNullException("password");
             if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");

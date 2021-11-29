@@ -22,7 +22,7 @@ namespace RiftArena.Controllers
         }
 
         // GET: api/Teams
-        [HttpGet]
+        /*[HttpGet]
         public async Task<ActionResult<IEnumerable<Team>>> GetTeams()
         {
             return await _context.Team.ToListAsync();
@@ -103,6 +103,6 @@ namespace RiftArena.Controllers
         private bool TeamExists(int id)
         {
             return _context.Team.Any(e => e.Id == id);
-        }
+        }*/
     }
 }

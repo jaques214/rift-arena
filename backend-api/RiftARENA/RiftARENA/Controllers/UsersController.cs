@@ -91,7 +91,7 @@ namespace RiftArena.Controllers
         public IActionResult Update(int id, [FromBody] User user)
         {
 
-            var userUp = _context.User.Find(id);
+            var userUp = _context.Users.Find(id);
 
             if (userUp == null)
             {
@@ -143,7 +143,8 @@ namespace RiftArena.Controllers
                 Nickname = user.Nickname,
                 Name = user.name,
                 Token = tokenString
-            });*/
+            });
+        }*/
 
 
 
@@ -151,27 +152,13 @@ namespace RiftArena.Controllers
         [HttpPost("Login")]
         public async Task<User> LoginByUsernamePasswordMethod(string usernameVal, string passwordVal)
         {
-            User user = null;
-            try
-            {
-                var sqlQuery = from User in _context.User
-                               select * ;
+            var user = await _context.Users.FirstOrDefaultAsync(user => user.Nickname == usernameVal);
 
-                if (!String.IsNullOrEmpty(usernameVal) || !String.IsNullOrEmpty(passwordVal))
-                {
-                    user = sqlQuery.Where(user =>
-                    {
-                        user.Nickname = usernameVal;
-                        user.Password = passwordVal;
-                    });
-                }
+            if (user == null)
+                return null;
+            else if (!UserServices.VerifyPasswordHash(passwordVal, user.PasswordHash, user.PasswordSalt))
+                return null;
 
-                //user = await this.Query<User>.FromSql(sqlQuery, usernameParam, passwordParam).ToListAsync();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
             return user;
         }
 
@@ -255,10 +242,10 @@ namespace RiftArena.Controllers
             return NoContent();
         } */
 
-        private bool UserExists(int id)
+        /*private bool UserExists(int id)
         {
             return _context.RiftArenaItems.Any(e => e.UserID == id);
-        }
+        }*/
 
     }
 }
