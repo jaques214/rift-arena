@@ -12,14 +12,14 @@ namespace RiftArena.Models.Services
 {
     public interface IUserService
     {
-        User Authenticate(string username, string password);
+        //User Authenticate(string username, string password);
         IEnumerable<User> GetAll();
-        User GetById(int id);
+        User GetById(long id);
         User Create(User user, string password);
         void Update(User user, string password = null);
-        void Delete(int id);
+        void Delete(long id);
     }
-    public class UserServices
+    public class UserServices : IUserService
     {
         private RiftArenaContext _context;
 

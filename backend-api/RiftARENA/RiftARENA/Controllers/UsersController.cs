@@ -20,7 +20,7 @@ namespace RiftArena.Controllers
     public class UsersController : ControllerBase
     {
         private readonly RiftArenaContext _context;
-        private UserServices _userService;
+        private readonly UserServices _userService;
 
         public UsersController(RiftArenaContext context, UserServices userService)
         {
@@ -28,10 +28,11 @@ namespace RiftArena.Controllers
             _userService = userService;
         }
 
-        //POST: /register
+        //POST: api/Users/register
         [HttpPost("register")]
         public IActionResult Register([FromBody] User user)
         {
+            
             try
             {
                 Console.WriteLine("chego aqui");
@@ -149,7 +150,7 @@ namespace RiftArena.Controllers
 
 
 
-        //POST: /login
+        //POST: api/Users/login
         [HttpPost("Login")]
         public async Task<User> LoginByUsernamePasswordMethod(string usernameVal, string passwordVal)
         {

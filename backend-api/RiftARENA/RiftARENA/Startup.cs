@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 
 using Microsoft.EntityFrameworkCore;
 using RiftArena.Models.Contexts;
+using RiftArena.Models.Services;
 
 
 namespace RiftArena
