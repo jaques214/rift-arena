@@ -12,7 +12,7 @@ namespace RiftArena.Models.Services
     public interface ITeamService
     {
         Team CreateTeam(Team team);
-        List<Team> GetAll();
+        IEnumerable<Team> GetAll();
         Team GetByID(long id);
         Team UpdateTeam(int id,Team team);
         void DeleteTeam(long id);
@@ -28,9 +28,9 @@ namespace RiftArena.Models.Services
             _context = context;
         }
 
-        public List<Team> GetAll()
+        public IEnumerable<Team> GetAll()
         {
-            return _context.Teams;
+            return  _context.Teams.ToList();
         }
 
         public Team GetByID(long id)
@@ -56,6 +56,7 @@ namespace RiftArena.Models.Services
             _context.Teams.Add(team);
             _context.SaveChanges();
 
+            return GetByID(team.TeamId);
             
         }
 
@@ -85,6 +86,8 @@ namespace RiftArena.Models.Services
 
             _context.Teams.Update(team);
             _context.SaveChanges();
+
+            return GetByID(team.TeamId);
         }
 
         public void DeleteTeam(long id)
@@ -97,7 +100,7 @@ namespace RiftArena.Models.Services
             }
         }
 
-        public void AddMember(long id,User user)
+        /*public void AddMember(long id,User user)
         {
             var TeamTemp = GetByID(id);
             if (TeamTemp == null)
@@ -111,6 +114,6 @@ namespace RiftArena.Models.Services
 
                 }
             }
-        }
+        }*/
     }
 }

@@ -13,7 +13,7 @@ namespace RiftArena.Models.Services
     public interface IUserService
     {
         //User Authenticate(string username, string password);
-        List<User> GetAll();
+        IEnumerable<User> GetAll();
         User GetById(long id);
         User Create(User user, string password);
         void Update(User user, string password = null);
@@ -28,9 +28,9 @@ namespace RiftArena.Models.Services
             _context = context;
         }
 
-        public List<User> GetAll()
+        public IEnumerable<User> GetAll()
         {
-            return _context.Users;
+            return _context.Users.ToList();
         }
 
         public User GetById(long id)
