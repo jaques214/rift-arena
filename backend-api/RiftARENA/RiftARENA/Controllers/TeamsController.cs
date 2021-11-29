@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RiftArena.Models.Contexts;
 using RiftArena.Models;
+using RiftArena.Models.Services;
 
 namespace RiftArena.Controllers
 {
@@ -15,15 +16,12 @@ namespace RiftArena.Controllers
     public class TeamsController : ControllerBase
     {
         private readonly RiftArenaContext _context;
-<<<<<<< HEAD
-=======
-        private readonly TeamContext _context;
-        private teamServices _teamService;
->>>>>>> 3b6fb55d2b4ac8ef3bade8e196c1bf6b6416ca79
+        private readonly ITeamService _service;
 
-        public TeamsController(RiftArenaContext context)
+        public TeamsController(RiftArenaContext context, ITeamService service)
         {
             _context = context;
+            _service = service;
         }
 
 
@@ -33,12 +31,12 @@ namespace RiftArena.Controllers
         {
             try
             {
-                _teamService.CreateTeam(team);
+                _service.CreateTeam(team);
                 _context.SaveChanges();
-                return CreatedAtRoute("GetTeam", new {id = team.TeamId}, team)
+                return CreatedAtRoute("GetTeam", new {id = team.TeamId}, team);
             }catch (AppException ex)
             {
-                return BadRequest(new {message = ex.message});
+                return BadRequest(new {message = ex.Message });
             }
         }
 
@@ -46,7 +44,7 @@ namespace RiftArena.Controllers
         public ActionResult<Team> GetByID(long id)
         { 
         
-            var teamCon = _teamService.GetByID(id);
+            var teamCon = _service.GetByID(id);
             if (teamCon == null)
                 return NotFound();
             else
@@ -57,9 +55,9 @@ namespace RiftArena.Controllers
         [HttpGet(Name = "GetAllUsers")]
         public ActionResult<Team> GetAll()
         {
-            var teamsCon = _teamService.GetAll();
+            var teamsCon = _service.GetAll();
             if (teamsCon == null)
-               return NoContent;
+               return NoContent();
             else
                 return Ok(teamsCon);
         }
@@ -67,7 +65,7 @@ namespace RiftArena.Controllers
         [HttpDelete("{id}")]
         public ActionResult<Team> DeleteTeam(long id)
         {
-            _teamService.DeleteTeam(id);
+            _service.DeleteTeam(id);
 
             return Ok();
         }
@@ -82,7 +80,7 @@ namespace RiftArena.Controllers
             teamUP.Name = team.Name;
             teamUP.Tag = team.Tag;
 
-            _context.Teams.Update(teamUp);
+            _context.Teams.Update(teamUP);
             _context.SaveChanges();
 
             return NoContent();

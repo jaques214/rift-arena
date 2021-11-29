@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -17,7 +18,7 @@ namespace RiftArena.Models
 
         public string Name { get; set;}
 
-        public string Description { get; set;};
+        public string Description { get; set;}
 
         public string Rank { get; set; }
 
