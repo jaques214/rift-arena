@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using RiftArena.Models;
-using RiftArena.Models.Context;
-
+using RiftArena.Models.Contexts;
+using RiftARENA.Services;
 
 namespace RiftArena.Services
 
@@ -22,21 +22,22 @@ namespace RiftArena.Services
     }
     public class teamServices
     {
-        private TeamContext _context;
 
-        public teamServices(TeamContext context)
+        private RiftArenaContext _context;
+
+        public teamServices(RiftArenaContext context)
         {
             _context = context;
         }
 
-        public List<Team> GetAll()
+        public IEnumerable<Team> GetAll()
         {
-            return _context.Team;
+            return _context.RiftArenaTeams.ToList();
         }
 
         public Team GetByID(long id)
         {
-            return _context.Team.Find(id);
+            return _context.RiftArenaTeams.Find(id);
         }
 
         public Team CreateTeam(Team team)
@@ -44,25 +45,25 @@ namespace RiftArena.Services
             if (string.IsNullOrWhiteSpace(team.Name))
                 throw new AppException("Team name is required");
 
-            if (_context.Team.Any(x => x.Name == team.Name))
-                throw new AppException("Team name \"" team.Name + "\" is already taken");
+            if (_context.RiftArenaTeams.Any(x => x.Name == team.Name))
+                throw new AppException("Team name " + team.Name + " is already taken");
 
             if (string.IsNullOrWhiteSpace(team.Tag))
                 throw new AppException("Team tag is required");
 
-            if (_context.Team.Any(x => x.Tag == team.Tag))
-                throw new AppException("Team tag \"" team.Tag + "\" is already taken");
+            if (_context.RiftArenaTeams.Any(x => x.Tag == team.Tag))
+                throw new AppException("Team tag " + team.Tag + " is already taken");
 
 
-            _context.Team.Add(team);
+            _context.RiftArenaTeams.Add(team);
             _context.SaveChanges();
 
-            
+            return team;
         }
 
         public Team UpdateTeam(int id,Team team)
         {
-            var teamSer = _context.Team.Find(id);
+            var teamSer = _context.RiftArenaTeams.Find(id);
             if (teamSer != null)
                 throw new AppException("Team not found!");
 
@@ -70,30 +71,31 @@ namespace RiftArena.Services
             if (team.Name != teamSer.Name)
             {
 
-                if (_context.Team.Any(x => x.Name == team.Name))
+                if (_context.RiftArenaTeams.Any(x => x.Name == team.Name))
                     throw new AppException("Team name " + team.Name + " is already taken");
             }
 
             if (team.Tag != teamSer.Tag)
             {
 
-                if (_context.Team.Any(x => x.Tag == team.Tag))
+                if (_context.RiftArenaTeams.Any(x => x.Tag == team.Tag))
                     throw new AppException("Team tag " + team.Tag + " is already taken");
             }
 
             teamSer.Name = team.Name;
             teamSer.Tag = team.Tag;
 
-            _context.Team.Update(team);
+            _context.RiftArenaTeams.Update(team);
             _context.SaveChanges();
+            return team;
         }
 
         public void DeleteTeam(long id)
         {
-            var team = _context.Team.Find(id);
+            var team = _context.RiftArenaTeams.Find(id);
             if (team != null)
             {
-                _context.Team.Remove(team);
+                _context.RiftArenaTeams.Remove(team);
                 _context.SaveChanges();
             }
         }
@@ -103,13 +105,17 @@ namespace RiftArena.Services
             var TeamTemp = GetByID(id);
             if (TeamTemp == null)
             {
-                return NoContent();
+                throw new AppException("Not Found");
             }
             else
             {
-                if (TeamTemp.NumberMembers == TeamTemp.MAX_MEMBERS )
+                if (TeamTemp.NumberMembers == 7)
                 {
-
+                    throw new AppException("Team full");
+                }
+                else
+                {
+                    TeamTemp.NumberMembers++;
                 }
             }
         }
