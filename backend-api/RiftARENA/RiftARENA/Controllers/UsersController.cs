@@ -60,8 +60,11 @@ namespace RiftArena.Controllers
                 return user;
             }
         }
+<<<<<<< HEAD
 
         //GET: api/Users 
+=======
+>>>>>>> 3b6fb55d2b4ac8ef3bade8e196c1bf6b6416ca79
         [HttpGet]
         public ActionResult GetAll()
         {
