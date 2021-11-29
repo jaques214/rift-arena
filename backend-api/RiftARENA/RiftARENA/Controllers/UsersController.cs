@@ -11,48 +11,132 @@ using RiftArena.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using RiftArenaAPI.Models.Contexts;
+using RiftARENA.Services;
 
 namespace RiftArenaAPI.Controllers
+    //TO DO 
+    //Adicionar o DTO e implementar no CRUD
 {
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
         private readonly RiftArenaContext _context;
+        private readonly UserContext _context2;
+        private userServices _userService;
 
-        public UsersController(RiftArenaContext context)
+        public UsersController(RiftArenaContext context,userServices userService)
         {
             _context = context;
+            _userService = userService;
         }
 
         //POST: /register
         [HttpPost("register")]
         public IActionResult Register([FromBody]User user){
             try {
-                //Create(user.email, user.password);
-                return Ok();
+                _userService.Create(user, user.Password);
+                _context.SaveChanges();
+                return CreatedAtRoute("GetUser", new { id = user.UserID }, user);
             } catch(ApplicationException ex){
                 return BadRequest(new {message = ex.Message });
             }
         }
 
-        //POST
-        [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody]User user){
-            if(user == null) {
-                return BadRequest(new { message = "Username or password is incorrect."});
+        [HttpGet("{id}",Name = "GetUser")]
+        public ActionResult<User> GetById(long id)
+        {
+
+            var user = _userService.GetById(id);
+            if (user == null)
+            {
+                return NotFound();
             }
-            var tokenHandler = new JWTSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSetting.Secret);
-            var tokenDescription = new SecurityTokenDescriptor {
-                Subject = new ClaimsIdentity(new Claim[] {
-                    new Claim(ClaimTypes.Name, user.UserID.ToString())
-                });
-                var Expires = DateTime.UtcNow.AddDays(7);
-                var SigningCredentials = new Microsoft.IdentityModel.Tokens.SigningCredentials(new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            else
+            {
+                return user;
             }
-            var token = tokenHandler.createToken(tokenDescriptor);
-            var tokenString = tokenHandler.WriteToken(token);
+        }
+
+        public ActionResult GetAll(long id)
+        {
+            var users = _userService.GetAll();
+            if (users == null)
+            {
+                return NoContent();
+            }
+
+           
+         return Ok(users);
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult<User> Delete(long id)
+        {
+            var user = _userService.GetById(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                _userService.Delete(id);
+                return Ok();
+            }
+
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, [FromBody]User user)
+        {
+
+            var userUp = _context2.Users.Find(id);
+
+            if(userUp == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                try
+                {
+                    // save 
+                    userUp.Nickname = user.Nickname;
+                    userUp.Password = user.Password;
+                    userUp.Email = user.Email;
+
+                    _userService.Update(userUp);
+                    _context2.SaveChanges();
+                    return Ok();
+                }
+                catch (AppException ex)
+                {
+                    // return error message if there was an exception
+                    return BadRequest(new { message = ex.Message });
+                }
+
+            }
+      
+        }
+
+        ////POST
+        //[HttpPost("authenticate")]
+        //public IActionResult Authenticate([FromBody]User user){
+        //    if(user == null) {
+        //        return BadRequest(new { message = "Username or password is incorrect."});
+        //    }
+        //    var tokenHandler = new JWTSecurityTokenHandler();
+        //    var key = Encoding.ASCII.GetBytes(_appSetting.Secret);
+        //    var tokenDescription = new SecurityTokenDescriptor {
+        //        Subject = new ClaimsIdentity(new Claim[] {
+        //            new Claim(ClaimTypes.Name, user.UserID.ToString())
+        //        });
+        //        var Expires = DateTime.UtcNow.AddDays(7);
+        //        var SigningCredentials = new Microsoft.IdentityModel.Tokens.SigningCredentials(new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        //    }
+        //    var token = tokenHandler.createToken(tokenDescriptor);
+        //    var tokenString = tokenHandler.WriteToken(token);
 
             /*return Ok(new {
                 Id = user.UserId,
@@ -143,9 +227,9 @@ namespace RiftArenaAPI.Controllers
             return NoContent();
         } */
 
-        private bool UserExists(int id)
-        {
-            return _context.RiftArenaItems.Any(e => e.UserID == id);
-        }
-    }\
+        //private bool UserExists(int id)
+        //{
+        //    return _context.RiftArenaItems.Any(e => e.UserID == id);
+        //}
+    
 }
