@@ -39,7 +39,7 @@ namespace RiftArenaAPI.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("{id}",Name = "GetUser")]
         public ActionResult<Team> GetByID(long id)
         { 
         
@@ -51,7 +51,7 @@ namespace RiftArenaAPI.Controllers
           
         }
 
-        [HttpGet]
+        [HttpGet(Name = "GetAllUsers")]
         public ActionResult<Team> GetAll()
         {
             var teamsCon = _teamService.GetAll();
@@ -61,7 +61,7 @@ namespace RiftArenaAPI.Controllers
                 return Ok(teamsCon);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public ActionResult<Team> DeleteTeam(long id)
         {
             _teamService.DeleteTeam(id);
@@ -69,7 +69,7 @@ namespace RiftArenaAPI.Controllers
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public IActionResult UpdateTeam(int id,[FromBody] Team team)
         {
             var teamUP = _context.Teams.Find(id);

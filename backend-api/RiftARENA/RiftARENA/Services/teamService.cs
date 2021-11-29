@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using RiftArena.Models;
-using RiftArenaAPI.Models.Contexts;
+using RiftARENA.Models;
+using RiftARENA.Models.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 
-namespace RiftArenaAPI.Services
+namespace RiftARENA.Services
 
 {
     public interface ITeamService
@@ -17,6 +17,7 @@ namespace RiftArenaAPI.Services
         Team GetByID(long id);
         Team UpdateTeam(int id,Team team);
         void DeleteTeam(long id);
+        void AddMember(long id,User user);
 
     }
     public class teamServices
@@ -30,12 +31,12 @@ namespace RiftArenaAPI.Services
 
         public IEnumerable<Team> GetAll()
         {
-            return _context.Teams;
+            return _context.Team;
         }
 
         public Team GetByID(long id)
         {
-            return _context.Teams.Find(id);
+            return _context.Team.Find(id);
         }
 
         public Team CreateTeam(Team team)
@@ -43,17 +44,17 @@ namespace RiftArenaAPI.Services
             if (string.IsNullOrWhiteSpace(team.Name))
                 throw new AppException("Team name is required");
 
-            if (_context.Teams.Any(x => x.Name == team.Name))
+            if (_context.Team.Any(x => x.Name == team.Name))
                 throw new AppException("Team name \"" team.Name + "\" is already taken");
 
             if (string.IsNullOrWhiteSpace(team.Tag))
                 throw new AppException("Team tag is required");
 
-            if (_context.Teams.Any(x => x.Tag == team.Tag))
+            if (_context.Team.Any(x => x.Tag == team.Tag))
                 throw new AppException("Team tag \"" team.Tag + "\" is already taken");
 
 
-            _context.Teams.Add(team);
+            _context.Team.Add(team);
             _context.SaveChanges();
 
             
@@ -61,7 +62,7 @@ namespace RiftArenaAPI.Services
 
         public Team UpdateTeam(int id,Team team)
         {
-            var teamSer = _context.Teams.Find(id);
+            var teamSer = _context.Team.Find(id);
             if (teamSer != null)
                 throw new AppException("Team not found!");
 
@@ -69,31 +70,47 @@ namespace RiftArenaAPI.Services
             if (team.Name != teamSer.Name)
             {
 
-                if (_context.Teams.Any(x => x.Name == team.Name))
+                if (_context.Team.Any(x => x.Name == team.Name))
                     throw new AppException("Team name " + team.Name + " is already taken");
             }
 
             if (team.Tag != teamSer.Tag)
             {
 
-                if (_context.Teams.Any(x => x.Tag == team.Tag))
+                if (_context.Team.Any(x => x.Tag == team.Tag))
                     throw new AppException("Team tag " + team.Tag + " is already taken");
             }
 
             teamSer.Name = team.Name;
             teamSer.Tag = team.Tag;
 
-            _context.Teams.Update(team);
+            _context.Team.Update(team);
             _context.SaveChanges();
         }
 
         public void DeleteTeam(long id)
         {
-            var team = _context.Teams.Find(id);
+            var team = _context.Team.Find(id);
             if (team != null)
             {
-                _context.Teams.Remove(team);
+                _context.Team.Remove(team);
                 _context.SaveChanges();
+            }
+        }
+
+        public void AddMember(long id,User user)
+        {
+            var TeamTemp = GetByID(id);
+            if (TeamTemp == null)
+            {
+                return NoContent();
+            }
+            else
+            {
+                if (TeamTemp.NumberMembers == TeamTemp.MAX_MEMBERS )
+                {
+
+                }
             }
         }
     }
