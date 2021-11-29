@@ -58,8 +58,8 @@ namespace RiftArenaAPI.Controllers
                 return user;
             }
         }
-
-        public ActionResult GetAll(long id)
+        [HttpGet]
+        public ActionResult GetAll()
         {
             var users = _userService.GetAll();
             if (users == null)
