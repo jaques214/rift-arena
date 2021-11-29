@@ -32,7 +32,7 @@ namespace RiftArenaAPI.Controllers
             {
                 _teamService.CreateTeam(team);
                 _context.SaveChanges();
-                return CreatedAtRoute("GetTeam", new {id = team.Id}, team)
+                return CreatedAtRoute("GetTeam", new {id = team.TeamId}, team)
             }catch (AppException ex)
             {
                 return BadRequest(new {message = ex.message});
@@ -40,7 +40,7 @@ namespace RiftArenaAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult<Team> GetByID(long id)
+        public ActionResult<Team> GetByID(long id)
         { 
         
             var teamCon = _teamService.GetByID(id);
@@ -52,7 +52,7 @@ namespace RiftArenaAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult<Team> GetAll()
+        public ActionResult<Team> GetAll()
         {
             var teamsCon = _teamService.GetAll();
             if (teamsCon == null)
@@ -62,7 +62,7 @@ namespace RiftArenaAPI.Controllers
         }
 
         [HttpDelete]
-        public IActionResult<Team> DeleteTeam(long id)
+        public ActionResult<Team> DeleteTeam(long id)
         {
             _teamService.DeleteTeam(id);
 
@@ -76,8 +76,8 @@ namespace RiftArenaAPI.Controllers
             if (teamUP == null)
                 return NotFound();
 
-            teamUP.TeamName = team.TeamName;
-            teamUP.TeamTag = team.TeamTag;
+            teamUP.Name = team.Name;
+            teamUP.Tag = team.Tag;
 
             _context.Teams.Update(teamUp);
             _context.SaveChanges();

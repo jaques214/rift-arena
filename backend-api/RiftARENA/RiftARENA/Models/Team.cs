@@ -7,21 +7,23 @@ namespace RiftArena.Models
     {
 
         [Key]
-        public int Id { get; set; }
-        public string TeamName { get; set; }
-        public string TeamTag { get; set; }
+        public int TeamId { get; set; }
+        public string Name { get; set; }
+        public string Tag { get; set; }
 
         public User TeamLeader { get; set; }
 
-        public string TeamRank { get; set; }
+        public string Rank { get; set; }
 
         public int NumberMembers { get; set; }
 
-        public int NumberOfWins { get; set; }
+        public int Wins { get; set; }
 
-        public int NumberOfDefeats { get; set; }
+        public int Defeats { get; set; }
 
         public int GamesPlayed { get; set; }
+
+        public int TournamentsWon { get; set; }
 
         // [ForeignKey("Id")]
         public List<User> Members { get; set; }
@@ -29,6 +31,17 @@ namespace RiftArena.Models
         //public List<int> TournamentsWon  { get; set; }
 
         public string Poster { get; set; }
+
+        public LinkedList<Tournament> Tournament {get; set; }
+
+        public const int MAIN_MEMBERS = 5;
+        
+        public const int SUBSTITUTE_MEMBERS = 2;
+
+        public const int MAX_MEMBERS = MAIN_MEMBERS + SUBSTITUTE_MEMBERS;
+
+       
+        
 
     }
 }

@@ -40,17 +40,17 @@ namespace RiftArenaAPI.Services
 
         public Team CreateTeam(Team team)
         {
-            if (string.IsNullOrWhiteSpace(team.TeamName))
-                throw new AppException("TeamName is required");
+            if (string.IsNullOrWhiteSpace(team.Name))
+                throw new AppException("Team name is required");
 
-            if (_context.Teams.Any(x => x.TeamName == team.TeamName))
-                throw new AppException("TeamName \"" team.TeamName + "\" is already taken");
+            if (_context.Teams.Any(x => x.Name == team.Name))
+                throw new AppException("Team name \"" team.Name + "\" is already taken");
 
-            if (string.IsNullOrWhiteSpace(team.TeamTag))
-                throw new AppException("TeamTag is required");
+            if (string.IsNullOrWhiteSpace(team.Tag))
+                throw new AppException("Team tag is required");
 
-            if (_context.Teams.Any(x => x.TeamTag == team.TeamTag))
-                throw new AppException("TeamTag \"" team.TeamTag + "\" is already taken");
+            if (_context.Teams.Any(x => x.Tag == team.Tag))
+                throw new AppException("Team tag \"" team.Tag + "\" is already taken");
 
 
             _context.Teams.Add(team);
@@ -66,22 +66,22 @@ namespace RiftArenaAPI.Services
                 throw new AppException("Team not found!");
 
 
-            if (team.TeamName != teamSer.TeamName)
+            if (team.Name != teamSer.Name)
             {
 
-                if (_context.Teams.Any(x => x.TeamName == team.TeamName))
-                    throw new AppException("TeamName " + team.TeamName + " is already taken");
+                if (_context.Teams.Any(x => x.Name == team.Name))
+                    throw new AppException("Team name " + team.Name + " is already taken");
             }
 
-            if (team.TeamTag != teamSer.TeamTag)
+            if (team.Tag != teamSer.Tag)
             {
 
-                if (_context.Teams.Any(x => x.TeamTag == team.TeamTag))
-                    throw new AppException("TeamTag " + team.TeamTag + " is already taken");
+                if (_context.Teams.Any(x => x.Tag == team.Tag))
+                    throw new AppException("Team tag " + team.Tag + " is already taken");
             }
 
-            teamSer.TeamName = team.TeamName;
-            teamSer.TeamTag = team.TeamTag;
+            teamSer.Name = team.Name;
+            teamSer.Tag = team.Tag;
 
             _context.Teams.Update(team);
             _context.SaveChanges();
