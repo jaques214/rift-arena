@@ -14,11 +14,10 @@ namespace RiftArena.Models.Services
     {
         User Authenticate(string username, string password);
         IEnumerable<User> GetAll();
-        User GetById(long id);
+        User GetById(int id);
         User Create(User user, string password);
         void Update(User user, string password = null);
-        void Delete(long id);
-        uint FindId(string nickname, string password);
+        void Delete(int id);
     }
     public class UserServices : IUserService
     {
@@ -34,7 +33,7 @@ namespace RiftArena.Models.Services
             return _context.Users.ToList();
         }
 
-        public User GetById(long id)
+        public User GetById(int id)
         {
             return _context.Users.Find(id);
         }
@@ -71,7 +70,7 @@ namespace RiftArena.Models.Services
             _context.SaveChanges();
         }
 
-        public void Delete(long id)
+        public void Delete(int id)
         {
             var user = _context.Users.Find(id);
             if (user != null)

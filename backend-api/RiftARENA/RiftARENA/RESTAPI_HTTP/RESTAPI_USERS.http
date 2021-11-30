@@ -3,19 +3,22 @@ POST https://localhost:5001/api/Users/register
 Content-Type: application/json
 
 {
-    "Nickname": "nickname1",
-    "Email": "nickname1@gmail.com",
-    "Password": "123"
+    "Nickname": "nickname2",
+    "Email": "nickname2@gmail.com",
+    "Password": "1234"
 }
 
 ### 
 GET https://localhost:5001/api/Users/
 
-### LOGIN
+### LOGIN - A CORRIGIR
 POST https://localhost:5001/api/Users/login
 Content-Type: application/json
 
 {
     "Nickname": "nickname1",
-    "Password": "1234"
+    "Password": "123"
 }
+
+### GET USER BY ID - NOT FOUND
+GET https://localhost:5001/api/Users/GetUser/1

@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using RiftArena.Models.Contexts;
 using RiftArena.Models;
 using RiftArena.Models.Services;
+using RiftArena.Configurations;
+using Microsoft.Extensions.Options;
 
 using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
@@ -27,11 +29,11 @@ namespace RiftArena.Controllers
         private readonly IUserService _userService;
         private readonly AppSettings _appSettings;
 
-        public UsersController(RiftArenaContext context, IUserService userService, AppSettings appSettings)
+        public UsersController(RiftArenaContext context, IUserService userService, IOptions<AppSettings> appSettings)
         {
             _context = context;
             _userService = userService;
-            _appSettings = appSettings;
+            _appSettings = appSettings.Value;
         }
 
         //POST: api/Users/register
@@ -51,10 +53,12 @@ namespace RiftArena.Controllers
             }
         }
 
-        //GET: api/Users/GetUser/{id}
+        //GET: api/Users/GetUser/{id: int}
         [HttpGet("{id}", Name = "GetUser")]
-        public ActionResult<User> GetById(long id)
+        public ActionResult<User> GetById(int id)
         {
+            System.Console.WriteLine("get id " + id);
+            System.Console.ReadLine();
             var user = _userService.GetById(id);
             if (user == null)
             {
@@ -70,6 +74,8 @@ namespace RiftArena.Controllers
         [HttpGet]
         public ActionResult GetAll()
         {
+            System.Console.WriteLine("get all");
+            System.Console.ReadLine();
             var users = _userService.GetAll();
             if (users == null)
             {
@@ -79,8 +85,8 @@ namespace RiftArena.Controllers
             return Ok(users);
         }
 
-        [HttpDelete("{id}"), Authorize]
-        public ActionResult<User> Delete(long id)
+        [HttpDelete("{id:int}")]
+        public ActionResult<User> Delete(int id)
         {
             var user = _userService.GetById(id);
             if (user == null)
@@ -131,7 +137,7 @@ namespace RiftArena.Controllers
 
         //POST: api/Users/login
         [HttpPost("login")]
-        public async Task<IActionResult> LoginAuthenticate([FromBody]User userLogin){
+        public IActionResult LoginAuthenticate([FromBody]User userLogin){
 
             var user = _userService.Authenticate(userLogin.Nickname, userLogin.Password);
             if(user == null) {
