@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RiftArena.Models;
-using RiftArenaAPI.Models.Contexts;
+using RiftArena.Models.Contexts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,26 +21,26 @@ namespace RiftARENA.Services
     }
     public class userServices
     {
-        private UserContext _context;
+        private RiftArenaContext _context;
 
-        public userServices(UserContext context)
+        public userServices(RiftArenaContext context)
         {
             _context = context;
         }
 
         public IEnumerable<User> GetAll()
         {
-            return _context.Users;
+            return _context.RiftArenaUsers.ToList();
         }
 
         public User GetById(long id)
         {
-            return _context.Users.Find(id);
+            return _context.RiftArenaUsers.Find(id);
         }
 
         public void Update(User userParam, string password = null)
         {
-            var user = _context.Users.Find(userParam.UserID);
+            var user = _context.RiftArenaUsers.Find(userParam.UserID);
 
             if (user == null)
                 throw new AppException("User not found");
@@ -48,7 +48,7 @@ namespace RiftARENA.Services
             if (userParam.Nickname != user.Nickname)
             {
                 // username has changed so check if the new username is already taken
-                if (_context.Users.Any(x => x.Nickname == userParam.Nickname))
+                if (_context.RiftArenaUsers.Any(x => x.Nickname == userParam.Nickname))
                     throw new AppException("Username " + userParam.Nickname + " is already taken");
             }
 
@@ -66,16 +66,16 @@ namespace RiftARENA.Services
                 //user.PasswordSalt = passwordSalt;
             }
 
-            _context.Users.Update(user);
+            _context.RiftArenaUsers.Update(user);
             _context.SaveChanges();
         }
 
         public void Delete(long id)
         {
-            var user = _context.Users.Find(id);
+            var user = _context.RiftArenaUsers.Find(id);
             if (user != null)
             {
-                _context.Users.Remove(user);
+                _context.RiftArenaUsers.Remove(user);
                 _context.SaveChanges();
             }
         }
@@ -86,7 +86,10 @@ namespace RiftARENA.Services
             if (string.IsNullOrWhiteSpace(password))
                 throw new AppException("Password is required");
 
-            if (_context.Users.Any(x => x.Nickname == user.Nickname))
+            if (string.IsNullOrWhiteSpace(user.Nickname))
+                throw new AppException("Nickname is required");
+
+            if (_context.RiftArenaUsers.Any(x => x.Nickname == user.Nickname))
                 throw new AppException("Username \"" + user.Nickname + "\" is already taken");
 
             byte[] passwordHash, passwordSalt;
@@ -95,7 +98,7 @@ namespace RiftARENA.Services
             //user.PasswordHash = passwordHash;
             //user.PasswordSalt = passwordSalt;
 
-            _context.Users.Add(user);
+            _context.RiftArenaUsers.Add(user);
             _context.SaveChanges();
 
             return user;

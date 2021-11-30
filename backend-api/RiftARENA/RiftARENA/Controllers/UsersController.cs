@@ -11,7 +11,6 @@ using RiftArena.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using RiftArenaAPI.Models.Contexts;
 using RiftARENA.Services;
 
 namespace RiftArenaAPI.Controllers
@@ -23,7 +22,6 @@ namespace RiftArenaAPI.Controllers
     public class UsersController : ControllerBase
     {
         private readonly RiftArenaContext _context;
-        private readonly UserContext _context2;
         private userServices _userService;
 
         public UsersController(RiftArenaContext context,userServices userService)
@@ -58,8 +56,8 @@ namespace RiftArenaAPI.Controllers
                 return user;
             }
         }
-
-        public ActionResult GetAll(long id)
+        [HttpGet]
+        public ActionResult GetAll()
         {
             var users = _userService.GetAll();
             if (users == null)
@@ -91,7 +89,7 @@ namespace RiftArenaAPI.Controllers
         public IActionResult Update(int id, [FromBody]User user)
         {
 
-            var userUp = _context2.Users.Find(id);
+            var userUp = _context.RiftArenaUsers.Find(id);
 
             if(userUp == null)
             {
@@ -107,7 +105,7 @@ namespace RiftArenaAPI.Controllers
                     userUp.Email = user.Email;
 
                     _userService.Update(userUp);
-                    _context2.SaveChanges();
+                    _context.SaveChanges();
                     return Ok();
                 }
                 catch (AppException ex)
