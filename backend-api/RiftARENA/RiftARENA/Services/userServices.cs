@@ -10,6 +10,7 @@ namespace RiftARENA.Services
     //TO DO 
     //Add Hashs da Password
 {
+    //Interface de UserService com os métodos e funções a implementar
     public interface IUserService
     {
         User Authenticate(string username, string password);
@@ -21,6 +22,7 @@ namespace RiftARENA.Services
     }
     public class userServices
     {
+        //Contexto da BD
         private RiftArenaContext _context;
 
         public userServices(RiftArenaContext context)
@@ -28,16 +30,19 @@ namespace RiftARENA.Services
             _context = context;
         }
 
+        //Retorna todos os utilizadores registados 
         public IEnumerable<User> GetAll()
         {
             return _context.RiftArenaUsers.ToList();
         }
 
+        //Retorna um utilizador apartir de um ID
         public User GetById(long id)
         {
             return _context.RiftArenaUsers.Find(id);
         }
 
+        //Atualiza as informações de um utilizador apartir de determinado ID
         public void Update(User userParam, string password = null)
         {
             var user = _context.RiftArenaUsers.Find(userParam.UserID);
@@ -70,6 +75,7 @@ namespace RiftARENA.Services
             _context.SaveChanges();
         }
 
+        //Remove um utilizador apartir de determinado ID
         public void Delete(long id)
         {
             var user = _context.RiftArenaUsers.Find(id);
@@ -79,7 +85,7 @@ namespace RiftARENA.Services
                 _context.SaveChanges();
             }
         }
-
+        //Cria um novo utilizador com as informações recebidas 
         public User Create(User user, string password)
         {
             // validation
