@@ -14,14 +14,16 @@ using System.IdentityModel.Tokens.Jwt;
 using RiftARENA.Services;
 
 namespace RiftArenaAPI.Controllers
-    //TO DO 
-    //Adicionar o DTO e implementar no CRUD
+    
 {
+    //Classe referente ao controller dos utilizadores
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
+        //Context da BD
         private readonly RiftArenaContext _context;
+        //User service com as funções e métodos necessários de CRUD
         private userServices _userService;
 
         public UsersController(RiftArenaContext context,userServices userService)
@@ -31,6 +33,8 @@ namespace RiftArenaAPI.Controllers
         }
 
         //POST: /register
+        //Função referente ao registo de um utilizador, dá create com os dados que recebe do mesmo
+        //FALTA : confirmações de regex
         [HttpPost("register")]
         public IActionResult Register([FromBody]User user){
             try {
@@ -42,6 +46,7 @@ namespace RiftArenaAPI.Controllers
             }
         }
 
+        //Procura e retorna se existir ,um user apartir de um ID fornecido
         [HttpGet("{id}",Name = "GetUser")]
         public ActionResult<User> GetById(long id)
         {
@@ -56,6 +61,7 @@ namespace RiftArenaAPI.Controllers
                 return user;
             }
         }
+        //Retorna todos os utilizadores registados
         [HttpGet]
         public ActionResult GetAll()
         {
@@ -68,7 +74,7 @@ namespace RiftArenaAPI.Controllers
            
          return Ok(users);
         }
-
+        //Elimina um utilizador apartir de um ID fornecido 
         [HttpDelete("{id}")]
         public ActionResult<User> Delete(long id)
         {
@@ -85,6 +91,7 @@ namespace RiftArenaAPI.Controllers
 
         }
 
+        //Atualiza as informações relativas a um determinado utilizador com novas informações apartir de um ID fornecido
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody]User user)
         {
