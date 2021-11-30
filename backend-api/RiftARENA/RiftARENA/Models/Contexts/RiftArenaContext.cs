@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using RiftARENA.Models;
 
 namespace RiftArena.Models.Contexts
 {
@@ -8,6 +7,7 @@ namespace RiftArena.Models.Contexts
 
         }
 
-        public DbSet<User> RiftArenaItems { get; set; }
+        public DbSet<User> RiftArenaUsers { get; set; }
+        public DbSet<Team> RiftArenaTeams { get; set; }
     }
 }
