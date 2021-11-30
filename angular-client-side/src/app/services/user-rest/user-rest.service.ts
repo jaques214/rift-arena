@@ -19,21 +19,22 @@ export class UserRestService {
 
   // retorna um user com o mesmo id inserido, caso contrário nada retorna
   getUser(id: number): Observable<User> {
-    return this.http.get<User>(endpoint + 'id', httpOptions);
+    return this.http.get<User>(endpoint + 'users/id', httpOptions);
   }
 
   // retorna todos os users presentes no servidor
   getUsers(): Observable<LinkedList<User>> {
-    return this.http.get<LinkedList<User>>(endpoint, httpOptions);
+    return this.http.get<LinkedList<User>>(endpoint + 'users', httpOptions);
   }
 
   // envia um user e retorna o mesmo user com a informação atualizada no servidor
   updateUser(user: User): Observable<User> {
     return this.http.post<User>(
-      endpoint + `${user.userId}`,
+      endpoint + 'users/' + `${user.userId}`,
       JSON.stringify(user),
       httpOptions
     );
   }
-  
+
+
 }

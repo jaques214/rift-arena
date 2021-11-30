@@ -19,7 +19,7 @@ export class AuthService {
   // retorna o user com o username e password correspondente caso exista no servidor
   login(username: string, password: string): Observable<any> {
     return this.http.post<User>(
-      endpoint + 'login',
+      endpoint + 'users/login',
       { username: username, password: password },
       httpOptions
     );
@@ -32,7 +32,7 @@ export class AuthService {
     password: string
   ): Observable<User> {
     return this.http.post<User>(
-      endpoint + 'register',
+      endpoint + '/users/register',
       { email: email, username: username, password: password },
       httpOptions
     );
