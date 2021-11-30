@@ -18,6 +18,7 @@ namespace RiftArena.Models.Services
         User Create(User user, string password);
         void Update(User user, string password = null);
         void Delete(long id);
+        uint FindId(string nickname, string password);
     }
     public class UserServices : IUserService
     {
@@ -130,6 +131,11 @@ namespace RiftArena.Models.Services
             }
 
             return true;
+        }
+
+        public uint FindId(string nickname, string password){
+            return ((uint)_context.Users.Where(x => x.Nickname == nickname).Where(x => x.Password == password).Select(x => x.UserID).FirstOrDefault());
+                    
         }
 
     }

@@ -11,4 +11,11 @@ Content-Type: application/json
 ### 
 GET https://localhost:5001/api/Users/
 
-###
+### LOGIN
+POST https://localhost:5001/api/Users/login
+Content-Type: application/json
+
+{
+    "Nickname": "nickname1",
+    "Password": "1234"
+}

@@ -32,7 +32,7 @@ namespace RiftArena.Controllers
         [HttpPost("register")]
         public IActionResult Register([FromBody] User user)
         {
-            
+
             try
             {
                 _userService.Create(user, user.Password);
@@ -45,10 +45,10 @@ namespace RiftArena.Controllers
             }
         }
 
+        //GET: api/Users/GetUser/{id}
         [HttpGet("{id}", Name = "GetUser")]
         public ActionResult<User> GetById(long id)
         {
-
             var user = _userService.GetById(id);
             if (user == null)
             {
@@ -69,7 +69,6 @@ namespace RiftArena.Controllers
             {
                 return NoContent();
             }
-
 
             return Ok(users);
         }
@@ -152,17 +151,23 @@ namespace RiftArena.Controllers
 
 
         //POST: api/Users/login
-        [HttpPost("Login")]
-        public async Task<User> LoginByUsernamePasswordMethod(string usernameVal, string passwordVal)
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginAuthenticate([FromBody] User body)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(user => user.Nickname == usernameVal);
+            uint value = _userService.FindId(body.Nickname, body.Password);
+            Console.WriteLine("aqui");
+            Console.WriteLine(value);
+            var user = await _context.Users.FindAsync((int)value);
 
             if (user == null)
-                return null;
-            else if (!UserServices.VerifyPasswordHash(passwordVal, user.PasswordHash, user.PasswordSalt))
-                return null;
-
-            return user;
+            {
+                return BadRequest(new { message = "Username is incorrect." });
+            }
+            else if (!UserServices.VerifyPasswordHash(body.Password, user.PasswordHash, user.PasswordSalt))
+            {
+                return BadRequest(new { message = "Password is incorrect." });
+            }
+            return CreatedAtRoute("GetUser", new { id = user.UserID }, user); ;
         }
 
 
@@ -245,10 +250,10 @@ namespace RiftArena.Controllers
             return NoContent();
         } */
 
-        /*private bool UserExists(int id)
+        private bool UserExists(int id)
         {
-            return _context.RiftArenaItems.Any(e => e.UserID == id);
-        }*/
+            return _context.Users.Any(e => e.UserID == id);
+        }
 
     }
 }
