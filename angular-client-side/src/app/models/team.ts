@@ -1,18 +1,21 @@
-import {Team} from './team';
-import { LinkedAccount } from './linked_acount';
+import {User} from './user'
+import {Tournament} from './tournament'
 
-export class User {
+export class Team {
     constructor (
-        public userId: number,
-        public nickname: string,
-        public email: string,
-        public password: string,
+        public teamId: number,
+        public tag: string,
         public name: string,
-        public profileImage: string,
         public rank: string,
-        public team: Team,
-        public linkedAccount: LinkedAccount,
-        public requests: Request[]
+        public teamLeader: User,
+        public numberMembers: number,
+        public wins: number,
+        public defeats: number,
+        public gamesPlayed: number,
+        public members: User[],
+        public poster: string,
+        public tournament: Tournament[],
+        public tournamentsWon: number
     ) {}
 
     static fields(){
