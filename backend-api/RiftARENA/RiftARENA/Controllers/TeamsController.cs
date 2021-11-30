@@ -40,7 +40,7 @@ namespace RiftArena.Controllers
             }
         }
 
-        [HttpGet("{id}",Name = "GetUser")]
+        [HttpGet("{id}",Name = "GetTeam")]
         public ActionResult<Team> GetByID(long id)
         { 
         

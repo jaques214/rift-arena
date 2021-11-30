@@ -10,7 +10,7 @@ using RiftArena.Models.Contexts;
 namespace RiftARENA.Migrations
 {
     [DbContext(typeof(RiftArenaContext))]
-    [Migration("20211129151012_InitialCreate")]
+    [Migration("20211130155546_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,43 +23,93 @@ namespace RiftARENA.Migrations
 
             modelBuilder.Entity("RiftArena.Models.Team", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("TeamId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int>("gamesPlayed")
+                    b.Property<int>("Defeats")
                         .HasColumnType("int");
 
-                    b.Property<int>("numberMembers")
+                    b.Property<int>("GamesPlayed")
                         .HasColumnType("int");
 
-                    b.Property<int>("numberOfDefeats")
-                        .HasColumnType("int");
-
-                    b.Property<int>("numberOfWins")
-                        .HasColumnType("int");
-
-                    b.Property<string>("poster")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("teamLeaderUserID")
+                    b.Property<int>("NumberMembers")
                         .HasColumnType("int");
 
-                    b.Property<string>("teamName")
+                    b.Property<string>("Poster")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("teamRank")
+                    b.Property<string>("Rank")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("teamTag")
+                    b.Property<string>("Tag")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<int?>("TeamLeaderUserID")
+                        .HasColumnType("int");
 
-                    b.HasIndex("teamLeaderUserID");
+                    b.Property<int>("TournamentsWon")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Wins")
+                        .HasColumnType("int");
+
+                    b.HasKey("TeamId");
+
+                    b.HasIndex("TeamLeaderUserID");
 
                     b.ToTable("Teams");
+                });
+
+            modelBuilder.Entity("RiftArena.Models.Tournament", b =>
+                {
+                    b.Property<int>("TournamentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FinalWinner")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MiniumTier")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberOfTeams")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Poster")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("Prize")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Rank")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Region")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TeamId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TournamentId");
+
+                    b.HasIndex("TeamId");
+
+                    b.ToTable("Tournament");
                 });
 
             modelBuilder.Entity("RiftArena.Models.User", b =>
@@ -105,23 +155,32 @@ namespace RiftARENA.Migrations
 
             modelBuilder.Entity("RiftArena.Models.Team", b =>
                 {
-                    b.HasOne("RiftArena.Models.User", "teamLeader")
+                    b.HasOne("RiftArena.Models.User", "TeamLeader")
                         .WithMany()
-                        .HasForeignKey("teamLeaderUserID");
+                        .HasForeignKey("TeamLeaderUserID");
 
-                    b.Navigation("teamLeader");
+                    b.Navigation("TeamLeader");
+                });
+
+            modelBuilder.Entity("RiftArena.Models.Tournament", b =>
+                {
+                    b.HasOne("RiftArena.Models.Team", null)
+                        .WithMany("Tournament")
+                        .HasForeignKey("TeamId");
                 });
 
             modelBuilder.Entity("RiftArena.Models.User", b =>
                 {
                     b.HasOne("RiftArena.Models.Team", null)
-                        .WithMany("members")
+                        .WithMany("Members")
                         .HasForeignKey("TeamId");
                 });
 
             modelBuilder.Entity("RiftArena.Models.Team", b =>
                 {
-                    b.Navigation("members");
+                    b.Navigation("Members");
+
+                    b.Navigation("Tournament");
                 });
 #pragma warning restore 612, 618
         }

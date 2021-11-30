@@ -22,7 +22,7 @@ namespace RiftArena.Models
 
         public string Rank { get; set; }
 
-        public DateTime Date { get => date; set => date = value; }
+        //public DateTime Date { get => date; set => date = value; }
 
         public string Region { get; set; }
 
@@ -34,7 +34,7 @@ namespace RiftArena.Models
 
         public string Poster { get; set; }
 
-        public LinkedList<Team[]> Stages { get; set; }
+        //public List<Team[]> Stages { get; set; }
 
         public Status Status { get; set; }
         

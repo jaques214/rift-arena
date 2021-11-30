@@ -35,7 +35,6 @@ namespace RiftArena.Controllers
             
             try
             {
-                Console.WriteLine("chego aqui");
                 _userService.Create(user, user.Password);
                 _context.SaveChanges();
                 return CreatedAtRoute("GetUser", new { id = user.UserID }, user);
@@ -60,11 +59,8 @@ namespace RiftArena.Controllers
                 return user;
             }
         }
-<<<<<<< HEAD
 
         //GET: api/Users 
-=======
->>>>>>> 3b6fb55d2b4ac8ef3bade8e196c1bf6b6416ca79
         [HttpGet]
         public ActionResult GetAll()
         {

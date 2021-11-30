@@ -1,13 +1,14 @@
-### POST
+### REGISTER
 POST https://localhost:5001/api/Users/register
 Content-Type: application/json
 
 {
-    "UserID": 1,
     "Nickname": "nickname1",
     "Email": "nickname1@gmail.com",
     "Password": "123"
 }
 
-###
+### 
 GET https://localhost:5001/api/Users/
+
+###
