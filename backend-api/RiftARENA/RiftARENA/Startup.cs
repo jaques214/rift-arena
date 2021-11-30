@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Server.IISIntegration;
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using RiftArena.Models.Contexts;
 using RiftArena.Models.Services;
@@ -31,16 +32,16 @@ namespace RiftArena
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RiftARENA", Version = "v1" });
             });*/
-            /*services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(Options =>
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(Options =>
             {
                 Options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                    IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Secret").Value)),
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
-            });*/
+            });
             services.AddTransient<IUserService, UserServices>();
             services.AddAuthentication(IISDefaults.AuthenticationScheme);
         }
@@ -59,6 +60,7 @@ namespace RiftArena
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

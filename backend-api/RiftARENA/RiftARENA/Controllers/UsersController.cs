@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -11,6 +12,9 @@ using RiftArena.Models.Services;
 
 using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace RiftArena.Controllers
@@ -21,11 +25,13 @@ namespace RiftArena.Controllers
     {
         private readonly RiftArenaContext _context;
         private readonly IUserService _userService;
+        private readonly AppSettings _appSettings;
 
-        public UsersController(RiftArenaContext context, IUserService userService)
+        public UsersController(RiftArenaContext context, IUserService userService, AppSettings appSettings)
         {
             _context = context;
             _userService = userService;
+            _appSettings = appSettings;
         }
 
         //POST: api/Users/register
@@ -73,7 +79,7 @@ namespace RiftArena.Controllers
             return Ok(users);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize]
         public ActionResult<User> Delete(long id)
         {
             var user = _userService.GetById(id);
@@ -89,7 +95,8 @@ namespace RiftArena.Controllers
 
         }
 
-        [HttpPut("{id}")]
+        
+        [HttpPut("{id}"), Authorize]
         public IActionResult Update(int id, [FromBody] User user)
         {
 
@@ -122,133 +129,34 @@ namespace RiftArena.Controllers
 
         }
 
-        //POST
-        /*[HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody]User user){
+        //POST: api/Users/login
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginAuthenticate([FromBody]User userLogin){
+
+            var user = _userService.Authenticate(userLogin.Nickname, userLogin.Password);
             if(user == null) {
                 return BadRequest(new { message = "Username or password is incorrect."});
             }
-            var tokenHandler = new JWTSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSetting.Secret);
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenDescription = new SecurityTokenDescriptor {
-                Subject = new ClaimsIdentity(new Claim[] {
+                Subject = new ClaimsIdentity(new Claim[]{
                     new Claim(ClaimTypes.Name, user.UserID.ToString())
-                });
-                var Expires = DateTime.UtcNow.AddDays(7);
-                var SigningCredentials = new Microsoft.IdentityModel.Tokens.SigningCredentials(new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            }
-            var token = tokenHandler.createToken(tokenDescriptor);
+                }),
+                Expires = DateTime.UtcNow.AddDays(1),
+                SigningCredentials = new Microsoft.IdentityModel.Tokens.SigningCredentials(new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescription);
             var tokenString = tokenHandler.WriteToken(token);
 
-            /*return Ok(new {
-                Id = user.UserId,
+            return Ok(new {
+                Id = user.UserID,
                 Nickname = user.Nickname,
-                Name = user.name,
+                Name = user.Name,
                 Token = tokenString
             });
-        }*/
-
-
-
-        //POST: api/Users/login
-        [HttpPost("login")]
-        public async Task<IActionResult> LoginAuthenticate([FromBody] User body)
-        {
-            uint value = _userService.FindId(body.Nickname, body.Password);
-            Console.WriteLine("aqui");
-            Console.WriteLine(value);
-            var user = await _context.Users.FindAsync((int)value);
-
-            if (user == null)
-            {
-                return BadRequest(new { message = "Username is incorrect." });
-            }
-            else if (!UserServices.VerifyPasswordHash(body.Password, user.PasswordHash, user.PasswordSalt))
-            {
-                return BadRequest(new { message = "Password is incorrect." });
-            }
-            return CreatedAtRoute("GetUser", new { id = user.UserID }, user); ;
         }
-
-
-        // GET: api/Users
-        /*[HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetRiftArenaItems()
-        {
-            return await _context.RiftArenaItems.ToListAsync();
-        }
-
-        // GET: api/Users/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
-        {
-            var user = await _context.RiftArenaItems.FindAsync(id);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return user;
-        }
-
-        // PUT: api/Users/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
-        {
-            if (id != user.userID)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(user).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Users
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
-        {
-            _context.RiftArenaItems.Add(user);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetUser", new { id = user.userID }, user);
-        }
-
-        // DELETE: api/Users/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
-        {
-            var user = await _context.RiftArenaItems.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            _context.RiftArenaItems.Remove(user);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        } */
 
         private bool UserExists(int id)
         {

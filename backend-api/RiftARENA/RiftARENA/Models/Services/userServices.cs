@@ -12,7 +12,7 @@ namespace RiftArena.Models.Services
 {
     public interface IUserService
     {
-        //User Authenticate(string username, string password);
+        User Authenticate(string username, string password);
         IEnumerable<User> GetAll();
         User GetById(long id);
         User Create(User user, string password);
@@ -133,9 +133,24 @@ namespace RiftArena.Models.Services
             return true;
         }
 
-        public uint FindId(string nickname, string password){
+        /*public uint FindId(string nickname, string password){
             return ((uint)_context.Users.Where(x => x.Nickname == nickname).Where(x => x.Password == password).Select(x => x.UserID).FirstOrDefault());
                     
+        }*/
+
+        public User Authenticate(string username, string password){
+            if(String.IsNullOrWhiteSpace(username) || String.IsNullOrWhiteSpace(password)){
+                return null;
+            }
+
+            var user = _context.Users.SingleOrDefault(x => x.Nickname == username);
+            if(user != null){
+                if(VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt)){
+                    return user;
+                }
+            } 
+            
+            return null;
         }
 
     }
