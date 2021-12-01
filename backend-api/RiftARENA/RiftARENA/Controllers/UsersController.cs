@@ -20,10 +20,12 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace RiftArena.Controllers
 {
+    //Classe referente ao controller dos utilizadores
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
+        //Context da BD
         private readonly RiftArenaContext _context;
         private readonly IUserService _userService;
 

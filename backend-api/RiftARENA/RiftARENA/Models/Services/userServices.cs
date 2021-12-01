@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RiftArena.Models;
 using RiftArena.Models.Contexts;
-using System.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +10,7 @@ namespace RiftArena.Models.Services
     //TO DO 
     //Add Hashs da Password
 {
+    //Interface de UserService com os métodos e funções a implementar
     public interface IUserService
     {
         User Authenticate(string username, string password);
@@ -29,6 +29,7 @@ namespace RiftArena.Models.Services
             _context = context;
         }
 
+        //Retorna todos os utilizadores registados 
         public IEnumerable<User> GetAll()
         {
             return _context.Users.ToList();
@@ -39,6 +40,7 @@ namespace RiftArena.Models.Services
             return _context.Users.Find(id);
         }
 
+        //Atualiza as informações de um utilizador apartir de determinado ID
         public void Update(User userParam, string password = null)
         {
             var user = _context.Users.Find(userParam.UserID);
@@ -80,12 +82,15 @@ namespace RiftArena.Models.Services
                 _context.SaveChanges();
             }
         }
-
+        //Cria um novo utilizador com as informações recebidas 
         public User Create(User user, string password)
         {
             // validation
             if (string.IsNullOrWhiteSpace(password))
                 throw new AppException("Password is required");
+
+            if (string.IsNullOrWhiteSpace(user.Nickname))
+                throw new AppException("Nickname is required");
 
             if (_context.Users.Any(x => x.Nickname == user.Nickname))
                 throw new AppException("Username \"" + user.Nickname + "\" is already taken");
@@ -132,11 +137,6 @@ namespace RiftArena.Models.Services
 
             return true;
         }
-
-        /*public uint FindId(string nickname, string password){
-            return ((uint)_context.Users.Where(x => x.Nickname == nickname).Where(x => x.Password == password).Select(x => x.UserID).FirstOrDefault());
-                    
-        }*/
 
         public User Authenticate(string username, string password){
             if(String.IsNullOrWhiteSpace(username) || String.IsNullOrWhiteSpace(password)){

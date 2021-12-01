@@ -6,7 +6,6 @@ using System.Linq;
 using RiftArena.Models;
 using RiftArena.Models.Contexts;
 
-
 namespace RiftArena.Models.Services
 {
     public interface ITeamService
@@ -105,13 +104,17 @@ namespace RiftArena.Models.Services
             var TeamTemp = GetByID(id);
             if (TeamTemp == null)
             {
-                return NoContent();
+                throw new AppException("Not Found");
             }
             else
             {
-                if (TeamTemp.NumberMembers == TeamTemp.MAX_MEMBERS )
+                if (TeamTemp.NumberMembers == 7)
                 {
-
+                    throw new AppException("Team full");
+                }
+                else
+                {
+                    TeamTemp.NumberMembers++;
                 }
             }
         }*/
