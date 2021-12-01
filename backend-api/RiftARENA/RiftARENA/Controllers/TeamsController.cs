@@ -4,9 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using RiftArena.Models.Contexts;
 using RiftArena.Models;
+using RiftArena.Services;
+using RiftARENA.Services;
 
 namespace RiftArena.Controllers
 {
@@ -15,7 +16,6 @@ namespace RiftArena.Controllers
     public class TeamsController : ControllerBase
     {
         private readonly RiftArenaContext _context;
-        private readonly TeamContext _context;
         private teamServices _teamService;
 
         public TeamsController(RiftArenaContext context)
@@ -32,10 +32,10 @@ namespace RiftArena.Controllers
             {
                 _teamService.CreateTeam(team);
                 _context.SaveChanges();
-                return CreatedAtRoute("GetTeam", new {id = team.TeamId}, team)
+                return CreatedAtRoute("GetTeam", new { id = team.TeamId }, team);
             }catch (AppException ex)
             {
-                return BadRequest(new {message = ex.message});
+                return BadRequest(new { message = ex.Message });
             }
         }
 
@@ -56,7 +56,7 @@ namespace RiftArena.Controllers
         {
             var teamsCon = _teamService.GetAll();
             if (teamsCon == null)
-               return NoContent;
+               return NoContent();
             else
                 return Ok(teamsCon);
         }
@@ -72,14 +72,14 @@ namespace RiftArena.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateTeam(int id,[FromBody] Team team)
         {
-            var teamUP = _context.Teams.Find(id);
+            var teamUP = _context.RiftArenaTeams.Find(id);
             if (teamUP == null)
                 return NotFound();
 
             teamUP.Name = team.Name;
             teamUP.Tag = team.Tag;
 
-            _context.Teams.Update(teamUp);
+            _context.RiftArenaTeams.Update(teamUP);
             _context.SaveChanges();
 
             return NoContent();

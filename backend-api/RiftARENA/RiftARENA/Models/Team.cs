@@ -34,11 +34,11 @@ namespace RiftArena.Models
 
         public LinkedList<Tournament> Tournament {get; set; }
 
-        public const int MAIN_MEMBERS = 5;
+        public readonly int MAIN_MEMBERS = 5;
         
-        public const int SUBSTITUTE_MEMBERS = 2;
+        public readonly int SUBSTITUTE_MEMBERS = 2;
 
-        public const int MAX_MEMBERS = MAIN_MEMBERS + SUBSTITUTE_MEMBERS;
+        public readonly int MAX_MEMBERS = 7;
 
        
         

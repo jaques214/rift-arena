@@ -18,6 +18,7 @@ namespace RiftArena.Services
         Team UpdateTeam(int id,Team team);
         void DeleteTeam(long id);
         void AddMember(long id,User user);
+        void RemoveMember(long id, User user);
 
     }
     public class teamServices
@@ -109,15 +110,35 @@ namespace RiftArena.Services
             }
             else
             {
-                if (TeamTemp.NumberMembers == 7)
+                if (TeamTemp.NumberMembers == TeamTemp.MAX_MEMBERS)
                 {
                     throw new AppException("Team full");
                 }
                 else
                 {
+                    TeamTemp.Members.Add(user);
                     TeamTemp.NumberMembers++;
                 }
             }
+            _context.RiftArenaTeams.Update(TeamTemp);
+            _context.SaveChanges();
+        }
+
+        public void RemoveMember(long id, User user)
+        {
+            var TeamTemp = GetByID(id);
+            if(TeamTemp == null)
+            {
+                throw new AppException("Not Found");
+            }
+            else
+            {
+                TeamTemp.Members.Remove(user);
+                TeamTemp.NumberMembers--;
+            }
+
+            _context.RiftArenaTeams.Update(TeamTemp);
+            _context.SaveChanges();
         }
     }
 }
