@@ -10,8 +10,8 @@ namespace RiftArena.Models
             public string Nickname { get; set; }
 
             public string Password { get; set; }
-            public byte[]  PasswordHash;
-            public byte[] PasswordSalt;
+            public byte[]  PasswordHash { get; set; }
+            public byte[] PasswordSalt { get; set; }
 
             public string Rank { get; set; }
 

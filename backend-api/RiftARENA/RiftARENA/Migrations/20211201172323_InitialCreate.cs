@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RiftARENA.Migrations
 {
@@ -37,12 +38,13 @@ namespace RiftARENA.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nickname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     Rank = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Tier = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ContaRiot = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NumVitoriasTotal = table.Column<int>(type: "int", nullable: true),
+                    NumVitoriasTotal = table.Column<int>(type: "int", nullable: false),
                     TeamId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -61,10 +63,10 @@ namespace RiftARENA.Migrations
                     TeamLeaderUserID = table.Column<int>(type: "int", nullable: false),
                     Rank = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NumberMembers = table.Column<int>(type: "int", nullable: false),
-                    Wins = table.Column<int>(type: "int", nullable: true),
-                    Defeats = table.Column<int>(type: "int", nullable: true),
-                    GamesPlayed = table.Column<int>(type: "int", nullable: true),
-                    TournamentsWon = table.Column<int>(type: "int", nullable: true),
+                    Wins = table.Column<int>(type: "int", nullable: false),
+                    Defeats = table.Column<int>(type: "int", nullable: false),
+                    GamesPlayed = table.Column<int>(type: "int", nullable: false),
+                    TournamentsWon = table.Column<int>(type: "int", nullable: false),
                     Poster = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>

@@ -10,7 +10,7 @@ using RiftArena.Models.Contexts;
 namespace RiftARENA.Migrations
 {
     [DbContext(typeof(RiftArenaContext))]
-    [Migration("20211130155546_InitialCreate")]
+    [Migration("20211201172323_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -136,6 +136,12 @@ namespace RiftARENA.Migrations
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Rank")
                         .HasColumnType("nvarchar(max)");

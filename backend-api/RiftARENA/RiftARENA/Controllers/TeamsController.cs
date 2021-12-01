@@ -170,11 +170,7 @@ namespace RiftArena.Controllers
 
         private bool TeamExists(int id)
         {
-<<<<<<< HEAD
-            return _context.Team.Any(e => e.Id == id);
-=======
             return _context.Teams.Any(e => e.Id == id);
->>>>>>> 3b6fb55d2b4ac8ef3bade8e196c1bf6b6416ca79
         }*/
     }
 }

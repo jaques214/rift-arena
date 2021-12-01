@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using RiftArena.Models.Contexts;
 using RiftArena.Models;
 using RiftArena.Models.Services;
-using RiftArena.Configurations;
 using Microsoft.Extensions.Options;
 
 using Microsoft.Data.SqlClient;
@@ -27,13 +26,11 @@ namespace RiftArena.Controllers
     {
         private readonly RiftArenaContext _context;
         private readonly IUserService _userService;
-        private readonly AppSettings _appSettings;
 
-        public UsersController(RiftArenaContext context, IUserService userService, IOptions<AppSettings> appSettings)
+        public UsersController(RiftArenaContext context, IUserService userService)
         {
             _context = context;
             _userService = userService;
-            _appSettings = appSettings.Value;
         }
 
         //POST: api/Users/register
@@ -53,38 +50,31 @@ namespace RiftArena.Controllers
             }
         }
 
-        //GET: api/Users/GetUser/{id: int}
-        [HttpGet("{id}", Name = "GetUser")]
+        //GET: api/Users/{id: int}
+        [HttpGet("{id:int}", Name = "GetUser")]
         public ActionResult<User> GetById(int id)
         {
-            System.Console.WriteLine("get id " + id);
-            System.Console.ReadLine();
             var user = _userService.GetById(id);
             if (user == null)
             {
                 return NotFound();
             }
-            else
-            {
-                return user;
-            }
+            return user;
         }
 
         //GET: api/Users 
         [HttpGet]
         public ActionResult GetAll()
         {
-            System.Console.WriteLine("get all");
-            System.Console.ReadLine();
             var users = _userService.GetAll();
             if (users == null)
             {
                 return NoContent();
             }
-
             return Ok(users);
         }
 
+        //[HttpDelete("{id:int}"), Authorize]
         [HttpDelete("{id:int}")]
         public ActionResult<User> Delete(int id)
         {
@@ -102,7 +92,8 @@ namespace RiftArena.Controllers
         }
 
         
-        [HttpPut("{id}"), Authorize]
+        //[HttpPut("{id:int}"), Authorize]
+        [HttpPut("{id:int}")]
         public IActionResult Update(int id, [FromBody] User user)
         {
 
@@ -117,7 +108,6 @@ namespace RiftArena.Controllers
                 try
                 {
                     // save 
-                    userUp.Nickname = user.Nickname;
                     userUp.Password = user.Password;
                     userUp.Email = user.Email;
 
@@ -145,7 +135,7 @@ namespace RiftArena.Controllers
             }
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var key = Encoding.ASCII.GetBytes("AppSettings:Token");
             var tokenDescription = new SecurityTokenDescriptor {
                 Subject = new ClaimsIdentity(new Claim[]{
                     new Claim(ClaimTypes.Name, user.UserID.ToString())

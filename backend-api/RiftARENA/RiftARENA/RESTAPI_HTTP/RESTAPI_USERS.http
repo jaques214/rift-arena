@@ -11,7 +11,7 @@ Content-Type: application/json
 ### 
 GET https://localhost:5001/api/Users/
 
-### LOGIN - A CORRIGIR
+### LOGIN 
 POST https://localhost:5001/api/Users/login
 Content-Type: application/json
 
@@ -20,5 +20,16 @@ Content-Type: application/json
     "Password": "123"
 }
 
-### GET USER BY ID - NOT FOUND
-GET https://localhost:5001/api/Users/GetUser/1
+### GET USER BY ID 
+GET https://localhost:5001/api/Users/1
+
+### DELETE USER BY ID
+DELETE https://localhost:5001/api/Users/2
+
+### UPDATE USER BY ID
+PUT https://localhost:5001/api/Users/1
+
+{
+    "Email": "nickname1_alterado@gmail.com",
+    "Password" : "123"
+}
