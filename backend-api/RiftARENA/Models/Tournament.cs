@@ -1,3 +1,4 @@
+using RiftARENA.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -22,8 +23,6 @@ namespace RiftArena.Models
 
         public string Rank { get; set; }
 
-        //public DateTime Date { get => date; set => date = value; }
-
         public string Region { get; set; }
 
         public string FinalWinner { get; set; }
@@ -34,13 +33,13 @@ namespace RiftArena.Models
 
         public string Poster { get; set; }
 
-        //public List<Team[]> Stages { get; set; }
+        public List<Team> Stages { get; set; }
 
-        public Status Status { get; set; }
-        
+        public Status State { get; set; }
 
+        public List<Messages> chat { get; set; }
 
-
+        public DateTime date { get; set; }
 
 
 

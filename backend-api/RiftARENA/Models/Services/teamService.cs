@@ -100,7 +100,7 @@ namespace RiftArena.Models.Services
             }
         }
 
-        /*public void AddMember(long id,User user)
+        public void AddMember(long id,User user)
         {
             var TeamTemp = GetByID(id);
             if (TeamTemp == null)
@@ -119,7 +119,7 @@ namespace RiftArena.Models.Services
                     TeamTemp.NumberMembers++;
                 }
             }
-            _context.RiftArenaTeams.Update(TeamTemp);
+            _context.Teams.Update(TeamTemp);
             _context.SaveChanges();
         }
 
@@ -136,7 +136,7 @@ namespace RiftArena.Models.Services
                 TeamTemp.NumberMembers--;
             }
 
-            _context.RiftArenaTeams.Update(TeamTemp);
+            _context.Teams.Update(TeamTemp);
             _context.SaveChanges();
         }
     }

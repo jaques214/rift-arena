@@ -25,10 +25,7 @@ namespace RiftArena.Models
 
         public int TournamentsWon { get; set; }
 
-        // [ForeignKey("Id")]
         public List<User> Members { get; set; }
-
-        //public List<int> TournamentsWon  { get; set; }
 
         public string Poster { get; set; }
 

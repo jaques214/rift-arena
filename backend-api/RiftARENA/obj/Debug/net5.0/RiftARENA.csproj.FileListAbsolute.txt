@@ -133,3 +133,13 @@ D:\Universidade\3_Ano\1_Semestre\Laboratorio de Desenvolvimento de Software\Trab
 D:\Universidade\3_Ano\1_Semestre\Laboratorio de Desenvolvimento de Software\Trabalho Prático\riftarena_lds_21_22\backend-api\RiftARENA\RiftARENA\obj\Debug\net5.0\RiftARENA.pdb
 D:\Universidade\3_Ano\1_Semestre\Laboratorio de Desenvolvimento de Software\Trabalho Prático\riftarena_lds_21_22\backend-api\RiftARENA\RiftARENA\obj\Debug\net5.0\RiftARENA.genruntimeconfig.cache
 D:\Universidade\3_Ano\1_Semestre\Laboratorio de Desenvolvimento de Software\Trabalho Prático\riftarena_lds_21_22\backend-api\RiftARENA\RiftARENA\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA\obj\Debug\net5.0\RiftARENA.csproj.AssemblyReference.cache
+C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA\obj\Debug\net5.0\RiftARENA.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA\obj\Debug\net5.0\RiftARENA.AssemblyInfoInputs.cache
+C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA\obj\Debug\net5.0\RiftARENA.AssemblyInfo.cs
+C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA\obj\Debug\net5.0\RiftARENA.csproj.CoreCompileInputs.cache
+C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA\obj\Debug\net5.0\RiftARENA.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA\obj\Debug\net5.0\RiftARENA.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA\obj\Debug\net5.0\RiftARENA.dll
+C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA\obj\Debug\net5.0\ref\RiftARENA.dll
+C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA\obj\Debug\net5.0\RiftARENA.pdb
