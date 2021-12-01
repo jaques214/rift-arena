@@ -1,3 +1,6 @@
+import {Team} from './team';
+import { LinkedAccount } from './linked_acount';
+
 export class User {
     constructor (
         public userId: number,
@@ -7,9 +10,9 @@ export class User {
         public name: string,
         public profileImage: string,
         public rank: string,
-        //public team: Team,
-        //public linkedAccount: LinkedAccount,
-        requests: Request[]
+        public team: Team,
+        public linkedAccount: LinkedAccount,
+        public requests: Request[]
     ) {}
 
     static fields(){
