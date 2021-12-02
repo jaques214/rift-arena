@@ -1,7 +1,7 @@
 ﻿using RiftArena.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace RiftARENA.Models
+namespace RiftArena.Models
 {
     public class Messages
     {

@@ -1,4 +1,4 @@
-using RiftARENA.Models;
+using RiftArena.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

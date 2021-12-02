@@ -42,10 +42,10 @@ namespace RiftArena.Controllers
 
         //GET: api/Teams/{id: int}
         [HttpGet("{id}",Name = "GetTeam")]
-        public ActionResult<Team> GetByID(long id)
+        public ActionResult<Team> GetByID(string Tag)
         { 
         
-            var teamCon = _service.GetByID(id);
+            var teamCon = _service.GetByTag(Tag);
             if (teamCon == null)
                 return NotFound();
             else
@@ -56,7 +56,7 @@ namespace RiftArena.Controllers
 
 
         //GET: api/Teams 
-        [HttpGet(Name = "GetAllUsers")]
+        [HttpGet(Name = "GetAllTeams")]
         public ActionResult<Team> GetAll()
         {
             var teamsCon = _service.GetAll();
@@ -68,9 +68,9 @@ namespace RiftArena.Controllers
 
         //[HttpDelete("{id:int}"), Authorize]
         [HttpDelete("{id:int}")]
-        public ActionResult<Team> DeleteTeam(long id)
+        public ActionResult<Team> DeleteTeam(string Tag)
         {
-            _service.DeleteTeam(id);
+            _service.DeleteTeam(Tag);
 
             return Ok();
         }
@@ -78,20 +78,35 @@ namespace RiftArena.Controllers
 
         //[HttpPut("{id:int}"), Authorize]
         [HttpPut("{id:int}")]
-        public IActionResult UpdateTeam(int id,[FromBody] Team team)
+        public IActionResult UpdateTeam(string Tag,[FromBody] Team team)
         {
-            var teamUP = _context.Teams.Find(id);
-            if (teamUP == null)
-                return NotFound();
+            _service.UpdateTeam(Tag, team);
 
-            teamUP.Name = team.Name;
-            teamUP.Tag = team.Tag;
-
-            _context.Teams.Update(teamUP);
+            _context.Teams.Update(team);
             _context.SaveChanges();
 
             return NoContent();
             
+        }
+
+        [HttpPost("addMember/{id:int}")]
+        public ActionResult AddMember(string Tag, User user)
+        {
+            _service.AddMember(Tag, user);
+
+            _context.SaveChanges();
+
+            return NoContent();
+        }
+
+        [HttpDelete("removeMember/{id:int}")]
+        public ActionResult RemoveMember(string Tag, User user)
+        {
+            _service.RemoveMember(Tag, user);
+
+            _context.SaveChanges();
+
+            return NoContent() ;    
         }
 
     }

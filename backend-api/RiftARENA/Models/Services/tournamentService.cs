@@ -4,24 +4,22 @@ using RiftArena.Models.Services;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RiftARENA.Services
+namespace RiftArena.Models.Services
 {
     public interface ITournamentService
     {
         Tournament CreateTournament(Tournament tournament);
         IEnumerable<Tournament> GetAll();
-        Tournament GetById(long id);
-        Tournament UpdateTournament(long id, Tournament tournament);
-        void DeleteTournament(long id);
-        void populateStages(List<Team> Stages);
-        void popStages(List<Team> Stages);
+        Tournament GetById(int id);
+        Tournament UpdateTournament(int id, Tournament tournament);
+        void DeleteTournament(int id);
     }
 
-    public class tournamentService
+    public class TournamentService : ITournamentService
     {
         private RiftArenaContext _context;
 
-        public tournamentService(RiftArenaContext context)
+        public TournamentService(RiftArenaContext context)
         {
             _context = context;
         }
@@ -31,7 +29,7 @@ namespace RiftARENA.Services
             return _context.Tournaments.ToList();
         }
 
-        public Tournament GetById(long id)
+        public Tournament GetById(int id)
         {
             return _context.Tournaments.Find(id);
         }
@@ -51,7 +49,7 @@ namespace RiftARENA.Services
             return tournament;
         }
 
-        public Tournament UpdateTournament(long id, Tournament tournament)
+        public Tournament UpdateTournament(int id, Tournament tournament)
         {
             var tournamentSer = _context.Tournaments.Find(id);
             if (tournamentSer == null)
@@ -74,7 +72,7 @@ namespace RiftARENA.Services
         }
 
 
-        public void DeleteTournament(long id)
+        public void DeleteTournament(int id)
         {
             var tournament = _context.Tournaments.Find(id);
             if (tournament != null)
