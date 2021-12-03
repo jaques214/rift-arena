@@ -4,9 +4,10 @@ namespace RiftArena.Models
 {
         public class User
         {
-            [Key]
+            
             public int UserID { get; set; }
 
+            [Key]
             public string Nickname { get; set; }
 
             public string Password { get; set; }
