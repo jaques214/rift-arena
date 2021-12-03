@@ -46,6 +46,7 @@ namespace RiftArena
                 };
             });
             services.AddTransient<IUserService, UserServices>();
+            services.AddTransient<ITeamService, TeamServices>();
             services.AddAuthentication(IISDefaults.AuthenticationScheme);
         }
 

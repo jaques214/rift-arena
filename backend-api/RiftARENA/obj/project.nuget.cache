@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "kBt5yqqylhsKALjE3XuiIbQOhIWZKOmTGT7UaiwJj/T6/myFQBAcQ6UQjsHq8TKxjCS11l2JcORLEjNbRHTehw==",
+  "dgSpecHash": "5h50dVo4dogEMoa4B/bMQUUHrQJA1zK/wgte2Zt+aqjQnzsRGaz3GJs+NLqAZrL6USU7e33HUdJzpqxhR3/1VQ==",
   "success": true,
-  "projectFilePath": "D:\\Universidade\\3_Ano\\1_Semestre\\Laboratorio de Desenvolvimento de Software\\Trabalho Prático\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA\\RiftARENA.csproj",
+  "projectFilePath": "D:\\Universidade\\3_Ano\\1_Semestre\\Laboratorio de Desenvolvimento de Software\\Trabalho Prático\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mconc\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\mconc\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\5.0.12\\microsoft.aspnetcore.authentication.jwtbearer.5.0.12.nupkg.sha512",

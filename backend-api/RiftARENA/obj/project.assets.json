@@ -7358,11 +7358,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Universidade\\3_Ano\\1_Semestre\\Laboratorio de Desenvolvimento de Software\\Trabalho Prático\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA\\RiftARENA.csproj",
+      "projectUniqueName": "D:\\Universidade\\3_Ano\\1_Semestre\\Laboratorio de Desenvolvimento de Software\\Trabalho Prático\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj",
       "projectName": "RiftARENA",
-      "projectPath": "D:\\Universidade\\3_Ano\\1_Semestre\\Laboratorio de Desenvolvimento de Software\\Trabalho Prático\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA\\RiftARENA.csproj",
+      "projectPath": "D:\\Universidade\\3_Ano\\1_Semestre\\Laboratorio de Desenvolvimento de Software\\Trabalho Prático\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj",
       "packagesPath": "C:\\Users\\mconc\\.nuget\\packages\\",
-      "outputPath": "D:\\Universidade\\3_Ano\\1_Semestre\\Laboratorio de Desenvolvimento de Software\\Trabalho Prático\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA\\obj\\",
+      "outputPath": "D:\\Universidade\\3_Ano\\1_Semestre\\Laboratorio de Desenvolvimento de Software\\Trabalho Prático\\riftarena_lds_21_22\\backend-api\\RiftARENA\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mconc\\AppData\\Roaming\\NuGet\\NuGet.Config"

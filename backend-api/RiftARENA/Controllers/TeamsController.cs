@@ -26,7 +26,7 @@ namespace RiftArena.Controllers
 
 
 
-        [HttpPost]
+        [HttpPost("createTeam")]
         public IActionResult CreateTeam([FromBody]Team team)
         {
             try
@@ -41,7 +41,7 @@ namespace RiftArena.Controllers
         }
 
         [HttpGet("{id}",Name = "GetTeam")]
-        public ActionResult<Team> GetByID(long id)
+        public ActionResult<Team> GetByID(int id)
         { 
         
             var teamCon = _service.GetByID(id);
@@ -52,7 +52,7 @@ namespace RiftArena.Controllers
           
         }
 
-        [HttpGet(Name = "GetAllUsers")]
+        [HttpGet(Name = "GetAllTeams")]
         public ActionResult<Team> GetAll()
         {
             var teamsCon = _service.GetAll();

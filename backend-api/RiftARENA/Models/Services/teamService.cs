@@ -12,13 +12,13 @@ namespace RiftArena.Models.Services
     {
         Team CreateTeam(Team team);
         IEnumerable<Team> GetAll();
-        Team GetByID(long id);
+        Team GetByID(int id);
         Team UpdateTeam(int id,Team team);
         void DeleteTeam(long id);
         void AddMember(long id,User user);
 
     }
-    public class TeamServices
+    public class TeamServices : ITeamService
     {
         private RiftArenaContext _context;
 
@@ -32,7 +32,7 @@ namespace RiftArena.Models.Services
             return  _context.Teams.ToList();
         }
 
-        public Team GetByID(long id)
+        public Team GetByID(int id)
         {
             return _context.Teams.Find(id);
         }
@@ -99,9 +99,9 @@ namespace RiftArena.Models.Services
             }
         }
 
-        /*public void AddMember(long id,User user)
+        public void AddMember(long id,User user)
         {
-            var TeamTemp = GetByID(id);
+            /*var TeamTemp = GetByID(id);
             if (TeamTemp == null)
             {
                 throw new AppException("Not Found");
@@ -116,7 +116,7 @@ namespace RiftArena.Models.Services
                 {
                     TeamTemp.NumberMembers++;
                 }
-            }
-        }*/
+            }*/
+        }
     }
 }
