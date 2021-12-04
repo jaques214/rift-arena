@@ -55,7 +55,7 @@ namespace RiftArena.Models.Services
                     throw new AppException("Username " + userParam.Nickname + " is already taken");
             }
 
-            user.Name = userParam.Name;
+           // user.Name = userParam.Name;
             user.Email = userParam.Email;
             user.Nickname = userParam.Nickname;
 
