@@ -5,9 +5,9 @@ namespace RiftArena.Models
         public class User
         {
             [Key]
-            public int UserID { get; set; }
-
             public string Nickname { get; set; }
+            public int UserID { get; set; }
+        
 
             public string Password { get; set; }
             public byte[]  PasswordHash { get; set; }
@@ -16,9 +16,7 @@ namespace RiftArena.Models
             public string Rank { get; set; }
 
             public string Tier { get; set; }
-
-            public string Name { get; set; }
-
+        
             public string Email { get; set; }
 
             public string ContaRiot { get; set; }

@@ -36,7 +36,7 @@ namespace RiftArena.Models
         public readonly int SUBSTITUTE_MEMBERS = 2;
 
         public readonly int MAX_MEMBERS = 7;
-
+        
        
         
 
