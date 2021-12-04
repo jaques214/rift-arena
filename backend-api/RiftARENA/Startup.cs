@@ -31,6 +31,12 @@ namespace RiftArena
             
             services.AddDbContext<RiftArenaContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("RiftArena")));
             services.AddControllers();
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.WithOrigins("http://localhost:4200")
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
             /*services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RiftARENA", Version = "v1" });
@@ -64,9 +70,11 @@ namespace RiftArena
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors("MyPolicy");
 
             app.UseAuthentication();
             app.UseAuthorization();
+            
 
             app.UseEndpoints(endpoints =>
             {
