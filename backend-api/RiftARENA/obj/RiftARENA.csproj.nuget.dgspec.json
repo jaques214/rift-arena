@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Universidade\\3_Ano\\1_Semestre\\Laboratorio de Desenvolvimento de Software\\Trabalho Prático\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA\\RiftARENA.csproj": {}
+    "C:\\Users\\Tiago Silva\\Documents\\LDS\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj": {}
   },
   "projects": {
-    "D:\\Universidade\\3_Ano\\1_Semestre\\Laboratorio de Desenvolvimento de Software\\Trabalho Prático\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA\\RiftARENA.csproj": {
+    "C:\\Users\\Tiago Silva\\Documents\\LDS\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Universidade\\3_Ano\\1_Semestre\\Laboratorio de Desenvolvimento de Software\\Trabalho Prático\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA\\RiftARENA.csproj",
+        "projectUniqueName": "C:\\Users\\Tiago Silva\\Documents\\LDS\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj",
         "projectName": "RiftARENA",
-        "projectPath": "D:\\Universidade\\3_Ano\\1_Semestre\\Laboratorio de Desenvolvimento de Software\\Trabalho Prático\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA\\RiftARENA.csproj",
-        "packagesPath": "C:\\Users\\mconc\\.nuget\\packages\\",
-        "outputPath": "D:\\Universidade\\3_Ano\\1_Semestre\\Laboratorio de Desenvolvimento de Software\\Trabalho Prático\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA\\obj\\",
+        "projectPath": "C:\\Users\\Tiago Silva\\Documents\\LDS\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj",
+        "packagesPath": "C:\\Users\\Tiago Silva\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Tiago Silva\\Documents\\LDS\\riftarena_lds_21_22\\backend-api\\RiftARENA\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\mconc\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Tiago Silva\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -97,7 +99,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
