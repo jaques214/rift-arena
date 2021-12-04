@@ -78,7 +78,6 @@ namespace RiftArena
             {
                 endpoints.MapControllers();
             });
-            app.UseMvc();
         }
     }
 }

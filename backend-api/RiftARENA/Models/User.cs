@@ -17,7 +17,7 @@ namespace RiftArena.Models
 
             public string Tier { get; set; }
 
-            public string Name { get; set; }
+          //  public string Name { get; set; }
 
             public string Email { get; set; }
 
