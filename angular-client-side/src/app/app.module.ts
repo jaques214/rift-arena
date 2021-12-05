@@ -15,12 +15,14 @@ import { LoginComponent } from './components/login/login.component';
 import { AuthService } from './services/auth/auth.service';
 import { UserRestService } from './services/user-rest/user-rest.service';
 import { TeamRestService } from './services/team-rest/team-rest.service';
+import { FrontPageComponent } from './components/front-page/front-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavBarComponent,
-    LoginComponent
+    LoginComponent,
+    FrontPageComponent
   ],
   imports: [
     MatButtonModule,
