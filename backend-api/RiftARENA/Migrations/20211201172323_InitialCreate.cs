@@ -34,9 +34,8 @@ namespace RiftARENA.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    UserID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nickname = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Nickname = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserID = table.Column<int>(type: "int", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
@@ -49,7 +48,7 @@ namespace RiftARENA.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.UserID);
+                    table.PrimaryKey("PK_Users", x => x.Nickname);
                 });
 
             migrationBuilder.CreateTable(
@@ -60,7 +59,7 @@ namespace RiftARENA.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Tag = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TeamLeaderUserID = table.Column<int>(type: "int", nullable: false),
+                    TeamLeaderNickname = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Rank = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NumberMembers = table.Column<int>(type: "int", nullable: false),
                     Wins = table.Column<int>(type: "int", nullable: false),
@@ -73,17 +72,17 @@ namespace RiftARENA.Migrations
                 {
                     table.PrimaryKey("PK_Teams", x => x.TeamId);
                     table.ForeignKey(
-                        name: "FK_Teams_Users_TeamLeaderUserID",
-                        column: x => x.TeamLeaderUserID,
+                        name: "FK_Teams_Users_TeamLeaderNickname",
+                        column: x => x.TeamLeaderNickname,
                         principalTable: "Users",
-                        principalColumn: "UserID",
+                        principalColumn: "Nickname",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Teams_TeamLeaderUserID",
+                name: "IX_Teams_TeamLeaderNickname",
                 table: "Teams",
-                column: "TeamLeaderUserID");
+                column: "TeamLeaderNickname");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tournament_TeamId",
@@ -115,7 +114,7 @@ namespace RiftARENA.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Teams_Users_TeamLeaderUserID",
+                name: "FK_Teams_Users_TeamLeaderNickanme",
                 table: "Teams");
 
             migrationBuilder.DropTable(

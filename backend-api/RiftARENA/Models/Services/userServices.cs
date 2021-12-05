@@ -55,7 +55,6 @@ namespace RiftArena.Models.Services
                     throw new AppException("Username " + userParam.Nickname + " is already taken");
             }
 
-           // user.Name = userParam.Name;
             user.Email = userParam.Email;
             user.Nickname = userParam.Nickname;
 
@@ -65,8 +64,8 @@ namespace RiftArena.Models.Services
                 byte[] passwordHash, passwordSalt;
                 CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
-                //user.PasswordHash = passwordHash;
-                //user.PasswordSalt = passwordSalt;
+                user.PasswordHash = passwordHash;
+                user.PasswordSalt = passwordSalt;
             }
 
             _context.Users.Update(user);
