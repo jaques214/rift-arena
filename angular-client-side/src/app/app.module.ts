@@ -14,6 +14,7 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthService } from './services/auth/auth.service';
 import { UserRestService } from './services/user-rest/user-rest.service';
+import { TeamRestService } from './services/team-rest/team-rest.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,7 @@ import { UserRestService } from './services/user-rest/user-rest.service';
     BrowserAnimationsModule,
     HttpClientModule
   ],
-  providers: [AuthService, UserRestService],
+  providers: [AuthService, UserRestService, TeamRestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
