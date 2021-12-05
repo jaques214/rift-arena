@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
+using RiftARENA.Models;
 
 namespace RiftArena.Controllers
 {
@@ -50,6 +51,30 @@ namespace RiftArena.Controllers
             {
                 return BadRequest(new { message = ex.Message });
             }
+        }
+
+        public IActionResult AcceptRequests(User user,Request request)
+        {
+            if (user.team != null)
+            {
+              return BadRequest();
+            }
+            else
+            {
+                if (user.requests.Contains(request))
+                {
+                    request.accepted = true;
+                    user.requests.Remove(request);
+                    user.team = request.team;
+                    return Ok(user);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+              
+            }        
+ 
         }
 
         //GET: api/Users/{id: int}
