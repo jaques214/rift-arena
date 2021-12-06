@@ -151,7 +151,6 @@ namespace RiftArena.Controllers
             return Ok(new {
                 Id = user.UserID,
                 Nickname = user.Nickname,
-               // Name = user.Name,
                 Token = tokenString
             });
         }
