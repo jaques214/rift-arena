@@ -21,16 +21,20 @@ export class AuthService {
   login(username: string, password: string): Observable<any> {
     return this.http.post<User>(
       endpoint + 'Users/login',
-      { username: username, password: password },
+      { Username: username, Password: password },
       httpOptions
     );
   }
 
   // retorna um novo user com o email, username e password inseridos, em caso de erro nao retorna nada
-  register(email: string, username: string, password: string): Observable<any> {
-    return this.http.post<any>(
+  register(
+    email: string,
+    username: string,
+    password: string
+  ): Observable<User> {
+    return this.http.post<User>(
       endpoint + 'Users/register',
-     { "Nickname": username, "Email": email, "Password": password },
+      { Nickname: username, Email: email, Password: password },
       httpOptions
     );
   }
@@ -41,10 +45,10 @@ export class AuthService {
   }
 
   // verifica se o email inserido pertence a um user com conta RIOT vinculada ou nao
-  verifyBoundedAccount(email: string): Observable<any> {
-    return this.http.post<any>(
+  verifyBoundedAccount(username: string): Observable<any> {
+    return this.http.post<any>( // isto vai ser preciso alterar quando o controller no backend for feito
       endpoint + `verifyAccount`,
-      { email: email },
+      { Nickname: username },
       httpOptions
     );
   }
