@@ -19,6 +19,75 @@ namespace RiftARENA.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
+            modelBuilder.Entity("RiftArena.Models.LinkedAccount", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Rank")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Region")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("LinkedAccount");
+                });
+
+            modelBuilder.Entity("RiftArena.Models.Messages", b =>
+                {
+                    b.Property<int>("MessageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TournamentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.HasKey("MessageId");
+
+                    b.HasIndex("TournamentId");
+
+                    b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("RiftArena.Models.Request", b =>
+                {
+                    b.Property<int>("RequestId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<bool>("Accepted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("TeamId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserID")
+                        .HasColumnType("int");
+
+                    b.HasKey("RequestId");
+
+                    b.HasIndex("TeamId");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Request");
+                });
+
             modelBuilder.Entity("RiftArena.Models.Team", b =>
                 {
                     b.Property<int>("TeamId")
@@ -97,15 +166,13 @@ namespace RiftARENA.Migrations
                     b.Property<string>("Region")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Status")
+                    b.Property<int>("State")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TeamId")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("date")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("TournamentId");
-
-                    b.HasIndex("TeamId");
 
                     b.ToTable("Tournaments");
                 });
@@ -123,8 +190,8 @@ namespace RiftARENA.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("LinkedAccountID")
+                        .HasColumnType("int");
 
                     b.Property<string>("Nickname")
                         .HasColumnType("nvarchar(max)");
@@ -152,9 +219,52 @@ namespace RiftARENA.Migrations
 
                     b.HasKey("UserID");
 
+                    b.HasIndex("LinkedAccountID")
+                        .IsUnique()
+                        .HasFilter("[LinkedAccountID] IS NOT NULL");
+
                     b.HasIndex("TeamId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("TeamTournament", b =>
+                {
+                    b.Property<int>("StagesTeamId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TournamentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("StagesTeamId", "TournamentId");
+
+                    b.HasIndex("TournamentId");
+
+                    b.ToTable("TeamTournament");
+                });
+
+            modelBuilder.Entity("RiftArena.Models.Messages", b =>
+                {
+                    b.HasOne("RiftArena.Models.Tournament", "Tournament")
+                        .WithMany("chat")
+                        .HasForeignKey("TournamentId");
+
+                    b.Navigation("Tournament");
+                });
+
+            modelBuilder.Entity("RiftArena.Models.Request", b =>
+                {
+                    b.HasOne("RiftArena.Models.Team", "Team")
+                        .WithMany()
+                        .HasForeignKey("TeamId");
+
+                    b.HasOne("RiftArena.Models.User", "User")
+                        .WithMany("Requests")
+                        .HasForeignKey("UserID");
+
+                    b.Navigation("Team");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("RiftArena.Models.Team", b =>
@@ -166,25 +276,52 @@ namespace RiftARENA.Migrations
                     b.Navigation("TeamLeader");
                 });
 
-            modelBuilder.Entity("RiftArena.Models.Tournament", b =>
-                {
-                    b.HasOne("RiftArena.Models.Team", null)
-                        .WithMany("Tournament")
-                        .HasForeignKey("TeamId");
-                });
-
             modelBuilder.Entity("RiftArena.Models.User", b =>
                 {
+                    b.HasOne("RiftArena.Models.LinkedAccount", "LinkedAccount")
+                        .WithOne("User")
+                        .HasForeignKey("RiftArena.Models.User", "LinkedAccountID");
+
                     b.HasOne("RiftArena.Models.Team", null)
                         .WithMany("Members")
                         .HasForeignKey("TeamId");
+
+                    b.Navigation("LinkedAccount");
+                });
+
+            modelBuilder.Entity("TeamTournament", b =>
+                {
+                    b.HasOne("RiftArena.Models.Team", null)
+                        .WithMany()
+                        .HasForeignKey("StagesTeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RiftArena.Models.Tournament", null)
+                        .WithMany()
+                        .HasForeignKey("TournamentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RiftArena.Models.LinkedAccount", b =>
+                {
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("RiftArena.Models.Team", b =>
                 {
                     b.Navigation("Members");
+                });
 
-                    b.Navigation("Tournament");
+            modelBuilder.Entity("RiftArena.Models.Tournament", b =>
+                {
+                    b.Navigation("chat");
+                });
+
+            modelBuilder.Entity("RiftArena.Models.User", b =>
+                {
+                    b.Navigation("Requests");
                 });
 #pragma warning restore 612, 618
         }

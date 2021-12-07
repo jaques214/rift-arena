@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RiftArena.Models
 {
@@ -16,9 +17,10 @@ namespace RiftArena.Models
             public string Email { get; set; }
             public string ContaRiot { get; set; }
             public int NumVitoriasTotal { get; set; }
-            public LinkedAccount linkedAccount  { get; set; }
-            public List<Request> requests   { get; set; }
-            public Team team { get; set; }
+            [ForeignKey("LinkedAccountID")]
+            public LinkedAccount LinkedAccount  { get; set; }
+            public List<Request> Requests   { get; set; }
+            //public Team Team { get; set; }
 
 
 

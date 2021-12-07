@@ -1,15 +1,15 @@
-﻿namespace RiftArena.Models
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace RiftArena.Models
 {
     public class LinkedAccount
     {
-        public int Id { get; set; }
-
-        public string username { get; set; }
-
-        public string rank { get; set; }
-
-        public string region { get; set; }
-
-        public User user { get; set; }
+        [Key]
+        public int ID { get; set; }
+        public string Username { get; set; }
+        public string Rank { get; set; }
+        public string Region { get; set; }
+        public User User { get; set; }
     }
 }

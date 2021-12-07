@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace RiftArena.Controllers
 {
@@ -52,6 +53,9 @@ namespace RiftArena.Controllers
             }
         }
 
+
+        //GET: api/Users/acceptRequest
+        /*[HttpGet("acceptRequest")]
         public IActionResult AcceptRequests(User user,Request request)
         {
             if (user.team != null)
@@ -74,7 +78,7 @@ namespace RiftArena.Controllers
               
             }        
  
-        }
+        }*/
 
         //GET: api/Users/{id: int}
         [HttpGet("{id:int}", Name = "GetUser")]
@@ -100,8 +104,8 @@ namespace RiftArena.Controllers
             return Ok(users);
         }
 
-        //[HttpDelete("{id:int}"), Authorize]
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[HttpDelete("{id:int}")]
         public ActionResult<User> Delete(int id)
         {
             var user = _userService.GetById(id);
@@ -118,8 +122,8 @@ namespace RiftArena.Controllers
         }
 
         
-        //[HttpPut("{id:int}"), Authorize]
-        [HttpPut("{id:int}")]
+        [HttpPut("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[HttpPut("{id:int}")]
         public IActionResult Update(int id, [FromBody] User user)
         {
 

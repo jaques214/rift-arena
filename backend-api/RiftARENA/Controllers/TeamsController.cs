@@ -8,6 +8,8 @@ using RiftArena.Models.Contexts;
 using RiftArena.Models;
 using RiftArena.Models.Services;
 
+using Microsoft.AspNetCore.Authorization;
+
 namespace RiftArena.Controllers
 {
     [Route("api/[controller]")]
@@ -66,8 +68,8 @@ namespace RiftArena.Controllers
         }
 
         //DELETE: api/Teams/{id}
-        //[HttpDelete("{id:int}"), Authorize]
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{id:int}"), Authorize]
+        //[HttpDelete("{id:int}")]
         public ActionResult<Team> DeleteTeam(int id)
         {
             _service.DeleteTeam(id);
