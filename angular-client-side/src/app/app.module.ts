@@ -7,10 +7,13 @@ import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button'; 
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { LoginComponent } from './components/login/login.component';
+import { AuthService } from './services/auth/auth.service';
+import { UserRestService } from './services/user-rest/user-rest.service';
 
 @NgModule({
   declarations: [
@@ -26,9 +29,10 @@ import { LoginComponent } from './components/login/login.component';
     MatCardModule,
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [AuthService, UserRestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
