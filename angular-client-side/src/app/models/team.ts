@@ -22,27 +22,19 @@ export class Team {
         return {
             inputs: [
               {
-                name: 'nickname',
+                name: 'teamName',
                 type: 'text',
-                placeholder: 'Enter Account nickname',
+                placeholder: 'Enter Team Name',
                 iconlabel: 'account circle icon',
                 icon: 'account_circle',
                 model: undefined,
               },
               {
-                name: 'email',
+                name: 'tag',
                 type: 'text',
-                placeholder: 'Enter email',
-                iconlabel: 'email icon',
-                icon: 'email',
-                model: undefined,
-              },
-              {
-                name: 'password',
-                type: 'text',
-                placeholder: 'Enter password',
-                iconlabel: 'no encryption icon',
-                icon: 'no_encryption',
+                placeholder: 'Enter Team Tag',
+                iconlabel: 'code icon',
+                icon: 'code',
                 model: undefined,
               },
         ]}
