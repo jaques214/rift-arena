@@ -7,7 +7,6 @@ export class User {
         public nickname: string,
         public email: string,
         public password: string,
-        public name: string,
         public profileImage: string,
         public rank: string,
         public team: Team,
