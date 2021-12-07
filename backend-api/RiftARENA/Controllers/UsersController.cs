@@ -17,7 +17,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
-using RiftARENA.Models;
 
 namespace RiftArena.Controllers
 {

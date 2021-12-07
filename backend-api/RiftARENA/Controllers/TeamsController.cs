@@ -55,7 +55,7 @@ namespace RiftArena.Controllers
 
 
         //GET: api/Teams 
-        [HttpGet(Name = "GetAllTeams")]
+        [HttpGet]
         public ActionResult<Team> GetAll()
         {
             var teamsCon = _service.GetAll();
@@ -65,6 +65,7 @@ namespace RiftArena.Controllers
                 return Ok(teamsCon);
         }
 
+        //DELETE: api/Teams/{id}
         //[HttpDelete("{id:int}"), Authorize]
         [HttpDelete("{id:int}")]
         public ActionResult<Team> DeleteTeam(int id)
@@ -75,6 +76,7 @@ namespace RiftArena.Controllers
         }
 
 
+        //PUT: api/Teams/{id}
         //[HttpPut("{id:int}"), Authorize]
         [HttpPut("{id:int}")]
         public IActionResult UpdateTeam(int id,[FromBody] Team team)
