@@ -1,21 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { FrontPageComponent } from './components/front-page/front-page.component';
 import { LoginComponent } from './components/login/login.component';
-import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 
 const routes: Routes = [
-  { 
-    path: 'nav-bar',
-    component: NavBarComponent
+  {
+    path: '',
+    component: FrontPageComponent,
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: 'register',
-    component: LoginComponent
-  }
+    component: LoginComponent,
+  },
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({
@@ -28,4 +29,3 @@ export class AppRoutingModule {}
     "bootstrap": "^5.1.3",
     "ngx-bootstrap": "^7.1.0",
 */
-

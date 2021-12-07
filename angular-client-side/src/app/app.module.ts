@@ -7,16 +7,22 @@ import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button'; 
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { LoginComponent } from './components/login/login.component';
+import { AuthService } from './services/auth/auth.service';
+import { UserRestService } from './services/user-rest/user-rest.service';
+import { TeamRestService } from './services/team-rest/team-rest.service';
+import { FrontPageComponent } from './components/front-page/front-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavBarComponent,
-    LoginComponent
+    LoginComponent,
+    FrontPageComponent
   ],
   imports: [
     MatButtonModule,
@@ -26,9 +32,10 @@ import { LoginComponent } from './components/login/login.component';
     MatCardModule,
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [AuthService, UserRestService, TeamRestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

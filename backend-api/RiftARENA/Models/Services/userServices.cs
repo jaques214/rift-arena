@@ -64,8 +64,8 @@ namespace RiftArena.Models.Services
                 byte[] passwordHash, passwordSalt;
                 CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
-                //user.PasswordHash = passwordHash;
-                //user.PasswordSalt = passwordSalt;
+                user.PasswordHash = passwordHash;
+                user.PasswordSalt = passwordSalt;
             }
 
             _context.Users.Update(user);

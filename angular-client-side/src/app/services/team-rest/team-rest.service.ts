@@ -1,0 +1,30 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Team } from '@src/app/models/team';
+import { LinkedList } from 'linked-list-typescript';
+
+const endpoint = 'https://localhost:5001/api/Teams/';
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+  }),
+};
+
+@Injectable({
+  providedIn: 'root',
+})
+export class TeamRestService {
+  constructor(private http: HttpClient) {}
+
+  // por enquanto está ID mas com a alteraçao vai ser pela TAG
+  getTeam(id: number): Observable<Team> {
+    return this.http.get<Team>(endpoint + `${id}`, httpOptions);
+  }
+
+  getTeams(): Observable<LinkedList<Team>> {
+    return this.http.get<LinkedList<Team>>(endpoint);
+  }
+
+  
+}

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using RiftArena.Models.Contexts;
 using RiftArena.Models;
 using RiftArena.Models.Services;
@@ -25,7 +24,7 @@ namespace RiftArena.Controllers
         }
 
 
-
+        //POST: api/Teams/createTeam
         [HttpPost("createTeam")]
         public IActionResult CreateTeam([FromBody]Team team)
         {
@@ -40,6 +39,8 @@ namespace RiftArena.Controllers
             }
         }
 
+
+        //GET: api/Teams/{id: int}
         [HttpGet("{id}",Name = "GetTeam")]
         public ActionResult<Team> GetByID(int id)
         { 
@@ -52,6 +53,8 @@ namespace RiftArena.Controllers
           
         }
 
+
+        //GET: api/Teams 
         [HttpGet(Name = "GetAllTeams")]
         public ActionResult<Team> GetAll()
         {
@@ -62,115 +65,48 @@ namespace RiftArena.Controllers
                 return Ok(teamsCon);
         }
 
-        [HttpDelete("{id}")]
-        public ActionResult<Team> DeleteTeam(long id)
+        //[HttpDelete("{id:int}"), Authorize]
+        [HttpDelete("{id:int}")]
+        public ActionResult<Team> DeleteTeam(int id)
         {
             _service.DeleteTeam(id);
 
             return Ok();
         }
 
-        [HttpPut("{id}")]
+
+        //[HttpPut("{id:int}"), Authorize]
+        [HttpPut("{id:int}")]
         public IActionResult UpdateTeam(int id,[FromBody] Team team)
         {
-            var teamUP = _context.Teams.Find(id);
-            if (teamUP == null)
-                return NotFound();
+            _service.UpdateTeam(id, team);
 
-            teamUP.Name = team.Name;
-            teamUP.Tag = team.Tag;
-
-            _context.Teams.Update(teamUP);
+            _context.Teams.Update(team);
             _context.SaveChanges();
 
             return NoContent();
             
         }
-    
 
-/*
-        // GET: api/Teams
-        /*[HttpGet]
-        public async Task<ActionResult<IEnumerable<Team>>> GetTeams()
+        [HttpPost("addMember/{id:int}")]
+        public ActionResult AddMember(int id, User user)
         {
-            return await _context.Team.ToListAsync();
-        }
+            _service.AddMember(id, user);
 
-        // GET: api/Teams/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Team>> GetTeam(int id)
-        {
-            var team = await _context.Team.FindAsync(id);
-
-            if (team == null)
-            {
-                return NotFound();
-            }
-
-            return team;
-        }
-
-        // PUT: api/Teams/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutTeam(int id, Team team)
-        {
-            if (id != team.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(team).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TeamExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            _context.SaveChanges();
 
             return NoContent();
         }
 
-        // POST: api/Teams
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Team>> PostTeam(Team team)
+        [HttpDelete("removeMember/{id:int}")]
+        public ActionResult RemoveMember(int id, User user)
         {
-            _context.Team.Add(team);
-            await _context.SaveChangesAsync();
+            _service.RemoveMember(id, user);
 
-            return CreatedAtAction("GetTeam", new { id = team.Id }, team);
+            _context.SaveChanges();
+
+            return NoContent() ;    
         }
 
-        // DELETE: api/Teams/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTeam(int id)
-        {
-            var team = await _context.Team.FindAsync(id);
-            if (team == null)
-            {
-                return NotFound();
-            }
-
-            _context.Team.Delete(team);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool TeamExists(int id)
-        {
-            return _context.Teams.Any(e => e.Id == id);
-        }*/
     }
 }
