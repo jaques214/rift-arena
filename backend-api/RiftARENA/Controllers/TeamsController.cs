@@ -86,10 +86,11 @@ namespace RiftArena.Controllers
             _context.Teams.Update(team);
             _context.SaveChanges();
 
-            return NoContent();
+            return Ok();
             
         }
 
+        //POST: api/Teams/addMember/{id}
         [HttpPost("addMember/{id:int}")]
         public ActionResult AddMember(int id, User user)
         {
@@ -97,9 +98,10 @@ namespace RiftArena.Controllers
 
             _context.SaveChanges();
 
-            return NoContent();
+            return Ok();
         }
 
+        //POST: api/Teams/removeMember/{id}
         [HttpDelete("removeMember/{id:int}")]
         public ActionResult RemoveMember(int id, User user)
         {
@@ -107,7 +109,7 @@ namespace RiftArena.Controllers
 
             _context.SaveChanges();
 
-            return NoContent() ;    
+            return Ok() ;    
         }
 
     }

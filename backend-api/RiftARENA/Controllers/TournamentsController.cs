@@ -51,6 +51,7 @@ namespace RiftArena.Controllers
         [HttpDelete("{id:int}")]
         public ActionResult<Tournament> DeleteTournament(int id){
             _service.DeleteTournament(id);
+            _context.SaveChanges();
             return Ok();
         }
 
@@ -58,6 +59,7 @@ namespace RiftArena.Controllers
         [HttpPut("{id:int}")]
         public IActionResult UpdateTournament(int id, [FromBody] Tournament tournament){
             _service.UpdateTournament(id, tournament);
+            _context.SaveChanges();
             return Ok();
         }
     }
