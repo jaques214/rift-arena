@@ -14,13 +14,13 @@ namespace RiftARENA.Migrations
                     TournamentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NumberOfTeams = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Rank = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Region = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Rank = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Region = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FinalWinner = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Prize = table.Column<float>(type: "real", nullable: false),
-                    MiniumTier = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Prize = table.Column<float>(type: "real", nullable: true),
+                    MiniumTier = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Poster = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false),
                     TeamId = table.Column<int>(type: "int", nullable: true)
@@ -34,22 +34,23 @@ namespace RiftARENA.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Nickname = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserID = table.Column<int>(type: "int", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nickname = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     Rank = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Tier = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ContaRiot = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NumVitoriasTotal = table.Column<int>(type: "int", nullable: false),
                     TeamId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Nickname);
+                    table.PrimaryKey("PK_Users", x => x.UserID);
+                    table.UniqueConstraint("UC_Users", x => x.Nickname);
                 });
 
             migrationBuilder.CreateTable(
@@ -58,10 +59,10 @@ namespace RiftARENA.Migrations
                 {
                     TeamId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Tag = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TeamLeaderNickname = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Rank = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Tag = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TeamLeaderUserID = table.Column<int>(type: "int", nullable: false),
+                    Rank = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NumberMembers = table.Column<int>(type: "int", nullable: false),
                     Wins = table.Column<int>(type: "int", nullable: false),
                     Defeats = table.Column<int>(type: "int", nullable: false),
@@ -73,17 +74,18 @@ namespace RiftARENA.Migrations
                 {
                     table.PrimaryKey("PK_Teams", x => x.TeamId);
                     table.ForeignKey(
-                        name: "FK_Teams_Users_TeamLeaderNickname",
-                        column: x => x.TeamLeaderNickname,
+                        name: "FK_Teams_Users_TeamLeaderUserID",
+                        column: x => x.TeamLeaderUserID,
                         principalTable: "Users",
-                        principalColumn: "Nickname",
+                        principalColumn: "UserID",
                         onDelete: ReferentialAction.Restrict);
+                        table.UniqueConstraint("UC_Teams", x => x.Tag);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Teams_TeamLeaderNickname",
+                name: "IX_Teams_TeamLeaderUserID",
                 table: "Teams",
-                column: "TeamLeaderNickname");
+                column: "TeamLeaderUserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tournaments_TeamId",
@@ -115,7 +117,7 @@ namespace RiftARENA.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Teams_Users_TeamLeaderNickname",
+                name: "FK_Teams_Users_TeamLeaderUserID",
                 table: "Teams");
 
             migrationBuilder.DropTable(

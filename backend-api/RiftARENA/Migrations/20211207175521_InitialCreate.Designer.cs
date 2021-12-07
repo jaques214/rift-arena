@@ -10,7 +10,7 @@ using RiftArena.Models.Contexts;
 namespace RiftARENA.Migrations
 {
     [DbContext(typeof(RiftArenaContext))]
-    [Migration("20211203160949_InitialCreate")]
+    [Migration("20211207175521_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,8 +49,8 @@ namespace RiftARENA.Migrations
                     b.Property<string>("Tag")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TeamLeaderNickname")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("TeamLeaderUserID")
+                        .HasColumnType("int");
 
                     b.Property<int>("TournamentsWon")
                         .HasColumnType("int");
@@ -60,7 +60,7 @@ namespace RiftARENA.Migrations
 
                     b.HasKey("TeamId");
 
-                    b.HasIndex("TeamLeaderNickname");
+                    b.HasIndex("TeamLeaderUserID");
 
                     b.ToTable("Teams");
                 });
@@ -114,8 +114,10 @@ namespace RiftARENA.Migrations
 
             modelBuilder.Entity("RiftArena.Models.User", b =>
                 {
-                    b.Property<string>("Nickname")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
 
                     b.Property<string>("ContaRiot")
                         .HasColumnType("nvarchar(max)");
@@ -124,6 +126,9 @@ namespace RiftARENA.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nickname")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("NumVitoriasTotal")
@@ -147,10 +152,7 @@ namespace RiftARENA.Migrations
                     b.Property<string>("Tier")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserID")
-                        .HasColumnType("int");
-
-                    b.HasKey("Nickname");
+                    b.HasKey("UserID");
 
                     b.HasIndex("TeamId");
 
@@ -161,7 +163,7 @@ namespace RiftARENA.Migrations
                 {
                     b.HasOne("RiftArena.Models.User", "TeamLeader")
                         .WithMany()
-                        .HasForeignKey("TeamLeaderNickname");
+                        .HasForeignKey("TeamLeaderUserID");
 
                     b.Navigation("TeamLeader");
                 });
