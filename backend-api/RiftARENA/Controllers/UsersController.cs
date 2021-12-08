@@ -53,10 +53,11 @@ namespace RiftArena.Controllers
             }
         }
 
-        //POST: api/Users/acceptRequest
-        [HttpPost("acceptRequest")]
-        public IActionResult AcceptRequests(User user,Request request)
+        //POST: api/Users/{id}/acceptRequest
+        [HttpPost("{id:int}/acceptRequest")]
+        public IActionResult AcceptRequests( int userID, [FromBody]Request request)
         {
+            var user = _userService.GetById(userID);
             if (user.Team != null)
             {
               return BadRequest();
@@ -95,10 +96,11 @@ namespace RiftArena.Controllers
  
         }
 
-        //POST: api/Users/refuseRequest
-        [HttpPost("refuseRequest")]
-        public IActionResult RefuseRequest(User user, Request request)
+        //POST: api/Users/{id}/refuseRequest
+        [HttpPost("{id:int}/refuseRequest")]
+        public IActionResult RefuseRequest(int userID, [FromBody]Request request)
         {
+            var user = _userService.GetById(userID);
             if (user.Team != null)
             {
                 return BadRequest();
