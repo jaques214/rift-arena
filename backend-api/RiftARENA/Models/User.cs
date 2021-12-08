@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RiftARENA.Models;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace RiftArena.Models
 {
@@ -22,6 +24,12 @@ namespace RiftArena.Models
             public string ContaRiot { get; set; }
 
             public int NumVitoriasTotal { get; set; }
+
+            public LinkedAccount linkedAccount  { get; set; }
+
+            public List<Request> requests   { get; set; }
+
+            public Team team { get; set; }
 
 
 
