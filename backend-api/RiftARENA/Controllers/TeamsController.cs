@@ -9,6 +9,8 @@ using RiftArena.Models;
 using RiftArena.Models.Services;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 
 namespace RiftArena.Controllers
 {
@@ -27,7 +29,7 @@ namespace RiftArena.Controllers
 
 
         //POST: api/Teams/createTeam
-        [HttpPost("createTeam")]
+        [HttpPost("createTeam"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult CreateTeam([FromBody]Team team)
         {
             try
@@ -68,7 +70,7 @@ namespace RiftArena.Controllers
         }
 
         //DELETE: api/Teams/{id}
-        [HttpDelete("{id:int}"), Authorize]
+        [HttpDelete("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         //[HttpDelete("{id:int}")]
         public ActionResult<Team> DeleteTeam(int id)
         {
@@ -79,8 +81,7 @@ namespace RiftArena.Controllers
 
 
         //PUT: api/Teams/{id}
-        //[HttpPut("{id:int}"), Authorize]
-        [HttpPut("{id:int}")]
+        [HttpPut("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult UpdateTeam(int id,[FromBody] Team team)
         {
             _service.UpdateTeam(id, team);
@@ -93,7 +94,7 @@ namespace RiftArena.Controllers
         }
 
         //POST: api/Teams/addMember/{id}
-        [HttpPost("addMember/{id:int}")]
+        [HttpPost("addMember/{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult AddMember(int id, User user)
         {
             _service.AddMember(id, user);
@@ -104,7 +105,7 @@ namespace RiftArena.Controllers
         }
 
         //POST: api/Teams/removeMember/{id}
-        [HttpDelete("removeMember/{id:int}")]
+        [HttpDelete("removeMember/{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult RemoveMember(int id, User user)
         {
             _service.RemoveMember(id, user);

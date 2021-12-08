@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using RiftArena.Models.Contexts;
 using RiftArena.Models;
 using RiftArena.Models.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace RiftArena.Controllers 
 {
@@ -18,7 +20,7 @@ namespace RiftArena.Controllers
         }
 
         //POST: api/Tournaments/createTournament
-        [HttpPost("createTournament")]
+        [HttpPost("createTournament"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult createTournament([FromBody]Tournament tournament){
             _service.CreateTournament(tournament);
             _context.SaveChanges();
@@ -48,7 +50,7 @@ namespace RiftArena.Controllers
         }
 
         //DELETE: api/Tournaments/{id}
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<Tournament> DeleteTournament(int id){
             _service.DeleteTournament(id);
             _context.SaveChanges();
@@ -56,7 +58,7 @@ namespace RiftArena.Controllers
         }
 
         //PUT: api/Tournaments/{id}
-        [HttpPut("{id:int}")]
+        [HttpPut("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult UpdateTournament(int id, [FromBody] Tournament tournament){
             _service.UpdateTournament(id, tournament);
             _context.SaveChanges();

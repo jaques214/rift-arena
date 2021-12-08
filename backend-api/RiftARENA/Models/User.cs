@@ -20,7 +20,7 @@ namespace RiftArena.Models
             [ForeignKey("LinkedAccountID")]
             public LinkedAccount LinkedAccount  { get; set; }
             public List<Request> Requests   { get; set; }
-            public Team Team { get; set; }
+            //public Team Team { get; set; }
 
 
 
