@@ -3,8 +3,8 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-#SQL-Server
 appsettings.json
+RiftARENA/obj/
 
 # User-specific files
 *.rsuser

@@ -27,7 +27,7 @@
   </ng-container>
     </mat-card-content>
     <mat-card-actions ngClass="container">
-          <button mat-flat-button color="primary">Register</button>
+          <button mat-flat-button color="primary" (click)="register()">Register</button>
           <p>Already have an account? Login <a [routerLink]="['/login']">here</a></p>
     </mat-card-actions>
   </mat-card>
