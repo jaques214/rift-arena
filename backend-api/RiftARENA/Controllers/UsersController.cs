@@ -53,6 +53,9 @@ namespace RiftArena.Controllers
             }
         }
 
+        //POST: api/Users/acceptRequest
+        //permite aceitar pedidos recebidos por um utilizador
+        [HttpPost("acceptRequest")]
         public IActionResult AcceptRequests(User user,Request request)
         {
             if (user.team != null)
@@ -63,10 +66,26 @@ namespace RiftArena.Controllers
             {
                 if (user.requests.Contains(request))
                 {
-                    request.accepted = true;
-                    user.requests.Remove(request);
-                    user.team = request.team;
-                    return Ok(user);
+                    if(request.team.Members.Count == request.team.MAX_MEMBERS)
+                    {
+                        return BadRequest();
+                    }
+                    else
+                    {
+                        request.accepted = true;
+                        user.requests.Remove(request);
+                        user.team = request.team;
+                        _context.Update(request);
+
+                        Team temp = _context.Teams.Find(request.team);
+
+                        temp.Members.Add(user);
+                        _context.Teams.Update(temp);
+                        _context.SaveChanges();
+
+                        return Ok(user);
+                    }
+
                 }
                 else
                 {
@@ -75,6 +94,33 @@ namespace RiftArena.Controllers
               
             }        
  
+        }
+
+        //POST: api/Users/refuseRequest
+        //permite recusar pedidos recebidos por um utilizador
+        [HttpPost("refuseRequest")]
+        public IActionResult RefuseRequest(User user, Request request)
+        {
+            if (user.team != null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                if (user.requests.Contains(request))
+                {
+                    request.accepted = false;
+                    user.requests.Remove(request);
+                    _context.Update(request);
+                    _context.SaveChanges();
+                    return Ok(user);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+
         }
 
         //GET: api/Users/{id: int}
