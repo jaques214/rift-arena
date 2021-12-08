@@ -29,7 +29,7 @@ namespace RiftArena.Models
 
         public string Poster { get; set; }
 
-        public LinkedList<Tournament> Tournament {get; set; }
+        public List<Tournament> Tournament {get; set; }
 
         public readonly int MAIN_MEMBERS = 5;
         
