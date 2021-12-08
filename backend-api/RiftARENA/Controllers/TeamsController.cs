@@ -30,9 +30,21 @@ namespace RiftArena.Controllers
         {
             try
             {
-                _service.CreateTeam(team);
-                _context.SaveChanges();
-                return CreatedAtRoute("GetTeam", new {id = team.TeamId}, team);
+ 
+                if (_context.Users.Find(team.TeamLeader) == team.TeamLeader)
+                {
+                    _service.CreateTeam(team);
+                    _context.SaveChanges();
+                    return CreatedAtRoute("GetTeam", new { id = team.TeamId }, team);
+                }
+                else
+                {
+                    return NotFound();
+                }
+
+
+
+
             }catch (AppException ex)
             {
                 return BadRequest(new {message = ex.Message });
@@ -42,10 +54,10 @@ namespace RiftArena.Controllers
 
         //GET: api/Teams/{id: int}
         [HttpGet("{id}",Name = "GetTeam")]
-        public ActionResult<Team> GetByID(string Tag)
+        public ActionResult<Team> GetByID(int id)
         { 
         
-            var teamCon = _service.GetByTag(Tag);
+            var teamCon = _service.GetById(id);
             if (teamCon == null)
                 return NotFound();
             else
@@ -68,9 +80,9 @@ namespace RiftArena.Controllers
 
         //[HttpDelete("{id:int}"), Authorize]
         [HttpDelete("{id:int}")]
-        public ActionResult<Team> DeleteTeam(string Tag)
+        public ActionResult<Team> DeleteTeam(int id)
         {
-            _service.DeleteTeam(Tag);
+            _service.DeleteTeam(id);
 
             return Ok();
         }
@@ -78,9 +90,9 @@ namespace RiftArena.Controllers
 
         //[HttpPut("{id:int}"), Authorize]
         [HttpPut("{id:int}")]
-        public IActionResult UpdateTeam(string Tag,[FromBody] Team team)
+        public IActionResult UpdateTeam(int id, [FromBody] Team team)
         {
-            _service.UpdateTeam(Tag, team);
+            _service.UpdateTeam(id, team);
 
             _context.Teams.Update(team);
             _context.SaveChanges();
@@ -90,9 +102,9 @@ namespace RiftArena.Controllers
         }
 
         [HttpPost("addMember/{id:int}")]
-        public ActionResult AddMember(string Tag, User user)
+        public ActionResult AddMember(int id, User user)
         {
-            _service.AddMember(Tag, user);
+            _service.AddMember(id, user);
 
             _context.SaveChanges();
 
@@ -100,9 +112,9 @@ namespace RiftArena.Controllers
         }
 
         [HttpDelete("removeMember/{id:int}")]
-        public ActionResult RemoveMember(string Tag, User user)
+        public ActionResult RemoveMember(int id, User user)
         {
-            _service.RemoveMember(Tag, user);
+            _service.RemoveMember(id, user);
 
             _context.SaveChanges();
 

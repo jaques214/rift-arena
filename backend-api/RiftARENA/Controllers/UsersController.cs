@@ -52,7 +52,7 @@ namespace RiftArena.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
-
+        /*int id
         public IActionResult AcceptRequests(User user,Request request)
         {
             if (user.team != null)
@@ -76,7 +76,7 @@ namespace RiftArena.Controllers
             }        
  
         }
-
+        `*/
         //GET: api/Users/{id: int}
         [HttpGet("{id:int}", Name = "GetUser")]
         public ActionResult<User> GetById(int id)
