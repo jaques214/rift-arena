@@ -1,18 +1,17 @@
-﻿using RiftArena.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace RiftARENA.Models
+namespace RiftArena.Models
 {
     public class Request
     {
         [Key]
-        public int requestId { get; set; }
+        public int RequestId { get; set; }
 
-        public User user { get; set; }
+        public User User { get; set; }
 
-        public Team team { get; set; }
+        public Team Team { get; set; }
 
-        public bool accepted    { get; set; }
+        public bool Accepted { get; set; }
 
     }
 }

@@ -12,7 +12,7 @@ namespace RiftArena.Models.Services
     {
         Team CreateTeam(Team team);
         IEnumerable<Team> GetAll();
-        Team GetById(int id);
+        Team GetByID(int id);
         Team UpdateTeam(int id,Team team);
         void DeleteTeam(int id);
         void AddMember(int id,User user);
@@ -33,9 +33,9 @@ namespace RiftArena.Models.Services
             return  _context.Teams.ToList();
         }
 
-        public Team GetById(int id)
+        public Team GetByID(int id)
         {
-            return _context.Teams.Find(id);
+            return _context.Teams.SingleOrDefault(x => x.TeamId == id);
         }
 
         public Team CreateTeam(Team team)
@@ -64,7 +64,7 @@ namespace RiftArena.Models.Services
             _context.Teams.Add(team);
             _context.SaveChanges();
 
-            return GetById(team.TeamId);
+            return GetByID(team.TeamId);
             
         }
 
@@ -102,7 +102,7 @@ namespace RiftArena.Models.Services
             _context.Teams.Update(team);
             _context.SaveChanges();
 
-            return GetById(team.TeamId);
+            return GetByID(team.TeamId);
         }
 
         public void DeleteTeam(int id)
@@ -117,7 +117,7 @@ namespace RiftArena.Models.Services
 
         public void AddMember(int id,User user)
         {
-            var TeamTemp = GetById(id);
+            var TeamTemp = GetByID(id);
             if (TeamTemp == null)
             {
                 throw new AppException("Not Found");
@@ -140,7 +140,7 @@ namespace RiftArena.Models.Services
 
         public void RemoveMember(int id, User user)
         {
-            var TeamTemp = GetById(id);
+            var TeamTemp = GetByID(id);
             if(TeamTemp == null)
             {
                 throw new AppException("Not Found");
