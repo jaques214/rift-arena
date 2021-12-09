@@ -12,11 +12,11 @@ namespace RiftArena.Models.Services
     {
         Team CreateTeam(Team team);
         IEnumerable<Team> GetAll();
-        Team GetByTag(string Tag);
-        Team UpdateTeam(string Tag,Team team);
-        void DeleteTeam(string Tag);
-        void AddMember(string Tag,User user);
-        void RemoveMember(string Tag, User user);
+        Team GetByID(int id);
+        Team UpdateTeam(int id,Team team);
+        void DeleteTeam(int id);
+        void AddMember(int id,User user);
+        void RemoveMember(int id, User user);
 
     }
     public class TeamServices : ITeamService
@@ -33,9 +33,9 @@ namespace RiftArena.Models.Services
             return  _context.Teams.ToList();
         }
 
-        public Team GetByTag(string Tag)
+        public Team GetByID(int id)
         {
-            return _context.Teams.SingleOrDefault(x => x.Tag == Tag);
+            return _context.Teams.SingleOrDefault(x => x.TeamId == id);
         }
 
         public Team CreateTeam(Team team)
@@ -64,13 +64,13 @@ namespace RiftArena.Models.Services
             _context.Teams.Add(team);
             _context.SaveChanges();
 
-            return GetByTag(team.Tag);
+            return GetByID(team.TeamId);
             
         }
 
-        public Team UpdateTeam(string Tag,Team team)
+        public Team UpdateTeam(int id,Team team)
         {
-            var teamSer = _context.Teams.Find(Tag);
+            var teamSer = _context.Teams.Find(id);
             if (teamSer != null)
                 throw new AppException("Team not found!");
 
@@ -102,12 +102,12 @@ namespace RiftArena.Models.Services
             _context.Teams.Update(team);
             _context.SaveChanges();
 
-            return GetByTag(team.Tag);
+            return GetByID(team.TeamId);
         }
 
-        public void DeleteTeam(string Tag)
+        public void DeleteTeam(int id)
         {
-            var team = _context.Teams.Find(Tag);
+            var team = _context.Teams.Find(id);
             if (team != null)
             {
                 _context.Teams.Remove(team);
@@ -115,9 +115,9 @@ namespace RiftArena.Models.Services
             }
         }
 
-        public void AddMember(string Tag,User user)
+        public void AddMember(int id,User user)
         {
-            var TeamTemp = GetByTag(Tag);
+            var TeamTemp = GetByID(id);
             if (TeamTemp == null)
             {
                 throw new AppException("Not Found");
@@ -138,9 +138,9 @@ namespace RiftArena.Models.Services
             _context.SaveChanges();
         }
 
-        public void RemoveMember(string Tag, User user)
+        public void RemoveMember(int id, User user)
         {
-            var TeamTemp = GetByTag(Tag);
+            var TeamTemp = GetByID(id);
             if(TeamTemp == null)
             {
                 throw new AppException("Not Found");
