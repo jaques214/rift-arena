@@ -12,6 +12,7 @@ export class RegisterComponent implements OnInit {
   @Input() username = '';
   @Input() password = '';
   @Input() email = '';
+  title: string = 'Register your account';
   formFields:any = User.registerFields();
 
   constructor(public router: Router, private authService: AuthService) { }

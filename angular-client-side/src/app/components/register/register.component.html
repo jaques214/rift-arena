@@ -1,33 +1,17 @@
 <mat-card class="card">
-    <img mat-card-image src="assets/images/logo.png" class="image" alt="logo">
-    <mat-card-header ngClass="container content">
-      <mat-card-title>Register your account</mat-card-title>
-    </mat-card-header>
-    <mat-card-content class="container">
-      <ng-container >
-    <div *ngFor="let input of formFields.inputs">
-      <mat-form-field appearance="fill" ngClass="form-field">
-        <mat-label>{{ input.label }}</mat-label>
-        <input matInput type="{{ input.type }}" placeholder="{{ input.placeholder }}" name="{{ input.name }}"
-        />
-        <mat-icon aria-hidden="false" aria-label="" matSuffix>
-        {{ input.icon }}
-        </mat-icon>
-      </mat-form-field>
-    </div>
-    <div>
-      <!-- <mat-form-field appearance="fill" ngClass="form-field">
-        <mat-label>Password:</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'">
-        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-        </button>
-      </mat-form-field> -->
-    </div>         
-  </ng-container>
-    </mat-card-content>
-    <mat-card-actions ngClass="container">
-          <button mat-flat-button color="primary" (click)="register()">Register</button>
-          <p>Already have an account? Login <a [routerLink]="['/login']">here</a></p>
-    </mat-card-actions>
-  </mat-card>
+  <img mat-card-image src="assets/images/logo.png" class="image" alt="logo" />
+  <mat-card-header ngClass="container content">
+    <mat-card-title>{{ title }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="container">
+    <ng-container *ngFor="let input of formFields.inputs">
+      <app-shared-form-field [input]="input"></app-shared-form-field>
+    </ng-container>
+  </mat-card-content>
+  <mat-card-actions ngClass="container">
+    <button mat-flat-button color="primary" (click)="register()">
+      Register
+    </button>
+    <p>Already have an account? Login <a [routerLink]="['/login']">here</a></p>
+  </mat-card-actions>
+</mat-card>

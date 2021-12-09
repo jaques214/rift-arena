@@ -24,10 +24,6 @@
   text-align: center;
 }
 
-.form-field {
-  width: 80%
-}
-
 .container {
   width: 100%;
   display: block;
@@ -40,7 +36,7 @@
 }
 
 .content {
-  color: #24499A;
+  color: #24499a;
   margin: 25px 0;
   font-weight: bold;
 }

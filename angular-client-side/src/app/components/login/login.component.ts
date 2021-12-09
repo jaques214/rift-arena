@@ -15,7 +15,6 @@ export class LoginComponent implements OnInit {
   @Input() userLogin: User = new User();
   hide = true;
   formFields:any = User.loginFields();
-  
   title: string = 'Insert your account data';
   @Input() input!:any;
   
