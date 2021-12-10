@@ -3,9 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-RiftARENA/appsettings.json
-RiftARENA/bin/*
-RiftARENA/obj/*
+appsettings.json
+bin/*
+obj/*
 
 # User-specific files
 *.rsuser
