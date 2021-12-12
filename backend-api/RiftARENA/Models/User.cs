@@ -18,13 +18,16 @@ namespace RiftArena.Models
             public string ContaRiot { get; set; }
             public int NumVitoriasTotal { get; set; }
             [ForeignKey("LinkedAccountID")]
-            public LinkedAccount LinkedAccount  { get; set; }
-            public List<Request> Requests   { get; set; }
-            //public Team Team { get; set; }
+            public virtual LinkedAccount LinkedAccount  { get; set; }
+            public virtual List<Request> Requests   { get; set; }
+        //public Team Team { get; set; }
 
-
-
+        public override string ToString()
+        {
+            return base.ToString() + ": " + Nickname.ToString() + ": " + UserID.ToString() + ": " + Email.ToString() + ": " + Password.ToString();
         }
+
+    }
     
 }
 

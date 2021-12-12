@@ -132,3 +132,5 @@ C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA
 C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA\obj\Debug\net5.0\RiftARENA.RazorTargetAssemblyInfo.cache
 C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA\obj\Debug\net5.0\RiftARENA.csproj.CopyComplete
 C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA\obj\Debug\net5.0\RiftARENA.genruntimeconfig.cache
+C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA\bin\Debug\net5.0\Castle.Core.dll
+C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Proxies.dll

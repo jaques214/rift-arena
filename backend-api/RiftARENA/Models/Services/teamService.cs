@@ -35,11 +35,13 @@ namespace RiftArena.Models.Services
 
         public Team GetByID(int id)
         {
-            return _context.Teams.SingleOrDefault(x => x.TeamId == id);
+            return _context.Teams.Find(id);
         }
 
         public Team CreateTeam(Team team)
+            //falta usar o token para verificar se o user logado ja esta numa equipa e se ja tem conta vinculada
         {
+
             if (string.IsNullOrWhiteSpace(team.Name))
                 throw new AppException("Team name is required");
 
@@ -52,14 +54,14 @@ namespace RiftArena.Models.Services
             if (_context.Teams.Any(x => x.Tag == team.Tag))
                 throw new AppException("Team tag \"" + team.Tag + "\" is already taken");
 
-            //team.TeamLeader = token user nickname
+            team.TeamLeader = _context.Users.SingleOrDefault(x => x == team.TeamLeader);  
+            Console.WriteLine(team.ToString());
             team.Defeats = 0;
             team.Wins = 0;
             team.TournamentsWon = 0;
             team.GamesPlayed = 0;
             team.NumberMembers = 1;
             //team.Rank = token user getrank(atraves da api)
-            
 
             _context.Teams.Add(team);
             _context.SaveChanges();
@@ -70,8 +72,8 @@ namespace RiftArena.Models.Services
 
         public Team UpdateTeam(int id,Team team)
         {
-            var teamSer = _context.Teams.Find(id);
-            if (teamSer != null)
+            var teamSer = GetByID(id);
+            if (teamSer == null)
                 throw new AppException("Team not found!");
 
 
@@ -92,12 +94,7 @@ namespace RiftArena.Models.Services
             teamSer.Name = team.Name;
             teamSer.Tag = team.Tag;
             teamSer.Rank = team.Rank;
-            teamSer.NumberMembers = team.NumberMembers;
-            teamSer.GamesPlayed = team.GamesPlayed;
-            teamSer.TeamLeader = team.TeamLeader;
-            teamSer.Wins = team.Wins;
-            teamSer.Defeats = team.Defeats;
-            teamSer.TournamentsWon = team.TournamentsWon;
+
 
             _context.Teams.Update(team);
             _context.SaveChanges();
@@ -140,6 +137,7 @@ namespace RiftArena.Models.Services
 
         public void RemoveMember(int id, User user)
         {
+            //falta usar o token para verificar se o user logado é team leader
             var TeamTemp = GetByID(id);
             if(TeamTemp == null)
             {
@@ -154,5 +152,8 @@ namespace RiftArena.Models.Services
             _context.Teams.Update(TeamTemp);
             _context.SaveChanges();
         }
+
+
+        //criar metodo para calcular rank
     }
 }

@@ -29,22 +29,23 @@ namespace RiftArena.Controllers
 
 
         //POST: api/Teams/createTeam
-        [HttpPost("createTeam"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("createTeam")/*,Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
         public IActionResult CreateTeam([FromBody]Team team)
         {
             try
             {
- 
-                if (_context.Users.Find(team.TeamLeader) == team.TeamLeader)
-                {
+                /*var user = _context.Users.SingleOrDefault(x => x == team.TeamLeader);
+                Console.WriteLine(user);
+                if (user != null)
+                {*/
                     _service.CreateTeam(team);
                     _context.SaveChanges();
                     return CreatedAtRoute("GetTeam", new { id = team.TeamId }, team);
-                }
+                /*}
                 else
                 {
                     return NotFound();
-                }
+                }*/
 
 
 
@@ -82,7 +83,7 @@ namespace RiftArena.Controllers
         }
 
         //DELETE: api/Teams/{id}
-        [HttpDelete("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpDelete("{id:int}")/*,Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
         //[HttpDelete("{id:int}")]
         public ActionResult<Team> DeleteTeam(int id)
         {
@@ -93,9 +94,10 @@ namespace RiftArena.Controllers
 
 
         //PUT: api/Teams/{id}
-        [HttpPut("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPut("{id:int}")/*,Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
         public IActionResult UpdateTeam(int id,[FromBody] Team team)
         {
+            Console.WriteLine(id);
             _service.UpdateTeam(id, team);
 
             _context.Teams.Update(team);

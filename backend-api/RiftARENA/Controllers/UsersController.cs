@@ -122,7 +122,7 @@ namespace RiftArena.Controllers
             //}
 
         }
-        `*/
+        
         //GET: api/Users/{id: int}
         [HttpGet("{id:int}", Name = "GetUser")]
         public ActionResult<User> GetById(int id)

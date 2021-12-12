@@ -8,7 +8,7 @@ namespace RiftArena.Models
         [Key]
         public int MessageId { get; set; }
         public string Message { get; set; } 
-        public Tournament Tournament { get; set; }
+        public virtual Tournament Tournament { get; set; }
         public int UserID { get; set; }
     }
 }
