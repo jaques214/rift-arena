@@ -6,13 +6,12 @@
   <mat-card-content class="container">
     <ng-container *ngFor="let input of formFields.inputs">
       <app-shared-form-field [input]="input"></app-shared-form-field>
-      <ng-template [ngIf]="input.type == 'email'">
-        <app-shared-form-field [input]="input"></app-shared-form-field>
-      </ng-template>
     </ng-container>
   </mat-card-content>
   <mat-card-actions ngClass="container">
-    <button mat-flat-button color="primary" (click)="login()">Login</button>
-    <p>Not registered yet? Register <a [routerLink]="['/register']">here</a></p>
+    <button mat-flat-button color="primary" (click)="register()">
+      Register
+    </button>
+    <p>Already have an account? Login <a [routerLink]="['/login']">here</a></p>
   </mat-card-actions>
 </mat-card>
