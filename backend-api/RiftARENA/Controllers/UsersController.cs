@@ -53,76 +53,7 @@ namespace RiftArena.Controllers
             }
         }
 
-        //POST: api/Users/{id}/acceptRequest
-        [HttpPost("{id:int}/acceptRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult AcceptRequests( int userID, [FromBody]Request request)
-        {
-            var user = _userService.GetById(userID);
-            /*if (user.Team != null)
-            {
-              return BadRequest();
-            }
-            else
-            {*/
-                if (user.Requests.Contains(request))
-                {
-                    if(request.Team.Members.Count == request.Team.MAX_MEMBERS)
-                    {
-                        return BadRequest();
-                    }
-                    else
-                    {
-                        request.Accepted = true;
-                        user.Requests.Remove(request);
-                        //user.Team = request.Team;
-                        _context.Update(request);
-
-                        Team temp = _context.Teams.Find(request.Team);
-
-                        temp.Members.Add(user);
-                        _context.Teams.Update(temp);
-                        _context.SaveChanges();
-
-                        return Ok(user);
-                    }
-
-                }
-                else
-                {
-                    return BadRequest();
-                }
-              
-            //}        
- 
-        }
-
-        //POST: api/Users/{id}/refuseRequest
-        [HttpPost("{id:int}/refuseRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult RefuseRequest(int userID, [FromBody]Request request)
-        {
-            var user = _userService.GetById(userID);
-            /*if (user.Team != null)
-            {
-                return BadRequest();
-            }
-            else
-            {*/
-                if (user.Requests.Contains(request))
-                {
-                    request.Accepted = false;
-                    user.Requests.Remove(request);
-                    _context.Update(request);
-                    _context.SaveChanges();
-                    return Ok(user);
-                }
-                else
-                {
-                    return BadRequest();
-                }
-            //}
-
-        }
-        
+       
         //GET: api/Users/{id: int}
         [HttpGet("{id:int}", Name = "GetUser")]
         public ActionResult<User> GetById(int id)
@@ -226,6 +157,76 @@ namespace RiftArena.Controllers
             });
         }
 
+        //POST: api/Users/{id}/acceptRequest
+        [HttpPost("{id:int}/acceptRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult AcceptRequests( int userID, [FromBody]Request request)
+        {
+            var user = _userService.GetById(userID);
+            /*if (user.Team != null)
+            {
+              return BadRequest();
+            }
+            else
+            {*/
+                if (user.Requests.Contains(request))
+                {
+                    if(request.Team.Members.Count == request.Team.MAX_MEMBERS)
+                    {
+                        return BadRequest();
+                    }
+                    else
+                    {
+                        request.Accepted = true;
+                        user.Requests.Remove(request);
+                        //user.Team = request.Team;
+                        _context.Update(request);
+
+                        Team temp = _context.Teams.Find(request.Team);
+
+                        temp.Members.Add(user);
+                        _context.Teams.Update(temp);
+                        _context.SaveChanges();
+
+                        return Ok(user);
+                    }
+
+                }
+                else
+                {
+                    return BadRequest();
+                }
+              
+            //}        
+ 
+        }
+
+        //POST: api/Users/{id}/refuseRequest
+        [HttpPost("{id:int}/refuseRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult RefuseRequest(int userID, [FromBody]Request request)
+        {
+            var user = _userService.GetById(userID);
+            /*if (user.Team != null)
+            {
+                return BadRequest();
+            }
+            else
+            {*/
+                if (user.Requests.Contains(request))
+                {
+                    request.Accepted = false;
+                    user.Requests.Remove(request);
+                    _context.Update(request);
+                    _context.SaveChanges();
+                    return Ok(user);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            //}
+
+        }
+        
         private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.UserID == id);

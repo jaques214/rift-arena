@@ -119,11 +119,8 @@ namespace RiftARENA.Migrations
                     b.Property<string>("Tag")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TeamLeaderNickname")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("TeamLeaderUserID")
-                        .HasColumnType("int");
+                    b.Property<string>("TeamLeader")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TournamentsWon")
                         .HasColumnType("int");
@@ -132,8 +129,6 @@ namespace RiftARENA.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("TeamId");
-
-                    b.HasIndex("TeamLeaderUserID", "TeamLeaderNickname");
 
                     b.ToTable("Teams");
                 });
@@ -215,7 +210,7 @@ namespace RiftARENA.Migrations
                     b.Property<string>("Rank")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TeamId")
+                    b.Property<int?>("TeamID")
                         .HasColumnType("int");
 
                     b.Property<string>("Tier")
@@ -227,7 +222,7 @@ namespace RiftARENA.Migrations
                         .IsUnique()
                         .HasFilter("[LinkedAccountID] IS NOT NULL");
 
-                    b.HasIndex("TeamId");
+                    b.HasIndex("TeamID");
 
                     b.ToTable("Users");
                 });
@@ -271,26 +266,19 @@ namespace RiftARENA.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("RiftArena.Models.Team", b =>
-                {
-                    b.HasOne("RiftArena.Models.User", "TeamLeader")
-                        .WithMany()
-                        .HasForeignKey("TeamLeaderUserID", "TeamLeaderNickname");
-
-                    b.Navigation("TeamLeader");
-                });
-
             modelBuilder.Entity("RiftArena.Models.User", b =>
                 {
                     b.HasOne("RiftArena.Models.LinkedAccount", "LinkedAccount")
                         .WithOne("User")
                         .HasForeignKey("RiftArena.Models.User", "LinkedAccountID");
 
-                    b.HasOne("RiftArena.Models.Team", null)
+                    b.HasOne("RiftArena.Models.Team", "Team")
                         .WithMany("Members")
-                        .HasForeignKey("TeamId");
+                        .HasForeignKey("TeamID");
 
                     b.Navigation("LinkedAccount");
+
+                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("TeamTournament", b =>

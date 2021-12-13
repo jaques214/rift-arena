@@ -54,9 +54,9 @@ namespace RiftArena
                     ValidateAudience = false
                 };
             });
-            services.AddTransient<IUserService, UserServices>();
-            services.AddTransient<ITeamService, TeamServices>();
-            services.AddTransient<ITournamentService, TournamentService>();
+            services.AddScoped<IUserService, UserServices>();
+            services.AddScoped<ITeamService, TeamServices>();
+            services.AddScoped<ITournamentService, TournamentService>();
             services.AddAuthentication(IISDefaults.AuthenticationScheme);
             services.AddAuthorization();
         }

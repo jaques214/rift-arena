@@ -25,6 +25,7 @@ namespace RiftArena.Models.Contexts
                 user.UserID,
                 user.Nickname
             });
+            builder.Entity<User>().HasOne(u => u.Team).WithMany(u => u.Members);
         }
 
     }
