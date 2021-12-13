@@ -104,7 +104,7 @@ namespace RiftARENA.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Tag = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TeamLeaderUserID = table.Column<int>(type: "int", nullable: false),
-                    Rank = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Rank = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NumberMembers = table.Column<int>(type: "int", nullable: false),
                     Wins = table.Column<int>(type: "int", nullable: false),
                     Defeats = table.Column<int>(type: "int", nullable: false),
@@ -124,7 +124,7 @@ namespace RiftARENA.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Request",
+                name: "Requests",
                 columns: table => new
                 {
                     RequestId = table.Column<int>(type: "int", nullable: false)
@@ -135,15 +135,15 @@ namespace RiftARENA.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Request", x => x.RequestId);
+                    table.PrimaryKey("PK_Requests", x => x.RequestId);
                     table.ForeignKey(
-                        name: "FK_Request_Teams_TeamId",
+                        name: "FK_Requests_Teams_TeamId",
                         column: x => x.TeamId,
                         principalTable: "Teams",
                         principalColumn: "TeamId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Request_Users_UserID",
+                        name: "FK_Requests_Users_UserID",
                         column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "UserID",
@@ -180,13 +180,13 @@ namespace RiftARENA.Migrations
                 column: "TournamentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Request_TeamId",
-                table: "Request",
+                name: "IX_Requests_TeamId",
+                table: "Requests",
                 column: "TeamId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Request_UserID",
-                table: "Request",
+                name: "IX_Requests_UserID",
+                table: "Requests",
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
@@ -230,7 +230,7 @@ namespace RiftARENA.Migrations
                 name: "Messages");
 
             migrationBuilder.DropTable(
-                name: "Request");
+                name: "Requests");
 
             migrationBuilder.DropTable(
                 name: "TeamTournament");

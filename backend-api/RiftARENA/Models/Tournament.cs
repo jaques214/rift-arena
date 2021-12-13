@@ -33,11 +33,11 @@ namespace RiftArena.Models
 
         public string Poster { get; set; }
 
-        public List<Team> Stages { get; set; }
+        public virtual List<Team> Stages { get; set; }
 
         public Status State { get; set; }
 
-        public List<Messages> chat { get; set; }
+        public virtual Queue<Messages> Chat { get; set; }
 
         public DateTime date { get; set; }
 
