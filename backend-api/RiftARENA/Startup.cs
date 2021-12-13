@@ -29,7 +29,9 @@ namespace RiftArena
         public void ConfigureServices(IServiceCollection services)
         {
             
-            services.AddDbContext<RiftArenaContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("RiftArena")));
+            services.AddDbContext<RiftArenaContext>(opt => opt
+            .UseSqlServer(Configuration.GetConnectionString("RiftArena"))
+            .UseLazyLoadingProxies());
             services.AddControllers();
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
@@ -43,6 +45,7 @@ namespace RiftArena
             });*/
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(Options =>
             {
+                Options.SaveToken = true;
                 Options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
@@ -55,6 +58,7 @@ namespace RiftArena
             services.AddTransient<ITeamService, TeamServices>();
             services.AddTransient<ITournamentService, TournamentService>();
             services.AddAuthentication(IISDefaults.AuthenticationScheme);
+            services.AddAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

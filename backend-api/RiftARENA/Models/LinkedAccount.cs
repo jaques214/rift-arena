@@ -10,6 +10,6 @@ namespace RiftArena.Models
         public string Username { get; set; }
         public string Rank { get; set; }
         public string Region { get; set; }
-        public User User { get; set; }
+        public virtual User User { get; set; }
     }
 }
