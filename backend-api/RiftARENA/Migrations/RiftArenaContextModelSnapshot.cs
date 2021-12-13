@@ -250,7 +250,7 @@ namespace RiftARENA.Migrations
             modelBuilder.Entity("RiftArena.Models.Messages", b =>
                 {
                     b.HasOne("RiftArena.Models.Tournament", "Tournament")
-                        .WithMany("chat")
+                        .WithMany("Chat")
                         .HasForeignKey("TournamentId");
 
                     b.Navigation("Tournament");
@@ -320,7 +320,7 @@ namespace RiftARENA.Migrations
 
             modelBuilder.Entity("RiftArena.Models.Tournament", b =>
                 {
-                    b.Navigation("chat");
+                    b.Navigation("Chat");
                 });
 
             modelBuilder.Entity("RiftArena.Models.User", b =>

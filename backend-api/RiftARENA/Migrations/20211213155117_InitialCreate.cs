@@ -13,9 +13,9 @@ namespace RiftARENA.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Rank = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Region = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Rank = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Region = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -29,13 +29,13 @@ namespace RiftARENA.Migrations
                     TournamentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NumberOfTeams = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Rank = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Region = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Rank = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Region = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FinalWinner = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Prize = table.Column<float>(type: "real", nullable: true),
-                    MiniumTier = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Prize = table.Column<float>(type: "real", nullable: false),
+                    MiniumTier = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Poster = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     State = table.Column<int>(type: "int", nullable: false),
                     date = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -51,8 +51,8 @@ namespace RiftARENA.Migrations
                 {
                     MessageId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TournamentId = table.Column<int>(type: "int", nullable: false),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TournamentId = table.Column<int>(type: "int", nullable: true),
                     UserID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -70,15 +70,14 @@ namespace RiftARENA.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    UserID = table.Column<int>(type: "int", nullable: false)
-                            .Annotation("SqlServer:Identity", "1, 1"),
+                    UserID = table.Column<int>(type: "int", nullable: false),
                     Nickname = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     Rank = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Tier = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ContaRiot = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NumVitoriasTotal = table.Column<int>(type: "int", nullable: false),
                     LinkedAccountID = table.Column<int>(type: "int", nullable: true),
@@ -101,11 +100,11 @@ namespace RiftARENA.Migrations
                 {
                     TeamId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Tag = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TeamLeaderUserID = table.Column<int>(type: "int", nullable: false),
-                    TeamLeaderNickname = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Rank = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Tag = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TeamLeaderUserID = table.Column<int>(type: "int", nullable: true),
+                    TeamLeaderNickname = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Rank = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NumberMembers = table.Column<int>(type: "int", nullable: false),
                     Wins = table.Column<int>(type: "int", nullable: false),
                     Defeats = table.Column<int>(type: "int", nullable: false),
@@ -130,9 +129,9 @@ namespace RiftARENA.Migrations
                 {
                     RequestId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserID = table.Column<int>(type: "int", nullable: false),
-                    UserNickname = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TeamId = table.Column<int>(type: "int", nullable: false),
+                    UserID = table.Column<int>(type: "int", nullable: true),
+                    UserNickname = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    TeamId = table.Column<int>(type: "int", nullable: true),
                     Accepted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>

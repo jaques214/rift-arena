@@ -54,6 +54,7 @@ namespace RiftArena.Models.Services
             if (_context.Teams.Any(x => x.Tag == team.Tag))
                 throw new AppException("Team tag \"" + team.Tag + "\" is already taken");
 
+
             team.TeamLeader = _context.Users.SingleOrDefault(x => x == team.TeamLeader);  
             team.Defeats = 0;
             team.Wins = 0;
@@ -61,7 +62,7 @@ namespace RiftArena.Models.Services
             team.GamesPlayed = 0;
             team.NumberMembers = 1;
             //team.Rank = token user getrank(atraves da api)
-            //team.Members.Add(team.TeamLeader);
+            //team.Members.Add( 36.TeamLeader);
 
             _context.Teams.Add(team);
             _context.SaveChanges();

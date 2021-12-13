@@ -10,7 +10,7 @@ using RiftArena.Models.Contexts;
 namespace RiftARENA.Migrations
 {
     [DbContext(typeof(RiftArenaContext))]
-    [Migration("20211213151806_InitialCreate")]
+    [Migration("20211213155117_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -252,7 +252,7 @@ namespace RiftARENA.Migrations
             modelBuilder.Entity("RiftArena.Models.Messages", b =>
                 {
                     b.HasOne("RiftArena.Models.Tournament", "Tournament")
-                        .WithMany("chat")
+                        .WithMany("Chat")
                         .HasForeignKey("TournamentId");
 
                     b.Navigation("Tournament");
@@ -322,7 +322,7 @@ namespace RiftARENA.Migrations
 
             modelBuilder.Entity("RiftArena.Models.Tournament", b =>
                 {
-                    b.Navigation("chat");
+                    b.Navigation("Chat");
                 });
 
             modelBuilder.Entity("RiftArena.Models.User", b =>
