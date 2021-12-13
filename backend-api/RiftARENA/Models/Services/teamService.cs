@@ -41,6 +41,7 @@ namespace RiftArena.Models.Services
         public Team CreateTeam(Team team)
             //falta usar o token para verificar se o user logado ja esta numa equipa e se ja tem conta vinculada
         {
+            team.Members = new List<User>();
 
             if (string.IsNullOrWhiteSpace(team.Name))
                 throw new AppException("Team name is required");
@@ -54,14 +55,17 @@ namespace RiftArena.Models.Services
             if (_context.Teams.Any(x => x.Tag == team.Tag))
                 throw new AppException("Team tag \"" + team.Tag + "\" is already taken");
 
-            team.TeamLeader = _context.Users.SingleOrDefault(x => x == team.TeamLeader);  
+            var leader = _context.Users.SingleOrDefault(x => x == team.TeamLeader);
+
+            team.TeamLeader = leader;
+            team.Members.Add(leader);
             team.Defeats = 0;
             team.Wins = 0;
             team.TournamentsWon = 0;
             team.GamesPlayed = 0;
             team.NumberMembers = 1;
             //team.Rank = token user getrank(atraves da api)
-            //team.Members.Add(team.TeamLeader);
+
 
             _context.Teams.Add(team);
             _context.SaveChanges();
