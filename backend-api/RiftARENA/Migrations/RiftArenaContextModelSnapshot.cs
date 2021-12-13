@@ -37,7 +37,7 @@ namespace RiftARENA.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("LinkedAccount");
+                    b.ToTable("LinkedAccounts");
                 });
 
             modelBuilder.Entity("RiftArena.Models.Messages", b =>
@@ -79,13 +79,16 @@ namespace RiftARENA.Migrations
                     b.Property<int?>("UserID")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserNickname")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("RequestId");
 
                     b.HasIndex("TeamId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserID", "UserNickname");
 
-                    b.ToTable("Request");
+                    b.ToTable("Requests");
                 });
 
             modelBuilder.Entity("RiftArena.Models.Team", b =>
@@ -116,6 +119,9 @@ namespace RiftARENA.Migrations
                     b.Property<string>("Tag")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TeamLeaderNickname")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int?>("TeamLeaderUserID")
                         .HasColumnType("int");
 
@@ -127,7 +133,7 @@ namespace RiftARENA.Migrations
 
                     b.HasKey("TeamId");
 
-                    b.HasIndex("TeamLeaderUserID");
+                    b.HasIndex("TeamLeaderUserID", "TeamLeaderNickname");
 
                     b.ToTable("Teams");
                 });
@@ -180,9 +186,10 @@ namespace RiftARENA.Migrations
             modelBuilder.Entity("RiftArena.Models.User", b =>
                 {
                     b.Property<int>("UserID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nickname")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ContaRiot")
                         .HasColumnType("nvarchar(max)");
@@ -192,9 +199,6 @@ namespace RiftARENA.Migrations
 
                     b.Property<int?>("LinkedAccountID")
                         .HasColumnType("int");
-
-                    b.Property<string>("Nickname")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("NumVitoriasTotal")
                         .HasColumnType("int");
@@ -217,7 +221,7 @@ namespace RiftARENA.Migrations
                     b.Property<string>("Tier")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserID");
+                    b.HasKey("UserID", "Nickname");
 
                     b.HasIndex("LinkedAccountID")
                         .IsUnique()
@@ -260,7 +264,7 @@ namespace RiftARENA.Migrations
 
                     b.HasOne("RiftArena.Models.User", "User")
                         .WithMany("Requests")
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("UserID", "UserNickname");
 
                     b.Navigation("Team");
 
@@ -271,7 +275,7 @@ namespace RiftARENA.Migrations
                 {
                     b.HasOne("RiftArena.Models.User", "TeamLeader")
                         .WithMany()
-                        .HasForeignKey("TeamLeaderUserID");
+                        .HasForeignKey("TeamLeaderUserID", "TeamLeaderNickname");
 
                     b.Navigation("TeamLeader");
                 });

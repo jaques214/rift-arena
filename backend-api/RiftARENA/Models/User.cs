@@ -8,6 +8,7 @@ namespace RiftArena.Models
         {
             [Key]
             public int UserID { get; set; }
+            [Key]
             public string Nickname { get; set; }     
             public string Password { get; set; }
             public byte[]  PasswordHash { get; set; }
@@ -19,7 +20,7 @@ namespace RiftArena.Models
             public int NumVitoriasTotal { get; set; }
             [ForeignKey("LinkedAccountID")]
             public LinkedAccount LinkedAccount  { get; set; }
-            public List<Request> Requests   { get; set; }
+            public ICollection<Request> Requests   { get; set; }
             //public Team Team { get; set; }
 
 
