@@ -57,7 +57,7 @@ namespace RiftArena.Controllers
             else
                 return Ok( new {Id = teamCon.TeamId, Name = teamCon.Name, TAG = teamCon.Tag, TeamLeader = teamCon.TeamLeader.Nickname, 
                 Rank = teamCon.Rank, NumberOfMembers = teamCon.NumberMembers, Wins = teamCon.Wins, Defeats = teamCon.Defeats, GamesPlayed = teamCon.GamesPlayed,
-                TournamentsWon = teamCon.TournamentsWon, Members = teamCon});
+                TournamentsWon = teamCon.TournamentsWon, Members = teamCon.Members});
           
         }
 
