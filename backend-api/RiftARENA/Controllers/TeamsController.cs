@@ -34,21 +34,10 @@ namespace RiftArena.Controllers
         {
             try
             {
-                /*var user = _context.Users.SingleOrDefault(x => x == team.TeamLeader);
-                Console.WriteLine(user);
-                if (user != null)
-                {*/
+
                     _service.CreateTeam(team);
                     _context.SaveChanges();
                     return CreatedAtRoute("GetTeam", new { id = team.TeamId }, team);
-                /*}
-                else
-                {
-                    return NotFound();
-                }*/
-
-
-
 
             }catch (AppException ex)
             {
@@ -66,7 +55,9 @@ namespace RiftArena.Controllers
             if (teamCon == null)
                 return NotFound();
             else
-                return teamCon;
+                return Ok( new {Id = teamCon.TeamId, Name = teamCon.Name, TAG = teamCon.Tag, TeamLeader = teamCon.TeamLeader.Nickname, 
+                Rank = teamCon.Rank, NumberOfMembers = teamCon.NumberMembers, Wins = teamCon.Wins, Defeats = teamCon.Defeats, GamesPlayed = teamCon.GamesPlayed,
+                TournamentsWon = teamCon.TournamentsWon, Members = teamCon});
           
         }
 
@@ -108,7 +99,7 @@ namespace RiftArena.Controllers
         }
 
         //POST: api/Teams/addMember/{id}
-        [HttpPost("addMember/{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("addMember/{id:int}")/*, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
         public ActionResult AddMember(int id, User user)
         {
             _service.AddMember(id, user);
