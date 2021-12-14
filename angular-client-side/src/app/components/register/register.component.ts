@@ -9,7 +9,7 @@ import { AuthService } from '@services/auth/auth.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  @Input() username = '';
+  @Input() nickname = '';
   @Input() password = '';
   @Input() email = '';
   title: string = 'Register your account';
@@ -21,12 +21,18 @@ export class RegisterComponent implements OnInit {
   }
 
   register(): void{
-    this.authService.register(this.email, this.username, this.password).subscribe((user: User) => {
-      if (user && user.token) {
+    
+    this.nickname = this.formFields.inputs[0]!.model;
+    this.password = this.formFields.inputs[1]!.model;
+    this.password = this.formFields.inputs[2]!.model;
+
+    this.authService.register(this.email, this.nickname, this.password).subscribe((user: User) => {
+      if (user /*&& user.token*/) {
         localStorage.setItem('currentUser', JSON.stringify(user));
-        window.location.reload();
+        this.router.navigate(['/'])
+        //window.location.reload();
       } else {
-        alert('Erro no login!');
+        alert('Erro a registar!');
       }
     });
   }
