@@ -11,7 +11,7 @@ namespace RiftArena.Models
         public int TeamId { get; set; }
         public string Name { get; set; }
         public string Tag { get; set; }
-        public virtual User TeamLeader { get; set; }
+        public string TeamLeader { get; set; }
         public string Rank { get; set; }
 
         public int NumberMembers { get; set; }

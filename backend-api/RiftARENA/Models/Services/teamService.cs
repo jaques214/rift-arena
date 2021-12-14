@@ -54,16 +54,16 @@ namespace RiftArena.Models.Services
             if (_context.Teams.Any(x => x.Tag == team.Tag))
                 throw new AppException("Team tag \"" + team.Tag + "\" is already taken");
 
-            var leader = _context.Users.SingleOrDefault(x => x == team.TeamLeader);
+            var user = _context.Users.SingleOrDefault(x => x.Nickname == team.TeamLeader);
 
-            team.TeamLeader = leader;
-            team.Members.Add(leader);
+            team.TeamLeader =   team.TeamLeader;
             team.Defeats = 0;
             team.Wins = 0;
             team.TournamentsWon = 0;
             team.GamesPlayed = 0;
             team.NumberMembers = 1;
             //team.Rank = token user getrank(atraves da api)
+            //team.Members.Add(user);
 
 
             _context.Teams.Add(team);
@@ -141,7 +141,7 @@ namespace RiftArena.Models.Services
 
         public void RemoveMember(int id, User user)
         {
-            //falta usar o token para verificar se o user logado é team leader
+            //falta usar o token para verificar se o user logado ï¿½ team leader
             var TeamTemp = GetByID(id);
             if(TeamTemp == null)
             {

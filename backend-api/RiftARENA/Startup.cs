@@ -12,6 +12,8 @@ using RiftArena.Models.Services;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Threading.Tasks;
+using RiftArena.Models.Services;
 
 
 namespace RiftArena
@@ -54,9 +56,9 @@ namespace RiftArena
                     ValidateAudience = false
                 };
             });
-            services.AddTransient<IUserService, UserServices>();
-            services.AddTransient<ITeamService, TeamServices>();
-            services.AddTransient<ITournamentService, TournamentService>();
+            services.AddScoped<IUserService, UserServices>();
+            services.AddScoped<ITeamService, TeamServices>();
+            services.AddScoped<ITournamentService, TournamentService>();
             services.AddAuthentication(IISDefaults.AuthenticationScheme);
             services.AddAuthorization();
         }

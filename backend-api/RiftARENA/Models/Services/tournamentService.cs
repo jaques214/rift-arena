@@ -37,13 +37,18 @@ namespace RiftArena.Models.Services
         public Tournament CreateTournament(Tournament tournament)
         {
             if (string.IsNullOrEmpty(tournament.Name))
-                throw new AppException("Tournament name is required");
+                throw new AppException("Tournament name is required.");
             if (tournament.NumberOfTeams != 8 && tournament.NumberOfTeams != 16 && tournament.NumberOfTeams != 32)
-                throw new AppException("The numbers of teams of the tournament should be 8,16 or 32");
+                throw new AppException("The numbers of teams of the tournament should be 8,16 or 32.");
             if (tournament.Rank == null)
-                throw new AppException("Choose a rank");
+                throw new AppException("Choose a rank.");
+            if (tournament.date < System.DateTime.Now && tournament.date == null) 
+                throw new AppException("Invalid date.");
 
-            
+            //falta buscar região pelo user
+            tournament.State = Status.NotPublished;
+            tournament.Stages = new List<Team>();
+
             _context.Tournaments.Add(tournament);
             _context.SaveChanges();
             return tournament;
@@ -58,8 +63,14 @@ namespace RiftArena.Models.Services
             if (tournamentSer.State.Equals("Not Published"))
             {
                 tournamentSer.Name = tournament.Name;
+                tournamentSer.Description = tournament.Description;
                 tournamentSer.NumberOfTeams = tournament.NumberOfTeams;
-                tournament.Rank = tournament.Rank;
+                tournamentSer.Rank = tournament.Rank;
+                if(tournament.date > System.DateTime.Now || tournamentSer.date < System.DateTime.Now){
+                    tournamentSer.date = tournament.date;
+                } else {
+                    throw new AppException("Invalid date.");
+                }
             }
             else
             {
