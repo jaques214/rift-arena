@@ -56,14 +56,14 @@ namespace RiftArena.Models.Services
 
             var user = _context.Users.SingleOrDefault(x => x.Nickname == team.TeamLeader);
 
-            team.TeamLeader =   team.TeamLeader;
+            team.TeamLeader = team.TeamLeader;
             team.Defeats = 0;
             team.Wins = 0;
             team.TournamentsWon = 0;
             team.GamesPlayed = 0;
             team.NumberMembers = 1;
             //team.Rank = token user getrank(atraves da api)
-            //team.Members.Add(user);
+            team.Members.Add(user);
 
 
             _context.Teams.Add(team);
@@ -118,7 +118,9 @@ namespace RiftArena.Models.Services
         public void AddMember(int id,User user)
         {
             var TeamTemp = GetByID(id);
-            if (TeamTemp == null)
+
+            var teamLeaderUser = _context.Users.SingleOrDefault(x => x.Nickname == TeamTemp.TeamLeader);
+            if (TeamTemp == null) 
             {
                 throw new AppException("Not Found");
             }
@@ -126,10 +128,10 @@ namespace RiftArena.Models.Services
                 {
                     throw new AppException("Team full");
                 }
-                else if (TeamTemp.TeamLeader.LinkedAccount.Region != user.Region)
+                /*else if (teamLeaderUser.LinkedAccount.Region.Equals(user.LinkedAccount.Region))
                 {
                     throw new AppException("Region does not match");                    
-                } else
+                }*/ else
                     {
                         TeamTemp.Members.Add(user);
                         TeamTemp.NumberMembers++;

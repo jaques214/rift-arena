@@ -8,7 +8,6 @@ C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA
 C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA\obj\Debug\net5.0\RiftARENA.dll
 C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA\obj\Debug\net5.0\ref\RiftARENA.dll
 C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA\obj\Debug\net5.0\RiftARENA.pdb
-C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA\bin\Debug\net5.0\appsettings.Development.json
 C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA\bin\Debug\net5.0\appsettings.json
 C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA\bin\Debug\net5.0\RiftARENA.exe
 C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA\bin\Debug\net5.0\RiftARENA.deps.json

@@ -1,4 +1,4 @@
-cdusing Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,8 +12,6 @@ using RiftArena.Models.Services;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Threading.Tasks;
-using RiftArena.Models.Services;
 
 
 namespace RiftArena

@@ -32,33 +32,32 @@ namespace RiftArena.Controllers
         [HttpPost("createTeam")/*,Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
         public IActionResult CreateTeam([FromBody]Team team)
 
-        //falta usar o token para verificar se o user logado ja esta numa equipa e se ja tem conta vinculada
+        //falta usar o token para verificar se o user logado ja esta numa equipa e se ja tem conta vinculada    
         {
             try
             {
-                _service.CreateTeam(team);
-                _context.SaveChanges();
-                return CreatedAtRoute("GetTeam", new { id = team.TeamId }, team);
-            }
-            catch (AppException ex)
+
+                    _service.CreateTeam(team);
+                    _context.SaveChanges();
+                    return CreatedAtRoute("GetTeam", new { id = team.TeamId }, team);
+
+            }catch (AppException ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return BadRequest(new {message = ex.Message });
             }
         }
 
 
         //GET: api/Teams/{id: int}
-        [HttpGet("{id}", Name = "GetTeam")]
+        [HttpGet("{id}",Name = "GetTeam")]
         public ActionResult<Team> GetByID(int id)
-        {
-
+        { 
+        
             var teamCon = _service.GetByID(id);
             if (teamCon == null)
                 return NotFound();
             else
-                return Ok( new {Id = teamCon.TeamId, Name = teamCon.Name, TAG = teamCon.Tag, TeamLeader = teamCon.TeamLeader.Nickname, 
-                Rank = teamCon.Rank, NumberOfMembers = teamCon.NumberMembers, Wins = teamCon.Wins, Defeats = teamCon.Defeats, GamesPlayed = teamCon.GamesPlayed,
-                TournamentsWon = teamCon.TournamentsWon, Members = teamCon.Members});
+                return Ok(teamCon);
           
         }
 
@@ -69,7 +68,7 @@ namespace RiftArena.Controllers
         {
             var teamsCon = _service.GetAll();
             if (teamsCon == null)
-                return NoContent();
+               return NoContent();
             else
                 return Ok(teamsCon);
         }
@@ -87,7 +86,7 @@ namespace RiftArena.Controllers
 
         //PUT: api/Teams/{id}
         [HttpPut("{id:int}")/*,Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
-        public IActionResult UpdateTeam(int id, [FromBody] Team team)
+        public IActionResult UpdateTeam(int id,[FromBody] Team team)
         {
             Console.WriteLine(id);
             _service.UpdateTeam(id, team);
@@ -96,7 +95,7 @@ namespace RiftArena.Controllers
             _context.SaveChanges();
 
             return Ok();
-
+            
         }
 
         //POST: api/Teams/addMember/{id}
@@ -118,7 +117,7 @@ namespace RiftArena.Controllers
 
             _context.SaveChanges();
 
-            return Ok();
+            return Ok() ;    
         }
 
     }
