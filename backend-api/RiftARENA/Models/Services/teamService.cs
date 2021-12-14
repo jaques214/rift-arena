@@ -56,15 +56,23 @@ namespace RiftArena.Models.Services
 
             var user = _context.Users.SingleOrDefault(x => x.Nickname == team.TeamLeader);
 
+<<<<<<< HEAD
             team.TeamLeader = team.TeamLeader;
+=======
+            team.TeamLeader =   team.TeamLeader;
+>>>>>>> 1e8c87600fb14675b5159fa53ac1ba4b0a5793fe
             team.Defeats = 0;
             team.Wins = 0;
             team.TournamentsWon = 0;
             team.GamesPlayed = 0;
             team.NumberMembers = 1;
             //team.Rank = token user getrank(atraves da api)
+<<<<<<< HEAD
             team.Members.Add(user);
 
+=======
+            //team.Members.Add(user);
+>>>>>>> 1e8c87600fb14675b5159fa53ac1ba4b0a5793fe
 
             _context.Teams.Add(team);
             _context.SaveChanges();
