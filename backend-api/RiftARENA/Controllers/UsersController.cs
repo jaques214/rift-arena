@@ -95,8 +95,8 @@ namespace RiftArena.Controllers
 
         }
 
-        
-        [HttpPut("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPut("{id:int}")]
         //[HttpPut("{id:int}")]
         public IActionResult Update(int id, [FromBody] User user)
         {
