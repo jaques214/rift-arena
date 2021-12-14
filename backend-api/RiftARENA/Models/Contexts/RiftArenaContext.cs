@@ -20,11 +20,11 @@ namespace RiftArena.Models.Contexts
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<User>().HasKey(user => new
+            /*builder.Entity<User>().HasKey(user => new
             {
                 user.UserID,
                 user.Nickname
-            });
+            });*/
             builder.Entity<User>().HasOne(u => u.Team).WithMany(u => u.Members);
         }
 

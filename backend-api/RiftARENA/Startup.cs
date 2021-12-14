@@ -12,8 +12,6 @@ using RiftArena.Models.Services;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Threading.Tasks;
-using RiftArena.Models.Services;
 
 
 namespace RiftArena
@@ -60,7 +58,7 @@ namespace RiftArena
             services.AddScoped<ITeamService, TeamServices>();
             services.AddScoped<ITournamentService, TournamentService>();
             services.AddAuthentication(IISDefaults.AuthenticationScheme);
-            services.AddAuthorization();
+            //services.AddAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

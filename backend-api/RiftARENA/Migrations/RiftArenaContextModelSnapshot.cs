@@ -79,14 +79,11 @@ namespace RiftARENA.Migrations
                     b.Property<int?>("UserID")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserNickname")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("RequestId");
 
                     b.HasIndex("TeamId");
 
-                    b.HasIndex("UserID", "UserNickname");
+                    b.HasIndex("UserID");
 
                     b.ToTable("Requests");
                 });
@@ -181,10 +178,9 @@ namespace RiftARENA.Migrations
             modelBuilder.Entity("RiftArena.Models.User", b =>
                 {
                     b.Property<int>("UserID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Nickname")
-                        .HasColumnType("nvarchar(450)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
 
                     b.Property<string>("ContaRiot")
                         .HasColumnType("nvarchar(max)");
@@ -194,6 +190,9 @@ namespace RiftARENA.Migrations
 
                     b.Property<int?>("LinkedAccountID")
                         .HasColumnType("int");
+
+                    b.Property<string>("Nickname")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("NumVitoriasTotal")
                         .HasColumnType("int");
@@ -216,7 +215,7 @@ namespace RiftARENA.Migrations
                     b.Property<string>("Tier")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserID", "Nickname");
+                    b.HasKey("UserID");
 
                     b.HasIndex("LinkedAccountID")
                         .IsUnique()
@@ -259,7 +258,7 @@ namespace RiftARENA.Migrations
 
                     b.HasOne("RiftArena.Models.User", "User")
                         .WithMany("Requests")
-                        .HasForeignKey("UserID", "UserNickname");
+                        .HasForeignKey("UserID");
 
                     b.Navigation("Team");
 
