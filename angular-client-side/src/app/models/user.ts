@@ -3,40 +3,34 @@ import { LinkedAccount } from './linked_acount';
 
 export class User {
     constructor (
-        public userId: number,
-        public nickname: string,
-        public email: string,
-        public password: string,
-        public name: string,
-        public profileImage: string,
-        public rank: string,
-        public team: Team,
-        public linkedAccount: LinkedAccount,
-        public requests: Request[]
+        public token?:string,
+        public userId?: number,
+        public nickname?: string,
+        public email?: string,
+        public password?: string,
+        public profileImage?: string,
+        public rank?: string,
+        public team?: Team,
+        public linkedAccount?: LinkedAccount,
+        public requests?: Request[]
     ) {}
 
-    static fields(){
+    static loginFields(){
         return {
             inputs: [
               {
                 name: 'nickname',
                 type: 'text',
+                label: 'Account Nickname',
                 placeholder: 'Enter Account nickname',
                 iconlabel: 'account circle icon',
                 icon: 'account_circle',
                 model: undefined,
               },
               {
-                name: 'email',
-                type: 'text',
-                placeholder: 'Enter email',
-                iconlabel: 'email icon',
-                icon: 'email',
-                model: undefined,
-              },
-              {
                 name: 'password',
-                type: 'text',
+                type: 'password',
+                label: 'Password',
                 placeholder: 'Enter password',
                 iconlabel: 'no encryption icon',
                 icon: 'no_encryption',
@@ -44,4 +38,46 @@ export class User {
               },
         ]}
     }
+
+    static registerFields(){
+      return {
+          inputs: [
+            {
+              name: 'nickname',
+              type: 'text',
+              label: 'Account Nickname',
+              placeholder: 'Enter Account nickname',
+              iconlabel: 'account circle icon',
+              icon: 'account_circle',
+              model: undefined,
+            },
+            {
+              name: 'email',
+              type: 'email',
+              label: 'Email',
+              placeholder: 'Enter email',
+              iconlabel: 'email icon',
+              icon: 'email',
+              model: undefined,
+            },
+            {
+              name: 'password',
+              type: 'password',
+              label: 'Password',
+              placeholder: 'Enter password',
+              iconlabel: 'no encryption icon',
+              icon: 'no_encryption',
+              model: undefined,
+            },
+            {
+              name: 'password',
+              type: 'password',
+              label: 'Confirm Password',
+              placeholder: 'Enter password',
+              iconlabel: 'no encryption icon',
+              icon: 'no_encryption',
+              model: undefined,
+            },
+      ]}
+  }
 }
