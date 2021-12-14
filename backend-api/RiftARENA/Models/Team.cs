@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using RiftArena.Models;
 
 namespace RiftArena.Models
@@ -11,7 +12,8 @@ namespace RiftArena.Models
         public int TeamId { get; set; }
         public string Name { get; set; }
         public string Tag { get; set; }
-        public virtual User TeamLeader { get; set; }
+        [ForeignKey("UserNickname")]
+        public string TeamLeader { get; set; }
         public string Rank { get; set; }
 
         public int NumberMembers { get; set; }
