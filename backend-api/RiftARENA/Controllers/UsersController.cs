@@ -95,7 +95,8 @@ namespace RiftArena.Controllers
 
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes="Bearer")]
         [HttpPut("{id:int}")]
         //[HttpPut("{id:int}")]
         public IActionResult Update(int id, [FromBody] User user)
@@ -150,6 +151,7 @@ namespace RiftArena.Controllers
             var token = tokenHandler.CreateToken(tokenDescription);
             var tokenString = tokenHandler.WriteToken(token);
 
+            //HttpContext.Request.Headers.Add("token", tokenString);
             return Ok(new {
                 Id = user.UserID,
                 Nickname = user.Nickname,
@@ -162,12 +164,12 @@ namespace RiftArena.Controllers
         public IActionResult AcceptRequests( int userID, [FromBody]Request request)
         {
             var user = _userService.GetById(userID);
-            /*if (user.Team != null)
+            if (user.Team != null)
             {
               return BadRequest();
             }
             else
-            {*/
+            {
                 if (user.Requests.Contains(request))
                 {
                     if(request.Team.Members.Count == request.Team.MAX_MEMBERS)
@@ -196,7 +198,7 @@ namespace RiftArena.Controllers
                     return BadRequest();
                 }
               
-            //}        
+            }        
  
         }
 
@@ -205,12 +207,12 @@ namespace RiftArena.Controllers
         public IActionResult RefuseRequest(int userID, [FromBody]Request request)
         {
             var user = _userService.GetById(userID);
-            /*if (user.Team != null)
+            if (user.Team != null)
             {
                 return BadRequest();
             }
             else
-            {*/
+            {
                 if (user.Requests.Contains(request))
                 {
                     request.Accepted = false;
@@ -223,7 +225,7 @@ namespace RiftArena.Controllers
                 {
                     return BadRequest();
                 }
-            //}
+            }
 
         }
         

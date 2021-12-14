@@ -78,14 +78,11 @@ namespace RiftARENA.Migrations
                 b.Property<int?>("UserID")
                     .HasColumnType("int");
 
-                b.Property<string>("UserNickname")
-                    .HasColumnType("nvarchar(450)");
-
-                b.HasKey("RequestId");
+                    b.HasKey("RequestId");
 
                 b.HasIndex("TeamId");
 
-                b.HasIndex("UserID", "UserNickname");
+                    b.HasIndex("UserID");
 
                 b.ToTable("Requests");
             });
@@ -178,15 +175,14 @@ namespace RiftARENA.Migrations
             });
 
             modelBuilder.Entity("RiftArena.Models.User", b =>
-            {
-                b.Property<int>("UserID")
-                    .HasColumnType("int");
+                {
+                    b.Property<int>("UserID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
 
-                b.Property<string>("Nickname")
-                    .HasColumnType("nvarchar(450)");
-
-                b.Property<string>("ContaRiot")
-                    .HasColumnType("nvarchar(max)");
+                    b.Property<string>("ContaRiot")
+                        .HasColumnType("nvarchar(max)");
 
                 b.Property<string>("Email")
                     .HasColumnType("nvarchar(max)");
@@ -194,8 +190,11 @@ namespace RiftARENA.Migrations
                 b.Property<int?>("LinkedAccountID")
                     .HasColumnType("int");
 
-                b.Property<int>("NumVitoriasTotal")
-                    .HasColumnType("int");
+                    b.Property<string>("Nickname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumVitoriasTotal")
+                        .HasColumnType("int");
 
                 b.Property<string>("Password")
                     .HasColumnType("nvarchar(max)");
@@ -215,7 +214,7 @@ namespace RiftARENA.Migrations
                 b.Property<string>("Tier")
                     .HasColumnType("nvarchar(max)");
 
-                b.HasKey("UserID", "Nickname");
+                    b.HasKey("UserID");
 
                 b.HasIndex("LinkedAccountID")
                     .IsUnique()
@@ -256,9 +255,9 @@ namespace RiftARENA.Migrations
                     .WithMany()
                     .HasForeignKey("TeamId");
 
-                b.HasOne("RiftArena.Models.User", "User")
-                    .WithMany("Requests")
-                    .HasForeignKey("UserID", "UserNickname");
+                    b.HasOne("RiftArena.Models.User", "User")
+                        .WithMany("Requests")
+                        .HasForeignKey("UserID");
 
                 b.Navigation("Team");
 
