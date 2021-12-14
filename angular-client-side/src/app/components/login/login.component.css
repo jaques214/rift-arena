@@ -6,6 +6,7 @@
 }
 
 .card {
+  background-color: #fff;
   display: flex;
   align-content: center;
   width: 35%;
@@ -33,6 +34,7 @@
 
 .container button {
   margin-bottom: 15px;
+  background-color: #24499A;
 }
 
 .content {

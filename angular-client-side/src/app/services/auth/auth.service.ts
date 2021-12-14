@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { catchError, Observable, throwError } from 'rxjs';
 import { User } from '@models/user';
 
-const endpoint = 'https://localhost:5001/api';
+const endpoint = 'http://localhost:5001/api';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
-    'Acess-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': '*',
   }),
 };
 
@@ -36,7 +36,7 @@ export class AuthService {
       `${endpoint}/Users/register`,
       JSON.stringify({ Nickname: username, Email: email, Password: password }),
       httpOptions
-    );
+    )
   }
 
   // remove o user da localStorage, ou seja, remove a sua sessao
