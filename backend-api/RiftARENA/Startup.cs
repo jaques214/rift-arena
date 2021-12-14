@@ -54,11 +54,11 @@ namespace RiftArena
                     ValidateAudience = false
                 };
             });
-            services.AddTransient<IUserService, UserServices>();
-            services.AddTransient<ITeamService, TeamServices>();
-            services.AddTransient<ITournamentService, TournamentService>();
+            services.AddScoped<IUserService, UserServices>();
+            services.AddScoped<ITeamService, TeamServices>();
+            services.AddScoped<ITournamentService, TournamentService>();
             services.AddAuthentication(IISDefaults.AuthenticationScheme);
-            services.AddAuthorization();
+            //services.AddAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

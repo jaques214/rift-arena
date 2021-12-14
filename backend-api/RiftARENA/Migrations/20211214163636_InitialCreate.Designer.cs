@@ -10,7 +10,7 @@ using RiftArena.Models.Contexts;
 namespace RiftARENA.Migrations
 {
     [DbContext(typeof(RiftArenaContext))]
-    [Migration("20211207225432_InitialCreate")]
+    [Migration("20211214163636_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,7 +39,7 @@ namespace RiftARENA.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("LinkedAccount");
+                    b.ToTable("LinkedAccounts");
                 });
 
             modelBuilder.Entity("RiftArena.Models.Messages", b =>
@@ -87,7 +87,7 @@ namespace RiftARENA.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Request");
+                    b.ToTable("Requests");
                 });
 
             modelBuilder.Entity("RiftArena.Models.Team", b =>
@@ -118,8 +118,8 @@ namespace RiftARENA.Migrations
                     b.Property<string>("Tag")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TeamLeaderUserID")
-                        .HasColumnType("int");
+                    b.Property<string>("TeamLeader")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TournamentsWon")
                         .HasColumnType("int");
@@ -128,8 +128,6 @@ namespace RiftARENA.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("TeamId");
-
-                    b.HasIndex("TeamLeaderUserID");
 
                     b.ToTable("Teams");
                 });
@@ -213,7 +211,7 @@ namespace RiftARENA.Migrations
                     b.Property<string>("Rank")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TeamId")
+                    b.Property<int?>("TeamID")
                         .HasColumnType("int");
 
                     b.Property<string>("Tier")
@@ -225,7 +223,7 @@ namespace RiftARENA.Migrations
                         .IsUnique()
                         .HasFilter("[LinkedAccountID] IS NOT NULL");
 
-                    b.HasIndex("TeamId");
+                    b.HasIndex("TeamID");
 
                     b.ToTable("Users");
                 });
@@ -248,7 +246,7 @@ namespace RiftARENA.Migrations
             modelBuilder.Entity("RiftArena.Models.Messages", b =>
                 {
                     b.HasOne("RiftArena.Models.Tournament", "Tournament")
-                        .WithMany("chat")
+                        .WithMany("Chat")
                         .HasForeignKey("TournamentId");
 
                     b.Navigation("Tournament");
@@ -269,26 +267,19 @@ namespace RiftARENA.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("RiftArena.Models.Team", b =>
-                {
-                    b.HasOne("RiftArena.Models.User", "TeamLeader")
-                        .WithMany()
-                        .HasForeignKey("TeamLeaderUserID");
-
-                    b.Navigation("TeamLeader");
-                });
-
             modelBuilder.Entity("RiftArena.Models.User", b =>
                 {
                     b.HasOne("RiftArena.Models.LinkedAccount", "LinkedAccount")
                         .WithOne("User")
                         .HasForeignKey("RiftArena.Models.User", "LinkedAccountID");
 
-                    b.HasOne("RiftArena.Models.Team", null)
+                    b.HasOne("RiftArena.Models.Team", "Team")
                         .WithMany("Members")
-                        .HasForeignKey("TeamId");
+                        .HasForeignKey("TeamID");
 
                     b.Navigation("LinkedAccount");
+
+                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("TeamTournament", b =>
@@ -318,7 +309,7 @@ namespace RiftARENA.Migrations
 
             modelBuilder.Entity("RiftArena.Models.Tournament", b =>
                 {
-                    b.Navigation("chat");
+                    b.Navigation("Chat");
                 });
 
             modelBuilder.Entity("RiftArena.Models.User", b =>
