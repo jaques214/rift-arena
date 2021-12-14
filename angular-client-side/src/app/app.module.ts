@@ -8,6 +8,7 @@ import {MatFormFieldModule, } from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button'; 
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
@@ -18,6 +19,7 @@ import { TeamRestService } from './services/team-rest/team-rest.service';
 import { FrontPageComponent } from './components/front-page/front-page.component';
 import { RegisterComponent } from './components/register/register.component';
 import { SharedFormFieldComponent } from './components/shared-form-field/shared-form-field.component';
+import { ViewProfileComponent } from './components/view-profile/view-profile.component';
 
 @NgModule({
   declarations: [
@@ -26,9 +28,11 @@ import { SharedFormFieldComponent } from './components/shared-form-field/shared-
     LoginComponent,
     FrontPageComponent,
     RegisterComponent,
-    SharedFormFieldComponent
+    SharedFormFieldComponent,
+    ViewProfileComponent
   ],
   imports: [
+    FormsModule,
     MatButtonModule,
     MatIconModule,
     MatFormFieldModule,

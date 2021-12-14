@@ -9,10 +9,8 @@ import { AuthService } from '@services/auth/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  @Input() username = '';
+  @Input() nickname = '';
   @Input() password = '';
-  @Input() email = '';
-  @Input() userLogin: User = new User();
   hide = true;
   formFields:any = User.loginFields();
   title: string = 'Insert your account data';
@@ -23,10 +21,13 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   login(): void {
-    this.authService.login(this.username, this.password).subscribe((user: User) => {
-      if (user && user.token) {
+    this.authService.login(this.nickname, this.password).subscribe((user: User) => {
+      if (user /*&& user.token*/) {
+        console.log(this.nickname);
+        console.log(this.password);
         localStorage.setItem('currentUser', JSON.stringify(user));
-        window.location.reload();
+        this.router.navigate(['/'])
+        //window.location.reload();
       } else {
         alert('Erro no login!');
       }
@@ -39,16 +40,4 @@ export class LoginComponent implements OnInit {
         window.location.reload();
     });
   }
-
-  register(): void{
-    this.authService.register(this.email, this.username, this.password).subscribe((user: User) => {
-      if (user && user.token) {
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        window.location.reload();
-      } else {
-        alert('Erro no login!');
-      }
-    });
-  }
-
 }
