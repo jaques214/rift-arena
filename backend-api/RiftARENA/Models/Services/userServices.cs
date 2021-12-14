@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RiftArena.Models;
 using RiftArena.Models.Contexts;
+using RiftARENA.Models.API;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,11 +24,61 @@ namespace RiftArena.Models.Services
     public class UserServices : IUserService
     {
         private RiftArenaContext _context;
+        
 
         public UserServices(RiftArenaContext context)
         {
             _context = context;
         }
+
+        public bool VerifySummoner(string region,string summonerName)
+        {
+            Summoner_V4 summoner_v4 = new Summoner_V4(region);
+
+            var summoner = summoner_v4.GetSummonerByName(summonerName);
+            
+            return summoner != null;
+        }
+
+        //Conecta a conta riot retornando já o user atualizado
+        public User LinkRiot(int userID, string nickname,string region)
+        {
+            User userTemp = GetById(userID);
+            
+
+            if (userTemp != null)
+            {
+                Summoner_V4 summoner_v4 = new Summoner_V4(region);
+                var summoner = summoner_v4.GetSummonerByName(nickname);
+                
+
+                if (summoner == null)
+                {
+                    throw new AppException("Riot account not found");  
+                }
+
+                var linkedTemp = new LinkedAccount
+                {
+                    Username = nickname,
+                    User = userTemp,
+                    profileIconID = summoner.profileIconId,
+                    Region = region,
+                    ID = summoner.id,
+                    summonerLevel = summoner.summonerLevel
+                };
+
+                //_context.LinkedAccount.Update(linkedTemo);
+                //_context.SaveChanges();
+
+            }
+            else
+            {
+                throw new AppException("User not found");
+            }
+
+            return null;
+        }
+
 
         //Retorna todos os utilizadores registados 
         public IEnumerable<User> GetAll()

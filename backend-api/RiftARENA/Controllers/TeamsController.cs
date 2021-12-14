@@ -47,13 +47,15 @@ namespace RiftArena.Controllers
         //GET: api/Teams/{id: int}
         [HttpGet("{id}",Name = "GetTeam")]
         public ActionResult<Team> GetByID(int id)
-        { 
-        
+        {
+          
             var teamCon = _service.GetByID(id);
-            if (teamCon == null)
-                return NotFound();
-            else
-                return teamCon;
+
+            return teamCon != null ? teamCon : NotFound();
+            //if (teamCon == null)
+             //   return NotFound();
+            //else
+            //   return teamCon;
           
         }
 

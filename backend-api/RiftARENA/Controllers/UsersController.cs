@@ -36,6 +36,22 @@ namespace RiftArena.Controllers
             _userService = userService;
         }
 
+        public void DesvincularContaRiot(int userID)
+        {
+            var user = _userService.GetById(userID);
+
+            if (user != null)
+            {
+                user.ContaRiot = null;
+                _context.Users.Update(user);
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new AppException("User not found");
+            }
+        }
+
         //POST: api/Users/register
         [HttpPost("register")]
         public IActionResult Register([FromBody] User user)
