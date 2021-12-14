@@ -25,7 +25,7 @@ export class User {
                 placeholder: 'Enter Account nickname',
                 iconlabel: 'account circle icon',
                 icon: 'account_circle',
-                model: undefined,
+                model: 'nickname',
               },
               {
                 name: 'password',
@@ -34,7 +34,7 @@ export class User {
                 placeholder: 'Enter password',
                 iconlabel: 'no encryption icon',
                 icon: 'no_encryption',
-                model: undefined,
+                model: 'password',
               },
         ]}
     }
@@ -49,7 +49,7 @@ export class User {
               placeholder: 'Enter Account nickname',
               iconlabel: 'account circle icon',
               icon: 'account_circle',
-              model: undefined,
+              model: 'nickname',
             },
             {
               name: 'email',
@@ -58,7 +58,7 @@ export class User {
               placeholder: 'Enter email',
               iconlabel: 'email icon',
               icon: 'email',
-              model: undefined,
+              model: 'email',
             },
             {
               name: 'password',
@@ -67,7 +67,7 @@ export class User {
               placeholder: 'Enter password',
               iconlabel: 'no encryption icon',
               icon: 'no_encryption',
-              model: undefined,
+              model: 'password',
             },
             {
               name: 'password',
@@ -76,7 +76,7 @@ export class User {
               placeholder: 'Enter password',
               iconlabel: 'no encryption icon',
               icon: 'no_encryption',
-              model: undefined,
+              model: 'password',
             },
       ]}
   }
