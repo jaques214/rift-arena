@@ -14,7 +14,12 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <!--if user is connected -->
+    <div
+      class="collapse navbar-collapse"
+      id="navbarSupportedContent"
+      *ngIf="user != undefined"
+    >
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <div class="dropdown nav-item">
           <button
@@ -68,7 +73,7 @@
         </li>
         <li><hr class="dropdown-divider" /></li>
         <li class="nav-item d-xs-block d-lg-none d-xxl-none">
-          <a class="nav-link" href="#">Logout</a>
+          <a class="nav-link" (click)="logout()">Logout</a>
         </li>
       </ul>
       <div
@@ -106,6 +111,88 @@
           class="img-responsive img-rounded"
           style="max-height: 50px; max-width: 50px"
         />
+      </div>
+    </div>
+    <!--if user isnt logged-->
+    <div
+      class="collapse navbar-collapse"
+      id="navbarSupportedContent"
+      *ngIf="user == undefined"
+    >
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <div class="dropdown nav-item">
+          <button
+            class="btn dropdown-toggle nav-link"
+            type="button"
+            id="dropdownMenuButton1"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Tournaments
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" href="/create-team">Visualize</a></li>
+          </ul>
+        </div>
+        <div class="dropdown nav-item">
+          <button
+            class="btn dropdown-toggle nav-link"
+            type="button"
+            id="dropdownMenuButton1"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Teams
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" href="/create-team">Visualize</a></li>
+          </ul>
+        </div>
+        <li class="nav-item">
+          <a type="button" class="btn nav-link a-btn" href="#">About Us</a>
+        </li>
+      
+        <li><hr class="dropdown-divider" /></li>
+        <li class="nav-item d-xs-block d-lg-none d-xxl-none">
+          <a class="nav-link" href="/login">Login</a>
+        </li>
+        <li class="nav-item d-xs-block d-lg-none d-xxl-none">
+          <a class="nav-link" href="/register">Register</a>
+        </li>
+      </ul>
+      <div
+        class="
+          dropdown
+          nav-item
+          d-none d-sm-block d-sm-none d-md-block d-md-none d-lg-block
+        "
+      >
+        <button
+          class="btn dropdown-toggle username-btn"
+          type="button"
+          id="loginButton"
+          aria-expanded="false"
+          onclick="window.location.href='/login'"
+        >
+          Login
+        </button>
+      </div>
+      <div
+        class="
+          dropdown
+          nav-item
+          d-none d-sm-block d-sm-none d-md-block d-md-none d-lg-block
+        "
+      >
+        <button
+          class="btn dropdown-toggle username-btn"
+          type="button"
+          id="registerButton"
+          aria-expanded="false"
+          onclick="window.location.href='/register'"
+        >
+          Register
+        </button>
       </div>
     </div>
   </div>

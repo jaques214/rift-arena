@@ -6,6 +6,7 @@
 }
 
 .card {
+  background-color: #fff;
   display: flex;
   align-content: center;
   width: 35%;
@@ -24,10 +25,6 @@
   text-align: center;
 }
 
-.form-field {
-  width: 80%
-}
-
 .container {
   width: 100%;
   display: block;
@@ -37,10 +34,15 @@
 
 .container button {
   margin-bottom: 15px;
+  background-color: #24499A;
 }
 
 .content {
-  color: #24499A;
+  color: #24499a;
   margin: 25px 0;
   font-weight: bold;
+}
+
+.main-mat-card{
+  background-color: white;
 }

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { User } from '@src/app/models/user';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { catchError, Observable, throwError } from 'rxjs';
+import { User } from '@models/user';
 
-const endpoint = 'https://localhost:5001/api/';
+const endpoint = 'http://localhost:5001/api';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
-    'Acess-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': '*',
   }),
 };
 
@@ -20,8 +20,8 @@ export class AuthService {
   // retorna o user com o username e password correspondente caso exista no servidor
   login(username: string, password: string): Observable<any> {
     return this.http.post<User>(
-      endpoint + 'Users/login',
-      { Username: username, Password: password },
+      `${endpoint}/Users/login`,
+      JSON.stringify({ Nickname: username, Password: password }),
       httpOptions
     );
   }
@@ -33,16 +33,20 @@ export class AuthService {
     password: string
   ): Observable<User> {
     return this.http.post<User>(
-      endpoint + 'Users/register',
-      { Nickname: username, Email: email, Password: password },
+      `${endpoint}/Users/register`,
+      JSON.stringify({ Nickname: username, Email: email, Password: password }),
       httpOptions
-    );
+    )
   }
 
   // remove o user da localStorage, ou seja, remove a sua sessao
-  logout() {
+  logout():any {
     localStorage.removeItem('currentUser');
   }
+
+  /*logout() {
+    localStorage.removeItem('currentUser');
+  }*/
 
   // verifica se o email inserido pertence a um user com conta RIOT vinculada ou nao
   verifyBoundedAccount(username: string): Observable<any> {

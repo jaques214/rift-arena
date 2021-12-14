@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using RiftArena.Models;
 
 namespace RiftArena.Models
@@ -11,7 +12,8 @@ namespace RiftArena.Models
         public int TeamId { get; set; }
         public string Name { get; set; }
         public string Tag { get; set; }
-        public User TeamLeader { get; set; }
+        [ForeignKey("UserNickname")]
+        public string TeamLeader { get; set; }
         public string Rank { get; set; }
 
         public int NumberMembers { get; set; }
@@ -24,20 +26,23 @@ namespace RiftArena.Models
 
         public int TournamentsWon { get; set; }
 
-        public List<User> Members { get; set; }
+        public virtual List<User> Members { get; set; }
 
         public string Poster { get; set; }
 
-        public LinkedList<Tournament> Tournament {get; set; }
+        public virtual List<Tournament> Tournament {get; set; }
 
         public readonly int MAIN_MEMBERS = 5;
         
         public readonly int SUBSTITUTE_MEMBERS = 2;
 
         public readonly int MAX_MEMBERS = 7;
-        
-       
-        
+
+
+        public override string ToString()
+        {
+            return base.ToString() + ": " + TeamLeader.ToString() + TeamId.ToString();
+        }
 
     }
 }

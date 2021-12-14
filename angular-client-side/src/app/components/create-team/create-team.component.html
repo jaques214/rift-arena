@@ -1,0 +1,60 @@
+<app-nav-bar></app-nav-bar>
+<div class="container shadow-lg p-3 mb-5 bg-body rounded-1">
+  <form
+    class="position-relative"
+    [formGroup]="form"
+    *ngIf="form"
+    (submit)="save()"
+  >
+    <div
+      *ngIf="
+        (form.get('teamName')!.hasError('required') &&
+          form.get('teamName')!.touched) ||
+        (form.get('teamName')!.dirty && form.get('teamName')!.invalid)
+      "
+      class="alert alert-danger"
+      role="alert"
+    >
+      Campo obrigatório/inválido
+    </div>
+    <div
+      *ngIf="
+        (form.get('tagName')!.hasError('required') &&
+          form.get('tagName')!.touched) ||
+        (form.get('tagName')!.dirty && form.get('tagName')!.invalid)
+      "
+      class="alert alert-danger"
+      role="alert"
+    >
+      Campo obrigatório/inválido 
+    </div>
+    <div class="mb-3">
+      <label for="formGroupExampleInput" class="form-group"
+        >Insert Team Name</label
+      >
+      <input
+        type="text"
+        class="form-control"
+        formControlName="teamName"
+        id="formGroupExampleInput"
+        placeholder="Team Name"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="formGroupExampleInput2" class="form-group"
+        >Insert Tag Team</label
+      >
+      <input
+        type="text"
+        class="form-control"
+        formControlName="tagName"
+        id="formGroupExampleInput2"
+        placeholder="Team Tag"
+      />
+    </div>
+    <div class="d-flex justify-content-between">
+      <button type="submit" onclick="window.location.href='/'"  class="btn btn-blue">Back</button>
+      <button  class="btn btn-blue">Adicionar</button>
+    </div>
+  </form>
+</div>

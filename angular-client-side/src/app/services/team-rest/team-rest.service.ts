@@ -22,8 +22,8 @@ export class TeamRestService {
     return this.http.get<Team>(endpoint + `${id}`, httpOptions);
   }
 
-  getTeams(): Observable<LinkedList<Team>> {
-    return this.http.get<LinkedList<Team>>(endpoint);
+  getTeams(): Observable<Team[]> {
+    return this.http.get<Team[]>(endpoint);
   }
 
   

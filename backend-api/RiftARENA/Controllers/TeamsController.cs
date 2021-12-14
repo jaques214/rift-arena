@@ -29,34 +29,46 @@ namespace RiftArena.Controllers
 
 
         //POST: api/Teams/createTeam
-        [HttpPost("createTeam"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult CreateTeam([FromBody]Team team)
+        [HttpPost("createTeam")/*,Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
+        public IActionResult CreateTeam([FromBody] Team team)
         {
             try
             {
                 _service.CreateTeam(team);
                 _context.SaveChanges();
-                return CreatedAtRoute("GetTeam", new {id = team.TeamId}, team);
-            }catch (AppException ex)
+                return CreatedAtRoute("GetTeam", new { id = team.TeamId }, team);
+            }
+            catch (AppException ex)
             {
-                return BadRequest(new {message = ex.Message });
+                return BadRequest(new { message = ex.Message });
             }
         }
 
 
         //GET: api/Teams/{id: int}
-        [HttpGet("{id}",Name = "GetTeam")]
+        [HttpGet("{id}", Name = "GetTeam")]
         public ActionResult<Team> GetByID(int id)
         {
-          
-            var teamCon = _service.GetByID(id);
 
-            return teamCon != null ? teamCon : NotFound();
-            //if (teamCon == null)
-             //   return NotFound();
-            //else
-            //   return teamCon;
-          
+            var teamCon = _service.GetByID(id);
+            if (teamCon == null)
+                return NotFound();
+            else
+                return Ok(new
+                {
+                    Id = teamCon.TeamId,
+                    Name = teamCon.Name,
+                    TAG = teamCon.Tag,
+                    TeamLeader = teamCon.TeamLeader,
+                    Rank = teamCon.Rank,
+                    NumberOfMembers = teamCon.NumberMembers,
+                    Wins = teamCon.Wins,
+                    Defeats = teamCon.Defeats,
+                    GamesPlayed = teamCon.GamesPlayed,
+                    TournamentsWon = teamCon.TournamentsWon,
+                    Members = teamCon
+                });
+
         }
 
 
@@ -66,13 +78,13 @@ namespace RiftArena.Controllers
         {
             var teamsCon = _service.GetAll();
             if (teamsCon == null)
-               return NoContent();
+                return NoContent();
             else
                 return Ok(teamsCon);
         }
 
         //DELETE: api/Teams/{id}
-        [HttpDelete("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpDelete("{id:int}")/*,Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
         //[HttpDelete("{id:int}")]
         public ActionResult<Team> DeleteTeam(int id)
         {
@@ -83,21 +95,22 @@ namespace RiftArena.Controllers
 
 
         //PUT: api/Teams/{id}
-        [HttpPut("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult UpdateTeam(int id,[FromBody] Team team)
+        [HttpPut("{id:int}")/*,Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
+        public IActionResult UpdateTeam(int id, [FromBody] Team team)
         {
+            Console.WriteLine(id);
             _service.UpdateTeam(id, team);
 
             _context.Teams.Update(team);
             _context.SaveChanges();
 
             return Ok();
-            
+
         }
 
         //POST: api/Teams/addMember/{id}
-        [HttpPost("addMember/{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public ActionResult AddMember(int id, User user)
+        [HttpPost("addMember/{id:int}")/*, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
+        public ActionResult AddMember(int id, [FromBody]User user)
         {
             _service.AddMember(id, user);
 
@@ -108,13 +121,13 @@ namespace RiftArena.Controllers
 
         //POST: api/Teams/removeMember/{id}
         [HttpDelete("removeMember/{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public ActionResult RemoveMember(int id, User user)
+        public ActionResult RemoveMember(int id, [FromBody]User user)
         {
             _service.RemoveMember(id, user);
 
             _context.SaveChanges();
 
-            return Ok() ;    
+            return Ok();
         }
 
     }

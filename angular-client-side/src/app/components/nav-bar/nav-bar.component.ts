@@ -9,9 +9,25 @@ import { UserRestService } from '@services/user-rest/user-rest.service';
   styleUrls: ['./nav-bar.component.css'],
 })
 export class NavBarComponent implements OnInit {
-  user!: User;
-  constructor(public userService: UserRestService) {}
+  user?: User;
 
-  ngOnInit(): void {}
+  constructor(
+    private userService: UserRestService,
+    private authService: AuthService
+  ) {}
 
+  ngOnInit(): void {
+    if (localStorage.getItem('currentUser') !== null) {
+      this.userService
+        .getUser(JSON.parse(localStorage.getItem('currentUser')!).id)
+        .subscribe((user) => {
+          this.user = user;
+        });
+    }
+  }
+
+  logout(): void {
+    this.authService.logout();
+    window.location.reload();
+  }
 }
