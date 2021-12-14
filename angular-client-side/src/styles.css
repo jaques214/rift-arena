@@ -15,3 +15,17 @@
   white-space: normal !important;
   word-wrap: break-word;
 }
+
+.mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: #20458a;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
