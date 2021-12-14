@@ -9167,26 +9167,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Tiago Teixeira\\.nuget\\packages\\": {}
+    "C:\\Users\\tiago\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Tiago Teixeira\\Desktop\\LDS_AC\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj",
+      "projectUniqueName": "C:\\Users\\tiago\\Desktop\\Universidade\\3ano\\LDS\\Projeto\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj",
       "projectName": "RiftARENA",
-      "projectPath": "C:\\Users\\Tiago Teixeira\\Desktop\\LDS_AC\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj",
-      "packagesPath": "C:\\Users\\Tiago Teixeira\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Tiago Teixeira\\Desktop\\LDS_AC\\riftarena_lds_21_22\\backend-api\\RiftARENA\\obj\\",
+      "projectPath": "C:\\Users\\tiago\\Desktop\\Universidade\\3ano\\LDS\\Projeto\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj",
+      "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\tiago\\Desktop\\Universidade\\3ano\\LDS\\Projeto\\riftarena_lds_21_22\\backend-api\\RiftARENA\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Tiago Teixeira\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -9260,12 +9258,6 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.NETCore.App.Host.win-x64",
-            "version": "[5.0.12, 5.0.12]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -9274,7 +9266,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
       }
     }
   }
