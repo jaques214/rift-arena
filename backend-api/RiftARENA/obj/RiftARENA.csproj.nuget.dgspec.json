@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Universidade\\3_Ano\\1_Semestre\\Laboratorio de Desenvolvimento de Software\\Trabalho Prático\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj": {}
+    "C:\\Users\\tiago\\Desktop\\Universidade\\3ano\\LDS\\Projeto\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj": {}
   },
   "projects": {
-    "D:\\Universidade\\3_Ano\\1_Semestre\\Laboratorio de Desenvolvimento de Software\\Trabalho Prático\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj": {
+    "C:\\Users\\tiago\\Desktop\\Universidade\\3ano\\LDS\\Projeto\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Universidade\\3_Ano\\1_Semestre\\Laboratorio de Desenvolvimento de Software\\Trabalho Prático\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj",
+        "projectUniqueName": "C:\\Users\\tiago\\Desktop\\Universidade\\3ano\\LDS\\Projeto\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj",
         "projectName": "RiftARENA",
-        "projectPath": "D:\\Universidade\\3_Ano\\1_Semestre\\Laboratorio de Desenvolvimento de Software\\Trabalho Prático\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj",
-        "packagesPath": "C:\\Users\\mconc\\.nuget\\packages\\",
-        "outputPath": "D:\\Universidade\\3_Ano\\1_Semestre\\Laboratorio de Desenvolvimento de Software\\Trabalho Prático\\riftarena_lds_21_22\\backend-api\\RiftARENA\\obj\\",
+        "projectPath": "C:\\Users\\tiago\\Desktop\\Universidade\\3ano\\LDS\\Projeto\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj",
+        "packagesPath": "C:\\Users\\tiago\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\tiago\\Desktop\\Universidade\\3ano\\LDS\\Projeto\\riftarena_lds_21_22\\backend-api\\RiftARENA\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\mconc\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\tiago\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"

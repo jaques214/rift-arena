@@ -110,7 +110,7 @@ namespace RiftArena.Controllers
 
         //POST: api/Teams/addMember/{id}
         [HttpPost("addMember/{id:int}")/*, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
-        public ActionResult AddMember(int id, User user)
+        public ActionResult AddMember(int id, [FromBody]User user)
         {
             _service.AddMember(id, user);
 
@@ -121,7 +121,7 @@ namespace RiftArena.Controllers
 
         //POST: api/Teams/removeMember/{id}
         [HttpDelete("removeMember/{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public ActionResult RemoveMember(int id, User user)
+        public ActionResult RemoveMember(int id, [FromBody]User user)
         {
             _service.RemoveMember(id, user);
 

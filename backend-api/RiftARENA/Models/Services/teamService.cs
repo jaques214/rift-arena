@@ -41,6 +41,7 @@ namespace RiftArena.Models.Services
         public Team CreateTeam(Team team)
             //falta usar o token para verificar se o user logado ja esta numa equipa e se ja tem conta vinculada
         {
+            team.Members = new List<User>();
 
             if (string.IsNullOrWhiteSpace(team.Name))
                 throw new AppException("Team name is required");
