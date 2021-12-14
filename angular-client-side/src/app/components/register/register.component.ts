@@ -21,13 +21,18 @@ export class RegisterComponent implements OnInit {
   }
 
   register(): void{
+    
+    this.nickname = this.formFields.inputs[0]!.model;
+    this.password = this.formFields.inputs[1]!.model;
+    this.password = this.formFields.inputs[2]!.model;
+
     this.authService.register(this.email, this.nickname, this.password).subscribe((user: User) => {
       if (user /*&& user.token*/) {
         localStorage.setItem('currentUser', JSON.stringify(user));
-        this.router.navigate(['/login'])
+        this.router.navigate(['/'])
         //window.location.reload();
       } else {
-        alert('Erro no login!');
+        alert('Erro a registar!');
       }
     });
   }

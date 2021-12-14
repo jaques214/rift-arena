@@ -25,7 +25,7 @@ import { SharedFormFieldComponent } from './components/shared-form-field/shared-
 import { ViewProfileComponent } from './components/view-profile/view-profile.component';
 import { LoadingCircleService } from './services/loading-circle/loading-circle.service';
 import { CreateTeamComponent } from './components/create-team/create-team.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -51,7 +51,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     HttpClientModule,
     MatToolbarModule,
     MatProgressSpinnerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [
     AuthService,

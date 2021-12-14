@@ -21,7 +21,7 @@ export class AuthService {
   login(username: string, password: string): Observable<any> {
     return this.http.post<User>(
       `${endpoint}/Users/login`,
-      JSON.stringify({ username, password }),
+      JSON.stringify({ Nickname: username, Password: password }),
       httpOptions
     );
   }
@@ -34,18 +34,14 @@ export class AuthService {
   ): Observable<User> {
     return this.http.post<User>(
       `${endpoint}/Users/register`,
-      JSON.stringify({ username, email, password }),
+      JSON.stringify({ Nickname: username, Email: email, Password: password }),
       httpOptions
-    ).pipe(catchError(this.handleError));;
+    )
   }
 
   // remove o user da localStorage, ou seja, remove a sua sessao
-  logout(): Observable<void> {
-    return this.http.get<void>(`${endpoint}/Users/logout`);
-  }
-
-  handleError(error: HttpErrorResponse) {
-    return throwError(error);
+  logout():any {
+    localStorage.removeItem('currentUser');
   }
 
   /*logout() {

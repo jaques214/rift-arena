@@ -1,43 +1,47 @@
 import { Router } from '@angular/router';
 import { Component, OnInit, Input } from '@angular/core';
-import {User} from '@models/user'
+import { User } from '@models/user';
 import { AuthService } from '@services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
   @Input() nickname = '';
   @Input() password = '';
   hide = true;
-  formFields:any = User.loginFields();
+  formFields: any = User.loginFields();
   title: string = 'Insert your account data';
-  @Input() input!:any;
-  
-  constructor(public router: Router, private authService: AuthService) { }
+  @Input() input!: any;
+
+  constructor(public router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {}
 
   login(): void {
-    this.authService.login(this.nickname, this.password).subscribe((user: User) => {
-      if (user /*&& user.token*/) {
+    // validar se o user inseriu dados (verificar se model dos inputs é null (por enquanto é nickname/password mas 
+    // vai ser alterado
+    //, e se validou, pode avançar, senao, lançar um alert a dizer que n inseriu))
+    
+    this.nickname = this.formFields.inputs[0]!.model;
+    this.password = this.formFields.inputs[1]!.model;
+
+    this.authService.login(this.nickname, this.password).subscribe(
+      (user: User) => {
         console.log(this.nickname);
         console.log(this.password);
         localStorage.setItem('currentUser', JSON.stringify(user));
-        this.router.navigate(['/'])
-        //window.location.reload();
-      } else {
-        alert('Erro no login!');
+        this.router.navigate(['/']);
+      
+
+      },
+      (err: any) => {
+        console.log(this.nickname);
+        alert('erro no login');
       }
-    });
+    );
   }
 
-  logout(): void {
-    this.authService.logout().subscribe(() => {
-        localStorage.removeItem('currentUser');
-        window.location.reload();
-    });
-  }
 }

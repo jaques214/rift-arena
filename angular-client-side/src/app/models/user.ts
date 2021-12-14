@@ -25,7 +25,7 @@ export class User {
                 placeholder: 'Enter Account nickname',
                 iconlabel: 'account circle icon',
                 icon: 'account_circle',
-                model: undefined,
+                model: 'nickname',
               },
               {
                 name: 'password',
@@ -34,7 +34,7 @@ export class User {
                 placeholder: 'Enter password',
                 iconlabel: 'no encryption icon',
                 icon: 'no_encryption',
-                model: undefined,
+                model: 'password',
               },
         ]}
     }

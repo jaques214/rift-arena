@@ -43,6 +43,6 @@
   font-weight: bold;
 }
 
-.mat-card-actions p {
-  color: #000;
+.main-mat-card{
+  background-color: white;
 }
