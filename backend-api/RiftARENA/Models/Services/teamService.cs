@@ -39,7 +39,6 @@ namespace RiftArena.Models.Services
         }
 
         public Team CreateTeam(Team team)
-            //falta usar o token para verificar se o user logado ja esta numa equipa e se ja tem conta vinculada
         {
             team.Members = new List<User>();
 
@@ -123,18 +122,19 @@ namespace RiftArena.Models.Services
             {
                 throw new AppException("Not Found");
             }
-            else
-            {
-                if (TeamTemp.NumberMembers == TeamTemp.MAX_MEMBERS)
+            else if (TeamTemp.NumberMembers == TeamTemp.MAX_MEMBERS)
                 {
                     throw new AppException("Team full");
                 }
-                else
+                else if (TeamTemp.TeamLeader.LinkedAccount.Region != user.Region)
                 {
-                    TeamTemp.Members.Add(user);
-                    TeamTemp.NumberMembers++;
-                }
-            }
+                    throw new AppException("Region does not match");                    
+                } else
+                    {
+                        TeamTemp.Members.Add(user);
+                        TeamTemp.NumberMembers++;
+                    }
+            
             _context.Teams.Update(TeamTemp);
             _context.SaveChanges();
         }

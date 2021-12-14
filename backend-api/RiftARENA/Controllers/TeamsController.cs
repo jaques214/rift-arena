@@ -31,6 +31,8 @@ namespace RiftArena.Controllers
         //POST: api/Teams/createTeam
         [HttpPost("createTeam")/*,Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
         public IActionResult CreateTeam([FromBody]Team team)
+
+        //falta usar o token para verificar se o user logado ja esta numa equipa e se ja tem conta vinculada
         {
             try
             {

@@ -43,7 +43,7 @@ namespace RiftArena.Models.Services
             if (tournament.Rank == null)
                 throw new AppException("Choose a rank");
 
-
+            
             _context.Tournaments.Add(tournament);
             _context.SaveChanges();
             return tournament;
