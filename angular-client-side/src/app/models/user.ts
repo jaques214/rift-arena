@@ -5,7 +5,7 @@ export class User {
     constructor (
         public token?:string,
         public userId?: number,
-        public nickname?: string,
+        public nickname?: string ,
         public email?: string,
         public password?: string,
         public profileImage?: File,

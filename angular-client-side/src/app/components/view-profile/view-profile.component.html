@@ -7,7 +7,7 @@
             <mat-icon aria-hidden="false" aria-label="account circle icon" matSuffix>account_circle</mat-icon>
         </div>
 
-        <div class="file-upload">
+        <div>
             <input [hidden]="true" type="file" name="poster" (change)="onFileSelected($event)" #fileUpload />
             <button mat-flat-button type="button" (click)="fileUpload.click()">Insert profile image</button>
             <p>{{this.fileSelected?.name || user?.profileImage?.name || imageFieldName || "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB"}}</p>
@@ -17,10 +17,10 @@
 </section>
 <section>
     <p [ngClass]="'subtitle'">Username</p>
-    <p>{{user.nickname}}</p>
+    <p>{{user1.nickname}}</p>
     <div [ngClass]="'item'">
         <p [ngClass]="'subtitle'">Password</p>
-        <mat-icon aria-hidden="false" aria-label="edit icon" matSuffix>edit</mat-icon>
+        <mat-icon aria-hidden="false" aria-label="edit icon" matSuffix (click)="editUser(user)">edit</mat-icon>
     </div>
     <!-- <p>{{user.password}}</p> -->
     <div [ngClass]="'item'">

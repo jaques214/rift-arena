@@ -11,6 +11,9 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./view-profile.component.css']
 })
 export class ViewProfileComponent implements OnInit {
+  user1 = {
+    nickname: "nickname1"
+  }
   user!: User;
   list: LinkedAccount[] = [];
   fileSelected?: File;

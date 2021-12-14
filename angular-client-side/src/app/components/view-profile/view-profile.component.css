@@ -1,3 +1,11 @@
+section {
+    padding: 0 20px;
+}
+
+section h3 {
+    font-weight: bold;
+}
+
 .subtitle {
     font-weight: bold;
 }
@@ -6,7 +14,7 @@
     display: flex;
     width: 40%;
     background-color: #dddbdb;
-    justify-content: center;
+    justify-content: flex-start;
     padding: 10px;
     border-radius: 10px;
 }
@@ -27,6 +35,12 @@
 
 .container button {
     background-color: grey;
+    margin-bottom: 10px;
+}
+
+.container p {
+    font-size: 12px;
+    margin-bottom: 0;
 }
 
 .item {
@@ -43,3 +57,4 @@
     padding-left: 8px;
     align-content: center;
 }
+
