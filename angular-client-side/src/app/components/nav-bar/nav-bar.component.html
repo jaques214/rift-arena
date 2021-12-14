@@ -131,7 +131,7 @@
             Tournaments
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="#">Visualize</a></li>
+            <li><a class="dropdown-item" href="/create-team">Visualize</a></li>
           </ul>
         </div>
         <div class="dropdown nav-item">
@@ -145,7 +145,7 @@
             Teams
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="#">Visualize</a></li>
+            <li><a class="dropdown-item" href="/create-team">Visualize</a></li>
           </ul>
         </div>
         <li class="nav-item">
@@ -154,10 +154,10 @@
       
         <li><hr class="dropdown-divider" /></li>
         <li class="nav-item d-xs-block d-lg-none d-xxl-none">
-          <a class="nav-link" href="#">Login</a>
+          <a class="nav-link" href="/login">Login</a>
         </li>
         <li class="nav-item d-xs-block d-lg-none d-xxl-none">
-          <a class="nav-link" href="#">Register</a>
+          <a class="nav-link" href="/register">Register</a>
         </li>
       </ul>
       <div
@@ -172,6 +172,7 @@
           type="button"
           id="loginButton"
           aria-expanded="false"
+          onclick="window.location.href='/login'"
         >
           Login
         </button>
@@ -188,6 +189,7 @@
           type="button"
           id="registerButton"
           aria-expanded="false"
+          onclick="window.location.href='/register'"
         >
           Register
         </button>

@@ -22,6 +22,8 @@ import { FrontPageComponent } from './components/front-page/front-page.component
 import { RegisterComponent } from './components/register/register.component';
 import { SharedFormFieldComponent } from './components/shared-form-field/shared-form-field.component';
 import { LoadingCircleService } from './services/loading-circle/loading-circle.service';
+import { CreateTeamComponent } from './components/create-team/create-team.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { LoadingCircleService } from './services/loading-circle/loading-circle.s
     FrontPageComponent,
     RegisterComponent,
     SharedFormFieldComponent,
+    CreateTeamComponent,
   ],
   imports: [
     MatButtonModule,
@@ -44,6 +47,7 @@ import { LoadingCircleService } from './services/loading-circle/loading-circle.s
     HttpClientModule,
     MatToolbarModule,
     MatProgressSpinnerModule,
+    ReactiveFormsModule
   ],
   providers: [
     AuthService,
