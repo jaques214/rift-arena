@@ -8,8 +8,10 @@ const endpoint = 'https://localhost:5001/api/Teams/';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
   }),
 };
+
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +25,7 @@ export class TeamRestService {
   }
 
   getTeams(): Observable<Team[]> {
-    return this.http.get<Team[]>(endpoint);
+    return this.http.get<Team[]>(endpoint,httpOptions);
   }
 
   
