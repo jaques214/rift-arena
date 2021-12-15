@@ -5,10 +5,10 @@ export class User {
     constructor (
         public token?:string,
         public userId?: number,
-        public nickname?: string,
+        public nickname?: string ,
         public email?: string,
         public password?: string,
-        public profileImage?: string,
+        public profileImage?: File,
         public rank?: string,
         public team?: Team,
         public linkedAccount?: LinkedAccount,
@@ -25,7 +25,7 @@ export class User {
                 placeholder: 'Enter Account nickname',
                 iconlabel: 'account circle icon',
                 icon: 'account_circle',
-                model: undefined,
+                model: 'nickname',
               },
               {
                 name: 'password',
@@ -34,7 +34,7 @@ export class User {
                 placeholder: 'Enter password',
                 iconlabel: 'no encryption icon',
                 icon: 'no_encryption',
-                model: undefined,
+                model: 'password',
               },
         ]}
     }
@@ -49,7 +49,7 @@ export class User {
               placeholder: 'Enter Account nickname',
               iconlabel: 'account circle icon',
               icon: 'account_circle',
-              model: undefined,
+              model: 'nickname',
             },
             {
               name: 'email',
@@ -58,7 +58,7 @@ export class User {
               placeholder: 'Enter email',
               iconlabel: 'email icon',
               icon: 'email',
-              model: undefined,
+              model: 'email',
             },
             {
               name: 'password',
@@ -67,16 +67,16 @@ export class User {
               placeholder: 'Enter password',
               iconlabel: 'no encryption icon',
               icon: 'no_encryption',
-              model: undefined,
+              model: 'password',
             },
             {
-              name: 'password',
+              name: 'confirm-password',
               type: 'password',
               label: 'Confirm Password',
-              placeholder: 'Enter password',
+              placeholder: 'Enter password again',
               iconlabel: 'no encryption icon',
               icon: 'no_encryption',
-              model: undefined,
+              model: 'password',
             },
       ]}
   }
