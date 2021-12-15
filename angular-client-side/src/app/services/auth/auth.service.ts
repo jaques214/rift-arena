@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { catchError, Observable, throwError } from 'rxjs';
 import { User } from '@models/user';
 
-const endpoint = 'https://localhost:5001/api';
+const endpoint = 'http://localhost:5001/api';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
-    'Acess-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': '*',
   }),
 };
 
@@ -20,8 +20,8 @@ export class AuthService {
   // retorna o user com o username e password correspondente caso exista no servidor
   login(username: string, password: string): Observable<any> {
     return this.http.post<User>(
-      `${endpoint}/users/login`,
-      JSON.stringify({ Username: username, Password: password }),
+      `${endpoint}/Users/login`,
+      JSON.stringify({ Nickname: username, Password: password }),
       httpOptions
     );
   }
@@ -33,15 +33,15 @@ export class AuthService {
     password: string
   ): Observable<User> {
     return this.http.post<User>(
-      `${endpoint}/users/register`,
+      `${endpoint}/Users/register`,
       JSON.stringify({ Nickname: username, Email: email, Password: password }),
       httpOptions
-    );
+    )
   }
 
   // remove o user da localStorage, ou seja, remove a sua sessao
-  logout(): Observable<void> {
-    return this.http.get<void>(`${endpoint}/users/logout`);
+  logout():any {
+    localStorage.removeItem('currentUser');
   }
 
   /*logout() {
