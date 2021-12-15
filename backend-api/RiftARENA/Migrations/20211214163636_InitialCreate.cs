@@ -42,6 +42,7 @@ namespace RiftARENA.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Teams", x => x.TeamId);
+
                 });
 
             migrationBuilder.CreateTable(
@@ -65,6 +66,7 @@ namespace RiftARENA.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tournaments", x => x.TournamentId);
+                    
                 });
 
             migrationBuilder.CreateTable(

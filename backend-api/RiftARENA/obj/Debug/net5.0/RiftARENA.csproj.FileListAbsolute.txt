@@ -135,7 +135,6 @@ C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA
 C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Proxies.dll
 <<<<<<< HEAD
 =======
-<<<<<<< HEAD
 D:\Universidade\3_Ano\1_Semestre\Laboratorio de Desenvolvimento de Software\Trabalho Prático\riftarena_lds_21_22\backend-api\RiftARENA\obj\Debug\net5.0\RiftARENA.csproj.AssemblyReference.cache
 D:\Universidade\3_Ano\1_Semestre\Laboratorio de Desenvolvimento de Software\Trabalho Prático\riftarena_lds_21_22\backend-api\RiftARENA\obj\Debug\net5.0\RiftARENA.GeneratedMSBuildEditorConfig.editorconfig
 D:\Universidade\3_Ano\1_Semestre\Laboratorio de Desenvolvimento de Software\Trabalho Prático\riftarena_lds_21_22\backend-api\RiftARENA\obj\Debug\net5.0\RiftARENA.AssemblyInfoInputs.cache
@@ -272,7 +271,6 @@ D:\Universidade\3_Ano\1_Semestre\Laboratorio de Desenvolvimento de Software\Trab
 D:\Universidade\3_Ano\1_Semestre\Laboratorio de Desenvolvimento de Software\Trabalho Prático\riftarena_lds_21_22\backend-api\RiftARENA\obj\Debug\net5.0\RiftARENA.RazorTargetAssemblyInfo.cache
 D:\Universidade\3_Ano\1_Semestre\Laboratorio de Desenvolvimento de Software\Trabalho Prático\riftarena_lds_21_22\backend-api\RiftARENA\obj\Debug\net5.0\RiftARENA.csproj.CopyComplete
 D:\Universidade\3_Ano\1_Semestre\Laboratorio de Desenvolvimento de Software\Trabalho Prático\riftarena_lds_21_22\backend-api\RiftARENA\obj\Debug\net5.0\RiftARENA.genruntimeconfig.cache
-=======
 C:\Users\tiago\Desktop\Universidade\3ano\LDS\Projeto\riftarena_lds_21_22\backend-api\RiftARENA\bin\Debug\net5.0\appsettings.Development.json
 C:\Users\tiago\Desktop\Universidade\3ano\LDS\Projeto\riftarena_lds_21_22\backend-api\RiftARENA\bin\Debug\net5.0\appsettings.json
 C:\Users\tiago\Desktop\Universidade\3ano\LDS\Projeto\riftarena_lds_21_22\backend-api\RiftARENA\bin\Debug\net5.0\RiftARENA.exe

@@ -13,7 +13,6 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 
-
 namespace RiftArena
 {
     public class Startup

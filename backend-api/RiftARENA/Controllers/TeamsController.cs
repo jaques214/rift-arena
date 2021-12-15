@@ -36,10 +36,10 @@ namespace RiftArena.Controllers
         {
             try
             {
-
                     _service.CreateTeam(team);
-                    _context.SaveChanges();
-                    return CreatedAtRoute("GetTeam", new { id = team.TeamId }, team);
+
+                _context.SaveChanges();
+                return CreatedAtRoute("GetTeam", new { id = team.TeamId }, team);
 
             }catch (AppException ex)
             {
@@ -49,34 +49,14 @@ namespace RiftArena.Controllers
 
 
         //GET: api/Teams/{id: int}
-        [HttpGet("{id}",Name = "GetTeam")]
+        [HttpGet("{id:int}",Name = "GetTeam")]
         public ActionResult<Team> GetByID(int id)
-        { 
-        
+        {
             var teamCon = _service.GetByID(id);
             if (teamCon == null)
                 return NotFound();
             else
-<<<<<<< HEAD
                 return Ok(teamCon);
-          
-=======
-                return Ok(new
-                {
-                    Id = teamCon.TeamId,
-                    Name = teamCon.Name,
-                    TAG = teamCon.Tag,
-                    TeamLeader = teamCon.TeamLeader,
-                    Rank = teamCon.Rank,
-                    NumberOfMembers = teamCon.NumberMembers,
-                    Wins = teamCon.Wins,
-                    Defeats = teamCon.Defeats,
-                    GamesPlayed = teamCon.GamesPlayed,
-                    TournamentsWon = teamCon.TournamentsWon,
-                    Members = teamCon
-                });
-
->>>>>>> 1e8c87600fb14675b5159fa53ac1ba4b0a5793fe
         }
 
 
@@ -128,7 +108,7 @@ namespace RiftArena.Controllers
         }
 
         //POST: api/Teams/removeMember/{id}
-        [HttpDelete("removeMember/{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpDelete("removeMember/{id:int}")/*, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
         public ActionResult RemoveMember(int id, [FromBody]User user)
         {
             _service.RemoveMember(id, user);
