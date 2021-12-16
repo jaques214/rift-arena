@@ -13,21 +13,27 @@ stages:
 job_build:
  stage: build
  tags:
-  - docker-runner
+  - grupo10
+  - lds
+  - estg
  script:
   - dotnet build
  
 job_test:
  stage: test
  tags:
-  - docker-runner
+  - grupo10
+  - lds
+  - estg
  script:
   - dotnet test
   
 job_deploy:
  stage: deploy
  tags:
-  - docker-runner 
+  - grupo10
+  - lds
+  - estg 
  only:
   - master
  artifacts:
