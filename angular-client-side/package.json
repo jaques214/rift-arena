@@ -4,11 +4,10 @@
   "scripts": {
     "postinstall": "ngcc",
     "ng": "ng",
-    "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "run": "ng serve --ssl --ssl-cert localhost.crt --ssl-key localhost.key" 
+    "start": "ng serve"
   },
   "private": true,
   "dependencies": {

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Team } from '@src/app/models/team';
-import { LinkedList } from 'linked-list-typescript';
 
 const endpoint = 'https://localhost:5001/api/Teams/';
 const httpOptions = {
@@ -23,8 +22,7 @@ export class TeamRestService {
   }
 
   getTeams(): Observable<Team[]> {
-    return this.http.get<Team[]>(endpoint);
+    return this.http.get<Team[]>(endpoint, httpOptions);
   }
 
-  
 }
