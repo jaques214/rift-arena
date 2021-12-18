@@ -7,7 +7,7 @@ variables:
 
 before_script:
 - echo "Start Automated Build"
-- cd backend-api/RiftArena/
+- cd ./backend-api/RiftARENA/
 
 stages:
  - build
