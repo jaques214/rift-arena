@@ -78,7 +78,7 @@ namespace RiftArena.Controllers
             return Ok(users);
         }
 
-        [HttpDelete("{id:int}")/*, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
+        [HttpDelete("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         //[HttpDelete("{id:int}")]
         public ActionResult<User> Delete(int id)
         {
@@ -158,7 +158,7 @@ namespace RiftArena.Controllers
                 Token = tokenString
             });
         }
-
+        /*
         //POST: api/Users/{id}/acceptRequest
         [HttpPost("{id:int}/acceptRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult AcceptRequests( int userID, [FromBody]Request request)
@@ -227,7 +227,7 @@ namespace RiftArena.Controllers
                 }
             }
 
-        }
+        }*/
         
         private bool UserExists(int id)
         {

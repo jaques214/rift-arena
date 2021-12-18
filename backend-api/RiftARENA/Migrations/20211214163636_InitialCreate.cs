@@ -30,7 +30,7 @@ namespace RiftARENA.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Tag = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TeamLeader = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TeamLeader = table.Column<string>(type: "nvarchar(50)", nullable: true),
                     Rank = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NumberMembers = table.Column<int>(type: "int", nullable: false),
                     Wins = table.Column<int>(type: "int", nullable: false),
@@ -42,7 +42,6 @@ namespace RiftARENA.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Teams", x => x.TeamId);
-
                 });
 
             migrationBuilder.CreateTable(
@@ -66,7 +65,6 @@ namespace RiftARENA.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tournaments", x => x.TournamentId);
-                    
                 });
 
             migrationBuilder.CreateTable(
@@ -190,6 +188,11 @@ namespace RiftARENA.Migrations
                 name: "IX_Requests_UserID",
                 table: "Requests",
                 column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Teams_TeamLeader",
+                table: "Teams",
+                column: "TeamLeader");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TeamTournament_TournamentId",

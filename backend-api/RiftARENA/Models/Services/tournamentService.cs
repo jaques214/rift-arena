@@ -23,17 +23,29 @@ namespace RiftArena.Models.Services
         {
             _context = context;
         }
-
+        /// <summary>
+        /// Método que retorna todos os torneios existentes
+        /// </summary>
+        /// <returns>Todos os torneios existentes</returns>
         public IEnumerable<Tournament> GetAll()
         {
             return _context.Tournaments.ToList();
         }
-
+        /// <summary>
+        /// Método que retorna um torneio através de um ID
+        /// </summary>
+        /// <param name="id">ID do torneio a retornar</param>
+        /// <returns>Torneio com ID fornecido</returns>
         public Tournament GetById(int id)
         {
             return _context.Tournaments.Find(id);
         }
-
+        /// <summary>
+        /// Método que permite a criação de um torneio
+        /// </summary>
+        /// <param name="tournament">Torneio a ser criado</param>
+        /// <returns>Torneio criado</returns>
+        /// <exception cref="AppException">Exceção caso o torneio a criar falhe nas validações</exception>
         public Tournament CreateTournament(Tournament tournament)
         {
             if (string.IsNullOrEmpty(tournament.Name))
@@ -53,7 +65,13 @@ namespace RiftArena.Models.Services
             _context.SaveChanges();
             return tournament;
         }
-
+        /// <summary>
+        /// Método que permite a edição de um torneio
+        /// </summary>
+        /// <param name="id">Torneio a ser editado</param>
+        /// <param name="tournament">Torneio com edições feitas</param>
+        /// <returns>Torneio editado</returns>
+        /// <exception cref="AppException">Exceção caso a equipa a criar falhe nas validações</exception>
         public Tournament UpdateTournament(int id, Tournament tournament)
         {
             var tournamentSer = _context.Tournaments.Find(id);
@@ -82,7 +100,10 @@ namespace RiftArena.Models.Services
             return tournament;
         }
 
-
+        /// <summary>
+        /// Método que permite a eliminação de um torneio
+        /// </summary>
+        /// <param name="id">ID do torneio a eliminar</param>
         public void DeleteTournament(int id)
         {
             var tournament = _context.Tournaments.Find(id);
