@@ -7353,19 +7353,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Tiago Silva\\.nuget\\packages\\": {}
+    "C:\\Users\\Tiago Teixeira\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Tiago Silva\\Documents\\LDS\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj",
+      "projectUniqueName": "C:\\Users\\Tiago Teixeira\\Desktop\\LDS_AC\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj",
       "projectName": "RiftARENA",
-      "projectPath": "C:\\Users\\Tiago Silva\\Documents\\LDS\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj",
-      "packagesPath": "C:\\Users\\Tiago Silva\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Tiago Silva\\Documents\\LDS\\riftarena_lds_21_22\\backend-api\\RiftARENA\\obj\\",
+      "projectPath": "C:\\Users\\Tiago Teixeira\\Desktop\\LDS_AC\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj",
+      "packagesPath": "C:\\Users\\Tiago Teixeira\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Tiago Teixeira\\Desktop\\LDS_AC\\riftarena_lds_21_22\\backend-api\\RiftARENA\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Tiago Silva\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Tiago Teixeira\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -7442,6 +7442,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[5.0.12, 5.0.12]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
