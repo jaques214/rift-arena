@@ -29,7 +29,9 @@ namespace RiftArena
         public void ConfigureServices(IServiceCollection services)
         {
             
-            services.AddDbContext<RiftArenaContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("RiftArena")));
+            services.AddDbContext<RiftArenaContext>(opt => opt
+            .UseSqlServer(Configuration.GetConnectionString("RiftArena"))
+            .UseLazyLoadingProxies());
             services.AddControllers();
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
@@ -43,18 +45,20 @@ namespace RiftArena
             });*/
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(Options =>
             {
+                Options.SaveToken = true;
                 Options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Secret").Value)),
+                    IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
             });
-            services.AddTransient<IUserService, UserServices>();
-            services.AddTransient<ITeamService, TeamServices>();
-            services.AddTransient<ITournamentService, TournamentService>();
+            services.AddScoped<IUserService, UserServices>();
+            services.AddScoped<ITeamService, TeamServices>();
+            services.AddScoped<ITournamentService, TournamentService>();
             services.AddAuthentication(IISDefaults.AuthenticationScheme);
+            //services.AddAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

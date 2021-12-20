@@ -8,6 +8,7 @@ const endpoint = 'https://localhost:5001/api/Users/';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
   }),
 };
 
@@ -29,7 +30,7 @@ export class UserRestService {
 
   // envia um user e retorna o mesmo user com a informação atualizada no servidor
   updateUser(user: User): Observable<User> {
-    return this.http.post<User>(
+    return this.http.put<User>(
       endpoint + `${user.userId}`,
       JSON.stringify(user),
       httpOptions
