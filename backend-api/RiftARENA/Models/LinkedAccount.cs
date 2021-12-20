@@ -13,5 +13,6 @@ namespace RiftArena.Models
         public string Rank { get; set; }
         public string Region { get; set; }
         public virtual User User { get; set; }
+        public bool validated   { get; set; }
     }
 }
