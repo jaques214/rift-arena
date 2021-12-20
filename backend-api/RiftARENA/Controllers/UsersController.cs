@@ -45,6 +45,17 @@ namespace RiftArena.Controllers
             return Ok(list);
         }
 
+        [HttpPost("vincular")]
+        public ActionResult linkContaRiot(int userID)
+        {
+            
+            User userTemp = _userService.LinkRiot(userID,"MiMo313","EUW1");
+            _context.SaveChanges();
+
+            return Ok(userTemp);
+        }
+
+
         //POST: api/Users/desvincular
         [HttpPost("desvincular")]
         public void DesvincularContaRiot(int userID)
