@@ -4,10 +4,11 @@ import { Observable, of } from 'rxjs';
 import { User } from '@models/user';
 import { LinkedList } from 'linked-list-typescript';
 
-const endpoint = 'http://localhost:5001/api/Users/';
+const endpoint = 'https://localhost:5001/api/Users/';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
   }),
 };
 
