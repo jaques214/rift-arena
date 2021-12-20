@@ -5,6 +5,10 @@ variables:
  GIT_DEPTH: 10
  GIT_SSL_NO_VERIFY: "true"
 
+before_script:
+- echo "Start Automated Build"
+- cd ./backend-api/RiftARENA/
+
 stages:
  - build
  - test
@@ -13,21 +17,27 @@ stages:
 job_build:
  stage: build
  tags:
-  - docker-runner
+  - grupo10
+  - lds
+  - estg
  script:
   - dotnet build
  
 job_test:
  stage: test
  tags:
-  - docker-runner
+  - grupo10
+  - lds
+  - estg
  script:
   - dotnet test
   
 job_deploy:
  stage: deploy
  tags:
-  - docker-runner 
+  - grupo10
+  - lds
+  - estg 
  only:
   - master
  artifacts:
