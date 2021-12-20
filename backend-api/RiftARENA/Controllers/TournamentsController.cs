@@ -20,14 +20,14 @@ namespace RiftArena.Controllers
         }
 
         //POST: api/Tournaments/createTournament
-        [HttpPost("createTournament"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("createTournament")/*, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
         public IActionResult createTournament([FromBody]Tournament tournament){
             _service.CreateTournament(tournament);
             _context.SaveChanges();
             return CreatedAtRoute("GetTournament", new { id = tournament.TournamentId }, tournament);
         }
 
-        //GET: api/Teams/{id:int}
+        //GET: api/Tournaments/{id:int}
         [HttpGet("{id:int}", Name = "GetTournament")]
         public ActionResult<Tournament> GetByID(int id){
             var tournament = _service.GetById(id);

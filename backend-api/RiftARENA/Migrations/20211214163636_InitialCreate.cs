@@ -94,12 +94,12 @@ namespace RiftARENA.Migrations
                         principalTable: "LinkedAccounts",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
+                   /* table.ForeignKey(
                         name: "FK_Users_Teams_TeamID",
                         column: x => x.TeamID,
                         principalTable: "Teams",
                         principalColumn: "TeamId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Restrict);*/
                 });
 
             migrationBuilder.CreateTable(

@@ -54,9 +54,12 @@ namespace RiftArena.Models.Services
                 throw new AppException("The numbers of teams of the tournament should be 8,16 or 32.");
             if (tournament.Rank == null)
                 throw new AppException("Choose a rank.");
-            if (tournament.date < System.DateTime.Now && tournament.date == null) 
+            if (tournament.date < System.DateTime.Now) 
                 throw new AppException("Invalid date.");
+            if(tournament.MiniumTier == null)
+                throw new AppException("Choose a minium tier.");
 
+            //tournament creator = token....
             //falta buscar região pelo user
             tournament.State = Status.NotPublished;
             tournament.Stages = new List<Team>();

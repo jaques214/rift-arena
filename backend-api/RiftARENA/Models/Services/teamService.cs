@@ -63,6 +63,9 @@ namespace RiftArena.Models.Services
 
             if (string.IsNullOrWhiteSpace(team.Tag))
                 throw new AppException("Team tag is required");
+            Console.WriteLine(team.Tag.Length);
+            if (team.Tag.Length != 3)
+                throw new AppException("TAG should contain only 3 letters");
 
             if (_context.Teams.Any(x => x.Tag == team.Tag))
                 throw new AppException("Team tag \"" + team.Tag + "\" is already taken");
@@ -135,6 +138,7 @@ namespace RiftArena.Models.Services
             var team = _context.Teams.Find(id);
             if (team != null)
             {
+                //colocar o team dos members a null
                 _context.Teams.Remove(team);
                 _context.SaveChanges();
             }

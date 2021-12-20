@@ -78,7 +78,7 @@ namespace RiftArena.Controllers
             return Ok(users);
         }
 
-        [HttpDelete("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpDelete("{id:int}")/*, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
         //[HttpDelete("{id:int}")]
         public ActionResult<User> Delete(int id)
         {
