@@ -64,16 +64,15 @@ namespace RiftArena.Models.Services
         }
 
         //Conecta a conta riot retornando já o user atualizado e confirma a validação pelo Icon
-        public User LinkRiot(int userID, string nickname,string region)
+        public void LinkRiot(int userID, string nickname,string region)
         {
             User userTemp = GetById(userID);
-            
 
             if (userTemp != null)
             {
                 Summoner_V4 summoner_v4 = new Summoner_V4(region);
                 var summoner = summoner_v4.GetSummonerByName(nickname);
-                
+                Console.WriteLine(summoner);
 
                 if (summoner == null)
                 {
@@ -83,26 +82,28 @@ namespace RiftArena.Models.Services
                 var linkedTemp = new LinkedAccount
                 {
                     Username = nickname,
-                    User = userTemp,
-                    profileIconID = summoner.profileIconId,
+                    ProfileIconID = summoner.profileIconId,
                     Region = region,
                     ID = summoner.id,
-                    summonerLevel = summoner.summonerLevel,
-                    validated = false
+                    SummonerLevel = summoner.summonerLevel,
+                    Validated = false
                 };
+                Console.WriteLine(linkedTemp.ID);
+                userTemp.LinkedAccount = linkedTemp;
+                userTemp.ContaRiot = nickname;
 
                 if (CheckValidatedRiot(linkedTemp))
                 {
-                    linkedTemp.validated = true;
+                    linkedTemp.Validated = true;
                 }
+
+
 
             }
             else
             {
                 throw new AppException("User not found");
             }
-
-            return null;
         }
 
         //Muda o estado da conta para validada
@@ -110,14 +111,14 @@ namespace RiftArena.Models.Services
         {
             if (CheckValidatedRiot(linked))
             {
-                linked.validated = true;
+                linked.Validated = true;
             }
         }
 
         //Confirma se a conta está validada ou não
         public bool CheckValidatedRiot(LinkedAccount linked)
         {
-            if (linked.profileIconID.Equals("7"))
+            if (linked.ProfileIconID == 7)
             {
                 return true;
             }

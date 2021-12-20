@@ -45,11 +45,11 @@ namespace RiftArena.Controllers
             return Ok(list);
         }
 
-        [HttpPost("vincular")]
-        public ActionResult linkContaRiot(int userID)
+        [HttpPost("{id:int}/vincular")]
+        public ActionResult linkContaRiot(int id)
         {
-            
-            User userTemp = _userService.LinkRiot(userID,"MiMo313","EUW1");
+            //User userTemp = _userService.LinkRiot(userID,acc.Username,acc.Region);
+            User userTemp = _userService.LinkRiot(id,"MiMo313","euw1");
             _context.SaveChanges();
 
             return Ok(userTemp);
@@ -108,7 +108,7 @@ namespace RiftArena.Controllers
             return Ok(users);
         }
 
-        [HttpDelete("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpDelete("{id:int}")/*, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
         //[HttpDelete("{id:int}")]
         public ActionResult<User> Delete(int id)
         {

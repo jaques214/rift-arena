@@ -11,11 +11,13 @@ namespace RiftARENA.Migrations
                 name: "LinkedAccounts",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProfileIconID = table.Column<int>(type:"int", nullable: true),
+                    SummonerLevel = table.Column<long>(type:"bigint", nullable:true),
                     Rank = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Region = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Region = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Validated = table.Column<bool>(type:"bit", nullable: true)                    
                 },
                 constraints: table =>
                 {
@@ -82,7 +84,7 @@ namespace RiftARENA.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ContaRiot = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NumVitoriasTotal = table.Column<int>(type: "int", nullable: false),
-                    LinkedAccountID = table.Column<int>(type: "int", nullable: true),
+                    LinkedAccountID = table.Column<string>(type: "nvarchar(100)", nullable: true),
                     TeamID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>

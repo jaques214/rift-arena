@@ -5,13 +5,13 @@ namespace RiftARENA.Models.API
 {
     public class Api
     {
-        private string key { get; set; }
+        protected string key { get; set; }
         private string Region { get; set; }
 
         public Api(string region)
         {
             Region = region; 
-            key = GetKey("API/key.txt");
+            key = GetKey("./Models/API/key.txt");
         }
 
         public HttpResponseMessage GET(string URL)
@@ -33,7 +33,10 @@ namespace RiftARENA.Models.API
 
         public string GetURI(string path)
         {
-            return "https://" + Region + ".api.riotgames.com/lol/" + path + "?api_key=" + key;
+            System.Console.WriteLine(Region);
+            string temp =  "https://" + Region + ".api.riotgames.com/lol/" + path + "?api_key=" + key;
+            System.Console.WriteLine(temp);
+            return temp;
         }
     }
 }
