@@ -36,6 +36,25 @@ namespace RiftArena.Controllers
             _userService = userService;
         }
 
+        //retorna os requests de um determinado utilizador
+        [HttpGet("{id:int}", Name = "GetUserRequests")]
+        public ActionResult GetAllRequestsByUserId(int userID)
+        {
+           var list = _userService.GetAllRequestsOfUserById(userID);
+
+            return Ok(list);
+        }
+
+        //POST: api/Users/desvincular
+        [HttpPost("desvincular")]
+        public void DesvincularContaRiot(int userID)
+        {
+             var user = _userService.UnlinkRiot(userID);
+            //Confirmar onde dar Update
+            //_context.Update(user);
+            _context.SaveChanges();
+        }
+
         //POST: api/Users/register
         [HttpPost("register")]
         public IActionResult Register([FromBody] User user)
