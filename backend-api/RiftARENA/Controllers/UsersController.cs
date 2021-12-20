@@ -37,21 +37,21 @@ namespace RiftArena.Controllers
         }
 
         //retorna os requests de um determinado utilizador
-        [HttpGet("{id:int}", Name = "GetUserRequests")]
-        public ActionResult GetAllRequestsByUserId(int userID)
+        [HttpGet("{id:int}/requests", Name = "GetUserRequests")]
+        public ActionResult GetAllRequestsByUserId(int id)
         {
-           var list = _userService.GetAllRequestsOfUserById(userID);
+           var list = _userService.GetAllRequestsOfUserById(id);
 
             return Ok(list);
         }
 
         //POST: api/Users/desvincular
         [HttpPost("desvincular")]
-        public void DesvincularContaRiot(int userID)
+        public void DesvincularContaRiot(int id)
         {
-             var user = _userService.UnlinkRiot(userID);
+             var user = _userService.UnlinkRiot(id);
             //Confirmar onde dar Update
-            //_context.Update(user);
+            _context.Update(user);
             _context.SaveChanges();
         }
 
