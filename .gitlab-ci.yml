@@ -44,4 +44,4 @@ job_deploy:
   paths:
    - publish/
  script:
-  - dotnet publish -c Release -o ./publish TasksOnlineWebAPI/TasksOnlineWebAPI.csproj
+  - dotnet publish -c Release -o ./publish RiftARENA/RiftARENA.csproj
