@@ -81,13 +81,13 @@ namespace RiftArena.Models.Services
             if (tournamentSer == null)
                 throw new AppException("Tournament not found!");
 
-            if (tournamentSer.State.Equals("Not Published"))
+            if (tournamentSer.State == Status.NotPublished)
             {
                 tournamentSer.Name = tournament.Name;
                 tournamentSer.Description = tournament.Description;
                 tournamentSer.NumberOfTeams = tournament.NumberOfTeams;
                 tournamentSer.Rank = tournament.Rank;
-                if(tournament.date > System.DateTime.Now || tournamentSer.date < System.DateTime.Now){
+                if(tournament.date > System.DateTime.Now || tournamentSer.date > System.DateTime.Now){
                     tournamentSer.date = tournament.date;
                 } else {
                     throw new AppException("Invalid date.");

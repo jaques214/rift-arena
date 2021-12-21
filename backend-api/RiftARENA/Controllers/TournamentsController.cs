@@ -50,7 +50,7 @@ namespace RiftArena.Controllers
         }
 
         //DELETE: api/Tournaments/{id}
-        [HttpDelete("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpDelete("{id:int}")/*, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
         public ActionResult<Tournament> DeleteTournament(int id){
             _service.DeleteTournament(id);
             _context.SaveChanges();
@@ -58,7 +58,7 @@ namespace RiftArena.Controllers
         }
 
         //PUT: api/Tournaments/{id}
-        [HttpPut("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPut("{id:int}")/*, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
         public IActionResult UpdateTournament(int id, [FromBody] Tournament tournament){
             _service.UpdateTournament(id, tournament);
             _context.SaveChanges();

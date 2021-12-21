@@ -152,7 +152,7 @@ namespace RiftArena.Controllers
         /// <param name="user">User que será removido</param>
         /// <returns>Ok</returns>
         //POST: api/Teams/removeMember/{id}
-        [HttpDelete("removeMember/{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpDelete("removeMember/{id:int}")/*, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
         public ActionResult RemoveMember(int id, [FromBody] User user)
         {
             _service.RemoveMember(id, user);
