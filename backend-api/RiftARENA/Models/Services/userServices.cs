@@ -8,8 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace RiftArena.Models.Services
-    //TO DO 
-    //Add Hashs da Password
+
 {
     //Interface de UserService com os métodos e funções a implementar
     public interface IUserService
@@ -52,6 +51,22 @@ namespace RiftArena.Models.Services
                 return userTemp.Requests;
             }
         }
+        //Apartir do ID de uma linkedAccount vai buscar o rank da mesma apartir da API da RIOT
+        public LinkedAccount GetSummonerRank(LinkedAccount account)
+        {
+            Summoner_V4 summoner_v4 = new Summoner_V4(account.Region);
+            var summoner = summoner_v4.GetSummonerStatsById(account.ID);
+
+            if(summoner == null)
+            {
+                throw new AppException("Not able to retrieve ingame stats");
+            }
+
+            account.Rank = summoner.Rank;
+            
+
+            return account;
+        }
 
         //Verifica se o Summoner Existe na riot api
         public bool VerifySummoner(string region,string summonerName)
@@ -64,7 +79,7 @@ namespace RiftArena.Models.Services
         }
 
         //Conecta a conta riot retornando já o user atualizado e confirma a validação pelo Icon
-        public void LinkRiot(int userID, string nickname,string region)
+        public User LinkRiot(int userID, string nickname,string region)
         {
             User userTemp = GetById(userID);
 
@@ -88,7 +103,7 @@ namespace RiftArena.Models.Services
                     SummonerLevel = summoner.summonerLevel,
                     Validated = false
                 };
-                Console.WriteLine(linkedTemp.ID);
+                
                 userTemp.LinkedAccount = linkedTemp;
                 userTemp.ContaRiot = nickname;
 
@@ -104,6 +119,7 @@ namespace RiftArena.Models.Services
             {
                 throw new AppException("User not found");
             }
+            return userTemp;
         }
 
         //Muda o estado da conta para validada
@@ -134,8 +150,17 @@ namespace RiftArena.Models.Services
             {
                 throw new AppException("Riot account not found");
             }
+            if(userTemp.Team != null)
+            {
+                throw new AppException("Can't unlink your account. Exit your team first before unlinking your RIOT account.");
+            }
 
+            //if (_context.LinkedAccounts.Any(x => x.ID == userTemp.Name))
+            LinkedAccount linkedTemp = _context.LinkedAccounts.Find(userTemp.LinkedAccount);
+            _context.LinkedAccounts.Remove(linkedTemp);
+            _context.SaveChanges();
             userTemp.ContaRiot = null;
+            
 
             return userTemp;     
         }

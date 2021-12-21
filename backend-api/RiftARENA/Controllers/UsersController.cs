@@ -210,8 +210,9 @@ namespace RiftArena.Controllers
                     {
                         request.Accepted = true;
                         user.Requests.Remove(request);
-                        //user.Team = request.Team;
+                        user.Team = request.Team;
                         _context.Update(request);
+                        _context.Update(user);
 
                         Team temp = _context.Teams.Find(request.Team);
 
@@ -248,6 +249,7 @@ namespace RiftArena.Controllers
                     request.Accepted = false;
                     user.Requests.Remove(request);
                     _context.Update(request);
+                    _context.Update(user);
                     _context.SaveChanges();
                     return Ok(user);
                 }
