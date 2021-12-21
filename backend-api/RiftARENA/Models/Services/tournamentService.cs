@@ -13,6 +13,8 @@ namespace RiftArena.Models.Services
         Tournament GetById(int id);
         Tournament UpdateTournament(int id, Tournament tournament);
         void DeleteTournament(int id);
+
+        void PublishTournament(int id);
     }
 
     public class TournamentService : ITournamentService
@@ -85,7 +87,12 @@ namespace RiftArena.Models.Services
             {
                 tournamentSer.Name = tournament.Name;
                 tournamentSer.Description = tournament.Description;
-                tournamentSer.NumberOfTeams = tournament.NumberOfTeams;
+                if (tournament.NumberOfTeams != 8 && tournament.NumberOfTeams != 16 && tournament.NumberOfTeams != 32)
+                {
+                    throw new AppException("The numbers of teams of the tournament should be 8,16 or 32.");
+                }else {
+                    tournamentSer.NumberOfTeams = tournament.NumberOfTeams;
+                }
                 tournamentSer.Rank = tournament.Rank;
                 if(tournament.date > System.DateTime.Now || tournamentSer.date > System.DateTime.Now){
                     tournamentSer.date = tournament.date;
@@ -115,6 +122,16 @@ namespace RiftArena.Models.Services
                 _context.Tournaments.Remove(tournament);
                 _context.SaveChanges();
             }
+        }
+
+        public void PublishTournament(int id)
+        {
+            var tournament = _context.Tournaments.Find(id);
+            /*if(tournament.creator = token.nickname)
+            {
+            tournament.State = Status.Published;
+            }*/
+            tournament.State = Status.Published;
         }
     }
 }

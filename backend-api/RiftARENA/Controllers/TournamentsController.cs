@@ -21,7 +21,7 @@ namespace RiftArena.Controllers
 
         //POST: api/Tournaments/createTournament
         [HttpPost("createTournament")/*, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
-        public IActionResult createTournament([FromBody]Tournament tournament){
+        public IActionResult createTournament([FromBody] Tournament tournament) {
             _service.CreateTournament(tournament);
             _context.SaveChanges();
             return CreatedAtRoute("GetTournament", new { id = tournament.TournamentId }, tournament);
@@ -29,7 +29,7 @@ namespace RiftArena.Controllers
 
         //GET: api/Tournaments/{id:int}
         [HttpGet("{id:int}", Name = "GetTournament")]
-        public ActionResult<Tournament> GetByID(int id){
+        public ActionResult<Tournament> GetByID(int id) {
             var tournament = _service.GetById(id);
             if (tournament == null) {
                 return NotFound();
@@ -42,7 +42,7 @@ namespace RiftArena.Controllers
         [HttpGet]
         public ActionResult<Tournament> GetAll() {
             var tournaments = _service.GetAll();
-            if(tournaments == null){
+            if (tournaments == null) {
                 return NoContent();
             } else {
                 return Ok(tournaments);
@@ -51,7 +51,7 @@ namespace RiftArena.Controllers
 
         //DELETE: api/Tournaments/{id}
         [HttpDelete("{id:int}")/*, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
-        public ActionResult<Tournament> DeleteTournament(int id){
+        public ActionResult<Tournament> DeleteTournament(int id) {
             _service.DeleteTournament(id);
             _context.SaveChanges();
             return Ok();
@@ -59,8 +59,16 @@ namespace RiftArena.Controllers
 
         //PUT: api/Tournaments/{id}
         [HttpPut("{id:int}")/*, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
-        public IActionResult UpdateTournament(int id, [FromBody] Tournament tournament){
+        public IActionResult UpdateTournament(int id, [FromBody] Tournament tournament) {
             _service.UpdateTournament(id, tournament);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPut("{id:int}/publish")]
+        public ActionResult<Tournament> PublishTournament(int id)
+        {
+            _service.PublishTournament(id);
             _context.SaveChanges();
             return Ok();
         }
