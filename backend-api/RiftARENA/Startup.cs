@@ -43,8 +43,9 @@ namespace RiftArena
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RiftARENA", Version = "v1" });
             });*/
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(Options =>
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, Options =>
             {
+                Options.RequireHttpsMetadata = false;
                 Options.SaveToken = true;
                 Options.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -57,8 +58,7 @@ namespace RiftArena
             services.AddScoped<IUserService, UserServices>();
             services.AddScoped<ITeamService, TeamServices>();
             services.AddScoped<ITournamentService, TournamentService>();
-            services.AddAuthentication(IISDefaults.AuthenticationScheme);
-            //services.AddAuthorization();
+            //services.AddAuthentication(IISDefaults.AuthenticationScheme);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
