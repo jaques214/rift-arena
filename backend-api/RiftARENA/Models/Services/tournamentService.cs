@@ -123,7 +123,10 @@ namespace RiftArena.Models.Services
                 _context.SaveChanges();
             }
         }
-
+        /// <summary>
+        /// Método que permite a publicação de um torneio
+        /// </summary>
+        /// <param name="id">Torneio a publicar</param>
         public void PublishTournament(int id)
         {
             var tournament = _context.Tournaments.Find(id);
