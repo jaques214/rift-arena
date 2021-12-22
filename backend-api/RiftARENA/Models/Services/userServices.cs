@@ -62,6 +62,7 @@ namespace RiftArena.Models.Services
                 throw new AppException("Not able to retrieve ingame stats");
             }
 
+            Console.WriteLine( "SUMMOMMER" + summoner);
             account.Rank = summoner.Rank;
             
 

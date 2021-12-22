@@ -30,7 +30,7 @@ namespace RiftARENA.Models.API
 
         public LinkedAccount GetSummonerStatsById(string summonerId)
         {
-            string path = "/league/v4/entries/by-summoner/" + summonerId;
+            string path = "league/v4/entries/by-summoner/" + summonerId;
 
             var response = GET(GetURI(path));
             string content = response.Content.ReadAsStringAsync().Result;

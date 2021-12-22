@@ -60,6 +60,8 @@ namespace RiftArena.Controllers
         [HttpPost("{id:int}/validar")]
         public ActionResult ValidateRiotAccount(int id)
         {
+            // validar token e extrair nickname do token
+            // atraves do nickname, obter id do user 
             User userTemp = _userService.GetById(id);
             _userService.ValidateRiot(userTemp.LinkedAccount);
             _context.SaveChanges();
