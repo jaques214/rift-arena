@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using RiftArena.Models;
+using System.Collections.Generic;
 
 namespace RiftARENA.Models.API
 {
@@ -15,6 +16,7 @@ namespace RiftARENA.Models.API
 
             var response = GET(GetURI(path));
             string content = response.Content.ReadAsStringAsync().Result;
+            System.Console.WriteLine("content by name " + content);
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -34,11 +36,12 @@ namespace RiftARENA.Models.API
 
             var response = GET(GetURI(path));
             string content = response.Content.ReadAsStringAsync().Result;
+            System.Console.WriteLine("content" + content);
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-
-                return JsonConvert.DeserializeObject<SummonerSTATS>(content);
+                var obj = JsonConvert.DeserializeObject<List<SummonerSTATS>>(content);
+                return obj[0];
             }
             else
             {

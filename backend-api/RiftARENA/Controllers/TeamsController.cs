@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Json;
 using RiftArena.Models.Contexts;
 using RiftArena.Models;
 using RiftArena.Models.Services;
@@ -90,6 +91,17 @@ namespace RiftArena.Controllers
         public ActionResult<Team> GetAll()
         {
             var teamsCon = _service.GetAll();
+            var teamsRestricted = new List<Object>();
+            for(int i = 0; i < teamsCon.Count(); i++)
+            {
+                Team team = teamsCon.ElementAt(i);
+                /*JsonObject obj = 
+                {
+                    "Id": team.TeamId,
+                    "tag": team.Tag
+                }*/
+                //teamsRestricted.Add();
+            }
             if (teamsCon == null)
                 return NoContent();
             else

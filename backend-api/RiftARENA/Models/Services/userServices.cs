@@ -104,7 +104,8 @@ namespace RiftArena.Models.Services
                     SummonerLevel = summoner.summonerLevel,
                     Validated = false
                 };
-                
+
+                Console.WriteLine("aqui" + GetSummonerRank(linkedTemp).ToString());
                 linkedTemp.Rank = GetSummonerRank(linkedTemp);
                 userTemp.LinkedAccount = linkedTemp;
                 userTemp.ContaRiot = nickname;
