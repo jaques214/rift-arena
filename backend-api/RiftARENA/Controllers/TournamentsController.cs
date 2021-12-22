@@ -61,6 +61,7 @@ namespace RiftArena.Controllers
         [HttpPut("{id:int}")/*, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
         public IActionResult UpdateTournament(int id, [FromBody] Tournament tournament) {
             _service.UpdateTournament(id, tournament);
+            _context.Tournaments.Update(tournament);
             _context.SaveChanges();
             return Ok();
         }
