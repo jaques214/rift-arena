@@ -22,8 +22,7 @@ namespace RiftArena.Models
             [ForeignKey("LinkedAccountID")]
             public virtual LinkedAccount LinkedAccount  { get; set; }
             public virtual List<Request> Requests   { get; set; }
-            /*[ForeignKey("TeamID")]
-            public virtual Team Team { get; set; }*/
+            public string TeamTag { get; set; }
 
         public override string ToString()
         {

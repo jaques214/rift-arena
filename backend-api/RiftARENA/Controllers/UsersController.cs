@@ -53,7 +53,7 @@ namespace RiftArena.Controllers
             }
         }
 
-       
+
         //GET: api/Users/{id: int}
         [HttpGet("{id:int}", Name = "GetUser")]
         public ActionResult<User> GetById(int id)
@@ -97,7 +97,6 @@ namespace RiftArena.Controllers
 
         //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPut("{id:int}")]
-        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult Update(int id, [FromBody] User user)
         {
 
@@ -131,16 +130,19 @@ namespace RiftArena.Controllers
 
         //POST: api/Users/login
         [HttpPost("login")]
-        public IActionResult LoginAuthenticate([FromBody]User userLogin){
+        public IActionResult LoginAuthenticate([FromBody] User userLogin)
+        {
 
             var user = _userService.Authenticate(userLogin.Nickname, userLogin.Password);
-            if(user == null) {
-                return BadRequest(new { message = "Username or password is incorrect."});
+            if (user == null)
+            {
+                return BadRequest(new { message = "Username or password is incorrect." });
             }
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes("AppSettings:Token");
-            var tokenDescription = new SecurityTokenDescriptor {
+            var tokenDescription = new SecurityTokenDescriptor
+            {
                 Subject = new ClaimsIdentity(new Claim[]{
                     new Claim(ClaimTypes.Name, user.UserID.ToString())
                 }),
@@ -151,16 +153,17 @@ namespace RiftArena.Controllers
             var tokenString = tokenHandler.WriteToken(token);
 
             //HttpContext.Request.Headers.Add("token", tokenString);
-            return Ok(new {
+            return Ok(new
+            {
                 Id = user.UserID,
                 Nickname = user.Nickname,
                 Token = tokenString
             });
         }
-        /*
+
         //POST: api/Users/{id}/acceptRequest
         [HttpPost("{id:int}/acceptRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult AcceptRequests( int userID, [FromBody]Request request)
+        public IActionResult AcceptRequests(int userID, [FromBody] Request request)
         {
             var user = _userService.GetById(userID);
             /*if (user.Team != null)
@@ -169,65 +172,65 @@ namespace RiftArena.Controllers
             }
             else
             {*/
-                if (user.Requests.Contains(request))
-                {
-                    if(request.Team.Members.Count == request.Team.MAX_MEMBERS)
-                    {
-                        return BadRequest();
-                    }
-                    else
-                    {
-                        request.Accepted = true;
-                        user.Requests.Remove(request);
-                        //user.Team = request.Team;
-                        _context.Update(request);
-
-                        Team temp = _context.Teams.Find(request.Team);
-
-                        temp.Members.Add(user);
-                        _context.Teams.Update(temp);
-                        _context.SaveChanges();
-
-                        return Ok(user);
-                    }
-
-                }
-                else
+            if (user.Requests.Contains(request))
+            {
+                if (request.Team.Members.Count == request.Team.MAX_MEMBERS)
                 {
                     return BadRequest();
                 }
-              
+                else
+                {
+                    request.Accepted = true;
+                    user.Requests.Remove(request);
+                    //user.Team = request.Team;
+                    _context.Update(request);
+
+                    Team temp = _context.Teams.Find(request.Team);
+
+                    temp.Members.Add(user);
+                    _context.Teams.Update(temp);
+                    _context.SaveChanges();
+
+                    return Ok(user);
+                }
+
+            }
+            else
+            {
+                return BadRequest();
+            }
+
             //}     
- 
+
         }
 
         //POST: api/Users/{id}/refuseRequest
         [HttpPost("{id:int}/refuseRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult RefuseRequest(int userID, [FromBody]Request request)
+        public IActionResult RefuseRequest(int userID, [FromBody] Request request)
         {
             var user = _userService.GetById(userID);
-           /* if (user.Team != null)
+            /* if (user.Team != null)
+             {
+                 return BadRequest();
+             }
+             else
+             {*/
+            if (user.Requests.Contains(request))
+            {
+                request.Accepted = false;
+                user.Requests.Remove(request);
+                _context.Update(request);
+                _context.SaveChanges();
+                return Ok(user);
+            }
+            else
             {
                 return BadRequest();
             }
-            else
-            {*/
-                if (user.Requests.Contains(request))
-                {
-                    request.Accepted = false;
-                    user.Requests.Remove(request);
-                    _context.Update(request);
-                    _context.SaveChanges();
-                    return Ok(user);
-                }
-                else
-                {
-                    return BadRequest();
-                }
             //}
 
-        }*/
-        
+        }
+
         private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.UserID == id);
