@@ -51,10 +51,16 @@ section h3 {
 
 .item p.subtitle {
     margin: 12px 0;
+    text-transform: capitalize;
 }
 
 .item .mat-icon {
+    cursor: pointer;
     padding-left: 8px;
     align-content: center;
+}
+
+.item .mat-icon:hover {
+    color: #24499A;
 }
 

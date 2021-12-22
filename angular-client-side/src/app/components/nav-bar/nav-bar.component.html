@@ -90,10 +90,10 @@
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          Username
+          {{user.nickname}}
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-          <li><a class="dropdown-item" href="/profile">My Profile</a></li>
+          <li><a class="dropdown-item" href="{{myProfile()}}">My Profile</a></li>
           <li><a class="dropdown-item" href="#">My Tournaments</a></li>
           <li><a class="dropdown-item" href="#">My Team</a></li>
           <li><a class="dropdown-item" href="#">Logout</a></li>
@@ -106,7 +106,7 @@
         "
       >
         <img
-          src="assets/images/logo.png"
+          src="{{toogleProfileIcon()}}"
           alt="Profile Picture"
           class="img-responsive img-rounded"
           style="max-height: 50px; max-width: 50px"

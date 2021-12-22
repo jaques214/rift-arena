@@ -4,7 +4,7 @@ import { LinkedAccount } from './linked_acount';
 export class User {
     constructor (
         public token?:string,
-        public userId?: number,
+        public userID?: number,
         public nickname?: string ,
         public email?: string,
         public password?: string,
