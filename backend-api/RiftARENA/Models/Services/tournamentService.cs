@@ -56,7 +56,7 @@ namespace RiftArena.Models.Services
                 throw new AppException("The numbers of teams of the tournament should be 8,16 or 32.");
             if (tournament.Rank == null)
                 throw new AppException("Choose a rank.");
-            if (tournament.date < System.DateTime.Now) 
+            if (tournament.Date < System.DateTime.Now) 
                 throw new AppException("Invalid date.");
             if(tournament.MiniumTier == null)
                 throw new AppException("Choose a minium tier.");
@@ -94,8 +94,8 @@ namespace RiftArena.Models.Services
                     tournamentSer.NumberOfTeams = tournament.NumberOfTeams;
                 }
                 tournamentSer.Rank = tournament.Rank;
-                if(tournament.date > System.DateTime.Now || tournamentSer.date > System.DateTime.Now){
-                    tournamentSer.date = tournament.date;
+                if(tournament.Date > System.DateTime.Now || tournamentSer.Date > System.DateTime.Now){
+                    tournamentSer.Date = tournament.Date;
                 } else {
                     throw new AppException("Invalid date.");
                 }
