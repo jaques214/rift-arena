@@ -52,7 +52,7 @@ namespace RiftArena.Models.Services
             }
         }
         //Apartir do ID de uma linkedAccount vai buscar o rank da mesma apartir da API da RIOT
-        public LinkedAccount GetSummonerRank(LinkedAccount account)
+        public string GetSummonerRank(LinkedAccount account)
         {
             Summoner_V4 summoner_v4 = new Summoner_V4(account.Region);
             var summoner = summoner_v4.GetSummonerStatsById(account.ID);
@@ -65,7 +65,7 @@ namespace RiftArena.Models.Services
             account.Rank = summoner.Rank;
             
 
-            return account;
+            return account.Rank;
         }
 
         //Verifica se o Summoner Existe na riot api
@@ -104,6 +104,7 @@ namespace RiftArena.Models.Services
                     Validated = false
                 };
                 
+                linkedTemp.Rank = GetSummonerRank(linkedTemp);
                 userTemp.LinkedAccount = linkedTemp;
                 userTemp.ContaRiot = nickname;
 

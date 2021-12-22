@@ -45,11 +45,23 @@ namespace RiftArena.Controllers
             return Ok(list);
         }
 
+        //Vai vincular uma conta riot a um user
         [HttpPost("{id:int}/vincular")]
         public ActionResult linkContaRiot(int id)
         {
             //User userTemp = _userService.LinkRiot(userID,acc.Username,acc.Region);
             User userTemp = _userService.LinkRiot(id,"MiMo313","euw1");
+            _context.SaveChanges();
+
+            return Ok(userTemp);
+        }
+
+        //Vai validar a conta linkada pelo user
+        [HttpPost("{id:int}/validar")]
+        public ActionResult ValidateRiotAccount(int id)
+        {
+            User userTemp = _userService.GetById(id);
+            _userService.ValidateRiot(userTemp.LinkedAccount);
             _context.SaveChanges();
 
             return Ok(userTemp);
