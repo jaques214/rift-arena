@@ -30,7 +30,7 @@ namespace RiftARENA.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Tag = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TeamLeader = table.Column<string>(type: "nvarchar(50)", nullable: true),
+                    TeamLeader = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Rank = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NumberMembers = table.Column<int>(type: "int", nullable: false),
                     Wins = table.Column<int>(type: "int", nullable: false),
@@ -83,7 +83,8 @@ namespace RiftARENA.Migrations
                     ContaRiot = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NumVitoriasTotal = table.Column<int>(type: "int", nullable: false),
                     LinkedAccountID = table.Column<int>(type: "int", nullable: true),
-                    TeamID = table.Column<int>(type: "int", nullable: true)
+                    TeamTag = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TeamId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -94,12 +95,12 @@ namespace RiftARENA.Migrations
                         principalTable: "LinkedAccounts",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
-                   /* table.ForeignKey(
-                        name: "FK_Users_Teams_TeamID",
-                        column: x => x.TeamID,
+                    table.ForeignKey(
+                        name: "FK_Users_Teams_TeamId",
+                        column: x => x.TeamId,
                         principalTable: "Teams",
                         principalColumn: "TeamId",
-                        onDelete: ReferentialAction.Restrict);*/
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -190,11 +191,6 @@ namespace RiftARENA.Migrations
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Teams_TeamLeader",
-                table: "Teams",
-                column: "TeamLeader");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_TeamTournament_TournamentId",
                 table: "TeamTournament",
                 column: "TournamentId");
@@ -202,14 +198,12 @@ namespace RiftARENA.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Users_LinkedAccountID",
                 table: "Users",
-                column: "LinkedAccountID",
-                unique: true,
-                filter: "[LinkedAccountID] IS NOT NULL");
+                column: "LinkedAccountID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_TeamID",
+                name: "IX_Users_TeamId",
                 table: "Users",
-                column: "TeamID");
+                column: "TeamId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
