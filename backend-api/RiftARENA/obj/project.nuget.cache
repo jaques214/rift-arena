@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "2/a/PUWKhY2/YogrIYjFvigwlXCFm4jEQZRlY3r7nd4NulXNhI9GW1atEZgkKZm2v1dtSmKJV3GIdBjOPu5Tlw==",
+  "dgSpecHash": "Cu4wHim4pY6PXUCrR1gkFjS99pU89nhml2nKN7tIlBwUirVW4Pa+H8QiKyP3zhHxeox5bbGrp8u2T7JOO34F4g==",
   "success": true,
   "projectFilePath": "C:\\Users\\Tiago Teixeira\\Desktop\\LDS_AC\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj",
   "expectedPackageFiles": [
@@ -117,6 +117,7 @@
     "C:\\Users\\Tiago Teixeira\\.nuget\\packages\\system.io.compression.zipfile\\4.3.0\\system.io.compression.zipfile.4.3.0.nupkg.sha512",
     "C:\\Users\\Tiago Teixeira\\.nuget\\packages\\system.io.filesystem\\4.3.0\\system.io.filesystem.4.3.0.nupkg.sha512",
     "C:\\Users\\Tiago Teixeira\\.nuget\\packages\\system.io.filesystem.primitives\\4.3.0\\system.io.filesystem.primitives.4.3.0.nupkg.sha512",
+    "C:\\Users\\Tiago Teixeira\\.nuget\\packages\\system.json\\4.7.1\\system.json.4.7.1.nupkg.sha512",
     "C:\\Users\\Tiago Teixeira\\.nuget\\packages\\system.linq\\4.3.0\\system.linq.4.3.0.nupkg.sha512",
     "C:\\Users\\Tiago Teixeira\\.nuget\\packages\\system.linq.expressions\\4.3.0\\system.linq.expressions.4.3.0.nupkg.sha512",
     "C:\\Users\\Tiago Teixeira\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
