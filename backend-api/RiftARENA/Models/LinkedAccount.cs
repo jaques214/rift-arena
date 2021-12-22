@@ -1,17 +1,17 @@
-﻿using RiftArena.Models;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace RiftARENA.Models
+namespace RiftArena.Models
 {
     public class LinkedAccount
     {
-        public int Id { get; set; }
-
-        public string username { get; set; }
-
-        public string rank { get; set; }
-
-        public string region { get; set; }
-
-        public User user { get; set; }
+        [Key]
+        public string ID { get; set; }
+        public string Username { get; set; }       
+        public int ProfileIconID { get; set; }
+        public long SummonerLevel  { get; set; }
+        public string Rank { get; set; }
+        public string Region { get; set; }
+        public bool Validated { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-import {Team} from './team'
+import {Team} from './team';
+import { Message } from './message';
+import { LinkedList } from 'linked-list-typescript';
 
 export enum State {
     PUBLISHED,
@@ -15,7 +17,7 @@ export class Tournament {
         public numberOfTeams: number,
         public name: string,
         public state: State,
-        public stages: Team[],
+        public stages: LinkedList<Team>,
         public rank: string,
         public date: any,
         public region: string,
@@ -24,6 +26,7 @@ export class Tournament {
         public prize: number,
         public minimumTier: string,
         public poster: string,
+        public chat: Message[],
     ) {}
 
     static fields(){

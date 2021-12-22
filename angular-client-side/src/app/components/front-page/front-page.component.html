@@ -1,0 +1,165 @@
+<app-nav-bar></app-nav-bar>
+<div
+  class="container-fluid d-flex justify-content-center gap-3 row main-container"
+  *ngIf="firstTeam != undefined && teams != undefined"
+>
+  <!-- <p class="fs-4 text-center">Newest Tournaments</p>
+  <div class="row d-flex justify-content-center">
+    <div
+      class="container d-flex justify-content-center row gap-3"
+      style="text-align: center"
+    >
+      <div class="card" style="width: 18rem">
+        <div class="card-body">
+          <h5 class="card-title">Tournament X</h5>
+          <p class="card-text">
+            Some quick example text to build on the card title and make up the
+            bulk of the card's content.
+          </p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">An item</li>
+          <li class="list-group-item">A second item</li>
+          <li class="list-group-item">A third item</li>
+        </ul>
+        <div class="card-body">
+          <a href="#" class="card-link">Card link</a>
+          <a href="#" class="card-link">Another link</a>
+        </div>
+      </div>
+      <div class="card d-none d-lg-block" style="width: 18rem">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">
+            Some quick example text to build on the card title and make up the
+            bulk of the card's content.
+          </p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">An item</li>
+          <li class="list-group-item">A second item</li>
+          <li class="list-group-item">A third item</li>
+        </ul>
+        <div class="card-body">
+          <a href="#" class="card-link">Card link</a>
+          <a href="#" class="card-link">Another link</a>
+        </div>
+      </div>
+      <div class="card d-none d-lg-block" style="width: 18rem">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">
+            Some quick example text to build on the card title and make up the
+            bulk of the card's content.
+          </p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">An item</li>
+          <li class="list-group-item">A second item</li>
+          <li class="list-group-item">A third item</li>
+        </ul>
+        <div class="card-body">
+          <a href="#" class="card-link">Card link</a>
+          <a href="#" class="card-link">Another link</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sd-2 d-flex justify-content-center">
+    <button class="btn btn-blue btn-block inline" type="button">
+      View All
+    </button>
+  </div> -->
+  <!--Top 3 Teams-->
+  <p class="fs-4 text-center mt-5">Top 3 Teams</p>
+  <div class="row d-flex justify-content-center">
+    <div
+      class="container d-flex justify-content-center row gap-3"
+      style="text-align: center"
+    >
+      <div class="card" style="width: 18rem">
+        <div class="card-body">
+          <h5 class="card-title">#{{ firstTeam.tag }}</h5>
+          <p class="card-text">
+            {{ firstTeam.name }}
+          </p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" style="font-weight: bold">
+            Leader:
+
+            <a style="font-weight: normal">{{
+              firstTeam.teamLeader.nickname
+            }}</a>
+          </li>
+          <li class="list-group-item" style="font-weight: bold">
+            Rank:
+
+            <a style="font-weight: normal">{{ firstTeam.rank }}</a>
+          </li>
+          <li class="list-group-item" style="font-weight: bold">
+            Winrate:
+
+            <a style="font-weight: normal">{{ getWinrate(firstTeam) }}%</a>
+          </li>
+        </ul>
+        <div class="card-body">
+          <a href="#" class="card-link">View Members</a>
+        </div>
+      </div>
+      <div
+        class="card d-none d-lg-block"
+        style="width: 18rem"
+        *ngFor="let team of teams"
+      >
+        <div class="card-body">
+          <h5 class="card-title">#{{ team.tag }}</h5>
+          <p class="card-text">
+            {{ team.name }}
+          </p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" style="font-weight: bold">
+            Leader:
+
+            <a style="font-weight: normal">{{ team.teamLeader.nickname }}</a>
+          </li>
+          <li class="list-group-item" style="font-weight: bold">
+            Rank:
+
+            <a style="font-weight: normal">{{ team.rank }}</a>
+          </li>
+          <li class="list-group-item" style="font-weight: bold">
+            Winrate:
+
+            <a style="font-weight: normal">{{ getWinrate(team) }}%</a>
+          </li>
+        </ul>
+        <div class="card-body">
+          <a href="#" class="card-link">View Members</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sd-2 d-flex justify-content-center mb-4">
+    <button class="btn btn-blue btn-block inline" type="button">
+      View All
+    </button>
+  </div>
+</div>
+<div *ngIf="firstTeam == undefined && teams == undefined">
+  <mat-progress-spinner
+    style="
+      position: fixed;
+      z-index: 999;
+      overflow: show;
+      margin: auto;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+    "
+    [mode]="'indeterminate'"
+    *ngIf="loading | async"
+  ></mat-progress-spinner>
+</div>

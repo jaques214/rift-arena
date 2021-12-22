@@ -12,13 +12,14 @@ namespace RiftArena.Models.Services
     {
         Team CreateTeam(Team team);
         IEnumerable<Team> GetAll();
-        Team GetByID(long id);
+        Team GetByID(int id);
         Team UpdateTeam(int id,Team team);
-        void DeleteTeam(long id);
-        void AddMember(long id,User user);
+        void DeleteTeam(int id);
+        void AddMember(int id,User user);
+        void RemoveMember(int id, User user);
 
     }
-    public class TeamServices
+    public class TeamServices : ITeamService
     {
         private RiftArenaContext _context;
 
@@ -32,13 +33,16 @@ namespace RiftArena.Models.Services
             return  _context.Teams.ToList();
         }
 
-        public Team GetByID(long id)
+        public Team GetByID(int id)
         {
             return _context.Teams.Find(id);
         }
 
         public Team CreateTeam(Team team)
+            //falta usar o token para verificar se o user logado ja esta numa equipa e se ja tem conta vinculada
         {
+            team.Members = new List<User>();
+
             if (string.IsNullOrWhiteSpace(team.Name))
                 throw new AppException("Team name is required");
 
@@ -51,6 +55,16 @@ namespace RiftArena.Models.Services
             if (_context.Teams.Any(x => x.Tag == team.Tag))
                 throw new AppException("Team tag \"" + team.Tag + "\" is already taken");
 
+            var user = _context.Users.SingleOrDefault(x => x.Nickname == team.TeamLeader);
+
+            team.TeamLeader =   team.TeamLeader;
+            team.Defeats = 0;
+            team.Wins = 0;
+            team.TournamentsWon = 0;
+            team.GamesPlayed = 0;
+            team.NumberMembers = 1;
+            //team.Rank = token user getrank(atraves da api)
+            //team.Members.Add(user);
 
             _context.Teams.Add(team);
             _context.SaveChanges();
@@ -61,8 +75,8 @@ namespace RiftArena.Models.Services
 
         public Team UpdateTeam(int id,Team team)
         {
-            var teamSer = _context.Teams.Find(id);
-            if (teamSer != null)
+            var teamSer = GetByID(id);
+            if (teamSer == null)
                 throw new AppException("Team not found!");
 
 
@@ -82,6 +96,8 @@ namespace RiftArena.Models.Services
 
             teamSer.Name = team.Name;
             teamSer.Tag = team.Tag;
+            teamSer.Rank = team.Rank;
+
 
             _context.Teams.Update(team);
             _context.SaveChanges();
@@ -89,7 +105,7 @@ namespace RiftArena.Models.Services
             return GetByID(team.TeamId);
         }
 
-        public void DeleteTeam(long id)
+        public void DeleteTeam(int id)
         {
             var team = _context.Teams.Find(id);
             if (team != null)
@@ -99,7 +115,7 @@ namespace RiftArena.Models.Services
             }
         }
 
-        /*public void AddMember(long id,User user)
+        public void AddMember(int id,User user)
         {
             var TeamTemp = GetByID(id);
             if (TeamTemp == null)
@@ -108,15 +124,39 @@ namespace RiftArena.Models.Services
             }
             else
             {
-                if (TeamTemp.NumberMembers == 7)
+                if (TeamTemp.NumberMembers == TeamTemp.MAX_MEMBERS)
                 {
                     throw new AppException("Team full");
                 }
                 else
                 {
+                    TeamTemp.Members.Add(user);
                     TeamTemp.NumberMembers++;
                 }
             }
-        }*/
+            _context.Teams.Update(TeamTemp);
+            _context.SaveChanges();
+        }
+
+        public void RemoveMember(int id, User user)
+        {
+            //falta usar o token para verificar se o user logado � team leader
+            var TeamTemp = GetByID(id);
+            if(TeamTemp == null)
+            {
+                throw new AppException("Not Found");
+            }
+            else
+            {
+                TeamTemp.Members.Remove(user);
+                TeamTemp.NumberMembers--;
+            }
+
+            _context.Teams.Update(TeamTemp);
+            _context.SaveChanges();
+        }
+
+
+        //criar metodo para calcular rank
     }
 }
