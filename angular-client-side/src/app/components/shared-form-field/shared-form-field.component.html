@@ -9,6 +9,17 @@
           </button>
         </mat-form-field>
   </ng-template>
+
+  <ng-template [ngSwitchCase]="'select'">
+    <mat-form-field appearance="standard" ngClass="form-field">
+      <mat-select required>
+        <mat-option *ngFor="let region of regionValues" value="{{region}}">{{region}}</mat-option>
+      </mat-select>
+      <mat-label><mat-icon aria-hidden="false" aria-label="" matSuffix>
+        {{ input.icon }}
+        </mat-icon> {{ input.label }}</mat-label>
+      </mat-form-field>
+  </ng-template>
   
   <ng-template [ngSwitchDefault]>
     <mat-form-field appearance="standard" ngClass="form-field">

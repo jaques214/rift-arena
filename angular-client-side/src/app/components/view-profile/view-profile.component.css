@@ -12,16 +12,16 @@ section h3 {
 
 .container {
     display: flex;
-    width: 40%;
+    width: 80%;
     background-color: #dddbdb;
     justify-content: flex-start;
     padding: 10px;
     border-radius: 10px;
+    flex-wrap: wrap;
 }
 
 .container div {
-    align-content: center;
-    width: 50%;
+    flex-basis: 50%;
     margin: auto;
 }
 
@@ -49,6 +49,10 @@ section h3 {
     margin: auto;
 }
 
+.mat-form-field {
+    width: 80%;
+}
+
 .item p.subtitle {
     margin: 12px 0;
     text-transform: capitalize;
@@ -64,3 +68,18 @@ section h3 {
     color: #24499A;
 }
 
+@media screen and (min-width: 1000px) {
+    .container {
+        display: flex;
+        width: 40%;
+        background-color: #dddbdb;
+        justify-content: flex-start;
+        padding: 10px;
+        flex-wrap: wrap;
+        border-radius: 10px;
+    }
+
+    .mat-form-field {
+        width: 40%;
+    }
+}

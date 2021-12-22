@@ -28,10 +28,10 @@ export class UserRestService {
     return this.http.get<LinkedList<User>>(endpoint, httpOptions);
   }
 
-  addAccount(data: Object): Observable<any> {
-    const url = `${endpoint}/LinkedAccounts`;
+  /*addAccount(data: Object): Observable<any> {
+    const url = `${endpoint}LinkedAccounts`;
     return this.http.post(url, httpOptions);
-  }
+  }*/
 
   // envia um user e retorna o mesmo user com a informação atualizada no servidor
   updateUser(user: User): Observable<User> {

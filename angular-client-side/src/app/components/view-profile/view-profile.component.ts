@@ -13,14 +13,9 @@ import { Team } from '@models/team';
   styleUrls: ['./view-profile.component.css']
 })
 export class ViewProfileComponent implements OnInit {
-  user!: User;
+  @Input() input!: any;
+  user?: User;
   account!: LinkedAccount;
-  account1 = {
-    username: "n",
-    rank: "g",
-    region: "Portugal"
-  }
-
   info: any;
   icon?: string;
   label?: string;
@@ -29,9 +24,9 @@ export class ViewProfileComponent implements OnInit {
   imageFieldName: string = this.normalizeImageName(this.image);
   imageFieldPath = 'https://localhost:5001/api/' + this.image;
   flag : string = "view";
-  @Input() input!: any;
-  formFields: any = User.registerFields();
-  propertyValues: any = []; 
+  accountFlag: string = "view";
+  formFields: any = User.fields();
+  accountFields: any = LinkedAccount.fields();
 
   constructor(private restService : UserRestService, private teamRestService : TeamRestService, private route: ActivatedRoute, private router: Router) {
     const routeState = this.router?.getCurrentNavigation()?.extras?.state
@@ -49,7 +44,7 @@ export class ViewProfileComponent implements OnInit {
   }
 
    onSubmit(): void {
-    const data = this.user;
+    const data = this.user!;
     this.formFields.inputs.forEach((input:any) => {
       (data as any)[input.name!] = input.model;
     });
@@ -58,8 +53,12 @@ export class ViewProfileComponent implements OnInit {
   }
 
   clickEvent() {
-    this.flag =  (this.flag = "view") ? "edit" : "view";
+      this.flag = (this.flag == "view") ? "edit" : "view";
   }
+
+  clickAccount() {
+    this.accountFlag = (this.accountFlag == "view") ? "edit" : "view";
+}
 
   editUser(user: User): void {
     this.restService.updateUser(user).subscribe({
@@ -91,31 +90,30 @@ export class ViewProfileComponent implements OnInit {
           this.label = "remove_circle_outline";
         }
         else {
-          this.info = {
-            username: this.account1.username,
-            rank: this.account1.rank,
-            region: this.account1.region
-          }
+          this.info = [this.account.username, this.account.rank, this.account.region]
           this.icon = "remove_circle_outline";
           this.label = "remove circle outline icon";
         }
-        console.log(this.user);
-        console.log(this.user.userID);
+        //console.log(this.user);
+        //console.log(this.user.userID);
       });
     }
   }
 
   getUserValue(value: any) {
-    let values = Object.entries(this.user);
-    console.log(values);
     let convert: string = "";
+    
+    if(this.user != null) {
+        let values = Object.entries(this.user!);
+        //console.log(values);
 
-    values.forEach(val => {
-      if(val[0] == value) {
-           convert = val[1];
-      }
-    });
-    console.log(convert);
+        values.forEach(val => {
+          if(val[0] == value) {
+            convert = val[1];
+        }
+        });
+    }
+    //console.log(convert);
     return convert;
   }
 
@@ -132,8 +130,22 @@ export class ViewProfileComponent implements OnInit {
     return this.teamRestService.getTeam(teamId);
   }
 
-  addAccount(account: LinkedAccount): void {
-     this.restService.addAccount(account).subscribe(() => {
+  getTeamName() {
+    return (this.user?.team) ? this.user?.team.name : "No Team";
+  }
+
+  /*addAccount(): void {
+    if(this.accountFlag = "view") {
+      this.icon = "add_circle_outline";
+      this.label = "add circle outline icon";
+      this.accountFlag = "edit";
+    }
+    else {
+      this.icon = "remove_circle_outline";
+      this.label = "remove circle outline icon";
+      this.accountFlag = "view";
+    }*/
+    //this.restService.addAccount(account).subscribe(() => {
       // if(account == undefined) {
       //   this.info = "No Linked Account";
       // }
@@ -143,7 +155,32 @@ export class ViewProfileComponent implements OnInit {
       //   region: account.region
       // }
       //window.location.reload();
-  });
+  //});
+  //}
+
+  addAccount(account: LinkedAccount): void {
+    //this.accountFlag =  (this.accountFlag = "view") ? "edit" : "view";
+    if(this.accountFlag = "view") {
+      this.icon = "add_circle_outline";
+      this.label = "add circle outline icon";
+      this.accountFlag = "edit";
+    }
+    else {
+      this.icon = "remove_circle_outline";
+      this.label = "remove circle outline icon";
+      this.accountFlag = "view";
+    }
+    //this.restService.addAccount(account).subscribe(() => {
+      // if(account == undefined) {
+      //   this.info = "No Linked Account";
+      // }
+      // this.info = {
+      //   username: account.username,
+      //   rank: account.rank,
+      //   region: account.region
+      // }
+      //window.location.reload();
+  //});
   }
 
 }

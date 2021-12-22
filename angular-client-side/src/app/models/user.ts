@@ -49,6 +49,7 @@ export class User {
               placeholder: 'Enter Account nickname',
               iconlabel: 'account circle icon',
               icon: 'account_circle',
+              isEditable: false,
               model: 'nickname',
             },
             {
@@ -58,6 +59,7 @@ export class User {
               placeholder: 'Enter email',
               iconlabel: 'email icon',
               icon: 'email',
+              isEditable: true,
               model: 'email',
             },
             {
@@ -67,6 +69,7 @@ export class User {
               placeholder: 'Enter password',
               iconlabel: 'no encryption icon',
               icon: 'no_encryption',
+              isEditable: true,
               model: 'password',
             },
             {
@@ -76,8 +79,33 @@ export class User {
               placeholder: 'Enter password again',
               iconlabel: 'no encryption icon',
               icon: 'no_encryption',
+              isEditable: false,
               model: 'password',
             },
       ]}
   }
+
+  static fields(){
+    return {
+        inputs: [
+          {
+            name: 'email',
+            type: 'email',
+            label: 'Email',
+            placeholder: 'Enter email',
+            iconlabel: 'email icon',
+            icon: 'email',
+            model: 'email',
+          },
+          {
+            name: 'password',
+            type: 'password',
+            label: 'Password',
+            placeholder: 'Enter password',
+            iconlabel: 'no encryption icon',
+            icon: 'no_encryption',
+            model: 'password',
+          },
+    ]}
+}
 }

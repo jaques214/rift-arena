@@ -1,79 +1,109 @@
 <app-nav-bar></app-nav-bar>
 <section>
-    <h3>Profile Image</h3>
-    <div [ngClass]="'container'">
-        <div>
-            <img *ngIf="image != undefined" src="{{imageFieldPath}}" alt="account circle icon">
-            <mat-icon aria-hidden="false" aria-label="account circle icon" matSuffix>account_circle</mat-icon>
-        </div>
-
-        <div>
-            <input [hidden]="true" type="file" name="poster" (change)="onFileSelected($event)" #fileUpload />
-            <button mat-flat-button type="button" (click)="fileUpload.click()">Insert profile image</button>
-            <p>{{this.fileSelected?.name || user?.profileImage?.name || imageFieldName || "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB"}}</p>
-          </div>
-
+  <h3>Profile Image</h3>
+  <div [ngClass]="'container'">
+    <div>
+      <img
+        *ngIf="image != undefined"
+        src="{{ imageFieldPath }}"
+        alt="account circle icon"
+      />
+      <mat-icon aria-hidden="false" aria-label="account circle icon" matSuffix
+        >account_circle</mat-icon
+      >
     </div>
+
+    <div>
+      <input
+        [hidden]="true"
+        type="file"
+        name="poster"
+        (change)="onFileSelected($event)"
+        #fileUpload
+      />
+      <button mat-flat-button type="button" (click)="fileUpload.click()">
+        Insert profile image
+      </button>
+      <p>
+        {{
+          this.fileSelected?.name ||
+            user?.profileImage?.name ||
+            imageFieldName ||
+            "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB"
+        }}
+      </p>
+    </div>
+  </div>
 </section>
 <section>
-    <div *ngFor="let input of formFields.inputs">
-        <div [ngClass]="'item'" >
-            <p [ngClass]="'subtitle'">{{input.name}}</p>
-            <mat-icon (click)="clickEvent()" aria-hidden="false" aria-label="edit icon" matSuffix>edit</mat-icon>
-        </div>
-        <ng-container [ngSwitch]="flag">
-    
-            <div *ngSwitchCase="'edit'">
-                <form (ngSubmit)="onSubmit()" >
-                  <div>
-                        <ng-container *ngIf="input.name">
-                            <app-shared-form-field [input]="input"></app-shared-form-field>
-                        </ng-container>
-                  </div>
-                  <button mat-raised-button color="primary" type="submit">Submit</button>
-              </form>
-            </div>
-            
-            <ng-template [ngSwitchDefault]>
-              <p>{{getUserValue(input.name)}}</p>
-            </ng-template>
-          </ng-container>
-    </div>
-
+  <div [ngClass]="'item'">
+    <p [ngClass]="'subtitle'">Nickname</p>
+  </div>
+  <p>{{ user?.nickname }}</p>
+  <div *ngFor="let input of formFields.inputs">
     <div [ngClass]="'item'">
-        <p [ngClass]="'subtitle'">Linked Account</p>
-        <mat-icon (click)="addAccount(account)" aria-hidden="false" aria-label="'label'" matSuffix>{{icon}}</mat-icon>
+      <p [ngClass]="'subtitle'">{{ input.name }}</p>
+      <mat-icon
+        *ngIf="flag == 'view'"
+        (click)="clickEvent()"
+        aria-hidden="false"
+        aria-label="edit icon"
+        matSuffix
+        >edit</mat-icon
+      >
+    </div>
+    <ng-container [ngSwitch]="flag">
+      <div *ngSwitchCase="'edit'" [ngClass]="'form-size'">
+        <form (ngSubmit)="onSubmit()">
+          <div>
+            <ng-container *ngIf="input.name">
+              <app-shared-form-field [input]="input"></app-shared-form-field>
+            </ng-container>
+          </div>
+          <button mat-raised-button color="primary" type="submit">
+            Submit
+          </button>
+        </form>
+      </div>
+
+      <ng-template [ngSwitchDefault]>
+        <p>{{ getUserValue(input.name) }}</p>
+      </ng-template>
+    </ng-container>
+  </div>
+
+  <div [ngClass]="'item'">
+    <p [ngClass]="'subtitle'">Linked Account</p>
+    <mat-icon *ngIf="flag == 'view'" (click)="clickAccount()" aria-hidden="false" aria-label="'label'" matSuffix>{{ icon }}</mat-icon>
+  </div>
+
+  <ng-container [ngSwitch]="accountFlag">
+    <div *ngSwitchCase="'edit'">
+      <form (ngSubmit)="addAccount(account)">
+        <div *ngFor="let input of accountFields.inputs">
+          <app-shared-form-field [input]="input"></app-shared-form-field>
+        </div>
+        <button mat-raised-button color="primary" type="submit">Submit</button>
+      </form>
     </div>
 
-    <ng-container [ngSwitch]="flag">
-    
-        <div *ngSwitchCase="'edit'">
-            <form (ngSubmit)="onSubmit()" >
-              <div>
-                    <ng-container *ngIf="input.name">
-                        <app-shared-form-field [input]="input"></app-shared-form-field>
-                    </ng-container>
-              </div>
-              <button mat-raised-button color="primary" type="submit">Submit</button>
-          </form>
+    <ng-template [ngSwitchDefault]>
+      <ng-container [ngSwitch]="user?.linkedAccount">
+        <div *ngSwitchCase="'undefined'">
+          <p><strong>Username:</strong> {{ info.username }}</p>
+          <p><strong>Rank:</strong> {{ info.rank }}</p>
+          <p><strong>Region:</strong> {{ info.region }}</p>
         </div>
-        
+
         <ng-template [ngSwitchDefault]>
-          <p>{{getUserValue(input.name)}}</p>
+          <p>{{ info }}</p>
         </ng-template>
       </ng-container>
+    </ng-template>
+  </ng-container>
 
-    <ng-container>
-        <p>{{info}}</p>
-    </ng-container>
-    <ng-container>
-        <p><strong>Username:</strong> {{info.username}}</p>
-        <p><strong>Rank:</strong> {{info.rank}}</p>
-        <p><strong>Region:</strong> {{info.region}}</p>
-    </ng-container>
-    <div [ngClass]="'item'">
-        <p [ngClass]="'subtitle'">Team</p>
-        <p *ngIf="user.team == undefined">No Team</p>
-    </div>
-        <p>{{user.team}}</p>
+  <div [ngClass]="'item'">
+    <p [ngClass]="'subtitle'">Team</p>
+  </div>
+  <p>{{ getTeamName() }}</p>
 </section>
