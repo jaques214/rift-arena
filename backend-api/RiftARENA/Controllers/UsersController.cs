@@ -57,7 +57,7 @@ namespace RiftArena.Controllers
 
 
         //POST: api/Users/desvincular
-        [HttpPost("desvincular")]
+        [HttpPost("{id:int}/desvincular")]
         public void DesvincularContaRiot(int id)
         {
              var user = _userService.UnlinkRiot(id);
@@ -191,9 +191,9 @@ namespace RiftArena.Controllers
 
         //POST: api/Users/{id}/acceptRequest
         [HttpPost("{id:int}/acceptRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult AcceptRequests( int userID, [FromBody]Request request)
+        public IActionResult AcceptRequests( int id, [FromBody]Request request)
         {
-            var user = _userService.GetById(userID);
+            var user = _userService.GetById(id);
             if (user.Team != null)
             {
               return BadRequest();

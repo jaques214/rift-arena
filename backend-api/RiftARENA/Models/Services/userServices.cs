@@ -156,7 +156,7 @@ namespace RiftArena.Models.Services
             }
 
             //if (_context.LinkedAccounts.Any(x => x.ID == userTemp.Name))
-            LinkedAccount linkedTemp = _context.LinkedAccounts.Find(userTemp.LinkedAccount);
+            LinkedAccount linkedTemp = _context.LinkedAccounts.Find(userTemp.LinkedAccount.ID);
             _context.LinkedAccounts.Remove(linkedTemp);
             _context.SaveChanges();
             userTemp.ContaRiot = null;
