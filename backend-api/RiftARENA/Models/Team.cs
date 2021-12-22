@@ -11,6 +11,7 @@ namespace RiftArena.Models
         [Key]
         public int TeamId { get; set; }
         public string Name { get; set; }
+        [RegularExpression(@"^[A-Z]{3}$", ErrorMessage = "TAG should only have 3 characters and can only be letters")]
         public string Tag { get; set; }
         [ForeignKey("UserNickname")]
         public string TeamLeader { get; set; }

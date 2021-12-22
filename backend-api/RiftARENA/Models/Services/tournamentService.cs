@@ -105,9 +105,9 @@ namespace RiftArena.Models.Services
                 throw new AppException("Tournament already published");
             }
 
-            _context.Tournaments.Update(tournament);
+            _context.Tournaments.Update(tournamentSer);
             _context.SaveChanges();
-            return tournament;
+            return GetById(tournamentSer.TournamentId);
         }
 
         /// <summary>

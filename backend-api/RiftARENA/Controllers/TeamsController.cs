@@ -123,7 +123,6 @@ namespace RiftArena.Controllers
             Console.WriteLine(id);
             _service.UpdateTeam(id, team);
 
-            _context.Teams.Update(team);
             _context.SaveChanges();
 
             return Ok();

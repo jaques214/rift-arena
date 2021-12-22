@@ -124,10 +124,10 @@ namespace RiftArena.Models.Services
             teamSer.Rank = team.Rank;
 
 
-            _context.Teams.Update(team);
+            _context.Teams.Update(teamSer);
             _context.SaveChanges();
 
-            return GetByID(team.TeamId);
+            return GetByID(teamSer.TeamId);
         }
         /// <summary>
         /// Método que permite a eliminação de uma equipa
