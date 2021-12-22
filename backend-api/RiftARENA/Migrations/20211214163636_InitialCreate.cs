@@ -32,7 +32,7 @@ namespace RiftARENA.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Tag = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TeamLeader = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TeamLeader = table.Column<string>(type: "nvarchar(50)", nullable: true),
                     Rank = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NumberMembers = table.Column<int>(type: "int", nullable: false),
                     Wins = table.Column<int>(type: "int", nullable: false),
@@ -96,12 +96,12 @@ namespace RiftARENA.Migrations
                         principalTable: "LinkedAccounts",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
+                   /* table.ForeignKey(
                         name: "FK_Users_Teams_TeamID",
                         column: x => x.TeamID,
                         principalTable: "Teams",
                         principalColumn: "TeamId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Restrict);*/
                 });
 
             migrationBuilder.CreateTable(
@@ -190,6 +190,11 @@ namespace RiftARENA.Migrations
                 name: "IX_Requests_UserID",
                 table: "Requests",
                 column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Teams_TeamLeader",
+                table: "Teams",
+                column: "TeamLeader");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TeamTournament_TournamentId",

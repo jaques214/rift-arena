@@ -37,9 +37,9 @@ namespace RiftArena.Models
 
         public Status State { get; set; }
 
-        public virtual Queue<Messages> Chat { get; set; }
+        public virtual List<Messages> Chat { get; set; }
 
-        public DateTime date { get; set; }
+        public virtual DateTime date { get; set; }
 
 
 

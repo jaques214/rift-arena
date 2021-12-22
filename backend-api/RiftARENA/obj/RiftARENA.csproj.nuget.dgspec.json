@@ -1,6 +1,7 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
     "C:\\Users\\Tiago Silva\\Documents\\LDS\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj": {}
   },
   "projects": {
@@ -15,6 +16,22 @@
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Tiago Silva\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+    "C:\\Users\\Tiago Teixeira\\Desktop\\LDS_AC\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\Tiago Teixeira\\Desktop\\LDS_AC\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Tiago Teixeira\\Desktop\\LDS_AC\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj",
+        "projectName": "RiftARENA",
+        "projectPath": "C:\\Users\\Tiago Teixeira\\Desktop\\LDS_AC\\riftarena_lds_21_22\\backend-api\\RiftARENA\\RiftARENA.csproj",
+        "packagesPath": "C:\\Users\\Tiago Teixeira\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Tiago Teixeira\\Desktop\\LDS_AC\\riftarena_lds_21_22\\backend-api\\RiftARENA\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Tiago Teixeira\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> 4c7b1ffa13680b0f9e438aaf8eaf975c010bbe7f
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -76,10 +93,13 @@
               "target": "Package",
               "version": "[5.0.0, )"
             },
+<<<<<<< HEAD
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.1, )"
             },
+=======
+>>>>>>> 4c7b1ffa13680b0f9e438aaf8eaf975c010bbe7f
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[5.6.3, )"

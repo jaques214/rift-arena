@@ -202,7 +202,7 @@ namespace RiftArena.Controllers
                 Token = tokenString
             });
         }
-
+        /*
         //POST: api/Users/{id}/acceptRequest
         [HttpPost("{id:int}/acceptRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult AcceptRequests( int id, [FromBody]Request request)
@@ -273,7 +273,7 @@ namespace RiftArena.Controllers
                 }
             }
 
-        }
+        }*/
         
         private bool UserExists(int id)
         {
