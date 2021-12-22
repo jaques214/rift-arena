@@ -63,7 +63,7 @@ namespace RiftArena.Models.Services
             }
 
             Console.WriteLine( "SUMMOMMER" + summoner);
-            account.Rank = summoner.Rank;
+            account.Rank = summoner.rank;
             
 
             return account.Rank;

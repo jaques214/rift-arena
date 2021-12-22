@@ -28,7 +28,7 @@ namespace RiftARENA.Models.API
 
         }
 
-        public LinkedAccount GetSummonerStatsById(string summonerId)
+        public SummonerSTATS GetSummonerStatsById(string summonerId)
         {
             string path = "league/v4/entries/by-summoner/" + summonerId;
 
@@ -38,7 +38,7 @@ namespace RiftARENA.Models.API
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
 
-                return JsonConvert.DeserializeObject<LinkedAccount>(content);
+                return JsonConvert.DeserializeObject<SummonerSTATS>(content);
             }
             else
             {
