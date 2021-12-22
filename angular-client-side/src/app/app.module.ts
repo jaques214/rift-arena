@@ -21,9 +21,10 @@ import { TeamRestService } from './services/team-rest/team-rest.service';
 import { FrontPageComponent } from './components/front-page/front-page.component';
 import { RegisterComponent } from './components/register/register.component';
 import { SharedFormFieldComponent } from './components/shared-form-field/shared-form-field.component';
+import { ViewProfileComponent } from './components/view-profile/view-profile.component';
 import { LoadingCircleService } from './services/loading-circle/loading-circle.service';
 import { CreateTeamComponent } from './components/create-team/create-team.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -33,9 +34,11 @@ import { ReactiveFormsModule } from '@angular/forms';
     FrontPageComponent,
     RegisterComponent,
     SharedFormFieldComponent,
-    CreateTeamComponent,
+    ViewProfileComponent,
+    CreateTeamComponent
   ],
   imports: [
+    FormsModule,
     MatButtonModule,
     MatIconModule,
     MatFormFieldModule,
@@ -47,7 +50,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     HttpClientModule,
     MatToolbarModule,
     MatProgressSpinnerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [
     AuthService,
