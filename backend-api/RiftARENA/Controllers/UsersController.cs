@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using RiftArena.Helpers;
 
 namespace RiftArena.Controllers
 {
@@ -29,14 +30,17 @@ namespace RiftArena.Controllers
         //Context da BD
         private readonly RiftArenaContext _context;
         private readonly IUserService _userService;
+        private readonly AppSettings _appSettings;
 
-        public UsersController(RiftArenaContext context, IUserService userService)
+        public UsersController(RiftArenaContext context, IUserService userService, IOptions<AppSettings> appSettings)
         {
             _context = context;
             _userService = userService;
+            _appSettings = appSettings.Value;
         }
 
         //POST: api/Users/register
+        [AllowAnonymous]
         [HttpPost("register")]
         public IActionResult Register([FromBody] User user)
         {
@@ -78,8 +82,7 @@ namespace RiftArena.Controllers
             return Ok(users);
         }
 
-        [HttpDelete("{id:int}")/*, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
-        //[HttpDelete("{id:int}")]
+        [HttpDelete("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<User> Delete(int id)
         {
             var user = _userService.GetById(id);
@@ -95,8 +98,7 @@ namespace RiftArena.Controllers
 
         }
 
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPut("{id:int}")]
+        [HttpPut("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult Update(int id, [FromBody] User user)
         {
 
@@ -129,6 +131,7 @@ namespace RiftArena.Controllers
         }
 
         //POST: api/Users/login
+        [AllowAnonymous]
         [HttpPost("login")]
         public IActionResult LoginAuthenticate([FromBody] User userLogin)
         {
@@ -139,8 +142,9 @@ namespace RiftArena.Controllers
                 return BadRequest(new { message = "Username or password is incorrect." });
             }
 
+            // authentication successful so generate jwt token
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("AppSettings:Token");
+            var key = Encoding.ASCII.GetBytes(_appSettings.Token);
             var tokenDescription = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]{
