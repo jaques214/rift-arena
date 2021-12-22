@@ -17,11 +17,11 @@ namespace RiftArena.Models.Contexts
         public DbSet<LinkedAccount> LinkedAccounts { get; set; }
         public DbSet<Messages> Messages { get; set; }
 
-
+        /*
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<User>().HasOne(u => u.Team).WithMany(u => u.Members);
-        }
+        }*/
 
     }
 }
