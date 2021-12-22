@@ -156,7 +156,7 @@ namespace RiftArena.Controllers
             var token = tokenHandler.CreateToken(tokenDescription);
             var tokenString = tokenHandler.WriteToken(token);
 
-            //HttpContext.Request.Headers.Add("token", tokenString);
+            HttpContext.Request.Headers.Add("token", tokenString);
             return Ok(new
             {
                 Id = user.UserID,
