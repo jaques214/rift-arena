@@ -117,7 +117,7 @@ namespace RiftARENA.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TeamLeader")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("TournamentsWon")
                         .HasColumnType("int");
@@ -126,6 +126,8 @@ namespace RiftARENA.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("TeamId");
+
+                    b.HasIndex("TeamLeader");
 
                     b.ToTable("Teams");
                 });
@@ -264,6 +266,16 @@ namespace RiftARENA.Migrations
 
                     b.Navigation("User");
                 });
+
+
+            modelBuilder.Entity("RiftArena.Models.Team", b =>
+            {
+                b.HasOne("RiftArena.Models.User", "TeamLeader")
+                    .WithMany()
+                    .HasForeignKey("TeamLeader");
+
+                b.Navigation("TeamLeader");
+            });
 
             modelBuilder.Entity("RiftArena.Models.User", b =>
                 {
