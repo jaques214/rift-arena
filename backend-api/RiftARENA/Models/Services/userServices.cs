@@ -153,10 +153,10 @@ namespace RiftArena.Models.Services
             {
                 throw new AppException("Riot account not found");
             }
-            if(userTemp.Team != null)
+            /*if(userTemp.Team != null)
             {
                 throw new AppException("Can't unlink your account. Exit your team first before unlinking your RIOT account.");
-            }
+            }*/
 
             //if (_context.LinkedAccounts.Any(x => x.ID == userTemp.Name))
             LinkedAccount linkedTemp = _context.LinkedAccounts.Find(userTemp.LinkedAccount.ID);

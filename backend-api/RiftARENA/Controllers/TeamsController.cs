@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Json;
 using RiftArena.Models.Contexts;
 using RiftArena.Models;
 using RiftArena.Models.Services;
