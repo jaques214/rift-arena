@@ -4,18 +4,18 @@ import {Tournament} from './tournament'
 export class Team {
     constructor (
         public teamId: number,
-        public tag: string,
         public name: string,
-        public rank: string,
+        public tag: string,
         public teamLeader: User,
+        public rank: string,
         public numberMembers: number,
         public wins: number,
         public defeats: number,
         public gamesPlayed: number,
-        public members: User[],
-        public poster: string,
-        public tournament: Tournament[],
         public tournamentsWon: number,
+        public poster: string,
+        public members: User[],
+        public tournament: Tournament[],
         public winrate: number | null
     ) {}
 

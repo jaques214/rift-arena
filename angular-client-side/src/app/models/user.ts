@@ -12,6 +12,7 @@ export class User {
         public rank?: string,
         public team?: Team,
         public linkedAccount?: LinkedAccount,
+        public teamID?: number,
         public requests?: Request[]
     ) {}
 

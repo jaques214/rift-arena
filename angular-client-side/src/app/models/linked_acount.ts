@@ -26,8 +26,8 @@ static fields(){
             type: 'text',
             label: 'Rank',
             placeholder: 'Choose rank',
-            iconlabel: 'no encryption icon',
-            icon: 'no_encryption',
+            iconlabel: 'star icon',
+            icon: 'star',
             model: 'rank',
           },
           {

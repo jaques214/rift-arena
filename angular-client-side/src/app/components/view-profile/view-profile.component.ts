@@ -15,6 +15,7 @@ import { Team } from '@models/team';
 export class ViewProfileComponent implements OnInit {
   @Input() input!: any;
   user?: User;
+  team?: Team;
   account!: LinkedAccount;
   info: any;
   icon?: string;
@@ -83,6 +84,7 @@ export class ViewProfileComponent implements OnInit {
     if(id && !this.user){
       this.getUser(id).subscribe((user) => {
         this.user = user;
+        //this.user?.team = this.getTeam(1)
         this.populateForm();
         if(this.account == undefined) {
           this.info = "No Linked Account";
@@ -94,8 +96,13 @@ export class ViewProfileComponent implements OnInit {
           this.icon = "remove_circle_outline";
           this.label = "remove circle outline icon";
         }
-        //console.log(this.user);
-        //console.log(this.user.userID);
+        console.log(this.user);
+        console.log(this.user?.teamID);
+        console.log(this.user?.userID);
+        console.log(this.user?.team?.name);
+        this.getTeam(1).subscribe((team) => {
+          this.team = team;
+        });
       });
     }
   }
