@@ -7,4 +7,8 @@ build_property.InvariantGlobalization =
 build_property.PlatformNeutralAssembly = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = RiftARENA
+<<<<<<< HEAD
+build_property.ProjectDir = C:\Users\Tiago Silva\Documents\LDS\riftarena_lds_21_22\backend-api\RiftARENA\
+=======
 build_property.ProjectDir = C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA\
+>>>>>>> 4c7b1ffa13680b0f9e438aaf8eaf975c010bbe7f

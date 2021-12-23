@@ -6,10 +6,12 @@ namespace RiftArena.Models
     public class LinkedAccount
     {
         [Key]
-        public int ID { get; set; }
-        public string Username { get; set; }
+        public string ID { get; set; }
+        public string Username { get; set; }       
+        public int ProfileIconID { get; set; }
+        public long SummonerLevel  { get; set; }
         public string Rank { get; set; }
         public string Region { get; set; }
-        public virtual User User { get; set; }
+        public bool Validated { get; set; }
     }
 }
