@@ -19,6 +19,8 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using RiftArena.Helpers;
+using Newtonsoft.Json;
+using System.Web;
 
 namespace RiftArena.Controllers
 {
@@ -53,19 +55,20 @@ namespace RiftArena.Controllers
         public ActionResult linkContaRiot(int id)
         {
             //User userTemp = _userService.LinkRiot(userID,acc.Username,acc.Region);
-            User userTemp = _userService.LinkRiot(id, "MiMo313", "euw1");
+            User userTemp = _userService.LinkRiot(User.Identity.Name, "MiMo313", "euw1");
             _context.SaveChanges();
 
             return Ok(userTemp);
         }
 
         //Vai validar a conta linkada pelo user
-        [HttpPost("{id:int}/validar")]
-        public ActionResult ValidateRiotAccount(int id)
+        //[HttpPost("{id:int}/validar")]
+        [HttpPost("validarConta")]
+        public ActionResult ValidateRiotAccount()
         {
             // validar token e extrair nickname do token
             // atraves do nickname, obter id do user 
-            User userTemp = _userService.GetById(id);
+            User userTemp = _userService.GetById(User.Identity.Name);
             _userService.ValidateRiot(userTemp.LinkedAccount);
             _context.SaveChanges();
 
@@ -103,10 +106,11 @@ namespace RiftArena.Controllers
 
 
         //GET: api/Users/{id: int}
-        [HttpGet("{id:int}", Name = "GetUser")]
-        public ActionResult<User> GetById(int id)
+        //[HttpGet("{id:int}", Name = "GetUser")]
+        [HttpGet(Name = "GetUser")]
+        public ActionResult<User> GetById()
         {
-            var user = _userService.GetById(id);
+            var user = _userService.GetById(User.Identity.Name);
             if (user == null)
             {
                 return NotFound();
@@ -126,27 +130,28 @@ namespace RiftArena.Controllers
             return Ok(users);
         }
 
-        [HttpDelete("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public ActionResult<User> Delete(int id)
+        //[HttpDelete("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpDelete, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public ActionResult<User> Delete(string id)
         {
-            var user = _userService.GetById(id);
+            var user = _userService.GetById(User.Identity.Name);
             if (user == null)
             {
                 return NotFound();
             }
             else
             {
-                _userService.Delete(id);
+                _userService.Delete(User.Identity.Name);
                 return Ok();
             }
 
         }
 
-        [HttpPut("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult Update(int id, [FromBody] User user)
+        //[HttpPut("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPut, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult Update(string id, [FromBody] User user)
         {
-
-            var userUp = _context.Users.Find(id);
+            var userUp = _context.Users.Find(User.Identity.Name);
 
             if (userUp == null)
             {
@@ -156,10 +161,11 @@ namespace RiftArena.Controllers
             {
                 try
                 {
+                   /* PERGUNTAR A LÓGICA
                     // save 
                     userUp.Password = user.Password;
                     userUp.Email = user.Email;
-
+                    */
                     _userService.Update(userUp);
                     _context.SaveChanges();
                     return Ok();
@@ -186,6 +192,8 @@ namespace RiftArena.Controllers
                 return BadRequest(new { message = "Username or password is incorrect." });
             }
 
+            //PASSAR PARA SERVICE
+
             // authentication successful so generate jwt token
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Token);
@@ -200,7 +208,6 @@ namespace RiftArena.Controllers
             var token = tokenHandler.CreateToken(tokenDescription);
             var tokenString = tokenHandler.WriteToken(token);
 
-            HttpContext.Request.Headers.Add("token", tokenString);
             return Ok(new
             {
                 Id = user.UserID,
@@ -210,10 +217,11 @@ namespace RiftArena.Controllers
         }
 
         //POST: api/Users/{id}/acceptRequest
-        [HttpPost("{id:int}/acceptRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult AcceptRequests(int userID, [FromBody] Request request)
+        //[HttpPost("{id:int}/acceptRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("acceptRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult AcceptRequests(string userID, [FromBody] Request request)
         {
-            var user = _userService.GetById(userID);
+            var user = _userService.GetById(User.Identity.Name);
             /*if (user.Team != null)
             {
               return BadRequest();
@@ -260,10 +268,11 @@ namespace RiftArena.Controllers
         }
 
         //POST: api/Users/{id}/refuseRequest
-        [HttpPost("{id:int}/refuseRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult RefuseRequest(int userID, [FromBody] Request request)
+        //[HttpPost("{id:int}/refuseRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("refuseRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult RefuseRequest(string userID, [FromBody] Request request)
         {
-            var user = _userService.GetById(userID);
+            var user = _userService.GetById(User.Identity.Name);
             /* if (user.Team != null)
              {
                  return BadRequest();

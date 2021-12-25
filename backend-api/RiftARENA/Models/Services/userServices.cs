@@ -15,15 +15,15 @@ namespace RiftArena.Models.Services
     {
         User Authenticate(string username, string password);
         IEnumerable<User> GetAll();
-        User GetById(int id);
+        User GetById(string id);
         User Create(User user, string password);
         void Update(User user, string password = null);
-        void Delete(int id);
-        User LinkRiot(int userID, string nickname, string region);
+        void Delete(string id);
+        User LinkRiot(string userID, string nickname, string region);
         void ValidateRiot(LinkedAccount linked);
         bool CheckValidatedRiot(LinkedAccount linked);
-        User UnlinkRiot(int userID);
-        List<Request> GetAllRequestsOfUserById(int userID);
+        User UnlinkRiot(string userID);
+        List<Request> GetAllRequestsOfUserById(string userID);
 
     }
     public class UserServices : IUserService
@@ -37,14 +37,13 @@ namespace RiftArena.Models.Services
         }
 
         //Retorna uma lista com os pedidos de um determinado User
-        public List<Request> GetAllRequestsOfUserById(int userID)
+        public List<Request> GetAllRequestsOfUserById(string userID)
         {
             User userTemp = GetById(userID);
 
             if(userTemp == null)
             {           
                 throw new AppException("Account not found");
-                return null;
             }
             else
             {
@@ -80,7 +79,7 @@ namespace RiftArena.Models.Services
         }
 
         //Conecta a conta riot retornando já o user atualizado e confirma a validação pelo Icon
-        public User LinkRiot(int userID, string nickname,string region)
+        public User LinkRiot(string userID, string nickname,string region)
         {
             User userTemp = GetById(userID);
 
@@ -145,7 +144,7 @@ namespace RiftArena.Models.Services
         }
 
         //Desvincula a conta RIOT vinculada de um user
-        public User UnlinkRiot(int userID)
+        public User UnlinkRiot(string userID)
         {
             User userTemp = GetById(userID);
 
@@ -175,7 +174,7 @@ namespace RiftArena.Models.Services
             return _context.Users.ToList();
         }
 
-        public User GetById(int id)
+        public User GetById(string id)
         {
             return _context.Users.Find(id);
         }
@@ -212,7 +211,7 @@ namespace RiftArena.Models.Services
             _context.SaveChanges();
         }
 
-        public void Delete(int id)
+        public void Delete(string id)
         {
             var user = _context.Users.Find(id);
             if (user != null)

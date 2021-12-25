@@ -38,6 +38,8 @@ namespace RiftArena.Controllers
         {
             try
             {
+                //Atribuimos o user logado ao teamLeader
+                team.TeamLeader = User.Identity.Name;
 
                 _service.CreateTeam(team);
                 _context.SaveChanges();
