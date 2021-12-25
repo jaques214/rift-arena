@@ -96,7 +96,7 @@ namespace RiftArena.Controllers
         /// </summary>
         /// <param name="id">ID do torneio a ser publicado.</param>
         /// <returns>OK 200</returns>
-        [HttpPut("{id:int}/publish")]
+        [HttpPut("{id:int}/publish"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<Tournament> PublishTournament(int id)
         {
             _service.PublishTournament(id, User.Identity.Name);

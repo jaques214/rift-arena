@@ -16,6 +16,7 @@ namespace RiftArena.Models
             public byte[] PasswordSalt { get; set; }
             public string Rank { get; set; }
             public string Tier { get; set; }
+            [RegularExpression(@"^[a-z._\d]+\@[a-z]+(\.[a-z]+)*$", ErrorMessage = "Invalid email")]
             public string Email { get; set; }
             public string ContaRiot { get; set; }
             public int NumVitoriasTotal { get; set; }

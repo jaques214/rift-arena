@@ -81,8 +81,6 @@ namespace RiftArena.Controllers
         //[HttpPost("{id:int}/validarConta")]
         public ActionResult ValidateRiotAccount()
         {
-            // validar token e extrair nickname do token
-            // atraves do nickname, obter id do user 
             User userTemp = _userService.GetById(User.Identity.Name);
             _userService.ValidateRiot(userTemp.LinkedAccount);
             _context.SaveChanges();
@@ -101,7 +99,6 @@ namespace RiftArena.Controllers
         public IActionResult DesvincularContaRiot()
         {
             var user = _userService.UnlinkRiot(User.Identity.Name);
-            //Confirmar onde dar Update
             _context.Update(user);
             _context.SaveChanges();
             return Ok();
@@ -137,7 +134,7 @@ namespace RiftArena.Controllers
         /// </summary>
         /// <param name="id">ID do utilizador a ser pesquisado.</param>
         /// <returns>Os dados do utilizador pesquisado</returns>
-        [HttpGet("{id:string}", Name = "GetUser")]
+        [HttpGet("{id}", Name = "GetUser")]
         public ActionResult<User> GetById(string id)
         {
             var user = _userService.GetById(id);
@@ -196,7 +193,7 @@ namespace RiftArena.Controllers
         //[HttpPut("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult Update([FromBody] User user)
         {
-            var userUp = _context.Users.Find(User.Identity.Name);
+            var userUp = _context.Users.Find(Int32.Parse(User.Identity.Name));
             if (userUp == null)
             {
                 return NotFound();
@@ -205,11 +202,9 @@ namespace RiftArena.Controllers
             {
                 try
                 {
-                    /* PERGUNTAR A LÓGICA
                      // save 
                      userUp.Password = user.Password;
                      userUp.Email = user.Email;
-                     */
                     _userService.Update(userUp);
                     _context.SaveChanges();
                     return Ok();

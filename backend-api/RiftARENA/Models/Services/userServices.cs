@@ -176,13 +176,13 @@ namespace RiftArena.Models.Services
 
         public User GetById(string id)
         {
-            return _context.Users.Find(id);
+            return _context.Users.Find(Int32.Parse(id));
         }
 
         //Atualiza as informações de um utilizador apartir de determinado ID
         public void Update(User userParam, string password = null)
         {
-            var user = _context.Users.Find(userParam.UserID);
+            var user = GetById(userParam.UserID.ToString());
 
             if (user == null)
                 throw new AppException("User not found");
@@ -213,7 +213,7 @@ namespace RiftArena.Models.Services
 
         public void Delete(string id)
         {
-            var user = _context.Users.Find(id);
+            var user = GetById(id);
             if (user != null)
             {
                 _context.Users.Remove(user);

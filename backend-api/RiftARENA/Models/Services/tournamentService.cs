@@ -3,6 +3,7 @@ using RiftArena.Models.Contexts;
 using RiftArena.Models.Services;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace RiftArena.Models.Services
 {
@@ -64,7 +65,7 @@ namespace RiftArena.Models.Services
                 throw new AppException("Choose a minium tier.");
 
 
-            var user = _context.Users.Find(userID);
+            var user = _context.Users.Find(Int32.Parse(userID));
             tournament.CreatorNickname = user.Nickname;
             tournament.Region = user.LinkedAccount.Region;
             tournament.State = Status.NotPublished;
@@ -86,7 +87,7 @@ namespace RiftArena.Models.Services
         public Tournament UpdateTournament(int id, Tournament tournament, string userID)
         {
             var tournamentSer = _context.Tournaments.Find(id);
-            var user = _context.Users.Find(userID);
+            var user = _context.Users.Find(Int32.Parse(userID));
 
             if (tournamentSer == null)
                 throw new AppException("Tournament not found!");
@@ -138,7 +139,7 @@ namespace RiftArena.Models.Services
         public void DeleteTournament(int id, string userID)
         {
             var tournament = _context.Tournaments.Find(id);
-            var user = _context.Users.Find(userID);
+            var user = _context.Users.Find(Int32.Parse(userID));
             if (tournament != null && tournament.CreatorNickname == user.Nickname)
             {
                 _context.Tournaments.Remove(tournament);
@@ -158,7 +159,7 @@ namespace RiftArena.Models.Services
         public void PublishTournament(int id, string userID)
         {
             var tournament = _context.Tournaments.Find(id);
-            var user = _context.Users.Find(userID);
+            var user = _context.Users.Find(Int32.Parse(userID));
             if (tournament.CreatorNickname == user.Nickname)
             {
                 tournament.State = Status.Published;

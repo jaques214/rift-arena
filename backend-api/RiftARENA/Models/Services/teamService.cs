@@ -36,7 +36,7 @@ namespace RiftArena.Models.Services
         {
             return _context.Teams.ToList();
         }
-        
+
         /// <summary>
         /// Método que retorna uma equipa através de um ID
         /// </summary>
@@ -77,17 +77,22 @@ namespace RiftArena.Models.Services
                 throw new AppException("TeamLeader\"" + team.TeamLeader + "\"is already taken");
 
 
-            var leader = _context.Users.Find(userID);
+            var leader = _context.Users.Find(Int32.Parse(userID));
 
+            team.TeamLeader = leader.Nickname;
             team.Members.Add(leader);
             team.Defeats = 0;
             team.Wins = 0;
             team.TournamentsWon = 0;
             team.GamesPlayed = 0;
             team.NumberMembers = 1;
-            //team.Rank = token user getrank(atraves da api) ==> team.Rank = leader.Rank; (?)s
+            team.Rank = leader.Rank;
 
             _context.Teams.Add(team);
+
+            leader.TeamTag = team.Tag;
+            _context.Users.Update(leader);
+
             _context.SaveChanges();
 
             return GetByID(team.TeamId);
@@ -179,7 +184,7 @@ namespace RiftArena.Models.Services
             _context.Teams.Update(TeamTemp);
             _context.SaveChanges();
         }
-        
+
         /// <summary>
         /// Método que permite a remoção de um membro a uma equipa
         /// </summary>
@@ -188,22 +193,24 @@ namespace RiftArena.Models.Services
         /// <exception cref="AppException">Exceção caso a equipa não exista ou o user a ser removido seja o team leader</exception>
         public void RemoveMember(int id, User user, string userID)
         {
-            //falta usar o token para verificar se o user logado é team leader ==> team.TeamLeader.UserID = userID
+            var userTemp = _context.Users.Find(Int32.Parse(userID));
             var TeamTemp = GetByID(id);
             if (TeamTemp == null)
             {
                 throw new AppException("Not Found");
             }
-            else if (TeamTemp.TeamLeader.Equals(user.Nickname))
+            else if (TeamTemp.TeamLeader == userTemp.Nickname)
             {
-                throw new AppException("Team leader cannot be removed");
-            }
-            else
+                if (TeamTemp.TeamLeader.Equals(user.Nickname))
+                {
+                    throw new AppException("Team leader cannot be removed");
+                }
+                else
                 {
                     TeamTemp.Members.Remove(user);
                     TeamTemp.NumberMembers--;
                 }
-
+            }
             _context.Teams.Update(TeamTemp);
             _context.SaveChanges();
         }
