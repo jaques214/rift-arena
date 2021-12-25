@@ -149,8 +149,7 @@ namespace RiftArena.Controllers
         [HttpPost("{id:int}/addMember"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult AddMember(int id, [FromBody] User user)
         {
-            _service.AddMember(id, user, User.Identity.Name);
-
+            _service.AddMember(id, user);
             _context.SaveChanges();
 
             return Ok();

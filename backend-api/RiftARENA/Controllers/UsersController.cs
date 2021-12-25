@@ -70,7 +70,7 @@ namespace RiftArena.Controllers
             _context.SaveChanges();
 
             return Ok(userTemp);
-        }        
+        }
 
         //POST: api/Users/validarConta
         /// <summary>
@@ -205,11 +205,11 @@ namespace RiftArena.Controllers
             {
                 try
                 {
-                   /* PERGUNTAR A LÓGICA
-                    // save 
-                    userUp.Password = user.Password;
-                    userUp.Email = user.Email;
-                    */
+                    /* PERGUNTAR A LÓGICA
+                     // save 
+                     userUp.Password = user.Password;
+                     userUp.Email = user.Email;
+                     */
                     _userService.Update(userUp);
                     _context.SaveChanges();
                     return Ok();
@@ -272,7 +272,7 @@ namespace RiftArena.Controllers
         /// <param name="request">(verificar)</param>
         /// <returns>OK 200 ou Bad Request 400 caso (especificar)</returns>
         [HttpPost("acceptRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        
+
         //[HttpPost("{id:int}/acceptRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult AcceptRequests([FromBody] Request request)
         {
@@ -344,33 +344,22 @@ namespace RiftArena.Controllers
                 request.Accepted = false;
                 user.Requests.Remove(request);
                 _context.Update(request);
+                _context.Update(user);
                 _context.SaveChanges();
                 return Ok(user);
             }
             else
             {
-                if (user.Requests.Contains(request))
-                {
-                    request.Accepted = false;
-                    user.Requests.Remove(request);
-                    _context.Update(request);
-                    _context.Update(user);
-                    _context.SaveChanges();
-                    return Ok(user);
-                }
-                else
-                {
-                    return BadRequest();
-                }
+                return BadRequest();
             }
-            //}
-
         }
+        //}
 
-        private bool UserExists(int id)
-        {
-            return _context.Users.Any(e => e.UserID == id);
-        }
 
+    private bool UserExists(int id)
+    {
+        return _context.Users.Any(e => e.UserID == id);
     }
+
+}
 }
