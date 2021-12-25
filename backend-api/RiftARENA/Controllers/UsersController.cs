@@ -41,29 +41,44 @@ namespace RiftArena.Controllers
             _appSettings = appSettings.Value;
         }
 
-        //retorna os requests de um determinado utilizador
-        [HttpGet("{id:int}/requests", Name = "GetUserRequests")]
-        public ActionResult GetAllRequestsByUserId(int id)
+        //GET: api/Users/requests
+        /// <summary>
+        /// Método que returnará uma lista de todos os pedidos do utilizador logado.
+        /// </summary>
+        /// <returns>OK 200 e uma lista com os pedidos do utilizador logado</returns>
+        [HttpGet("requests", Name = "GetUserRequests"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[HttpGet("{id:int}/requests", Name = "GetUserRequests")]
+        public ActionResult GetAllRequestsByUserId()
         {
-            var list = _userService.GetAllRequestsOfUserById(id);
+            var list = _userService.GetAllRequestsOfUserById(User.Identity.Name);
 
             return Ok(list);
         }
 
-        //Vai vincular uma conta riot a um user
-        [HttpPost("{id:int}/vincular")]
-        public ActionResult linkContaRiot(int id)
+        //POST: api/Users/vincularConta
+        /// <summary>
+        /// Método que vinculará uma conta RIOT ao utilizador logado
+        /// </summary>
+        /// <param name="acc">Username e região da conta RIOT a ser vinculada</param>
+        /// <returns>OK 200</returns>
+        [HttpPost("vincularConta"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[HttpPost("{id:int}/vincular")]
+        public ActionResult linkContaRiot([FromBody] LinkedAccount acc)
         {
-            //User userTemp = _userService.LinkRiot(userID,acc.Username,acc.Region);
-            User userTemp = _userService.LinkRiot(User.Identity.Name, "MiMo313", "euw1");
+            User userTemp = _userService.LinkRiot(User.Identity.Name, acc.Username, acc.Region);
+            //User userTemp = _userService.LinkRiot(User.Identity.Name, "MiMo313", "euw1");
             _context.SaveChanges();
 
             return Ok(userTemp);
-        }
+        }        
 
-        //Vai validar a conta linkada pelo user
-        //[HttpPost("{id:int}/validar")]
-        [HttpPost("validarConta")]
+        //POST: api/Users/validarConta
+        /// <summary>
+        /// Método que valida a conta linkada pelo utiliazador logado
+        /// </summary>
+        /// <returns>OK 200</returns>
+        [HttpPost("validarConta"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[HttpPost("{id:int}/validarConta")]
         public ActionResult ValidateRiotAccount()
         {
             // validar token e extrair nickname do token
@@ -77,16 +92,27 @@ namespace RiftArena.Controllers
 
 
         //POST: api/Users/desvincular
-        [HttpPost("{id:int}/desvincular")]
-        public void DesvincularContaRiot(int id)
+        /// <summary>
+        /// Método que desvinculará a conta RIOT do utilizador logado.
+        /// </summary>
+        /// <returns>OK 200</returns>
+        [HttpPost("desvincularConta"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[HttpPost("{id:int}/desvincular")]
+        public IActionResult DesvincularContaRiot()
         {
-            var user = _userService.UnlinkRiot(id);
+            var user = _userService.UnlinkRiot(User.Identity.Name);
             //Confirmar onde dar Update
             _context.Update(user);
             _context.SaveChanges();
+            return Ok();
         }
 
         //POST: api/Users/register
+        /// <summary>
+        /// Método para registar um utilizador.
+        /// </summary>
+        /// <param name="user">Utilizador a ser registado.</param>
+        /// <returns>Ok 200 e utilizador registado ou Bad Request 400 e mensagem de erro</returns>
         [AllowAnonymous]
         [HttpPost("register")]
         public IActionResult Register([FromBody] User user)
@@ -105,12 +131,16 @@ namespace RiftArena.Controllers
         }
 
 
-        //GET: api/Users/{id: int}
-        //[HttpGet("{id:int}", Name = "GetUser")]
-        [HttpGet(Name = "GetUser")]
-        public ActionResult<User> GetById()
+        //GET: api/Users/{id: string}
+        /// <summary>
+        /// Método que retorna os dados do utilizador pesquisado pelo seu id.
+        /// </summary>
+        /// <param name="id">ID do utilizador a ser pesquisado.</param>
+        /// <returns>Os dados do utilizador pesquisado</returns>
+        [HttpGet("{id:string}", Name = "GetUser")]
+        public ActionResult<User> GetById(string id)
         {
-            var user = _userService.GetById(User.Identity.Name);
+            var user = _userService.GetById(id);
             if (user == null)
             {
                 return NotFound();
@@ -119,6 +149,10 @@ namespace RiftArena.Controllers
         }
 
         //GET: api/Users 
+        /// <summary>
+        /// Método que retorna uma lista com todos os utilizadores registados.
+        /// </summary>
+        /// <returns>OK 200 e lista com todos os utilizadores registados.</returns>
         [HttpGet]
         public ActionResult GetAll()
         {
@@ -130,9 +164,14 @@ namespace RiftArena.Controllers
             return Ok(users);
         }
 
-        //[HttpDelete("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //DELETE: api/Users
+        /// <summary>
+        /// Método que elimina a conta do utilizador logado.
+        /// </summary>
+        /// <returns>OK 200 ou Not Found 404 se o utilizador logado já não existir</returns>
         [HttpDelete, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public ActionResult<User> Delete(string id)
+        //[HttpDelete("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public ActionResult<User> Delete()
         {
             var user = _userService.GetById(User.Identity.Name);
             if (user == null)
@@ -147,12 +186,17 @@ namespace RiftArena.Controllers
 
         }
 
-        //[HttpPut("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //PUT: api/Users
+        /// <summary>
+        /// Método que permite atualizar os dados do utilizador logado.
+        /// </summary>
+        /// <param name="user">Dados do utilizador a serem atualizados</param>
+        /// <returns>OK 200</returns>
         [HttpPut, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult Update(string id, [FromBody] User user)
+        //[HttpPut("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult Update([FromBody] User user)
         {
             var userUp = _context.Users.Find(User.Identity.Name);
-
             if (userUp == null)
             {
                 return NotFound();
@@ -181,6 +225,11 @@ namespace RiftArena.Controllers
         }
 
         //POST: api/Users/login
+        /// <summary>
+        /// Método que permite logar um utilizador.
+        /// </summary>
+        /// <param name="userLogin">Username e password do utilizador.</param>
+        /// <returns>OK 200 e ID, nickname e token do utilizador.</returns>
         [AllowAnonymous]
         [HttpPost("login")]
         public IActionResult LoginAuthenticate([FromBody] User userLogin)
@@ -216,10 +265,16 @@ namespace RiftArena.Controllers
             });
         }
 
-        //POST: api/Users/{id}/acceptRequest
-        //[HttpPost("{id:int}/acceptRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //POST: api/Users/acceptRequest
+        /// <summary>
+        /// Método que irá aceitar um pedido que o utilizador logado tem de modo a entrar numa equipa.
+        /// </summary>
+        /// <param name="request">(verificar)</param>
+        /// <returns>OK 200 ou Bad Request 400 caso (especificar)</returns>
         [HttpPost("acceptRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult AcceptRequests(string userID, [FromBody] Request request)
+        
+        //[HttpPost("{id:int}/acceptRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult AcceptRequests([FromBody] Request request)
         {
             var user = _userService.GetById(User.Identity.Name);
             /*if (user.Team != null)
@@ -267,10 +322,15 @@ namespace RiftArena.Controllers
 
         }
 
-        //POST: api/Users/{id}/refuseRequest
-        //[HttpPost("{id:int}/refuseRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //POST: api/Users/refuseRequest
+        /// <summary>
+        /// Método que permite ao utilizador logado recusar um dos seus pedidos.
+        /// </summary>
+        /// <param name="request">(verificar)</param>
+        /// <returns>OK 200</returns>
         [HttpPost("refuseRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult RefuseRequest(string userID, [FromBody] Request request)
+        //[HttpPost("{id:int}/refuseRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult RefuseRequest([FromBody] Request request)
         {
             var user = _userService.GetById(User.Identity.Name);
             /* if (user.Team != null)
