@@ -66,16 +66,23 @@ namespace RiftArena.Models.Services
 
 
             var user = _context.Users.Find(Int32.Parse(userID));
-            tournament.CreatorNickname = user.Nickname;
-            tournament.Region = user.LinkedAccount.Region;
-            tournament.State = Status.NotPublished;
-            tournament.Stages = new List<Team>();
+            if (user.LinkedAccount == null)
+            {
+                throw new AppException("O utilizador precisa de vincular uma conta RIOT.");
+            }
+            else
+            {
+                tournament.CreatorNickname = user.Nickname;
+                tournament.Region = user.LinkedAccount.Region;
+                tournament.State = Status.NotPublished;
+                tournament.Stages = new List<Team>();
+            }
 
             _context.Tournaments.Add(tournament);
             _context.SaveChanges();
             return tournament;
         }
-        
+
         /// <summary>
         /// Método que permite a edição de um torneio
         /// </summary>
