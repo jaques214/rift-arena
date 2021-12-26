@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using RiftArena.Models;
 using RiftArena.Models.Contexts;
+using RiftARENA.Models.API;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace RiftArena.Models.Services
-    //TO DO 
-    //Add Hashs da Password
+
 {
     //Interface de UserService com os métodos e funções a implementar
     public interface IUserService
@@ -19,15 +19,155 @@ namespace RiftArena.Models.Services
         User Create(User user, string password);
         void Update(User user, string password = null);
         void Delete(int id);
+        User LinkRiot(int userID, string nickname, string region);
+        void ValidateRiot(LinkedAccount linked);
+        bool CheckValidatedRiot(LinkedAccount linked);
+        User UnlinkRiot(int userID);
+        List<Request> GetAllRequestsOfUserById(int userID);
+
     }
     public class UserServices : IUserService
     {
         private RiftArenaContext _context;
+        
 
         public UserServices(RiftArenaContext context)
         {
             _context = context;
         }
+
+        //Retorna uma lista com os pedidos de um determinado User
+        public List<Request> GetAllRequestsOfUserById(int userID)
+        {
+            User userTemp = GetById(userID);
+
+            if(userTemp == null)
+            {           
+                throw new AppException("Account not found");
+                return null;
+            }
+            else
+            {
+                return userTemp.Requests;
+            }
+        }
+        //Apartir do ID de uma linkedAccount vai buscar o rank da mesma apartir da API da RIOT
+        public string GetSummonerRank(LinkedAccount account)
+        {
+            Summoner_V4 summoner_v4 = new Summoner_V4(account.Region);
+            var summoner = summoner_v4.GetSummonerStatsById(account.ID);
+
+            if(summoner == null)
+            {
+                throw new AppException("Not able to retrieve ingame stats");
+            }
+
+            Console.WriteLine( "SUMMOMMER" + summoner);
+            account.Rank = summoner.rank;
+            
+
+            return account.Rank;
+        }
+
+        //Verifica se o Summoner Existe na riot api
+        public bool VerifySummoner(string region,string summonerName)
+        {
+            Summoner_V4 summoner_v4 = new Summoner_V4(region);
+
+            var summoner = summoner_v4.GetSummonerByName(summonerName);
+            
+            return summoner != null;
+        }
+
+        //Conecta a conta riot retornando já o user atualizado e confirma a validação pelo Icon
+        public User LinkRiot(int userID, string nickname,string region)
+        {
+            User userTemp = GetById(userID);
+
+            if (userTemp != null)
+            {
+                Summoner_V4 summoner_v4 = new Summoner_V4(region);
+                var summoner = summoner_v4.GetSummonerByName(nickname);
+                Console.WriteLine(summoner);
+
+                if (summoner == null)
+                {
+                    throw new AppException("Riot account not found");  
+                }
+                
+                var linkedTemp = new LinkedAccount
+                {
+                    Username = nickname,
+                    ProfileIconID = summoner.profileIconId,
+                    Region = region,
+                    ID = summoner.id,
+                    SummonerLevel = summoner.summonerLevel,
+                    Validated = false
+                };
+
+                Console.WriteLine("aqui" + GetSummonerRank(linkedTemp).ToString());
+                linkedTemp.Rank = GetSummonerRank(linkedTemp);
+                userTemp.LinkedAccount = linkedTemp;
+                userTemp.ContaRiot = nickname;
+
+                if (CheckValidatedRiot(linkedTemp))
+                {
+                    linkedTemp.Validated = true;
+                }
+
+
+
+            }
+            else
+            {
+                throw new AppException("User not found");
+            }
+            return userTemp;
+        }
+
+        //Muda o estado da conta para validada
+        public void ValidateRiot(LinkedAccount linked)
+        {
+            if (CheckValidatedRiot(linked))
+            {
+                linked.Validated = true;
+            }
+        }
+
+        //Confirma se a conta está validada ou não
+        public bool CheckValidatedRiot(LinkedAccount linked)
+        {
+            if (linked.ProfileIconID == 7)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        //Desvincula a conta RIOT vinculada de um user
+        public User UnlinkRiot(int userID)
+        {
+            User userTemp = GetById(userID);
+
+            if (userTemp == null)
+            {
+                throw new AppException("Riot account not found");
+            }
+            /*if(userTemp.Team != null)
+            {
+                throw new AppException("Can't unlink your account. Exit your team first before unlinking your RIOT account.");
+            }*/
+
+            //if (_context.LinkedAccounts.Any(x => x.ID == userTemp.Name))
+            LinkedAccount linkedTemp = _context.LinkedAccounts.Find(userTemp.LinkedAccount.ID);
+            _context.LinkedAccounts.Remove(linkedTemp);
+            _context.SaveChanges();
+            userTemp.ContaRiot = null;
+            
+
+            return userTemp;     
+        }
+
 
         //Retorna todos os utilizadores registados 
         public IEnumerable<User> GetAll()

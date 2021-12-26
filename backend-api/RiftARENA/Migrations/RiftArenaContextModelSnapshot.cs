@@ -21,10 +21,8 @@ namespace RiftARENA.Migrations
 
             modelBuilder.Entity("RiftArena.Models.LinkedAccount", b =>
                 {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                    b.Property<string>("ID")
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Rank")
                         .HasColumnType("nvarchar(max)");
@@ -34,6 +32,15 @@ namespace RiftARENA.Migrations
 
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProfileIconID")
+                        .HasColumnType("int");
+
+                    b.Property<long>("SummonerLevel")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("Validated")
+                        .HasColumnType("bit");
 
                     b.HasKey("ID");
 
@@ -190,8 +197,8 @@ namespace RiftARENA.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("LinkedAccountID")
-                        .HasColumnType("int");
+                    b.Property<string>("LinkedAccountID")
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Nickname")
                         .HasColumnType("nvarchar(max)");
