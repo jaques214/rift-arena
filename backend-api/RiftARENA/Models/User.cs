@@ -14,8 +14,6 @@ namespace RiftArena.Models
             public string Password { get; set; }
             public byte[]  PasswordHash { get; set; }
             public byte[] PasswordSalt { get; set; }
-            public string Rank { get; set; }
-            public string Tier { get; set; }
             public string Email { get; set; }
             public string ContaRiot { get; set; }
             public int NumVitoriasTotal { get; set; }

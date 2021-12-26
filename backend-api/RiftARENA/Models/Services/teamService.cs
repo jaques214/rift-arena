@@ -17,6 +17,7 @@ namespace RiftArena.Models.Services
         void DeleteTeam(int id);
         void AddMember(int id, User user);
         void RemoveMember(int id, User user);
+        string GetRankMean(int id);
 
     }
     public class TeamServices : ITeamService
@@ -54,6 +55,13 @@ namespace RiftArena.Models.Services
         //falta usar o token para verificar se o user logado ja esta numa equipa e se ja tem conta vinculada
         {
             team.Members = new List<User>();
+            var leader = _context.Users.FirstOrDefault(x => x.Nickname == team.TeamLeader);
+
+            //if(leader.TeamTAG != null)
+                //throw new AppException("Already has a team");
+
+            if (leader.LinkedAccount == null)
+                throw new AppException("Linked Account is required");
 
             if (string.IsNullOrWhiteSpace(team.Name))
                 throw new AppException("Team name is required");
@@ -63,18 +71,17 @@ namespace RiftArena.Models.Services
 
             if (string.IsNullOrWhiteSpace(team.Tag))
                 throw new AppException("Team tag is required");
-            Console.WriteLine(team.Tag.Length);
             if (team.Tag.Length != 3)
                 throw new AppException("TAG should contain only 3 letters");
 
             if (_context.Teams.Any(x => x.Tag == team.Tag))
                 throw new AppException("Team tag \"" + team.Tag + "\" is already taken");
-
+            
             if (_context.Teams.Any(x => x.TeamLeader == team.TeamLeader))
                 throw new AppException("TeamLeader\"" + team.TeamLeader + "\"is already taken");
 
 
-            var leader = _context.Users.FirstOrDefault(x => x.Nickname == team.TeamLeader);
+
 
             team.Members.Add(leader);
             team.Defeats = 0;
@@ -82,9 +89,10 @@ namespace RiftArena.Models.Services
             team.TournamentsWon = 0;
             team.GamesPlayed = 0;
             team.NumberMembers = 1;
-            //team.Rank = token user getrank(atraves da api)
+            //team.Rank = leader.LinkedAccount.Rank;
+            //leader.TeamTAG = team.Tag
 
-
+            //_context.Users.Update(leader);
             _context.Teams.Add(team);
             _context.SaveChanges();
 
@@ -139,6 +147,10 @@ namespace RiftArena.Models.Services
             if (team != null)
             {
                 //colocar o team dos members a null
+                //for (int i = 0; i < team.Members.Count; i++)
+                    //team.Members[i].TeamTag == null;
+                    //_context.Users.Update(team.Members[i])
+                
                 _context.Teams.Remove(team);
                 _context.SaveChanges();
             }
@@ -164,8 +176,10 @@ namespace RiftArena.Models.Services
                 }
                 else
                 {
+                    //user.TeamTAG = TeamTemp.Tag;
                     TeamTemp.Members.Add(user);
                     TeamTemp.NumberMembers++;
+                    //TeamTemp.Rank = GetRank(TeamTemp);
                 }
             }
             _context.Teams.Update(TeamTemp);
@@ -191,15 +205,96 @@ namespace RiftArena.Models.Services
             }
             else
                 {
+                    //user.TeamTAG = null;
                     TeamTemp.Members.Remove(user);
                     TeamTemp.NumberMembers--;
+                    //TeamTemp.Rank = GetRank(TeamTemp);
                 }
 
             _context.Teams.Update(TeamTemp);
             _context.SaveChanges();
         }
 
+        public string GetRankMean (int id)
+        {
+            var Rank = "";
+            var TeamTemp = GetByID (id);
+            var x = 0;
+            var Ranktemp = 0;
 
-        //criar metodo para calcular rank
+
+            for (int i = 0; i < TeamTemp.Members.Count; i++)
+            {
+                //usar switch secalhar
+                switch (TeamTemp.Members[i].LinkedAccount.Rank){
+                    case "IRON":
+                        x = x + 1;
+                        break;
+                    case "BRONZE":
+                        x = x + 2;
+                        break;
+                    case "SILVER":
+                        x = x + 3;
+                        break;
+                    case "GOLD":
+                        x = x + 4;
+                        break;
+                    case "PLATINUM":
+                        x = x + 5;
+                        break;
+                    case "DIAMOND":
+                        x = x + 6;
+                        break;
+                    case "MASTER":
+                        x = x + 7;
+                        break;
+                    case "GRANDMASTER":
+                        x = x + 8;
+                        break;
+                    case "CHALLENGER":
+                        x = x + 9;
+                        break;
+                    default:
+                        x = 0;
+                        break;
+
+                }
+            }
+            Ranktemp = x / TeamTemp.Members.Count;
+
+            switch (Ranktemp)
+            {
+                case 1:
+                    Rank = "IRON";
+                    break;
+                case 2:
+                    Rank = "BRONZE";
+                    break;
+                case 3:
+                    Rank = "SILVER";
+                    break;
+                case 4:
+                    Rank = "GOLD";
+                    break;
+                case 5:
+                    Rank = "PLATINUM";
+                    break;
+                case 6:
+                    Rank = "DIAMOND";
+                    break;
+                case 7:
+                    Rank = "MASTER";
+                    break;
+                case 8:
+                    Rank = "GRANDMASTER";
+                    break;
+                case 9:
+                    Rank = "CHALLENGER";
+                    break;
+            }
+
+            return Rank;
+        }
+
     }
 }

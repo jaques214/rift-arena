@@ -407,3 +407,5 @@ D:\Universidade\3_Ano\1_Semestre\Laboratorio de Desenvolvimento de Software\Trab
 D:\Universidade\3_Ano\1_Semestre\Laboratorio de Desenvolvimento de Software\Trabalho Prático\riftarena_lds_21_22\backend-api\RiftARENA\obj\Debug\net5.0\ref\RiftARENA.dll
 D:\Universidade\3_Ano\1_Semestre\Laboratorio de Desenvolvimento de Software\Trabalho Prático\riftarena_lds_21_22\backend-api\RiftARENA\obj\Debug\net5.0\RiftARENA.pdb
 D:\Universidade\3_Ano\1_Semestre\Laboratorio de Desenvolvimento de Software\Trabalho Prático\riftarena_lds_21_22\backend-api\RiftARENA\obj\Debug\net5.0\RiftARENA.genruntimeconfig.cache
+C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA\bin\Debug\net5.0\Models\API\key.txt
+C:\Users\Tiago Teixeira\Desktop\LDS_AC\riftarena_lds_21_22\backend-api\RiftARENA\bin\Debug\net5.0\System.Json.dll
