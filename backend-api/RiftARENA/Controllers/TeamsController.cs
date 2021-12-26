@@ -64,20 +64,7 @@ namespace RiftArena.Controllers
             if (teamCon == null)
                 return NotFound();
             else
-                return Ok(new
-                {
-                    Id = teamCon.TeamId,
-                    Name = teamCon.Name,
-                    TAG = teamCon.Tag,
-                    TeamLeader = teamCon.TeamLeader,
-                    Rank = teamCon.Rank,
-                    NumberOfMembers = teamCon.NumberMembers,
-                    Wins = teamCon.Wins,
-                    Defeats = teamCon.Defeats,
-                    GamesPlayed = teamCon.GamesPlayed,
-                    TournamentsWon = teamCon.TournamentsWon,
-                    Members = teamCon
-                });
+                return Ok(teamCon);
 
         }
 
