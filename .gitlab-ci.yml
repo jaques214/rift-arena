@@ -47,5 +47,5 @@ job_deploy:
   - dotnet publish -c Release -o ./publish RiftARENA.csproj
 
 after_script:
-- rmdir bin -Recurse
-- rmdir obj -Recurse
+- rmdir bin
+- rmdir obj
