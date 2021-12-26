@@ -45,3 +45,7 @@ job_deploy:
    - publish/
  script:
   - dotnet publish -c Release -o ./publish RiftARENA.csproj
+
+  after_script:
+  - Remove-Item ./bin/ -Recurse
+  - Remove-Item ./obj/ -Recurse
