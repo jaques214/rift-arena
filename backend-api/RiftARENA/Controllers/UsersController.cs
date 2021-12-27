@@ -36,50 +36,6 @@ namespace RiftArena.Controllers
             _userService = userService;
         }
 
-        //retorna os requests de um determinado utilizador
-        [HttpGet("{id:int}/requests", Name = "GetUserRequests")]
-        public ActionResult GetAllRequestsByUserId(int id)
-        {
-           var list = _userService.GetAllRequestsOfUserById(id);
-
-            return Ok(list);
-        }
-
-        //Vai vincular uma conta riot a um user
-        [HttpPost("{id:int}/vincular")]
-        public ActionResult linkContaRiot(int id)
-        {
-            //User userTemp = _userService.LinkRiot(userID,acc.Username,acc.Region);
-            User userTemp = _userService.LinkRiot(id,"MiMo313","euw1");
-            _context.SaveChanges();
-
-            return Ok(userTemp);
-        }
-
-        //Vai validar a conta linkada pelo user
-        [HttpPost("{id:int}/validar")]
-        public ActionResult ValidateRiotAccount(int id)
-        {
-            // validar token e extrair nickname do token
-            // atraves do nickname, obter id do user 
-            User userTemp = _userService.GetById(id);
-            _userService.ValidateRiot(userTemp.LinkedAccount);
-            _context.SaveChanges();
-
-            return Ok(userTemp);
-        }
-
-
-        //POST: api/Users/desvincular
-        [HttpPost("{id:int}/desvincular")]
-        public void DesvincularContaRiot(int id)
-        {
-             var user = _userService.UnlinkRiot(id);
-            //Confirmar onde dar Update
-            _context.Update(user);
-            _context.SaveChanges();
-        }
-
         //POST: api/Users/register
         [HttpPost("register")]
         public IActionResult Register([FromBody] User user)
@@ -205,9 +161,9 @@ namespace RiftArena.Controllers
         /*
         //POST: api/Users/{id}/acceptRequest
         [HttpPost("{id:int}/acceptRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult AcceptRequests( int id, [FromBody]Request request)
+        public IActionResult AcceptRequests( int userID, [FromBody]Request request)
         {
-            var user = _userService.GetById(id);
+            var user = _userService.GetById(userID);
             if (user.Team != null)
             {
               return BadRequest();
@@ -224,9 +180,8 @@ namespace RiftArena.Controllers
                     {
                         request.Accepted = true;
                         user.Requests.Remove(request);
-                        user.Team = request.Team;
+                        //user.Team = request.Team;
                         _context.Update(request);
-                        _context.Update(user);
 
                         Team temp = _context.Teams.Find(request.Team);
 
@@ -263,7 +218,6 @@ namespace RiftArena.Controllers
                     request.Accepted = false;
                     user.Requests.Remove(request);
                     _context.Update(request);
-                    _context.Update(user);
                     _context.SaveChanges();
                     return Ok(user);
                 }
