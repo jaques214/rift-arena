@@ -35,8 +35,8 @@ export class UserRestService {
 
   // envia um user e retorna o mesmo user com a informação atualizada no servidor
   updateUser(user: User): Observable<User> {
-    return this.http.put(
-      endpoint + `${user.userID}`,
+    return this.http.put<User>(
+      endpoint,
       JSON.stringify(user),
       httpOptions
     );

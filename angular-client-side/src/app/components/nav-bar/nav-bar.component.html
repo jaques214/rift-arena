@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light justify-content-center mb-4">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="">
       <img src="assets/images/logo.png" alt="" />
     </a>
     <button
@@ -49,7 +49,7 @@
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             <li><a class="dropdown-item" href="#">Visualize</a></li>
-            <li><a class="dropdown-item" href="#">Create</a></li>
+            <li><a class="dropdown-item" href="/create-team">Create</a></li>
             <li><a class="dropdown-item" href="#">Join</a></li>
           </ul>
         </div>
@@ -73,7 +73,7 @@
         </li>
         <li><hr class="dropdown-divider" /></li>
         <li class="nav-item d-xs-block d-lg-none d-xxl-none">
-          <a class="nav-link" (click)="logout()">Logout</a>
+          <a class="nav-link" (click)="logout()" href="">Logout</a>
         </li>
       </ul>
       <div
@@ -96,7 +96,7 @@
           <li><a class="dropdown-item" href="{{myProfile()}}">My Profile</a></li>
           <li><a class="dropdown-item" href="#">My Tournaments</a></li>
           <li><a class="dropdown-item" href="#">My Team</a></li>
-          <li><a class="dropdown-item" href="#">Logout</a></li>
+          <li><a class="dropdown-item" (click)="logout()" href="">Logout</a></li>
         </ul>
       </div>
       <div

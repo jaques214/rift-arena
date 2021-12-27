@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap");
 
 * {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Montserrat", sans-serif !important;
 }
 
 .btn-blue {
@@ -28,4 +28,13 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.dropdown-item:hover {
+  background-color: #234a95;
+  color: white;
+}
+.header-font {
+  font-size: xx-large !important;
+  font-weight: 800 !important; 
 }
