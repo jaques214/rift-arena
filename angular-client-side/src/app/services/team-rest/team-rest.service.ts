@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Team } from '@src/app/models/team';
+import { Team } from '@models/team';
 
 const endpoint = 'https://localhost:5001/api/Teams/';
 const httpOptions = {

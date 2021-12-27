@@ -1,7 +1,23 @@
+
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap");
 
+.dropdown-item:hover {
+  background-color: #234a95;
+  color: white;
+}
+
+.mat-h1, .mat-headline, .mat-typography h1 {
+  font: 800 xx-large/32px "Montserrat", sans-serif;
+}
+
 * {
-  font-family: "Montserrat", sans-serif !important;
+  font-family: "Montserrat", sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
 }
 
 .btn-blue {
@@ -19,22 +35,4 @@
 .mat-progress-spinner circle,
 .mat-spinner circle {
   stroke: #20458a;
-}
-
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
-.dropdown-item:hover {
-  background-color: #234a95;
-  color: white;
-}
-.header-font {
-  font-size: xx-large !important;
-  font-weight: 800 !important; 
 }
