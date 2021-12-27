@@ -7,9 +7,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { HttpClientModule } from '@angular/common/http';
-
-import { MatToolbar, MatToolbarModule } from '@angular/material/toolbar';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {MatSelectModule} from '@angular/material/select';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AppComponent } from './app.component';
@@ -25,7 +25,7 @@ import { ViewProfileComponent } from '@components/view-profile/view-profile.comp
 import { LoadingCircleService } from '@services/loading-circle/loading-circle.service';
 import { CreateTeamComponent } from '@components/create-team/create-team.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-
+import { JwtInterceptor } from './interceptors/jwt/jwt-interceptor.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,12 +52,14 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     MatProgressSpinnerModule,
     ReactiveFormsModule,
     FormsModule,
+    MatSelectModule,
   ],
   providers: [
     AuthService,
     UserRestService,
     TeamRestService,
     LoadingCircleService,
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
   ],
   bootstrap: [AppComponent],
 })
