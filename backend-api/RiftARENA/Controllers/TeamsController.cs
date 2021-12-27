@@ -94,17 +94,16 @@ namespace RiftArena.Controllers
                 return Ok(teamsCon);
         }
 
-        //DELETE: api/Teams/{id}
+        //DELETE: api/Teams
         /// <summary>
         /// Método que permite a eliminação de uma equipa, chamando o método DeleteTeam implementado no teamService
         /// </summary>
-        /// <param name="id">ID da equipa a eliminar</param>
         /// <returns>Ok</returns>
-        [HttpDelete("{id:int}"),Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpDelete,Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         //[HttpDelete("{id:int}")]
-        public ActionResult<Team> DeleteTeam(int id)
+        public ActionResult<Team> DeleteTeam()
         {
-            _service.DeleteTeam(id, User.Identity.Name);
+            _service.DeleteTeam(User.Identity.Name);
 
             return Ok();
         }
@@ -113,13 +112,12 @@ namespace RiftArena.Controllers
         /// <summary>
         /// Método que permite a edição de uma equipa, chamando o método UpdateTeam implementado no teamService
         /// </summary>
-        /// <param name="id">ID da equipa a editar</param>
         /// <param name="team">Equipa com as edições feitas</param>
         /// <returns>Equipa editada</returns>
-        [HttpPut("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult UpdateTeam(int id, [FromBody] Team team)
+        [HttpPut, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult UpdateTeam([FromBody] Team team)
         {
-            _service.UpdateTeam(id, team, User.Identity.Name);
+            _service.UpdateTeam(team, User.Identity.Name);
             _context.SaveChanges();
 
             return Ok();
@@ -142,17 +140,16 @@ namespace RiftArena.Controllers
             return Ok();
         }
 
-        //POST: api/Teams/removeMember/{id}
+        //POST: api/Teams/removeMember
         /// <summary>
         /// Método que permite a remoção de um membro a uma equipa, chamando o método RemoveMember implementado no teamService
         /// </summary>
-        /// <param name="id">ID da equipa que o user será removido</param>
         /// <param name="user">User que será removido</param>
         /// <returns>Ok</returns>
-        [HttpDelete("{id:int}/removeMember"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public ActionResult RemoveMember(int id, [FromBody] User user)
+        [HttpDelete("removeMember"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public ActionResult RemoveMember([FromBody] User user)
         {
-            _service.RemoveMember(id, user, User.Identity.Name);
+            _service.RemoveMember(user, User.Identity.Name);
             _context.SaveChanges();
 
             return Ok();

@@ -13,10 +13,10 @@ namespace RiftArena.Models.Services
         Team CreateTeam(Team team, string userID);
         IEnumerable<Team> GetAll();
         Team GetByID(int id);
-        Team UpdateTeam(int id, Team team, string userID);
-        void DeleteTeam(int id, string userID);
+        Team UpdateTeam(Team team, string userID);
+        void DeleteTeam(string userID);
         void AddMember(int id, User user);
-        void RemoveMember(int id, User user, string userID);
+        void RemoveMember(User user, string userID);
 
     }
     public class TeamServices : ITeamService
@@ -102,14 +102,13 @@ namespace RiftArena.Models.Services
         /// <summary>
         /// Método que permite a edição de uma equipa
         /// </summary>
-        /// <param name="id">ID da equipa a editar</param>
         /// <param name="team">Equipa com as edições feitas</param>
         /// <returns>Equipa editada</returns>
         /// <exception cref="AppException">Exceção caso a equipa a editar falhe nas validações</exception>
-        public Team UpdateTeam(int id, Team team, string userID)
+        public Team UpdateTeam(Team team, string userID)
         {
-            //SÓ PERMITIR SE team.TeamLeader.UserID = userID
-            var teamSer = GetByID(id);
+            var user = _context.Users.Find(userID);
+            var teamSer = _context.Teams.SingleOrDefault(x => x.TeamLeader == userID);
             if (teamSer == null)
                 throw new AppException("Team not found!");
 
@@ -142,12 +141,10 @@ namespace RiftArena.Models.Services
         /// <summary>
         /// Método que permite a eliminação de uma equipa
         /// </summary>
-        /// <param name="id">ID da equipa a eliminar</param>
-        public void DeleteTeam(int id, string userID)
+        public void DeleteTeam(string userID)
         {
-
-            //VERIFICAR SE userID = team.TeamLeader.UserID
-            var team = _context.Teams.Find(id);
+            var user = _context.Users.Find(userID);
+            var team = _context.Teams.SingleOrDefault(x => x.TeamLeader == userID);
             if (team != null)
             {
                 //colocar o team dos members a null
@@ -191,15 +188,15 @@ namespace RiftArena.Models.Services
         /// <param name="id">ID da equipa que o user será removido</param>
         /// <param name="user">User que será removido</param>
         /// <exception cref="AppException">Exceção caso a equipa não exista ou o user a ser removido seja o team leader</exception>
-        public void RemoveMember(int id, User user, string userID)
+        public void RemoveMember(User user, string userID)
         {
             var userTemp = _context.Users.Find(Int32.Parse(userID));
-            var TeamTemp = GetByID(id);
+            var TeamTemp = _context.Teams.SingleOrDefault(x => x.TeamLeader == userTemp.Nickname);
             if (TeamTemp == null)
             {
                 throw new AppException("Not Found");
             }
-            else if (TeamTemp.TeamLeader == userTemp.Nickname)
+            else
             {
                 if (TeamTemp.TeamLeader.Equals(user.Nickname))
                 {
