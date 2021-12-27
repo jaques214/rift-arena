@@ -1,4 +1,4 @@
-<!-- <app-nav-bar></app-nav-bar>
+<app-nav-bar></app-nav-bar>
 <section>
   <h3>Profile Image</h3>
   <div [ngClass]="'container'">
@@ -103,43 +103,4 @@
     <p [ngClass]="'subtitle'">Team</p>
   </div>
   <p>{{ getTeamName() }}</p>
-</section> -->
-
-<app-nav-bar></app-nav-bar>
-<section>
-    <h3>Profile Image</h3>
-    <div [ngClass]="'container'">
-        <div>
-            <img *ngIf="user" src="{{imageFieldPath}}" alt="account circle icon">
-            <mat-icon aria-hidden="false" aria-label="account circle icon" matSuffix>account_circle</mat-icon>
-        </div>
-
-        <div>
-            <input [hidden]="true" type="file" name="poster" (change)="onFileSelected($event)" #fileUpload />
-            <button mat-flat-button type="button" (click)="fileUpload.click()">Insert profile image</button>
-            <p>{{this.fileSelected?.name || user?.profileImage?.name || imageFieldName || "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB"}}</p>
-          </div>
-
-    </div>
-</section>
-<section>
-    <p [ngClass]="'subtitle'">Username</p>
-    <p>{{user1.nickname}}</p>
-    <div [ngClass]="'item'">
-        <p [ngClass]="'subtitle'">Password</p>
-        <mat-icon aria-hidden="false" aria-label="edit icon" matSuffix (click)="editUser(user)">edit</mat-icon>
-    </div>
-    <!-- <p>{{user.password}}</p> -->
-    <div [ngClass]="'item'">
-        <p [ngClass]="'subtitle'">Email</p>
-        <mat-icon aria-hidden="false" aria-label="edit icon" matSuffix>edit</mat-icon>
-    </div>
-    <!-- <p>{{user.email}}</p> -->
-    <div [ngClass]="'item'">
-        <p [ngClass]="'subtitle'">Linked Account</p>
-        <mat-icon aria-hidden="false" aria-label="add circle outline icon" matSuffix>add_circle_outline</mat-icon>
-    </div>
-    <p *ngFor="let items of list">{{items}}</p>
-    <p [ngClass]="'subtitle'">Team</p>
-    <p></p>
 </section>
