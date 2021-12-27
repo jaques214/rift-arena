@@ -128,13 +128,12 @@ namespace RiftArena.Controllers
         /// <summary>
         /// Método que permite a adição de um membro a uma equipa, chamando o método AddMember implementado no teamService
         /// </summary>
-        /// <param name="id">ID da equipa que o user será adicionado</param>
         /// <param name="user">User que será adicionado</param>
         /// <returns>Ok</returns>
-        [HttpPost("{id:int}/addMember"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public ActionResult AddMember(int id, [FromBody] User user)
+        [HttpPost("addMember"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public ActionResult AddMember([FromBody] User user)
         {
-            _service.AddMember(id, user);
+            _service.AddMember(user, User.Identity.Name);
             _context.SaveChanges();
 
             return Ok();

@@ -15,7 +15,7 @@ namespace RiftArena.Models.Services
         Team GetByID(int id);
         Team UpdateTeam(Team team, string userID);
         void DeleteTeam(string userID);
-        void AddMember(int id, User user);
+        void AddMember(User user, string userID);
         void RemoveMember(User user, string userID);
 
     }
@@ -107,8 +107,8 @@ namespace RiftArena.Models.Services
         /// <exception cref="AppException">Exceção caso a equipa a editar falhe nas validações</exception>
         public Team UpdateTeam(Team team, string userID)
         {
-            var user = _context.Users.Find(userID);
-            var teamSer = _context.Teams.SingleOrDefault(x => x.TeamLeader == userID);
+            var user = _context.Users.Find(Int32.Parse(userID));
+            var teamSer = _context.Teams.FirstOrDefault(x => x.TeamLeader == user.Nickname);
             if (teamSer == null)
                 throw new AppException("Team not found!");
 
@@ -143,8 +143,8 @@ namespace RiftArena.Models.Services
         /// </summary>
         public void DeleteTeam(string userID)
         {
-            var user = _context.Users.Find(userID);
-            var team = _context.Teams.SingleOrDefault(x => x.TeamLeader == userID);
+            var user = _context.Users.Find(Int32.Parse(userID));
+            var team = _context.Teams.SingleOrDefault(x => x.TeamLeader == user.Nickname);
             if (team != null)
             {
                 //colocar o team dos members a null
@@ -156,12 +156,12 @@ namespace RiftArena.Models.Services
         /// <summary>
         /// Método que permite a adição de um membro a uma equipa
         /// </summary>
-        /// <param name="id">ID da equipa que o user será adicionado</param>
         /// <param name="user">User que será adicionado</param>
         /// <exception cref="AppException">Exceção caso a equipa não exista ou esteja cheia</exception>
-        public void AddMember(int id, User user)
+        public void AddMember(User user, string userID)
         {
-            var TeamTemp = GetByID(id);
+            var userTemp = _context.Users.Find(Int32.Parse(userID));
+            var TeamTemp = _context.Teams.SingleOrDefault(x => x.TeamLeader == userTemp.Nickname);
             if (TeamTemp == null)
             {
                 throw new AppException("Not Found");
