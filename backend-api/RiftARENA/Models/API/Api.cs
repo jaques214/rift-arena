@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Net.Http;
 
-namespace RiftARENA.Models.API
+namespace RiftArena.Models.API
 {
     public class Api
     {
@@ -33,9 +33,7 @@ namespace RiftARENA.Models.API
 
         public string GetURI(string path)
         {
-            System.Console.WriteLine(Region);
             string temp =  "https://" + Region + ".api.riotgames.com/lol/" + path + "?api_key=" + key;
-            System.Console.WriteLine(temp);
             return temp;
         }
     }

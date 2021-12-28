@@ -1,4 +1,4 @@
-﻿namespace RiftARENA.Models
+﻿namespace RiftArena.Models
 {
     public class SummonerDTO
     {

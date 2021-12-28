@@ -1,0 +1,12 @@
+POST https://localhost:5001/api/Teams/createTeam
+Content-Type: application/json
+
+{
+    "Name": "Equipa5",
+    "Tag": "lol3",
+    "TeamLeader": "nickname2",
+    "Rank": "Gold"
+}
+
+###
+GET https://localhost:5001/api/Teams

@@ -2,10 +2,15 @@
 using Microsoft.AspNetCore.Mvc;
 using RiftArena.Models;
 using RiftArena.Models.Contexts;
-using RiftARENA.Models.API;
+using RiftArena.Models.API;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
+
 
 namespace RiftArena.Models.Services
 
@@ -14,16 +19,17 @@ namespace RiftArena.Models.Services
     public interface IUserService
     {
         User Authenticate(string username, string password);
+        String GenerateToken(byte[] key, User user);
         IEnumerable<User> GetAll();
-        User GetById(int id);
+        User GetByUsername(string nickname);
         User Create(User user, string password);
         void Update(User user, string password = null);
-        void Delete(int id);
-        User LinkRiot(int userID, string nickname, string region);
+        void Delete(string username);
+        User LinkRiot(string userID, string nickname, string region);
         void ValidateRiot(LinkedAccount linked);
         bool CheckValidatedRiot(LinkedAccount linked);
-        User UnlinkRiot(int userID);
-        List<Request> GetAllRequestsOfUserById(int userID);
+        User UnlinkRiot(string userID);
+        List<Request> GetAllRequestsOfUserById(string userID);
 
     }
     public class UserServices : IUserService
@@ -37,14 +43,13 @@ namespace RiftArena.Models.Services
         }
 
         //Retorna uma lista com os pedidos de um determinado User
-        public List<Request> GetAllRequestsOfUserById(int userID)
+        public List<Request> GetAllRequestsOfUserById(string userID)
         {
-            User userTemp = GetById(userID);
+            User userTemp = GetByUsername(userID);
 
             if(userTemp == null)
             {           
                 throw new AppException("Account not found");
-                return null;
             }
             else
             {
@@ -80,9 +85,9 @@ namespace RiftArena.Models.Services
         }
 
         //Conecta a conta riot retornando já o user atualizado e confirma a validação pelo Icon
-        public User LinkRiot(int userID, string nickname,string region)
+        public User LinkRiot(string userID, string nickname,string region)
         {
-            User userTemp = GetById(userID);
+            User userTemp = GetByUsername(userID);
 
             if (userTemp != null)
             {
@@ -105,7 +110,6 @@ namespace RiftArena.Models.Services
                     Validated = false
                 };
 
-                Console.WriteLine("aqui" + GetSummonerRank(linkedTemp).ToString());
                 linkedTemp.Rank = GetSummonerRank(linkedTemp);
                 userTemp.LinkedAccount = linkedTemp;
                 userTemp.ContaRiot = nickname;
@@ -145,9 +149,9 @@ namespace RiftArena.Models.Services
         }
 
         //Desvincula a conta RIOT vinculada de um user
-        public User UnlinkRiot(int userID)
+        public User UnlinkRiot(string userID)
         {
-            User userTemp = GetById(userID);
+            User userTemp = GetByUsername(userID);
 
             if (userTemp == null)
             {
@@ -170,20 +174,33 @@ namespace RiftArena.Models.Services
 
 
         //Retorna todos os utilizadores registados 
+        /// <summary>
+        /// Método responsável por retornar todos os utilizadores guardados na base de dados.
+        /// </summary>
+        /// <returns>Uma lista de utilizadores guardados na base de dados.</returns>
         public IEnumerable<User> GetAll()
         {
             return _context.Users.ToList();
         }
 
-        public User GetById(int id)
+        /// <summary>
+        /// Método responsável por retornar um utilizador pesquisado pelo seu nickname.
+        /// </summary>
+        /// <param name="nickname">Nickname do utilizador a ser pesquisado.</param>
+        /// <returns>Utilizador com o mesmo nickname.</returns>
+        public User GetByUsername(string nickname)
         {
-            return _context.Users.Find(id);
+            return _context.Users.SingleOrDefault(x => x.Nickname == nickname);
         }
 
-        //Atualiza as informações de um utilizador apartir de determinado ID
+        /// <summary>
+        /// Método responsável por modificar informações de um utilizador.
+        /// </summary>
+        /// <param name="userParam">Dados alterados do utilizador.</param>
+        /// <param name="password">Password do utilizador.</param>
         public void Update(User userParam, string password = null)
         {
-            var user = _context.Users.Find(userParam.UserID);
+            var user = GetByUsername(userParam.Nickname);
 
             if (user == null)
                 throw new AppException("User not found");
@@ -212,16 +229,26 @@ namespace RiftArena.Models.Services
             _context.SaveChanges();
         }
 
-        public void Delete(int id)
+        /// <summary>
+        /// Método responsável por eliminar um utilizador.
+        /// </summary>
+        /// <param name="username">Nickname do utilizador a ser eliminado.</param>
+        public void Delete(string username)
         {
-            var user = _context.Users.Find(id);
+            var user = GetByUsername(username);
             if (user != null)
             {
                 _context.Users.Remove(user);
                 _context.SaveChanges();
             }
         }
-        //Cria um novo utilizador com as informações recebidas 
+        
+        /// <summary>
+        /// Método responsável por criar um utilizador.
+        /// </summary>
+        /// <param name="user">Dados do utilizador a criar.</param>
+        /// <param name="password">Password do utilizador a criar.</param>
+        /// <returns>Utilizador criado</returns>
         public User Create(User user, string password)
         {
             // validation
@@ -277,6 +304,12 @@ namespace RiftArena.Models.Services
             return true;
         }
 
+        /// <summary>
+        /// Método que permite autenticar um user.
+        /// </summary>
+        /// <param name="username">Nickname do utilizador</param>
+        /// <param name="password">Password do utilizador.</param>
+        /// <returns></returns>
         public User Authenticate(string username, string password){
             if(String.IsNullOrWhiteSpace(username) || String.IsNullOrWhiteSpace(password)){
                 return null;
@@ -292,5 +325,27 @@ namespace RiftArena.Models.Services
             return null;
         }
 
+        /// <summary>
+        /// Método para gerar o token de um utilizador logado.
+        /// </summary>
+        /// <param name="key">Chave para criação do token.</param>
+        /// <param name="user">Utilizador autenticado.</param>
+        /// <returns>Token do utilizador autenticado.</returns>
+        public string GenerateToken(byte[] key, User user){
+            // authentication successful so generate jwt token
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenDescription = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]{
+                    new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()),
+                    new Claim(ClaimTypes.Name, user.Nickname)
+                }),
+                Expires = DateTime.UtcNow.AddDays(1),
+                SigningCredentials = new Microsoft.IdentityModel.Tokens.SigningCredentials(new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescription);
+
+            return tokenHandler.WriteToken(token);
+        }
     }
 }
