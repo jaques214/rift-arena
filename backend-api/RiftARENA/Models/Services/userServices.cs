@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RiftArena.Models;
 using RiftArena.Models.Contexts;
-using RiftARENA.Models.API;
+using RiftArena.Models.API;
 using System;
 using System.Collections.Generic;
 using System.Linq;
