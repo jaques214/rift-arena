@@ -81,8 +81,11 @@ namespace RiftArena.Controllers
             _userService.ValidateRiot(userTemp.LinkedAccount);
             _context.SaveChanges();
 
-            return Ok(new {
-                userTemp.Nickname, userTemp.LinkedAccount.Rank, userTemp.LinkedAccount.ProfileIconID
+            return Ok(new
+            {
+                userTemp.Nickname,
+                userTemp.LinkedAccount.Rank,
+                userTemp.LinkedAccount.ProfileIconID
             });
         }
 
@@ -206,7 +209,7 @@ namespace RiftArena.Controllers
         [HttpPut, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult Update([FromBody] User user)
         {
-            var userUp = _context.Users.Find(Int32.Parse(User.Identity.Name));
+            var userUp = _context.Users.Find(User.Identity.Name);
             if (userUp == null)
             {
                 return NotFound();

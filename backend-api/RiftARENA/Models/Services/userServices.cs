@@ -24,7 +24,7 @@ namespace RiftArena.Models.Services
         User GetByUsername(string nickname);
         User Create(User user, string password);
         void Update(User user, string password = null);
-        void Delete(string id);
+        void Delete(string username);
         User LinkRiot(string userID, string nickname, string region);
         void ValidateRiot(LinkedAccount linked);
         bool CheckValidatedRiot(LinkedAccount linked);
