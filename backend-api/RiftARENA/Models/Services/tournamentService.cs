@@ -65,14 +65,14 @@ namespace RiftArena.Models.Services
                 throw new AppException("Choose a minium tier.");
 
 
-            var user = _context.Users.Find(Int32.Parse(userID));
+            var user = _context.Users.SingleOrDefault(x => x.Nickname == userID);
             if (user.LinkedAccount == null)
             {
                 throw new AppException("O utilizador precisa de vincular uma conta RIOT.");
             }
             else
             {
-                tournament.CreatorNickname = user.Nickname;
+                tournament.CreatorNickname = userID;
                 tournament.Region = user.LinkedAccount.Region;
                 tournament.State = Status.NotPublished;
                 tournament.Stages = new List<Team>();
@@ -94,12 +94,11 @@ namespace RiftArena.Models.Services
         public Tournament UpdateTournament(int id, Tournament tournament, string userID)
         {
             var tournamentSer = _context.Tournaments.Find(id);
-            var user = _context.Users.Find(Int32.Parse(userID));
 
             if (tournamentSer == null)
                 throw new AppException("Tournament not found!");
 
-            if (tournamentSer.CreatorNickname == user.Nickname)
+            if (tournamentSer.CreatorNickname == userID)
             {
                 if (tournamentSer.State == Status.NotPublished)
                 {
@@ -146,8 +145,7 @@ namespace RiftArena.Models.Services
         public void DeleteTournament(int id, string userID)
         {
             var tournament = _context.Tournaments.Find(id);
-            var user = _context.Users.Find(Int32.Parse(userID));
-            if (tournament != null && tournament.CreatorNickname == user.Nickname)
+            if (tournament != null && tournament.CreatorNickname == userID)
             {
                 _context.Tournaments.Remove(tournament);
                 _context.SaveChanges();
@@ -166,8 +164,7 @@ namespace RiftArena.Models.Services
         public void PublishTournament(int id, string userID)
         {
             var tournament = _context.Tournaments.Find(id);
-            var user = _context.Users.Find(Int32.Parse(userID));
-            if (tournament.CreatorNickname == user.Nickname)
+            if (tournament.CreatorNickname == userID)
             {
                 tournament.State = Status.Published;
             }

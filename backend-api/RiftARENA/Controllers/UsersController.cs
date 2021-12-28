@@ -47,7 +47,6 @@ namespace RiftArena.Controllers
         /// </summary>
         /// <returns>OK 200 e uma lista com os pedidos do utilizador logado</returns>
         [HttpGet("requests", Name = "GetUserRequests"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        //[HttpGet("{id:int}/requests", Name = "GetUserRequests")]
         public ActionResult GetAllRequestsByUserId()
         {
             var list = _userService.GetAllRequestsOfUserById(User.Identity.Name);
@@ -62,11 +61,9 @@ namespace RiftArena.Controllers
         /// <param name="acc">Username e região da conta RIOT a ser vinculada</param>
         /// <returns>OK 200</returns>
         [HttpPost("vincularConta"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        //[HttpPost("{id:int}/vincular")]
         public ActionResult linkContaRiot([FromBody] LinkedAccount acc)
         {
             User userTemp = _userService.LinkRiot(User.Identity.Name, acc.Username, acc.Region);
-            //User userTemp = _userService.LinkRiot(User.Identity.Name, "MiMo313", "euw1");
             _context.SaveChanges();
 
             return Ok(userTemp);
@@ -78,14 +75,15 @@ namespace RiftArena.Controllers
         /// </summary>
         /// <returns>OK 200</returns>
         [HttpPost("validarConta"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        //[HttpPost("{id:int}/validarConta")]
         public ActionResult ValidateRiotAccount()
         {
             User userTemp = _userService.GetByUsername(User.Identity.Name);
             _userService.ValidateRiot(userTemp.LinkedAccount);
             _context.SaveChanges();
 
-            return Ok(userTemp);
+            return Ok(new {
+                userTemp.Nickname, userTemp.LinkedAccount.Rank, userTemp.LinkedAccount.ProfileIconID
+            });
         }
 
 
@@ -95,7 +93,6 @@ namespace RiftArena.Controllers
         /// </summary>
         /// <returns>OK 200</returns>
         [HttpPost("desvincularConta"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        //[HttpPost("{id:int}/desvincular")]
         public IActionResult DesvincularContaRiot()
         {
             var user = _userService.UnlinkRiot(User.Identity.Name);
@@ -119,7 +116,9 @@ namespace RiftArena.Controllers
             {
                 _userService.Create(user, user.Password);
                 _context.SaveChanges();
-                return CreatedAtRoute("GetUser", new { username = user.Nickname }, user);
+
+                return this.LoginAuthenticate(user);
+                //return CreatedAtRoute("GetUser", new { username = user.Nickname }, user);
             }
             catch (ApplicationException ex)
             {
@@ -183,7 +182,6 @@ namespace RiftArena.Controllers
         /// </summary>
         /// <returns>OK 200 ou Not Found 404 se o utilizador logado já não existir</returns>
         [HttpDelete, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        //[HttpDelete("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<User> Delete()
         {
             var user = _userService.GetByUsername(User.Identity.Name);
@@ -206,7 +204,6 @@ namespace RiftArena.Controllers
         /// <param name="user">Dados do utilizador a serem atualizados</param>
         /// <returns>OK 200</returns>
         [HttpPut, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        //[HttpPut("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult Update([FromBody] User user)
         {
             var userUp = _context.Users.Find(Int32.Parse(User.Identity.Name));
@@ -268,8 +265,6 @@ namespace RiftArena.Controllers
         /// <param name="request">(verificar)</param>
         /// <returns>OK 200 ou Bad Request 400 caso (especificar)</returns>
         [HttpPost("acceptRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-
-        //[HttpPost("{id:int}/acceptRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult AcceptRequests([FromBody] Request request)
         {
             var user = _userService.GetByUsername(User.Identity.Name);
@@ -325,7 +320,6 @@ namespace RiftArena.Controllers
         /// <param name="request">(verificar)</param>
         /// <returns>OK 200</returns>
         [HttpPost("refuseRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        //[HttpPost("{id:int}/refuseRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult RefuseRequest([FromBody] Request request)
         {
             var user = _userService.GetByUsername(User.Identity.Name);
