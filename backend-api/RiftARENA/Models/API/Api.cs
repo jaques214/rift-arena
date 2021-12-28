@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Net.Http;
 
-namespace RiftARENA.Models.API
+namespace RiftArena.Models.API
 {
     public class Api
     {
