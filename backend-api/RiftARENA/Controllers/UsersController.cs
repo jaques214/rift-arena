@@ -41,6 +41,7 @@ namespace RiftArena.Controllers
             _appSettings = appSettings.Value;
         }
 
+<<<<<<< HEAD
         //GET: api/Users/requests
         /// <summary>
         /// Método que returnará uma lista de todos os pedidos do utilizador logado.
@@ -104,6 +105,8 @@ namespace RiftArena.Controllers
             return Ok();
         }
 
+=======
+>>>>>>> 89df94f1b1c9a630e95b4f0d0834d7dfec025b20
         //POST: api/Users/register
         /// <summary>
         /// Método para registar um utilizador.
@@ -260,6 +263,7 @@ namespace RiftArena.Controllers
                 Token = tokenString
             });
         }
+<<<<<<< HEAD
 
         //POST: api/Users/acceptRequest
         /// <summary>
@@ -272,6 +276,15 @@ namespace RiftArena.Controllers
         {
             var user = _userService.GetByUsername(User.Identity.Name);
             /*if (user.Team != null)
+=======
+        /*
+        //POST: api/Users/{id}/acceptRequest
+        [HttpPost("{id:int}/acceptRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult AcceptRequests( int userID, [FromBody]Request request)
+        {
+            var user = _userService.GetById(userID);
+            if (user.Team != null)
+>>>>>>> 89df94f1b1c9a630e95b4f0d0834d7dfec025b20
             {
               return BadRequest();
             }
@@ -289,9 +302,12 @@ namespace RiftArena.Controllers
                     {
                         request.Accepted = true;
                         user.Requests.Remove(request);
+<<<<<<< HEAD
                         user.TeamTag = request.Team.Tag;
+=======
+                        //user.Team = request.Team;
+>>>>>>> 89df94f1b1c9a630e95b4f0d0834d7dfec025b20
                         _context.Update(request);
-                        _context.Update(user);
 
                         Team temp = _context.Teams.Find(request.Team);
 
@@ -309,7 +325,22 @@ namespace RiftArena.Controllers
             }
             else
             {
+<<<<<<< HEAD
                 return BadRequest();
+=======
+                if (user.Requests.Contains(request))
+                {
+                    request.Accepted = false;
+                    user.Requests.Remove(request);
+                    _context.Update(request);
+                    _context.SaveChanges();
+                    return Ok(user);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+>>>>>>> 89df94f1b1c9a630e95b4f0d0834d7dfec025b20
             }
 
             //}     

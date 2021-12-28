@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RiftArena.Models;
 using RiftArena.Models.Contexts;
-using RiftARENA.Models.API;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +12,8 @@ using System.IdentityModel.Tokens.Jwt;
 
 
 namespace RiftArena.Models.Services
-
+    //TO DO 
+    //Add Hashs da Password
 {
     //Interface de UserService com os métodos e funções a implementar
     public interface IUserService
@@ -24,6 +24,7 @@ namespace RiftArena.Models.Services
         User GetByUsername(string nickname);
         User Create(User user, string password);
         void Update(User user, string password = null);
+<<<<<<< HEAD
         void Delete(string username);
         User LinkRiot(string userID, string nickname, string region);
         void ValidateRiot(LinkedAccount linked);
@@ -31,17 +32,20 @@ namespace RiftArena.Models.Services
         User UnlinkRiot(string userID);
         List<Request> GetAllRequestsOfUserById(string userID);
 
+=======
+        void Delete(int id);
+>>>>>>> 89df94f1b1c9a630e95b4f0d0834d7dfec025b20
     }
     public class UserServices : IUserService
     {
         private RiftArenaContext _context;
-        
 
         public UserServices(RiftArenaContext context)
         {
             _context = context;
         }
 
+<<<<<<< HEAD
         //Retorna uma lista com os pedidos de um determinado User
         public List<Request> GetAllRequestsOfUserById(string userID)
         {
@@ -173,6 +177,8 @@ namespace RiftArena.Models.Services
         }
 
 
+=======
+>>>>>>> 89df94f1b1c9a630e95b4f0d0834d7dfec025b20
         //Retorna todos os utilizadores registados 
         /// <summary>
         /// Método responsável por retornar todos os utilizadores guardados na base de dados.
