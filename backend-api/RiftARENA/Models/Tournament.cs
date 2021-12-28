@@ -29,6 +29,8 @@ namespace RiftArena.Models
 
         public float Prize { get; set; }
 
+        public string MiniumTier { get; set; }
+
         public string Poster { get; set; }
 
         public virtual List<Team> Stages { get; set; }
@@ -37,12 +39,9 @@ namespace RiftArena.Models
 
         public virtual List<Messages> Chat { get; set; }
 
-        public virtual DateTime date { get; set; }
+        public virtual DateTime Date { get; set; }
 
-
-
-
-
+        public string CreatorNickname {get; set; }
 
     }
 }
