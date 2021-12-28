@@ -12,6 +12,7 @@ using RiftArena.Models.Services;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using RiftArena.Helpers;
 
 
 namespace RiftArena
@@ -33,18 +34,23 @@ namespace RiftArena
             .UseSqlServer(Configuration.GetConnectionString("RiftArena"))
             .UseLazyLoadingProxies());
             services.AddControllers();
-            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+
+            /*services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.WithOrigins("http://localhost:4200")
                        .AllowAnyMethod()
                        .AllowAnyHeader();
-            }));
+            }));*/
+            services.AddCors();
+            
             /*services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RiftARENA", Version = "v1" });
             });*/
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(Options =>
+
+            /*services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, Options =>
             {
+                Options.RequireHttpsMetadata = false;
                 Options.SaveToken = true;
                 Options.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -53,12 +59,35 @@ namespace RiftArena
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
+            });*/
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+
+            // configure jwt authentication
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Token);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
             });
+
             services.AddScoped<IUserService, UserServices>();
             services.AddScoped<ITeamService, TeamServices>();
             services.AddScoped<ITournamentService, TournamentService>();
             services.AddAuthentication(IISDefaults.AuthenticationScheme);
-            //services.AddAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,7 +103,12 @@ namespace RiftArena
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors("MyPolicy");
+            
+            // global cors policy
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
             app.UseAuthentication();
             app.UseAuthorization();

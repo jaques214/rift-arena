@@ -10,13 +10,13 @@ namespace RiftArena.Models.Services
 {
     public interface ITeamService
     {
-        Team CreateTeam(Team team);
+        Team CreateTeam(Team team, string userID);
         IEnumerable<Team> GetAll();
         Team GetByID(int id);
-        Team UpdateTeam(int id, Team team);
-        void DeleteTeam(int id);
-        void AddMember(int id, User user);
-        void RemoveMember(int id, User user);
+        Team UpdateTeam(Team team, string userID);
+        void DeleteTeam(string userID);
+        void AddMember(User user, string userID);
+        void RemoveMember(User user, string userID);
 
     }
     public class TeamServices : ITeamService
@@ -27,6 +27,7 @@ namespace RiftArena.Models.Services
         {
             _context = context;
         }
+
         /// <summary>
         /// Método que retorna todas as equipas existentes
         /// </summary>
@@ -35,6 +36,7 @@ namespace RiftArena.Models.Services
         {
             return _context.Teams.ToList();
         }
+
         /// <summary>
         /// Método que retorna uma equipa através de um ID
         /// </summary>
@@ -44,13 +46,14 @@ namespace RiftArena.Models.Services
         {
             return _context.Teams.Find(id);
         }
+
         /// <summary>
         /// Método que permite a criação de uma equipa
         /// </summary>
         /// <param name="team">Equipa a ser criada</param>
         /// <returns>Equipa criada</returns>
         /// <exception cref="AppException">Exceção caso a equipa a criar falhe nas validações</exception>
-        public Team CreateTeam(Team team)
+        public Team CreateTeam(Team team, string userID)
         //falta usar o token para verificar se o user logado ja esta numa equipa e se ja tem conta vinculada
         {
             team.Members = new List<User>();
@@ -74,33 +77,37 @@ namespace RiftArena.Models.Services
                 throw new AppException("TeamLeader\"" + team.TeamLeader + "\"is already taken");
 
 
-            var leader = _context.Users.FirstOrDefault(x => x.Nickname == team.TeamLeader);
+            var leader = _context.Users.SingleOrDefault(x => x.Nickname == userID);
 
+            team.TeamLeader = leader.Nickname;
             team.Members.Add(leader);
             team.Defeats = 0;
             team.Wins = 0;
             team.TournamentsWon = 0;
             team.GamesPlayed = 0;
             team.NumberMembers = 1;
-            //team.Rank = token user getrank(atraves da api)
-
+            team.Rank = leader.Rank;
 
             _context.Teams.Add(team);
+
+            leader.TeamTag = team.Tag;
+            _context.Users.Update(leader);
+
             _context.SaveChanges();
 
             return GetByID(team.TeamId);
 
         }
+
         /// <summary>
         /// Método que permite a edição de uma equipa
         /// </summary>
-        /// <param name="id">ID da equipa a editar</param>
         /// <param name="team">Equipa com as edições feitas</param>
         /// <returns>Equipa editada</returns>
         /// <exception cref="AppException">Exceção caso a equipa a editar falhe nas validações</exception>
-        public Team UpdateTeam(int id, Team team)
+        public Team UpdateTeam(Team team, string userID)
         {
-            var teamSer = GetByID(id);
+            var teamSer = _context.Teams.FirstOrDefault(x => x.TeamLeader == userID);
             if (teamSer == null)
                 throw new AppException("Team not found!");
 
@@ -129,13 +136,13 @@ namespace RiftArena.Models.Services
 
             return GetByID(teamSer.TeamId);
         }
+
         /// <summary>
         /// Método que permite a eliminação de uma equipa
         /// </summary>
-        /// <param name="id">ID da equipa a eliminar</param>
-        public void DeleteTeam(int id)
+        public void DeleteTeam(string userID)
         {
-            var team = _context.Teams.Find(id);
+            var team = _context.Teams.SingleOrDefault(x => x.TeamLeader == userID);
             if (team != null)
             {
                 //colocar o team dos members a null
@@ -143,15 +150,15 @@ namespace RiftArena.Models.Services
                 _context.SaveChanges();
             }
         }
+
         /// <summary>
         /// Método que permite a adição de um membro a uma equipa
         /// </summary>
-        /// <param name="id">ID da equipa que o user será adicionado</param>
         /// <param name="user">User que será adicionado</param>
         /// <exception cref="AppException">Exceção caso a equipa não exista ou esteja cheia</exception>
-        public void AddMember(int id, User user)
+        public void AddMember(User user, string userID)
         {
-            var TeamTemp = GetByID(id);
+            var TeamTemp = _context.Teams.SingleOrDefault(x => x.TeamLeader == userID);
             if (TeamTemp == null)
             {
                 throw new AppException("Not Found");
@@ -171,30 +178,32 @@ namespace RiftArena.Models.Services
             _context.Teams.Update(TeamTemp);
             _context.SaveChanges();
         }
+
         /// <summary>
         /// Método que permite a remoção de um membro a uma equipa
         /// </summary>
         /// <param name="id">ID da equipa que o user será removido</param>
         /// <param name="user">User que será removido</param>
         /// <exception cref="AppException">Exceção caso a equipa não exista ou o user a ser removido seja o team leader</exception>
-        public void RemoveMember(int id, User user)
+        public void RemoveMember(User user, string userID)
         {
-            //falta usar o token para verificar se o user logado é team leader
-            var TeamTemp = GetByID(id);
+            var TeamTemp = _context.Teams.SingleOrDefault(x => x.TeamLeader == userID);
             if (TeamTemp == null)
             {
                 throw new AppException("Not Found");
             }
-            else if (TeamTemp.TeamLeader.Equals(user.Nickname))
-            {
-                throw new AppException("Team leader cannot be removed");
-            }
             else
+            {
+                if (TeamTemp.TeamLeader.Equals(user.Nickname))
+                {
+                    throw new AppException("Team leader cannot be removed");
+                }
+                else
                 {
                     TeamTemp.Members.Remove(user);
                     TeamTemp.NumberMembers--;
                 }
-
+            }
             _context.Teams.Update(TeamTemp);
             _context.SaveChanges();
         }

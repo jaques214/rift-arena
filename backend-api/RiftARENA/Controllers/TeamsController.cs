@@ -27,19 +27,19 @@ namespace RiftArena.Controllers
             _service = service;
         }
 
+        //POST: api/Teams/createTeam
         /// <summary>
-        /// Método que permite a criação de uma equipa, chamando o método CreateTeam implementado no teamService
+        /// Método que permite a criação de uma equipa.
         /// </summary>
         /// <param name="team">Equipa a ser criada</param>
         /// <returns>Equipa criada</returns>
-        //POST: api/Teams/createTeam
-        [HttpPost("createTeam")/*,Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
+        [HttpPost("createTeam"),Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult CreateTeam([FromBody] Team team)
         {
             try
             {
-
-                _service.CreateTeam(team);
+                //mando o id do utilizador logado para o servidor.
+                _service.CreateTeam(team, User.Identity.Name);
                 _context.SaveChanges();
                 return CreatedAtRoute("GetTeam", new { id = team.TeamId }, team);
 
@@ -64,20 +64,7 @@ namespace RiftArena.Controllers
             if (teamCon == null)
                 return NotFound();
             else
-                return Ok(new
-                {
-                    Id = teamCon.TeamId,
-                    Name = teamCon.Name,
-                    TAG = teamCon.Tag,
-                    TeamLeader = teamCon.TeamLeader,
-                    Rank = teamCon.Rank,
-                    NumberOfMembers = teamCon.NumberMembers,
-                    Wins = teamCon.Wins,
-                    Defeats = teamCon.Defeats,
-                    GamesPlayed = teamCon.GamesPlayed,
-                    TournamentsWon = teamCon.TournamentsWon,
-                    Members = teamCon
-                });
+                return Ok(teamCon);
 
         }
 
@@ -90,72 +77,78 @@ namespace RiftArena.Controllers
         public ActionResult<Team> GetAll()
         {
             var teamsCon = _service.GetAll();
+            var teamsRestricted = new List<Object>();
+            for(int i = 0; i < teamsCon.Count(); i++)
+            {
+                Team team = teamsCon.ElementAt(i);
+                /*JsonObject obj = 
+                {
+                    "Id": team.TeamId,
+                    "tag": team.Tag
+                }*/
+                //teamsRestricted.Add();
+            }
             if (teamsCon == null)
                 return NoContent();
             else
                 return Ok(teamsCon);
         }
+
+        //DELETE: api/Teams
         /// <summary>
         /// Método que permite a eliminação de uma equipa, chamando o método DeleteTeam implementado no teamService
         /// </summary>
-        /// <param name="id">ID da equipa a eliminar</param>
         /// <returns>Ok</returns>
-        //DELETE: api/Teams/{id}
-        [HttpDelete("{id:int}")/*,Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
+        [HttpDelete,Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         //[HttpDelete("{id:int}")]
-        public ActionResult<Team> DeleteTeam(int id)
+        public ActionResult<Team> DeleteTeam()
         {
-            _service.DeleteTeam(id);
+            _service.DeleteTeam(User.Identity.Name);
 
             return Ok();
         }
 
+        //PUT: api/Teams/{id}
         /// <summary>
         /// Método que permite a edição de uma equipa, chamando o método UpdateTeam implementado no teamService
         /// </summary>
-        /// <param name="id">ID da equipa a editar</param>
         /// <param name="team">Equipa com as edições feitas</param>
         /// <returns>Equipa editada</returns>
-        //PUT: api/Teams/{id}
-        [HttpPut("{id:int}")/*,Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
-        public IActionResult UpdateTeam(int id, [FromBody] Team team)
+        [HttpPut, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult UpdateTeam([FromBody] Team team)
         {
-            Console.WriteLine(id);
-            _service.UpdateTeam(id, team);
-
+            _service.UpdateTeam(team, User.Identity.Name);
             _context.SaveChanges();
 
             return Ok();
 
         }
+
+        //POST: api/Teams/addMember/{id}
         /// <summary>
         /// Método que permite a adição de um membro a uma equipa, chamando o método AddMember implementado no teamService
         /// </summary>
-        /// <param name="id">ID da equipa que o user será adicionado</param>
         /// <param name="user">User que será adicionado</param>
         /// <returns>Ok</returns>
-        //POST: api/Teams/addMember/{id}
-        [HttpPost("{id:int}/addMember")/*, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
-        public ActionResult AddMember(int id, [FromBody] User user)
+        [HttpPost("addMember"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public ActionResult AddMember([FromBody] User user)
         {
-            _service.AddMember(id, user);
-
+            _service.AddMember(user, User.Identity.Name);
             _context.SaveChanges();
 
             return Ok();
         }
+
+        //POST: api/Teams/removeMember
         /// <summary>
         /// Método que permite a remoção de um membro a uma equipa, chamando o método RemoveMember implementado no teamService
         /// </summary>
-        /// <param name="id">ID da equipa que o user será removido</param>
         /// <param name="user">User que será removido</param>
         /// <returns>Ok</returns>
-        //POST: api/Teams/removeMember/{id}
-        [HttpDelete("{id:int}/removeMember")/*, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
-        public ActionResult RemoveMember(int id, [FromBody] User user)
+        [HttpDelete("removeMember"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public ActionResult RemoveMember([FromBody] User user)
         {
-            _service.RemoveMember(id, user);
-
+            _service.RemoveMember(user, User.Identity.Name);
             _context.SaveChanges();
 
             return Ok();

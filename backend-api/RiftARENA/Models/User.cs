@@ -16,14 +16,14 @@ namespace RiftArena.Models
             public byte[] PasswordSalt { get; set; }
             public string Rank { get; set; }
             public string Tier { get; set; }
+            [RegularExpression(@"^[a-z._\d]+\@[a-z]+(\.[a-z]+)*$", ErrorMessage = "Invalid email")]
             public string Email { get; set; }
             public string ContaRiot { get; set; }
             public int NumVitoriasTotal { get; set; }
             [ForeignKey("LinkedAccountID")]
             public virtual LinkedAccount LinkedAccount  { get; set; }
             public virtual List<Request> Requests   { get; set; }
-            /*[ForeignKey("TeamID")]
-            public virtual Team Team { get; set; }*/
+            public string TeamTag { get; set; }
 
         public override string ToString()
         {
