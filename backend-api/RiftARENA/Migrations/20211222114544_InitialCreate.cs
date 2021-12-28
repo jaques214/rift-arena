@@ -11,12 +11,7 @@ namespace RiftARENA.Migrations
                 name: "LinkedAccounts",
                 columns: table => new
                 {
-<<<<<<< HEAD:backend-api/RiftARENA/Migrations/20211222114544_InitialCreate.cs
                     ID = table.Column<string>(type: "nvarchar(300)", nullable: false),
-=======
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
->>>>>>> 89df94f1b1c9a630e95b4f0d0834d7dfec025b20:backend-api/RiftARENA/Migrations/20211214163636_InitialCreate.cs
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Rank = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Region = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -87,14 +82,9 @@ namespace RiftARENA.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ContaRiot = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NumVitoriasTotal = table.Column<int>(type: "int", nullable: false),
-<<<<<<< HEAD:backend-api/RiftARENA/Migrations/20211222114544_InitialCreate.cs
                     LinkedAccountID = table.Column<string>(type: "nvarchar(300)", nullable: true),
                     TeamTag = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TeamId = table.Column<int>(type: "int", nullable: true)
-=======
-                    LinkedAccountID = table.Column<int>(type: "int", nullable: true),
-                    TeamID = table.Column<int>(type: "int", nullable: true)
->>>>>>> 89df94f1b1c9a630e95b4f0d0834d7dfec025b20:backend-api/RiftARENA/Migrations/20211214163636_InitialCreate.cs
                 },
                 constraints: table =>
                 {

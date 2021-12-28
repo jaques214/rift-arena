@@ -24,17 +24,6 @@ namespace RiftArena.Models.Services
         User GetByUsername(string nickname);
         User Create(User user, string password);
         void Update(User user, string password = null);
-<<<<<<< HEAD
-        void Delete(string username);
-        User LinkRiot(string userID, string nickname, string region);
-        void ValidateRiot(LinkedAccount linked);
-        bool CheckValidatedRiot(LinkedAccount linked);
-        User UnlinkRiot(string userID);
-        List<Request> GetAllRequestsOfUserById(string userID);
-
-=======
-        void Delete(int id);
->>>>>>> 89df94f1b1c9a630e95b4f0d0834d7dfec025b20
     }
     public class UserServices : IUserService
     {
@@ -45,7 +34,6 @@ namespace RiftArena.Models.Services
             _context = context;
         }
 
-<<<<<<< HEAD
         //Retorna uma lista com os pedidos de um determinado User
         public List<Request> GetAllRequestsOfUserById(string userID)
         {
@@ -60,125 +48,9 @@ namespace RiftArena.Models.Services
                 return userTemp.Requests;
             }
         }
-        //Apartir do ID de uma linkedAccount vai buscar o rank da mesma apartir da API da RIOT
-        public string GetSummonerRank(LinkedAccount account)
-        {
-            Summoner_V4 summoner_v4 = new Summoner_V4(account.Region);
-            var summoner = summoner_v4.GetSummonerStatsById(account.ID);
-
-            if(summoner == null)
-            {
-                throw new AppException("Not able to retrieve ingame stats");
-            }
-
-            Console.WriteLine( "SUMMOMMER" + summoner);
-            account.Rank = summoner.rank;
-            
-
-            return account.Rank;
-        }
-
-        //Verifica se o Summoner Existe na riot api
-        public bool VerifySummoner(string region,string summonerName)
-        {
-            Summoner_V4 summoner_v4 = new Summoner_V4(region);
-
-            var summoner = summoner_v4.GetSummonerByName(summonerName);
-            
-            return summoner != null;
-        }
-
-        //Conecta a conta riot retornando já o user atualizado e confirma a validação pelo Icon
-        public User LinkRiot(string userID, string nickname,string region)
-        {
-            User userTemp = GetByUsername(userID);
-
-            if (userTemp != null)
-            {
-                Summoner_V4 summoner_v4 = new Summoner_V4(region);
-                var summoner = summoner_v4.GetSummonerByName(nickname);
-                Console.WriteLine(summoner);
-
-                if (summoner == null)
-                {
-                    throw new AppException("Riot account not found");  
-                }
-                
-                var linkedTemp = new LinkedAccount
-                {
-                    Username = nickname,
-                    ProfileIconID = summoner.profileIconId,
-                    Region = region,
-                    ID = summoner.id,
-                    SummonerLevel = summoner.summonerLevel,
-                    Validated = false
-                };
-
-                linkedTemp.Rank = GetSummonerRank(linkedTemp);
-                userTemp.LinkedAccount = linkedTemp;
-                userTemp.ContaRiot = nickname;
-
-                if (CheckValidatedRiot(linkedTemp))
-                {
-                    linkedTemp.Validated = true;
-                }
+       
 
 
-
-            }
-            else
-            {
-                throw new AppException("User not found");
-            }
-            return userTemp;
-        }
-
-        //Muda o estado da conta para validada
-        public void ValidateRiot(LinkedAccount linked)
-        {
-            if (CheckValidatedRiot(linked))
-            {
-                linked.Validated = true;
-            }
-        }
-
-        //Confirma se a conta está validada ou não
-        public bool CheckValidatedRiot(LinkedAccount linked)
-        {
-            if (linked.ProfileIconID == 7)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        //Desvincula a conta RIOT vinculada de um user
-        public User UnlinkRiot(string userID)
-        {
-            User userTemp = GetByUsername(userID);
-
-            if (userTemp == null)
-            {
-                throw new AppException("Riot account not found");
-            }
-            /*if(userTemp.Team != null)
-            {
-                throw new AppException("Can't unlink your account. Exit your team first before unlinking your RIOT account.");
-            }*/
-
-            //if (_context.LinkedAccounts.Any(x => x.ID == userTemp.Name))
-            LinkedAccount linkedTemp = _context.LinkedAccounts.Find(userTemp.LinkedAccount.ID);
-            _context.LinkedAccounts.Remove(linkedTemp);
-            _context.SaveChanges();
-            userTemp.ContaRiot = null;
-            
-
-            return userTemp;     
-        }
-
-
-=======
->>>>>>> 89df94f1b1c9a630e95b4f0d0834d7dfec025b20
         //Retorna todos os utilizadores registados 
         /// <summary>
         /// Método responsável por retornar todos os utilizadores guardados na base de dados.

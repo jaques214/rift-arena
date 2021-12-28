@@ -10,42 +10,5 @@ namespace RiftARENA.Models.API
         {
         }
 
-        public SummonerDTO GetSummonerByName(string SummonerName)
-        {
-            string path = "summoner/v4/summoners/by-name/" + SummonerName;
-
-            var response = GET(GetURI(path));
-            string content = response.Content.ReadAsStringAsync().Result;
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-
-                return JsonConvert.DeserializeObject<SummonerDTO>(content);
-            }
-            else
-            {
-                return null;
-            }
-
-        }
-
-        public SummonerSTATS GetSummonerStatsById(string summonerId)
-        {
-            string path = "league/v4/entries/by-summoner/" + summonerId;
-
-            var response = GET(GetURI(path));
-            string content = response.Content.ReadAsStringAsync().Result;
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                var obj = JsonConvert.DeserializeObject<List<SummonerSTATS>>(content);
-                return obj[0];
-            }
-            else
-            {
-                return null;
-            }
-
-        }
     }
 }

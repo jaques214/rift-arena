@@ -41,72 +41,6 @@ namespace RiftArena.Controllers
             _appSettings = appSettings.Value;
         }
 
-<<<<<<< HEAD
-        //GET: api/Users/requests
-        /// <summary>
-        /// Método que returnará uma lista de todos os pedidos do utilizador logado.
-        /// </summary>
-        /// <returns>OK 200 e uma lista com os pedidos do utilizador logado</returns>
-        [HttpGet("requests", Name = "GetUserRequests"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public ActionResult GetAllRequestsByUserId()
-        {
-            var list = _userService.GetAllRequestsOfUserById(User.Identity.Name);
-
-            return Ok(list);
-        }
-
-        //POST: api/Users/vincularConta
-        /// <summary>
-        /// Método que vinculará uma conta RIOT ao utilizador logado
-        /// </summary>
-        /// <param name="acc">Username e região da conta RIOT a ser vinculada</param>
-        /// <returns>OK 200</returns>
-        [HttpPost("vincularConta"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public ActionResult linkContaRiot([FromBody] LinkedAccount acc)
-        {
-            User userTemp = _userService.LinkRiot(User.Identity.Name, acc.Username, acc.Region);
-            _context.SaveChanges();
-
-            return Ok(userTemp);
-        }
-
-        //POST: api/Users/validarConta
-        /// <summary>
-        /// Método que valida a conta linkada pelo utiliazador logado
-        /// </summary>
-        /// <returns>OK 200</returns>
-        [HttpPost("validarConta"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public ActionResult ValidateRiotAccount()
-        {
-            User userTemp = _userService.GetByUsername(User.Identity.Name);
-            _userService.ValidateRiot(userTemp.LinkedAccount);
-            _context.SaveChanges();
-
-            return Ok(new
-            {
-                userTemp.Nickname,
-                userTemp.LinkedAccount.Rank,
-                userTemp.LinkedAccount.ProfileIconID
-            });
-        }
-
-
-        //POST: api/Users/desvincular
-        /// <summary>
-        /// Método que desvinculará a conta RIOT do utilizador logado.
-        /// </summary>
-        /// <returns>OK 200</returns>
-        [HttpPost("desvincularConta"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult DesvincularContaRiot()
-        {
-            var user = _userService.UnlinkRiot(User.Identity.Name);
-            _context.Update(user);
-            _context.SaveChanges();
-            return Ok();
-        }
-
-=======
->>>>>>> 89df94f1b1c9a630e95b4f0d0834d7dfec025b20
         //POST: api/Users/register
         /// <summary>
         /// Método para registar um utilizador.
@@ -197,7 +131,7 @@ namespace RiftArena.Controllers
             }
             else
             {
-                _userService.Delete(User.Identity.Name);
+                //_userService.Delete(User.Identity.Name);
                 return Ok();
             }
 
@@ -263,28 +197,13 @@ namespace RiftArena.Controllers
                 Token = tokenString
             });
         }
-<<<<<<< HEAD
-
-        //POST: api/Users/acceptRequest
-        /// <summary>
-        /// Método que irá aceitar um pedido que o utilizador logado tem de modo a entrar numa equipa.
-        /// </summary>
-        /// <param name="request">(verificar)</param>
-        /// <returns>OK 200 ou Bad Request 400 caso (especificar)</returns>
-        [HttpPost("acceptRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult AcceptRequests([FromBody] Request request)
-        {
-            var user = _userService.GetByUsername(User.Identity.Name);
-            /*if (user.Team != null)
-=======
-        /*
+        
         //POST: api/Users/{id}/acceptRequest
         [HttpPost("{id:int}/acceptRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult AcceptRequests( int userID, [FromBody]Request request)
         {
-            var user = _userService.GetById(userID);
-            if (user.Team != null)
->>>>>>> 89df94f1b1c9a630e95b4f0d0834d7dfec025b20
+            var user = _userService.GetByUsername(userID.ToString());
+           /* if (user.Team != null)
             {
               return BadRequest();
             }
@@ -302,11 +221,7 @@ namespace RiftArena.Controllers
                     {
                         request.Accepted = true;
                         user.Requests.Remove(request);
-<<<<<<< HEAD
-                        user.TeamTag = request.Team.Tag;
-=======
                         //user.Team = request.Team;
->>>>>>> 89df94f1b1c9a630e95b4f0d0834d7dfec025b20
                         _context.Update(request);
 
                         Team temp = _context.Teams.Find(request.Team);
@@ -325,9 +240,6 @@ namespace RiftArena.Controllers
             }
             else
             {
-<<<<<<< HEAD
-                return BadRequest();
-=======
                 if (user.Requests.Contains(request))
                 {
                     request.Accepted = false;
@@ -340,7 +252,6 @@ namespace RiftArena.Controllers
                 {
                     return BadRequest();
                 }
->>>>>>> 89df94f1b1c9a630e95b4f0d0834d7dfec025b20
             }
 
             //}     
