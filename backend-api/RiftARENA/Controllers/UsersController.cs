@@ -209,7 +209,7 @@ namespace RiftArena.Controllers
         [HttpPut, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult Update([FromBody] User user)
         {
-            var userUp = _context.Users.Find(User.Identity.Name);
+            var userUp = _context.Users.SingleOrDefault(x => x.Nickname == User.Identity.Name);
             if (userUp == null)
             {
                 return NotFound();
