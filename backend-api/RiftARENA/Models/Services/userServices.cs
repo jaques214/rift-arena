@@ -7,6 +7,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
+
+
 namespace RiftArena.Models.Services
 
 {
@@ -14,8 +19,9 @@ namespace RiftArena.Models.Services
     public interface IUserService
     {
         User Authenticate(string username, string password);
+        String GenerateToken(byte[] key, User user);
         IEnumerable<User> GetAll();
-        User GetById(string id);
+        User GetByUsername(string nickname);
         User Create(User user, string password);
         void Update(User user, string password = null);
         void Delete(string id);
@@ -39,7 +45,7 @@ namespace RiftArena.Models.Services
         //Retorna uma lista com os pedidos de um determinado User
         public List<Request> GetAllRequestsOfUserById(string userID)
         {
-            User userTemp = GetById(userID);
+            User userTemp = GetByUsername(userID);
 
             if(userTemp == null)
             {           
@@ -81,7 +87,7 @@ namespace RiftArena.Models.Services
         //Conecta a conta riot retornando já o user atualizado e confirma a validação pelo Icon
         public User LinkRiot(string userID, string nickname,string region)
         {
-            User userTemp = GetById(userID);
+            User userTemp = GetByUsername(userID);
 
             if (userTemp != null)
             {
@@ -145,7 +151,7 @@ namespace RiftArena.Models.Services
         //Desvincula a conta RIOT vinculada de um user
         public User UnlinkRiot(string userID)
         {
-            User userTemp = GetById(userID);
+            User userTemp = GetByUsername(userID);
 
             if (userTemp == null)
             {
@@ -173,15 +179,15 @@ namespace RiftArena.Models.Services
             return _context.Users.ToList();
         }
 
-        public User GetById(string id)
+        public User GetByUsername(string nickname)
         {
-            return _context.Users.Find(Int32.Parse(id));
+            return _context.Users.SingleOrDefault(x => x.Nickname == nickname);
         }
 
         //Atualiza as informações de um utilizador apartir de determinado ID
         public void Update(User userParam, string password = null)
         {
-            var user = GetById(userParam.UserID.ToString());
+            var user = GetByUsername(userParam.UserID.ToString());
 
             if (user == null)
                 throw new AppException("User not found");
@@ -212,7 +218,7 @@ namespace RiftArena.Models.Services
 
         public void Delete(string id)
         {
-            var user = GetById(id);
+            var user = GetByUsername(id);
             if (user != null)
             {
                 _context.Users.Remove(user);
@@ -290,5 +296,21 @@ namespace RiftArena.Models.Services
             return null;
         }
 
+        public string GenerateToken(byte[] key, User user){
+            // authentication successful so generate jwt token
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenDescription = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]{
+                    new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()),
+                    new Claim(ClaimTypes.Name, user.Nickname)
+                }),
+                Expires = DateTime.UtcNow.AddDays(1),
+                SigningCredentials = new Microsoft.IdentityModel.Tokens.SigningCredentials(new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescription);
+
+            return tokenHandler.WriteToken(token);
+        }
     }
 }

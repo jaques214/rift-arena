@@ -81,7 +81,7 @@ namespace RiftArena.Controllers
         //[HttpPost("{id:int}/validarConta")]
         public ActionResult ValidateRiotAccount()
         {
-            User userTemp = _userService.GetById(User.Identity.Name);
+            User userTemp = _userService.GetByUsername(User.Identity.Name);
             _userService.ValidateRiot(userTemp.LinkedAccount);
             _context.SaveChanges();
 
@@ -119,7 +119,7 @@ namespace RiftArena.Controllers
             {
                 _userService.Create(user, user.Password);
                 _context.SaveChanges();
-                return CreatedAtRoute("GetUser", new { id = user.UserID }, user);
+                return CreatedAtRoute("GetUser", new { username = user.Nickname }, user);
             }
             catch (ApplicationException ex)
             {
@@ -128,16 +128,32 @@ namespace RiftArena.Controllers
         }
 
 
-        //GET: api/Users/{id: string}
+        //GET: api/Users/{username: string}
         /// <summary>
-        /// Método que retorna os dados do utilizador pesquisado pelo seu id.
+        /// Método que retorna os dados do utilizador pesquisado pelo seu nickname.
         /// </summary>
-        /// <param name="id">ID do utilizador a ser pesquisado.</param>
-        /// <returns>Os dados do utilizador pesquisado</returns>
-        [HttpGet("{id}", Name = "GetUser")]
-        public ActionResult<User> GetById(string id)
+        /// <param name="username">Nickname do utilizador a ser pesquisado.</param>
+        /// <returns>Os dados do utilizador pesquisado.</returns>
+        [HttpGet("{username}", Name = "GetUser")]
+        public ActionResult<User> GetByUsername([FromBody] User username)
         {
-            var user = _userService.GetById(id);
+            var user = _userService.GetByUsername(username.Nickname);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return user;
+        }
+
+        /// <summary>
+        /// Método que retorna os dados do utilizador logado.
+        /// </summary>
+        /// <returns>Os dados do utilizador logado.</returns>
+        [HttpGet("withToken"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public ActionResult<User> GetByToken()
+        {
+            System.Console.WriteLine(User.Identity.Name);
+            var user = _userService.GetByUsername(User.Identity.Name);
             if (user == null)
             {
                 return NotFound();
@@ -170,7 +186,7 @@ namespace RiftArena.Controllers
         //[HttpDelete("{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<User> Delete()
         {
-            var user = _userService.GetById(User.Identity.Name);
+            var user = _userService.GetByUsername(User.Identity.Name);
             if (user == null)
             {
                 return NotFound();
@@ -202,9 +218,9 @@ namespace RiftArena.Controllers
             {
                 try
                 {
-                     // save 
-                     userUp.Password = user.Password;
-                     userUp.Email = user.Email;
+                    // save 
+                    userUp.Password = user.Password;
+                    userUp.Email = user.Email;
                     _userService.Update(userUp);
                     _context.SaveChanges();
                     return Ok();
@@ -236,26 +252,11 @@ namespace RiftArena.Controllers
                 return BadRequest(new { message = "Username or password is incorrect." });
             }
 
-            //PASSAR PARA SERVICE
-
-            // authentication successful so generate jwt token
-            var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Token);
-            var tokenDescription = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]{
-                    new Claim(ClaimTypes.Name, user.UserID.ToString())
-                }),
-                Expires = DateTime.UtcNow.AddDays(1),
-                SigningCredentials = new Microsoft.IdentityModel.Tokens.SigningCredentials(new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescription);
-            var tokenString = tokenHandler.WriteToken(token);
+            var tokenString = _userService.GenerateToken(key, user);
 
             return Ok(new
             {
-                Id = user.UserID,
-                Nickname = user.Nickname,
                 Token = tokenString
             });
         }
@@ -271,7 +272,7 @@ namespace RiftArena.Controllers
         //[HttpPost("{id:int}/acceptRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult AcceptRequests([FromBody] Request request)
         {
-            var user = _userService.GetById(User.Identity.Name);
+            var user = _userService.GetByUsername(User.Identity.Name);
             /*if (user.Team != null)
             {
               return BadRequest();
@@ -327,7 +328,7 @@ namespace RiftArena.Controllers
         //[HttpPost("{id:int}/refuseRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult RefuseRequest([FromBody] Request request)
         {
-            var user = _userService.GetById(User.Identity.Name);
+            var user = _userService.GetByUsername(User.Identity.Name);
             /* if (user.Team != null)
              {
                  return BadRequest();
@@ -351,10 +352,10 @@ namespace RiftArena.Controllers
         //}
 
 
-    private bool UserExists(int id)
-    {
-        return _context.Users.Any(e => e.UserID == id);
-    }
+        private bool UserExists(int id)
+        {
+            return _context.Users.Any(e => e.UserID == id);
+        }
 
-}
+    }
 }
