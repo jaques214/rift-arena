@@ -11,21 +11,22 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {MatSelectModule} from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { NavBarComponent } from './components/nav-bar/nav-bar.component';
-import { LoginComponent } from './components/login/login.component';
-import { AuthService } from './services/auth/auth.service';
-import { UserRestService } from './services/user-rest/user-rest.service';
-import { TeamRestService } from './services/team-rest/team-rest.service';
-import { FrontPageComponent } from './components/front-page/front-page.component';
-import { RegisterComponent } from './components/register/register.component';
-import { SharedFormFieldComponent } from './components/shared-form-field/shared-form-field.component';
+import { NavBarComponent } from '@components/nav-bar/nav-bar.component';
+import { LoginComponent } from '@components/login/login.component';
+import { FrontPageComponent } from '@components/front-page/front-page.component';
+import { RegisterComponent } from '@components/register/register.component';
+import { SharedFormFieldComponent } from '@components/shared-form-field/shared-form-field.component';
 import { ViewProfileComponent } from '@components/view-profile/view-profile.component';
 import { LoadingCircleService } from '@services/loading-circle/loading-circle.service';
 import { CreateTeamComponent } from '@components/create-team/create-team.component';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { JwtInterceptor } from './interceptors/jwt/jwt-interceptor.interceptor';
+
+import { AuthService } from '@services/auth/auth.service';
+import { UserRestService } from '@services/user-rest/user-rest.service';
+import { TeamRestService } from '@services/team-rest/team-rest.service';
 @NgModule({
   declarations: [
     AppComponent,

@@ -39,12 +39,9 @@ namespace RiftArena.Models
 
         public virtual List<Messages> Chat { get; set; }
 
-        public virtual DateTime date { get; set; }
+        public virtual DateTime Date { get; set; }
 
-
-
-
-
+        public string CreatorNickname {get; set; }
 
     }
 }
