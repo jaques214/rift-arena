@@ -27,9 +27,6 @@ export class FrontPageComponent implements OnInit {
         this.firstTeam = this.teams.splice(0, 1)[0];
 
         this.loader.hide();
-      },
-      (err) => {
-        console.log("aqui" + err)
       }
     );
   }

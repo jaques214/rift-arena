@@ -76,7 +76,7 @@ export class ViewProfileComponent implements OnInit {
   }
 
   getUser(userId: number): Observable<any> {
-    return this.restService.getUser(userId);
+    return this.restService.getUser();
   }
 
   ngOnInit(): void {
