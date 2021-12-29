@@ -93,7 +93,7 @@ namespace RiftArena.Controllers
         }
 
         //Vai atualizar as informações da conta Riot do utilizador
-        [HttpPost("updateRiot")]
+        [HttpPost("updateRiot"),Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult UpdateStatsRiotAccount()
         {
             _userService.UpdateRiotAccount(User.Identity.Name);
@@ -143,12 +143,12 @@ namespace RiftArena.Controllers
 
 
         //POST: api/Users/createRequest
-        [HttpPost("createRequest")]
-        public IActionResult CreateRequestByUser()
+        [HttpPost("createRequest"),Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult CreateRequestByUser([FromBody] string nickname)
         {
             try
             {
-                _userService.CreateRequest(User.Identity.Name);
+                _userService.CreateRequest(nickname);
                 _context.SaveChanges();
                 return Ok();
             }
