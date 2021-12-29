@@ -5,7 +5,8 @@ import { FrontPageComponent } from '@components/front-page/front-page.component'
 import { LoginComponent } from '@components/login/login.component';
 import { RegisterComponent } from '@components/register/register.component';
 import { ViewProfileComponent } from '@components/view-profile/view-profile.component';
-import { AuthGuard } from "./guard/auth-guard.guard";
+import { AuthGuard } from './guard/auth-guard.guard';
+import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
 
 const routes: Routes = [
   {
@@ -15,13 +16,15 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [LoggedInAuthGuard],
   },
   {
     path: 'register',
     component: RegisterComponent,
+    canActivate: [LoggedInAuthGuard],
   },
   {
-    path: 'profile/:id',
+    path: 'profile',
     component: ViewProfileComponent,
     canActivate: [AuthGuard],
   },
