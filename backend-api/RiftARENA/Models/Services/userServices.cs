@@ -399,7 +399,7 @@ namespace RiftArena.Models.Services
             {
                 Request request = new Request
                 {
-                    User = userTemp,
+                    User = userTemp.Nickname,
                     Team = team,
                     Accepted = false
                 };
