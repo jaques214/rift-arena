@@ -15,7 +15,7 @@ namespace RiftArena.Models.Services
         Team GetByID(int id);
         Team UpdateTeam(Team team, string userID);
         void DeleteTeam(string userID);
-        void AddMember(User user, string userID);
+        void AddMember(User user, int id);
         void RemoveMember(User user, string userID);
 
     }
@@ -156,9 +156,9 @@ namespace RiftArena.Models.Services
         /// </summary>
         /// <param name="user">User que será adicionado</param>
         /// <exception cref="AppException">Exceção caso a equipa não exista ou esteja cheia</exception>
-        public void AddMember(User user, string userID)
+        public void AddMember(User user,int id)
         {
-            var TeamTemp = _context.Teams.SingleOrDefault(x => x.TeamLeader == userID);
+            var TeamTemp = _context.Teams.Find(id);
             if (TeamTemp == null)
             {
                 throw new AppException("Not Found");
