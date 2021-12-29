@@ -12,6 +12,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {MatTableModule} from '@angular/material/table';
+import {MatRadioModule} from '@angular/material/radio';
 
 import { AppComponent } from './app.component';
 import { NavBarComponent } from '@components/nav-bar/nav-bar.component';
@@ -29,6 +31,7 @@ import { UserRestService } from '@services/user-rest/user-rest.service';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { AuthGuard } from './guard/auth-guard.guard';
 import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
+import { RequestsComponent } from './components/requests/requests.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +42,7 @@ import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
     SharedFormFieldComponent,
     ViewProfileComponent,
     CreateTeamComponent,
+    RequestsComponent,
   ],
   imports: [
     FormsModule,
@@ -56,6 +60,8 @@ import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
     ReactiveFormsModule,
     FormsModule,
     MatSelectModule,
+    MatTableModule,
+    MatRadioModule,
   ],
   providers: [
     AuthService,

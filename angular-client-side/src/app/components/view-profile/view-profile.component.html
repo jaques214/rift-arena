@@ -75,27 +75,29 @@
   </div>
 
   <ng-container [ngSwitch]="accountFlag">
-    <div *ngSwitchCase="'edit'">
-      <form (ngSubmit)="addAccount(account)">
+    <ng-template [ngSwitchCase]="'edit'">
+      <form (ngSubmit)="onSubmitAccount()">
         <div *ngFor="let input of accountFields.inputs">
           <app-shared-form-field [input]="input"></app-shared-form-field>
         </div>
         <button mat-raised-button color="primary" type="submit">Submit</button>
       </form>
-    </div>
+    </ng-template>
 
     <ng-template [ngSwitchDefault]>
-      <ng-container [ngSwitch]="user?.linkedAccount">
-        <div *ngSwitchCase="'undefined'">
-          <p><strong>Username:</strong> {{ info.username }}</p>
-          <p><strong>Rank:</strong> {{ info.rank }}</p>
-          <p><strong>Region:</strong> {{ info.region }}</p>
-        </div>
 
-        <ng-template [ngSwitchDefault]>
+      <ng-container [ngSwitch]="account">
+        <ng-template [ngSwitchCase]="undefined">
           <p>{{ info }}</p>
         </ng-template>
+
+        <ng-template [ngSwitchDefault]>
+          <p><strong>Username:</strong> {{ info?.username }}</p>
+          <p><strong>Rank:</strong> {{ info?.rank }}</p>
+          <p><strong>Region:</strong> {{ info?.region }}</p>
+        </ng-template>
       </ng-container>
+
     </ng-template>
   </ng-container>
 

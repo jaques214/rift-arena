@@ -1,0 +1,44 @@
+section {
+    padding: 0 20px;
+}
+
+table {
+    width: 80%;
+    border: 2px solid #DF711F;
+    margin-bottom: 15px;
+}
+
+th.mat-header-cell {
+    color: #DF711F;
+    font-weight: bold;
+}
+  
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+.mat-header-cell {
+    background-color: #FDCAA4;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+    font-style: italic;
+}
+
+.title {
+   color: #24499A;
+   font-variant: small-caps;
+}
+
+button {
+    width: 100px;
+    margin-right: 10px;
+    border-radius: 5px;
+    color: #24499A;
+    font-weight: bold;
+    background-color: #8EB0FC;
+    border: 2px solid #24499A;
+}

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { User } from '@models/user';
+import { Request } from '@models/request';
 import { LinkedList } from 'linked-list-typescript';
 
 const endpoint = 'https://localhost:5001/api/Users';
@@ -28,10 +29,10 @@ export class UserRestService {
     return this.http.get<LinkedList<User>>(endpoint, httpOptions);
   }
 
-  addAccount(username: string, region: string): Observable<any> {
+  addAccount(username: string, rank: string, region: string): Observable<any> {
     const url = `${endpoint}/vincularConta`;
     return this.http.post(url, 
-      JSON.stringify({ Username: username, Region: region }),
+      JSON.stringify({ Username: username, Rank: rank, Region: region }),
       httpOptions);
   }
 
