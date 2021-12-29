@@ -150,7 +150,7 @@ namespace RiftArena.Controllers
       
                 var team = _teamService.GetByTag(user.TeamTag);
 
-                if (team.TeamLeader.Equals(User.Identity.Name))
+                if (team.TeamLeader.Equals(user.Nickname))
                 {
                     try
                     {
