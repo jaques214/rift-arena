@@ -69,6 +69,15 @@ namespace RiftArena.Controllers
             return Ok(userTemp);
         }
 
+        //Vai atualizar as informações da conta Riot do utilizador
+        [HttpPost("{id:int}/updateRiot")]
+        public ActionResult UpdateStatsRiotAccount(int id)
+        {
+            _userService.UpdateRiotAccount(id);
+            _context.SaveChanges();
+            return Ok();
+        }
+
 
         //POST: api/Users/desvincular
         [HttpPost("{id:int}/desvincular")]
@@ -95,6 +104,23 @@ namespace RiftArena.Controllers
             {
                 return BadRequest(new { message = ex.Message });
             }
+        }
+
+        //POST: api/Users/createRequest
+        [HttpPost("{id:int}/createRequest")]
+        public IActionResult CreateRequestByUser(int id)
+        {
+            try
+            {
+                _userService.CreateRequest(id);  
+                _context.SaveChanges();
+                return Ok();
+            }
+            catch (ApplicationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+
         }
 
        

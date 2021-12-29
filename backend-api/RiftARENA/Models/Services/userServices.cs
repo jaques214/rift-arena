@@ -24,6 +24,9 @@ namespace RiftArena.Models.Services
         bool CheckValidatedRiot(LinkedAccount linked);
         User UnlinkRiot(int userID);
         List<Request> GetAllRequestsOfUserById(int userID);
+        void UpdateRiotAccount(int id);
+
+        Request CreateRequest(int id);
 
     }
     public class UserServices : IUserService
@@ -123,6 +126,36 @@ namespace RiftArena.Models.Services
                 throw new AppException("User not found");
             }
             return userTemp;
+        }
+
+        //Atualiza o rank e Level da conta Riot vinculada
+        public void UpdateRiotAccount(int id)
+        {
+            User userTemp = GetById(id);
+
+            if(userTemp == null)
+            {
+                throw new AppException("User not found");
+            }
+            else
+            {
+                var linkedTemp = _context.LinkedAccounts.Find(userTemp.LinkedAccount.ID);
+                if (linkedTemp == null)
+                {
+                    throw new AppException("No riot account linked to you.");
+                }
+                else
+                {
+                    Summoner_V4 summoner_v4 = new Summoner_V4(linkedTemp.Region);
+                    var summoner = summoner_v4.GetSummonerByName(linkedTemp.Username);
+
+                    linkedTemp.SummonerLevel = summoner.summonerLevel;
+                    linkedTemp.ProfileIconID = summoner.profileIconId;
+                    linkedTemp.Rank = GetSummonerRank(linkedTemp);
+                   // _context.LinkedAccounts.Update(linkedTemp);
+                }
+            }
+
         }
 
         //Muda o estado da conta para validada
@@ -291,6 +324,32 @@ namespace RiftArena.Models.Services
             
             return null;
         }
+        //Cria um request de um team leader para um determinado user entrar na sua equipa
+        public Request CreateRequest(int id)
+        {
+            
+            var userTemp = GetById(id);
 
+            if (userTemp != null)
+            {
+                Request request = new Request
+                {
+                    User = userTemp,
+                    Team = userTemp.Team,
+                    Accepted = false
+                };
+
+                userTemp.Requests.Add(request);
+
+                _context.Requests.Add(request);
+                _context.SaveChanges();
+                return request;
+            }
+            else
+            {
+                throw new AppException("User not found or non-existent.");
+            }
+              
+        }
     }
 }
