@@ -258,15 +258,15 @@ namespace RiftArena.Controllers
                     {
                       userUp.Password = user.Password;
                     }
-                    else
+                    else if (user.Email != null && user.Password != null)
                     {
                         userUp.Password = user.Password;
                         userUp.Email = user.Email;
                         _userService.Update(userUp);
-                        _context.SaveChanges();
-                        return Ok();
+                        _context.SaveChanges();     
                     }
-               
+                    return Ok();
+
                 }
                 catch (AppException ex)
                 {
