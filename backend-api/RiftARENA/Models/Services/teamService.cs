@@ -176,20 +176,22 @@ namespace RiftArena.Models.Services
             {
                 throw new AppException("Not Found");
             }
-            else
-            {
-                if (TeamTemp.NumberMembers == TeamTemp.MAX_MEMBERS)
+            else if(TeamTemp.NumberMembers == TeamTemp.MAX_MEMBERS)
                 {
                     throw new AppException("Team full");
                 }
-                else
+                else if(user.LinkedAccount == null)
                 {
-                    user.TeamTag = TeamTemp.Tag;
-                    TeamTemp.Members.Add(user);
-                    TeamTemp.NumberMembers++;
-                    TeamTemp.Rank = GetRankMean(TeamTemp.TeamId);
+                    throw new AppException("Linked Account is required");
                 }
-            }
+                else
+                    {
+                        user.TeamTag = TeamTemp.Tag;
+                        TeamTemp.Members.Add(user);
+                        TeamTemp.NumberMembers++;
+                        TeamTemp.Rank = GetRankMean(TeamTemp.TeamId);
+                    }
+            
             _context.Teams.Update(TeamTemp);
             _context.SaveChanges();
         }
