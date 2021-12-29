@@ -13,17 +13,22 @@ export class FrontPageComponent implements OnInit {
   teams!: Team[];
   loading = this.loader.loading$;
 
-  constructor(private teamService: TeamRestService,  private loader: LoadingCircleService) {}
+  constructor(
+    private teamService: TeamRestService,
+    private loader: LoadingCircleService
+  ) {}
 
   ngOnInit(): void {
     this.loader.show();
 
-    this.teamService.getTeams().subscribe((data) => {
-      this.teams = data;
-      this.firstTeam = this.teams.splice(0, 1)[0];
-      
-    this.loader.hide();
-    });
+    this.teamService.getTeams().subscribe(
+      (data) => {
+        this.teams = data;
+        this.firstTeam = this.teams.splice(0, 1)[0];
+
+        this.loader.hide();
+      }
+    );
   }
 
   getWinrate(team: Team): Number {

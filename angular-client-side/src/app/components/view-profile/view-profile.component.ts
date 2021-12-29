@@ -62,7 +62,7 @@ export class ViewProfileComponent implements OnInit {
 }
 
   editUser(user: User): void {
-    this.restService.updateUser(user).subscribe({
+    this.restService.updateUser(user.password!, user.email!).subscribe({
       next: () => {
         this.getUser(user.userID!).subscribe((user) => {
           this.user = user;
@@ -76,7 +76,7 @@ export class ViewProfileComponent implements OnInit {
   }
 
   getUser(userId: number): Observable<any> {
-    return this.restService.getUser(userId);
+    return this.restService.getUser();
   }
 
   ngOnInit(): void {
