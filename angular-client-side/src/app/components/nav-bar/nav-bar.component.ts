@@ -30,11 +30,6 @@ export class NavBarComponent implements OnInit {
     }
   }
 
-  myProfile() {
-    this.profile = `/profile/${this.user?.userID}`;
-    return this.profile;
-  }
-
   toogleProfileIcon() {
     let imageFieldPath = 'http://localhost:5001/api/' + this.user?.profileImage;
     return this.user?.profileImage

@@ -64,7 +64,7 @@ export class ViewProfileComponent implements OnInit {
   editUser(user: User): void {
     this.restService.updateUser(user.password!, user.email!).subscribe({
       next: () => {
-        this.getUser(user.userID!).subscribe((user) => {
+        this.getUser().subscribe((user) => {
           this.user = user;
           this.populateForm();
         });
@@ -75,15 +75,16 @@ export class ViewProfileComponent implements OnInit {
     });
   }
 
-  getUser(userId: number): Observable<any> {
+  getUser(): Observable<any> {
     return this.restService.getUser();
   }
 
   ngOnInit(): void {
     const id = this.route.snapshot.params['id'];
-    if(id && !this.user){
-      this.getUser(id).subscribe((user) => {
+    //if(id && !this.user){
+      this.getUser().subscribe((user) => {
         this.user = user;
+        console.log("User", user);
         //this.user?.team = this.getTeam(1)
         this.populateForm();
         if(this.account == undefined) {
@@ -104,7 +105,7 @@ export class ViewProfileComponent implements OnInit {
           this.team = team;
         });
       });
-    }
+    //}
   }
 
   getUserValue(value: any) {
