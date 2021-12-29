@@ -11,6 +11,7 @@ import { LoadingCircleService } from '@services/loading-circle/loading-circle.se
 export class FrontPageComponent implements OnInit {
   firstTeam!: Team;
   teams!: Team[];
+  noTeams: boolean = true;
   loading = this.loader.loading$;
 
   constructor(
@@ -21,14 +22,15 @@ export class FrontPageComponent implements OnInit {
   ngOnInit(): void {
     this.loader.show();
 
-    this.teamService.getTeams().subscribe(
-      (data) => {
-        this.teams = data;
-        this.firstTeam = this.teams.splice(0, 1)[0];
-
-        this.loader.hide();
+    this.teamService.getTeams().subscribe((data) => {
+      this.teams = data;
+      this.firstTeam = this.teams.splice(0, 1)[0];
+      console.log(this.teams);
+      this.loader.hide();
+      if (data.length > 0) {
+        this.noTeams = false;
       }
-    );
+    });
   }
 
   getWinrate(team: Team): Number {
