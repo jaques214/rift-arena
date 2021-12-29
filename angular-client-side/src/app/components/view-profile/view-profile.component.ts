@@ -96,10 +96,7 @@ export class ViewProfileComponent implements OnInit {
           this.icon = "remove_circle_outline";
           this.label = "remove circle outline icon";
         }
-        console.log(this.user);
-        console.log(this.user?.teamID);
-        console.log(this.user?.userID);
-        console.log(this.user?.team?.name);
+
         this.getTeam(1).subscribe((team) => {
           this.team = team;
         });
@@ -112,7 +109,6 @@ export class ViewProfileComponent implements OnInit {
     
     if(this.user != null) {
         let values = Object.entries(this.user!);
-        //console.log(values);
 
         values.forEach(val => {
           if(val[0] == value) {
@@ -120,7 +116,6 @@ export class ViewProfileComponent implements OnInit {
         }
         });
     }
-    //console.log(convert);
     return convert;
   }
 
@@ -138,7 +133,7 @@ export class ViewProfileComponent implements OnInit {
   }
 
   getTeamName() {
-    return (this.user?.team) ? this.user?.team.name : "No Team";
+    return (this.user?.teamTag) ? this.user?.teamTag : "No Team";
   }
 
   /*addAccount(): void {

@@ -5,6 +5,7 @@ import {
   Validators,
   AbstractControl,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { TeamRestService } from '@src/app/services/team-rest/team-rest.service';
 
 @Component({
@@ -15,7 +16,7 @@ import { TeamRestService } from '@src/app/services/team-rest/team-rest.service';
 export class CreateTeamComponent implements OnInit {
   form!: FormGroup;
 
-  constructor(private teamService: TeamRestService) {}
+  constructor(private teamService: TeamRestService, private router: Router) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -37,13 +38,21 @@ export class CreateTeamComponent implements OnInit {
       return true;
     }
   }
+
   save() {
     if (this.isEnable()) {
       let tag: string = this.form.get('tagName')?.value;
       let teamName: string = this.form.get('teamName')?.value;
-      var user = JSON.parse(localStorage['currentUser']);
 
-      this.teamService.createTeam(user['nickname'], tag, teamName);
+
+      this.teamService.createTeam(tag, teamName).subscribe(
+        () => {
+          this.router.navigate(['']);
+        },
+        (err: any) => {
+          console.log(err);
+        }
+      );
     }
   }
 }
