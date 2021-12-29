@@ -4,8 +4,11 @@ export class LinkedAccount {
     constructor(
         public id: number,
         public username: string,
+        public profileIconID: number,
+        public summonerLevel: string,
         public rank: string,
         public region: string,
+        public validated: number,
         public user: User,
     ) {}
 
