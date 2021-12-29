@@ -25,7 +25,6 @@ export class FrontPageComponent implements OnInit {
     this.teamService.getTeams().subscribe((data) => {
       this.teams = data;
       this.firstTeam = this.teams.splice(0, 1)[0];
-      console.log(this.teams);
       this.loader.hide();
       if (data.length > 0) {
         this.noTeams = false;

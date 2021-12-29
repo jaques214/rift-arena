@@ -30,12 +30,10 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(this.nickname, this.password).subscribe(
       (result: any) => {
-        console.log(result.token);
         localStorage.setItem('currentUser', result.token);
         this.router.navigate(['/']);
       },
       (err: any) => {
-        console.log(this.nickname);
         alert('erro no login');
       }
     );

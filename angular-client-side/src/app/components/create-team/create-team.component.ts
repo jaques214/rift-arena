@@ -43,8 +43,7 @@ export class CreateTeamComponent implements OnInit {
     if (this.isEnable()) {
       let tag: string = this.form.get('tagName')?.value;
       let teamName: string = this.form.get('teamName')?.value;
-      console.log(typeof(tag) );
-      console.log(typeof(teamName));
+
 
       this.teamService.createTeam(tag, teamName).subscribe(
         () => {
