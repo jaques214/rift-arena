@@ -144,6 +144,12 @@ namespace RiftARENA.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<string>("CreatorNickname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -173,9 +179,6 @@ namespace RiftARENA.Migrations
 
                     b.Property<int>("State")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("date")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("TournamentId");
 
@@ -216,19 +219,20 @@ namespace RiftARENA.Migrations
                     b.Property<string>("Rank")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TeamID")
+                    b.Property<int?>("TeamId")
                         .HasColumnType("int");
+
+                    b.Property<string>("TeamTag")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Tier")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserID");
 
-                    b.HasIndex("LinkedAccountID")
-                        .IsUnique()
-                        .HasFilter("[LinkedAccountID] IS NOT NULL");
+                    b.HasIndex("LinkedAccountID");
 
-                    b.HasIndex("TeamID");
+                    b.HasIndex("TeamId");
 
                     b.ToTable("Users");
                 });
@@ -275,16 +279,14 @@ namespace RiftARENA.Migrations
             modelBuilder.Entity("RiftArena.Models.User", b =>
                 {
                     b.HasOne("RiftArena.Models.LinkedAccount", "LinkedAccount")
-                        .WithOne("User")
-                        .HasForeignKey("RiftArena.Models.User", "LinkedAccountID");
+                        .WithMany()
+                        .HasForeignKey("LinkedAccountID");
 
-                    b.HasOne("RiftArena.Models.Team", "Team")
+                    b.HasOne("RiftArena.Models.Team", null)
                         .WithMany("Members")
-                        .HasForeignKey("TeamID");
+                        .HasForeignKey("TeamId");
 
                     b.Navigation("LinkedAccount");
-
-                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("TeamTournament", b =>
@@ -300,11 +302,6 @@ namespace RiftARENA.Migrations
                         .HasForeignKey("TournamentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("RiftArena.Models.LinkedAccount", b =>
-                {
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("RiftArena.Models.Team", b =>

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Json;
 using RiftArena.Models.Contexts;
 using RiftArena.Models;
 using RiftArena.Models.Services;
@@ -28,16 +27,22 @@ namespace RiftArena.Controllers
             _service = service;
         }
 
-
         //POST: api/Teams/createTeam
-        [HttpPost("createTeam")/*,Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
+        /// <summary>
+        /// Método que permite a criação de uma equipa.
+        /// </summary>
+        /// <param name="team">Equipa a ser criada</param>
+        /// <returns>Equipa criada</returns>
+        [HttpPost("createTeam"),Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult CreateTeam([FromBody] Team team)
         {
             try
             {
-                _service.CreateTeam(team);
+                //mando o id do utilizador logado para o servidor.
+                _service.CreateTeam(team, User.Identity.Name);
                 _context.SaveChanges();
                 return CreatedAtRoute("GetTeam", new { id = team.TeamId }, team);
+
             }
             catch (AppException ex)
             {
@@ -45,7 +50,11 @@ namespace RiftArena.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Método que retorna uma equipa através de um ID, chamando o método GetByID implementado no teamService
+        /// </summary>
+        /// <param name="id">ID da equipa a retornar</param>
+        /// <returns>Equipa com ID fornecido</returns>
         //GET: api/Teams/{id: int}
         [HttpGet("{id}", Name = "GetTeam")]
         public ActionResult<Team> GetByID(int id)
@@ -55,24 +64,14 @@ namespace RiftArena.Controllers
             if (teamCon == null)
                 return NotFound();
             else
-                return Ok(new
-                {
-                    Id = teamCon.TeamId,
-                    Name = teamCon.Name,
-                    TAG = teamCon.Tag,
-                    TeamLeader = teamCon.TeamLeader,
-                    Rank = teamCon.Rank,
-                    NumberOfMembers = teamCon.NumberMembers,
-                    Wins = teamCon.Wins,
-                    Defeats = teamCon.Defeats,
-                    GamesPlayed = teamCon.GamesPlayed,
-                    TournamentsWon = teamCon.TournamentsWon,
-                    Members = teamCon
-                });
+                return Ok(teamCon);
 
         }
 
-
+        /// <summary>
+        /// Método que retorna todas as equipas existentes, chamando o método GetAll implementado no teamService
+        /// </summary>
+        /// <returns>Todas as equipas existentes</returns>
         //GET: api/Teams 
         [HttpGet]
         public ActionResult<Team> GetAll()
@@ -95,25 +94,30 @@ namespace RiftArena.Controllers
                 return Ok(teamsCon);
         }
 
-        //DELETE: api/Teams/{id}
-        [HttpDelete("{id:int}")/*,Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
+        //DELETE: api/Teams
+        /// <summary>
+        /// Método que permite a eliminação de uma equipa, chamando o método DeleteTeam implementado no teamService
+        /// </summary>
+        /// <returns>Ok</returns>
+        [HttpDelete,Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         //[HttpDelete("{id:int}")]
-        public ActionResult<Team> DeleteTeam(int id)
+        public ActionResult<Team> DeleteTeam()
         {
-            _service.DeleteTeam(id);
+            _service.DeleteTeam(User.Identity.Name);
 
             return Ok();
         }
 
-
         //PUT: api/Teams/{id}
-        [HttpPut("{id:int}")/*,Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
-        public IActionResult UpdateTeam(int id, [FromBody] Team team)
+        /// <summary>
+        /// Método que permite a edição de uma equipa, chamando o método UpdateTeam implementado no teamService
+        /// </summary>
+        /// <param name="team">Equipa com as edições feitas</param>
+        /// <returns>Equipa editada</returns>
+        [HttpPut, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult UpdateTeam([FromBody] Team team)
         {
-            Console.WriteLine(id);
-            _service.UpdateTeam(id, team);
-
-            _context.Teams.Update(team);
+            _service.UpdateTeam(team, User.Identity.Name);
             _context.SaveChanges();
 
             return Ok();
@@ -121,22 +125,30 @@ namespace RiftArena.Controllers
         }
 
         //POST: api/Teams/addMember/{id}
-        [HttpPost("addMember/{id:int}")/*, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)*/]
-        public ActionResult AddMember(int id, [FromBody]User user)
+        /// <summary>
+        /// Método que permite a adição de um membro a uma equipa, chamando o método AddMember implementado no teamService
+        /// </summary>
+        /// <param name="user">User que será adicionado</param>
+        /// <returns>Ok</returns>
+        [HttpPost("addMember"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public ActionResult AddMember([FromBody] User user)
         {
-            _service.AddMember(id, user);
-
+            _service.AddMember(user, User.Identity.Name);
             _context.SaveChanges();
 
             return Ok();
         }
 
-        //POST: api/Teams/removeMember/{id}
-        [HttpDelete("removeMember/{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public ActionResult RemoveMember(int id, [FromBody]User user)
+        //POST: api/Teams/removeMember
+        /// <summary>
+        /// Método que permite a remoção de um membro a uma equipa, chamando o método RemoveMember implementado no teamService
+        /// </summary>
+        /// <param name="user">User que será removido</param>
+        /// <returns>Ok</returns>
+        [HttpDelete("removeMember"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public ActionResult RemoveMember([FromBody] User user)
         {
-            _service.RemoveMember(id, user);
-
+            _service.RemoveMember(user, User.Identity.Name);
             _context.SaveChanges();
 
             return Ok();

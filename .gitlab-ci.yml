@@ -45,3 +45,6 @@ job_deploy:
    - publish/
  script:
   - dotnet publish -c Release -o ./publish RiftARENA.csproj
+
+after_script:
+- git rm -r --cached ./bin

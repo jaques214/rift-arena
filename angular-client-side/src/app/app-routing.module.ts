@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CreateTeamComponent } from './components/create-team/create-team.component';
-import { FrontPageComponent } from './components/front-page/front-page.component';
-import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
-import { ViewProfileComponent } from './components/view-profile/view-profile.component';
-import { AuthGuard } from './guard/auth-guard.guard';
+import { CreateTeamComponent } from '@components/create-team/create-team.component';
+import { FrontPageComponent } from '@components/front-page/front-page.component';
+import { LoginComponent } from '@components/login/login.component';
+import { RegisterComponent } from '@components/register/register.component';
+import { ViewProfileComponent } from '@components/view-profile/view-profile.component';
+import { AuthGuard } from "./guard/auth-guard.guard";
 
 const routes: Routes = [
   {
@@ -21,7 +21,7 @@ const routes: Routes = [
     component: RegisterComponent,
   },
   {
-    path: 'profile',
+    path: 'profile/:id',
     component: ViewProfileComponent,
     canActivate: [AuthGuard],
   },
@@ -38,4 +38,3 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
-

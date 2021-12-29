@@ -3,16 +3,18 @@ using RiftArena.Models.Contexts;
 using RiftArena.Models.Services;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace RiftArena.Models.Services
 {
     public interface ITournamentService
     {
-        Tournament CreateTournament(Tournament tournament);
+        Tournament CreateTournament(Tournament tournament, string userID);
         IEnumerable<Tournament> GetAll();
         Tournament GetById(int id);
-        Tournament UpdateTournament(int id, Tournament tournament);
-        void DeleteTournament(int id);
+        Tournament UpdateTournament(int id, Tournament tournament, string userID);
+        void DeleteTournament(int id, string userID);
+        void PublishTournament(int id, string userID);
     }
 
     public class TournamentService : ITournamentService
@@ -24,17 +26,32 @@ namespace RiftArena.Models.Services
             _context = context;
         }
 
+        /// <summary>
+        /// Método que retorna todos os torneios existentes
+        /// </summary>
+        /// <returns>Todos os torneios existentes</returns>
         public IEnumerable<Tournament> GetAll()
         {
             return _context.Tournaments.ToList();
         }
 
+        /// <summary>
+        /// Método que retorna um torneio através de um ID
+        /// </summary>
+        /// <param name="id">ID do torneio a retornar</param>
+        /// <returns>Torneio com ID fornecido</returns>
         public Tournament GetById(int id)
         {
             return _context.Tournaments.Find(id);
         }
 
-        public Tournament CreateTournament(Tournament tournament)
+        /// <summary>
+        /// Método que permite a criação de um torneio
+        /// </summary>
+        /// <param name="tournament">Torneio a ser criado</param>
+        /// <returns>Torneio criado</returns>
+        /// <exception cref="AppException">Exceção caso o torneio a criar falhe nas validações</exception>
+        public Tournament CreateTournament(Tournament tournament, string userID)
         {
             if (string.IsNullOrEmpty(tournament.Name))
                 throw new AppException("Tournament name is required.");
@@ -42,54 +59,118 @@ namespace RiftArena.Models.Services
                 throw new AppException("The numbers of teams of the tournament should be 8,16 or 32.");
             if (tournament.Rank == null)
                 throw new AppException("Choose a rank.");
-            if (tournament.date < System.DateTime.Now && tournament.date == null) 
+            if (tournament.Date < System.DateTime.Now)
                 throw new AppException("Invalid date.");
+            if (tournament.MiniumTier == null)
+                throw new AppException("Choose a minium tier.");
 
-            //falta buscar região pelo user
-            tournament.State = Status.NotPublished;
-            tournament.Stages = new List<Team>();
+
+            var user = _context.Users.SingleOrDefault(x => x.Nickname == userID);
+            if (user.LinkedAccount == null)
+            {
+                throw new AppException("O utilizador precisa de vincular uma conta RIOT.");
+            }
+            else
+            {
+                tournament.CreatorNickname = userID;
+                tournament.Region = user.LinkedAccount.Region;
+                tournament.State = Status.NotPublished;
+                tournament.Stages = new List<Team>();
+            }
 
             _context.Tournaments.Add(tournament);
             _context.SaveChanges();
             return tournament;
         }
 
-        public Tournament UpdateTournament(int id, Tournament tournament)
+        /// <summary>
+        /// Método que permite a edição de um torneio
+        /// </summary>
+        /// <param name="id">Torneio a ser editado</param>
+        /// <param name="tournament">Torneio com edições feitas</param>
+        /// <param name="userID">ID do utilizador logado</param>
+        /// <returns>Torneio editado</returns>
+        /// <exception cref="AppException">Exceção caso a equipa a criar falhe nas validações</exception>
+        public Tournament UpdateTournament(int id, Tournament tournament, string userID)
         {
             var tournamentSer = _context.Tournaments.Find(id);
+
             if (tournamentSer == null)
                 throw new AppException("Tournament not found!");
 
-            if (tournamentSer.State.Equals("Not Published"))
+            if (tournamentSer.CreatorNickname == userID)
             {
-                tournamentSer.Name = tournament.Name;
-                tournamentSer.Description = tournament.Description;
-                tournamentSer.NumberOfTeams = tournament.NumberOfTeams;
-                tournamentSer.Rank = tournament.Rank;
-                if(tournament.date > System.DateTime.Now || tournamentSer.date < System.DateTime.Now){
-                    tournamentSer.date = tournament.date;
-                } else {
-                    throw new AppException("Invalid date.");
+                if (tournamentSer.State == Status.NotPublished)
+                {
+                    tournamentSer.Name = tournament.Name;
+                    tournamentSer.Description = tournament.Description;
+                    if (tournament.NumberOfTeams != 8 && tournament.NumberOfTeams != 16 && tournament.NumberOfTeams != 32)
+                    {
+                        throw new AppException("The numbers of teams of the tournament should be 8,16 or 32.");
+                    }
+                    else
+                    {
+                        tournamentSer.NumberOfTeams = tournament.NumberOfTeams;
+                    }
+                    tournamentSer.Rank = tournament.Rank;
+                    if (tournament.Date > System.DateTime.Now || tournamentSer.Date > System.DateTime.Now)
+                    {
+                        tournamentSer.Date = tournament.Date;
+                    }
+                    else
+                    {
+                        throw new AppException("Invalid date.");
+                    }
+                }
+                else
+                {
+                    throw new AppException("Tournament already published");
                 }
             }
             else
             {
-                throw new AppException("Tournament already published");
+                throw new AppException("Utilizador logado não é o criador do torneio.");
             }
 
-            _context.Tournaments.Update(tournament);
+            _context.Tournaments.Update(tournamentSer);
             _context.SaveChanges();
-            return tournament;
+            return GetById(tournamentSer.TournamentId);
         }
 
-
-        public void DeleteTournament(int id)
+        /// <summary>
+        /// Método que permite a eliminação de um torneio
+        /// </summary>
+        /// <param name="id">ID do torneio a eliminar</param>
+        /// <param name="userID">ID do utilizador logado</param>
+        public void DeleteTournament(int id, string userID)
         {
             var tournament = _context.Tournaments.Find(id);
-            if (tournament != null)
+            if (tournament != null && tournament.CreatorNickname == userID)
             {
                 _context.Tournaments.Remove(tournament);
                 _context.SaveChanges();
+            }
+            else
+            {
+                throw new AppException("Utilizador logado não é o criador do torneio.");
+            }
+        }
+
+        /// <summary>
+        /// Método que permite a publicação de um torneio
+        /// </summary>
+        /// <param name="id">ID do torneio a ser publicado</param>
+        /// <param name="userID">ID do utilizador logado</param>
+        public void PublishTournament(int id, string userID)
+        {
+            var tournament = _context.Tournaments.Find(id);
+            if (tournament.CreatorNickname == userID)
+            {
+                tournament.State = Status.Published;
+            }
+            else
+            {
+                throw new AppException("Utilizador logado não é o criador do torneio.");
             }
         }
     }

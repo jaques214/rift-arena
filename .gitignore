@@ -444,13 +444,9 @@ $RECYCLE.BIN/
 .idea/
 *.sln.iml
 
-##
-## Visual Studio Code
-##
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
 backend-api/RiftARENA/appsettings.json
 backend-api/RiftARENA/obj/
+backend-api/RiftARENA/appsettings.json
+backend-api/RiftARENA/obj/Debug/net5.0/RiftARENA.assets.cache
+backend-api/RiftARENA/obj/Debug/net5.0/RiftARENA.csproj.AssemblyReference.cache
+backend-api/RiftARENA/obj/Debug/net5.0/RiftARENA.GeneratedMSBuildEditorConfig.editorconfig

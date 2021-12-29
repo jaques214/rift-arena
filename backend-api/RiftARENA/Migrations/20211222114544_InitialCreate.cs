@@ -11,7 +11,7 @@ namespace RiftARENA.Migrations
                 name: "LinkedAccounts",
                 columns: table => new
                 {
-                    ID = table.Column<string>(type: "nvarchar(100)", nullable: false),
+                    ID = table.Column<string>(type: "nvarchar(300)", nullable: false),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProfileIconID = table.Column<int>(type:"int", nullable: true),
                     SummonerLevel = table.Column<long>(type:"bigint", nullable:true),
@@ -58,11 +58,12 @@ namespace RiftARENA.Migrations
                     Rank = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Region = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FinalWinner = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Prize = table.Column<float>(type: "real", nullable: false),
+                    Prize = table.Column<float>(type: "real", nullable: true),
                     MiniumTier = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Poster = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    State = table.Column<int>(type: "int", nullable: false),
-                    date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    State = table.Column<int>(type: "int", nullable: true),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorNickname = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -84,8 +85,9 @@ namespace RiftARENA.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ContaRiot = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NumVitoriasTotal = table.Column<int>(type: "int", nullable: false),
-                    LinkedAccountID = table.Column<string>(type: "nvarchar(100)", nullable: true),
-                    TeamID = table.Column<int>(type: "int", nullable: true)
+                    LinkedAccountID = table.Column<string>(type: "nvarchar(300)", nullable: true),
+                    TeamTag = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TeamId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -97,11 +99,11 @@ namespace RiftARENA.Migrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Users_Teams_TeamID",
-                        column: x => x.TeamID,
+                        name: "FK_Users_Teams_TeamId",
+                        column: x => x.TeamId,
                         principalTable: "Teams",
                         principalColumn: "TeamId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -199,14 +201,12 @@ namespace RiftARENA.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Users_LinkedAccountID",
                 table: "Users",
-                column: "LinkedAccountID",
-                unique: true,
-                filter: "[LinkedAccountID] IS NOT NULL");
+                column: "LinkedAccountID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_TeamID",
+                name: "IX_Users_TeamId",
                 table: "Users",
-                column: "TeamID");
+                column: "TeamId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

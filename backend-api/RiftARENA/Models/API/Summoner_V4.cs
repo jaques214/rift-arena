@@ -2,7 +2,7 @@
 using RiftArena.Models;
 using System.Collections.Generic;
 
-namespace RiftARENA.Models.API
+namespace RiftArena.Models.API
 {
     public class Summoner_V4 : Api
     {
@@ -16,7 +16,6 @@ namespace RiftARENA.Models.API
 
             var response = GET(GetURI(path));
             string content = response.Content.ReadAsStringAsync().Result;
-            System.Console.WriteLine("content by name " + content);
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -36,7 +35,6 @@ namespace RiftARENA.Models.API
 
             var response = GET(GetURI(path));
             string content = response.Content.ReadAsStringAsync().Result;
-            System.Console.WriteLine("content" + content);
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
