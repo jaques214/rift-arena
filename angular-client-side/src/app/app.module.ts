@@ -27,6 +27,8 @@ import { JwtInterceptor } from './interceptors/jwt/jwt-interceptor.interceptor';
 import { AuthService } from '@services/auth/auth.service';
 import { UserRestService } from '@services/user-rest/user-rest.service';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
+import { AuthGuard } from './guard/auth-guard.guard';
+import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
 @NgModule({
   declarations: [
     AppComponent,
@@ -61,6 +63,8 @@ import { TeamRestService } from '@services/team-rest/team-rest.service';
     TeamRestService,
     LoadingCircleService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    AuthGuard,
+    LoggedInAuthGuard,
   ],
   bootstrap: [AppComponent],
 })

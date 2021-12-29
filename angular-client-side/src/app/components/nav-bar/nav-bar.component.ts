@@ -19,11 +19,14 @@ export class NavBarComponent implements OnInit {
 
   ngOnInit(): void {
     if (localStorage.getItem('currentUser') !== null) {
-      this.userService.getUser().subscribe((user) => {
-        this.user = user;
-
-        console.log(this.user);
-      });
+      this.userService.getUser().subscribe(
+        (user) => {
+          this.user = user;
+        },
+        (err) => {
+          localStorage.removeItem('currentUser');
+        }
+      );
     }
   }
 
