@@ -20,7 +20,7 @@ export class UserRestService {
 
   // retorna um user com o mesmo id inserido, caso contrário nada retorna
   getUser(id: number): Observable<User> {
-    return this.http.get<User>(endpoint + `${id}`, httpOptions);
+    return this.http.get<User>(endpoint + '/withToken', httpOptions);
   }
 
   // retorna todos os users presentes no servidor
@@ -34,10 +34,10 @@ export class UserRestService {
   }*/
 
   // envia um user e retorna o mesmo user com a informação atualizada no servidor
-  updateUser(user: User): Observable<User> {
+  updateUser(password: string, email: string): Observable<User> {
     return this.http.put<User>(
       endpoint,
-      JSON.stringify(user),
+      JSON.stringify({ Password: password, Email: email }),
       httpOptions
     );
   }
