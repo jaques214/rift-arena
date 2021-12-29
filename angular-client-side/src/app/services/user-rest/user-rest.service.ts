@@ -43,4 +43,11 @@ export class UserRestService {
       httpOptions
     );
   }
+
+  getRequests(): Observable<LinkedList<Request>> {
+    return this.http.get<LinkedList<Request>>(
+      endpoint + '/requests',
+      httpOptions
+    );
+  }
 }
