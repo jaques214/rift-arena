@@ -146,17 +146,30 @@ namespace RiftArena.Controllers
         [HttpPost("createRequest"),Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult CreateRequestByUser([FromBody] string nickname)
         {
-            try
-            {
-                _userService.CreateRequest(nickname);
-                _context.SaveChanges();
-                return Ok();
-            }
-            catch (ApplicationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+                User user = _userService.GetByUsername(User.Identity.Name);
+      
+                var team = _teamService.GetByTag(user.TeamTag);
 
+                if (team.TeamLeader.Equals(User.Identity.Name))
+                {
+                    try
+                    {
+                        _userService.CreateRequest(nickname,team);
+                        _context.SaveChanges();
+                        return Ok();
+                    }
+                    catch (ApplicationException ex)
+                    {
+                        return BadRequest(new { message = ex.Message });
+                    }
+                }
+                else
+                {
+                    return BadRequest();
+                }
+           
+            
+ 
         }
 
 
@@ -320,8 +333,8 @@ namespace RiftArena.Controllers
             }
             else
             {
-                if (user.Requests.Contains(request))
-                {
+               // if (user.Requests.Contains(request))
+                //{
                     if (user.Requests.Contains(request))
                     {
                         if (request.Team.Members.Count == request.Team.MAX_MEMBERS)
@@ -348,11 +361,11 @@ namespace RiftArena.Controllers
                     {
                         return BadRequest();
                     }
-                }
-                else
-                {
-                    return BadRequest();
-                }
+               // }
+              //  else
+               // {
+               //     return BadRequest();
+            //    }
            
 
             }

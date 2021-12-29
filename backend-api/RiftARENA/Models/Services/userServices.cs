@@ -32,7 +32,7 @@ namespace RiftArena.Models.Services
         List<Request> GetAllRequestsOfUserById(string userID);
         void UpdateRiotAccount(string nickname);
 
-        Request CreateRequest(string nickname);
+        Request CreateRequest(string nickname,Team team);
 
     }
     public class UserServices : IUserService
@@ -390,7 +390,7 @@ namespace RiftArena.Models.Services
 
 
         //Cria um request de um team leader para um determinado user entrar na sua equipa
-        public Request CreateRequest(string nickname)
+        public Request CreateRequest(string nickname,Team team)
         {
 
             var userTemp = GetByUsername(nickname);
@@ -400,7 +400,7 @@ namespace RiftArena.Models.Services
                 Request request = new Request
                 {
                     User = userTemp,
-                    Team = _context.Teams.SingleOrDefault(x => x.Tag == userTemp.TeamTag),
+                    Team = team,
                     Accepted = false
                 };
 
