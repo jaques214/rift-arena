@@ -54,13 +54,12 @@ namespace RiftArena.Models.Services
         /// <returns>Equipa criada</returns>
         /// <exception cref="AppException">Exceção caso a equipa a criar falhe nas validações</exception>
         public Team CreateTeam(Team team, string userID)
-        //falta usar o token para verificar se o user logado ja esta numa equipa e se ja tem conta vinculada
         {
             team.Members = new List<User>();
-            var leader = _context.Users.FirstOrDefault(x => x.Nickname == team.TeamLeader);
+            var leader = _context.Users.SingleOrDefault(x => x.Nickname == userID);
 
-            //if(leader.TeamTAG != null)
-                //throw new AppException("Already has a team");
+            if(leader.TeamTag != null)
+                throw new AppException("Already has a team");
 
             if (leader.LinkedAccount == null)
                 throw new AppException("Linked Account is required");
@@ -73,6 +72,7 @@ namespace RiftArena.Models.Services
 
             if (string.IsNullOrWhiteSpace(team.Tag))
                 throw new AppException("Team tag is required");
+
             if (team.Tag.Length != 3)
                 throw new AppException("TAG should contain only 3 letters");
 
@@ -83,7 +83,7 @@ namespace RiftArena.Models.Services
                 throw new AppException("TeamLeader\"" + team.TeamLeader + "\"is already taken");
 
 
-            var leader = _context.Users.SingleOrDefault(x => x.Nickname == userID);
+
 
             team.TeamLeader = leader.Nickname;
             team.Members.Add(leader);
@@ -92,7 +92,7 @@ namespace RiftArena.Models.Services
             team.TournamentsWon = 0;
             team.GamesPlayed = 0;
             team.NumberMembers = 1;
-            team.Rank = leader.Rank;
+            team.Rank = leader.LinkedAccount.Rank;
 
             _context.Teams.Add(team);
 
@@ -151,10 +151,13 @@ namespace RiftArena.Models.Services
             var team = _context.Teams.SingleOrDefault(x => x.TeamLeader == userID);
             if (team != null)
             {
-                //colocar o team dos members a null
-                //for (int i = 0; i < team.Members.Count; i++)
-                    //team.Members[i].TeamTag == null;
-                    //_context.Users.Update(team.Members[i])
+
+                for (int i = 0; i < team.Members.Count; i++)
+                {
+                    team.Members[i].TeamTag = null;
+                    _context.Users.Update(team.Members[i]);
+                }
+
                 
                 _context.Teams.Remove(team);
                 _context.SaveChanges();
@@ -181,10 +184,10 @@ namespace RiftArena.Models.Services
                 }
                 else
                 {
-                    //user.TeamTAG = TeamTemp.Tag;
+                    user.TeamTag = TeamTemp.Tag;
                     TeamTemp.Members.Add(user);
                     TeamTemp.NumberMembers++;
-                    //TeamTemp.Rank = GetRank(TeamTemp);
+                    TeamTemp.Rank = GetRankMean(TeamTemp.TeamId);
                 }
             }
             _context.Teams.Update(TeamTemp);
@@ -212,16 +215,21 @@ namespace RiftArena.Models.Services
                 }
                 else
                 {
-                    //user.TeamTAG = null;
+                    user.TeamTag = null;
                     TeamTemp.Members.Remove(user);
                     TeamTemp.NumberMembers--;
-                    //TeamTemp.Rank = GetRank(TeamTemp);
+                    TeamTemp.Rank = GetRankMean(TeamTemp.TeamId);
                 }
             }
             _context.Teams.Update(TeamTemp);
             _context.SaveChanges();
         }
 
+        /// <summary>
+        /// Método que permite calcular a média de rank da equipa
+        /// </summary>
+        /// <param name="id">Id da equipa a calcular a média de rank</param>
+        /// <returns>Rank médio</returns>
         public string GetRankMean (int id)
         {
             var Rank = "";
@@ -232,7 +240,6 @@ namespace RiftArena.Models.Services
 
             for (int i = 0; i < TeamTemp.Members.Count; i++)
             {
-                //usar switch secalhar
                 switch (TeamTemp.Members[i].LinkedAccount.Rank){
                     case "IRON":
                         x = x + 1;
