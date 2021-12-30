@@ -92,7 +92,7 @@ namespace RiftArena.Controllers
             });
         }
 
-        //Vai atualizar as informações da conta Riot do utilizador
+        //Vai atualizar as informaï¿½ï¿½es da conta Riot do utilizador
         [HttpPost("updateRiot"),Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult UpdateStatsRiotAccount()
         {
@@ -144,7 +144,7 @@ namespace RiftArena.Controllers
 
         //POST: api/Users/createRequest
         [HttpPost("createRequest"),Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult CreateRequestByUser([FromBody] string nickname)
+        public IActionResult CreateRequestByUser([FromBody] User nickname)
         {
                 User user = _userService.GetByUsername(User.Identity.Name);
       
@@ -154,7 +154,7 @@ namespace RiftArena.Controllers
                 {
                     try
                     {
-                        _userService.CreateRequest(nickname,team);
+                        _userService.CreateRequest(nickname.Nickname,team);
                         _context.SaveChanges();
                         return Ok();
                     }
@@ -166,10 +166,7 @@ namespace RiftArena.Controllers
                 else
                 {
                     return BadRequest();
-                }
-           
-            
- 
+                } 
         }
 
 
