@@ -7,7 +7,7 @@ namespace RiftArena.Models
         [Key]
         public int RequestId { get; set; }
 
-        public string User { get; set; }
+        public string UserNickname { get; set; }
 
         public virtual Team Team { get; set; }
 
