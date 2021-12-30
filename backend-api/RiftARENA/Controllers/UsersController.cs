@@ -144,7 +144,7 @@ namespace RiftArena.Controllers
 
         //POST: api/Users/createRequest
         [HttpPost("createRequest"),Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult CreateRequestByUser([FromBody] string nickname)
+        public IActionResult CreateRequestByUser([FromBody] User userSent)
         {
                 User user = _userService.GetByUsername(User.Identity.Name);
       
@@ -154,7 +154,7 @@ namespace RiftArena.Controllers
                 {
                     try
                     {
-                        _userService.CreateRequest(nickname,team);
+                        _userService.CreateRequest(userSent.Nickname,team);
                         _context.SaveChanges();
                         return Ok();
                     }
