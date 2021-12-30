@@ -4,7 +4,7 @@ import { LinkedAccount } from './linked_acount';
 export class User {
     constructor (
         public token?:string,
-        public userId?: number,
+        public userID?: number,
         public nickname?: string ,
         public email?: string,
         public password?: string,
@@ -12,6 +12,7 @@ export class User {
         public rank?: string,
         public team?: Team,
         public linkedAccount?: LinkedAccount,
+        public teamID?: number,
         public requests?: Request[]
     ) {}
 
@@ -80,4 +81,28 @@ export class User {
             },
       ]}
   }
+
+  static fields(){
+    return {
+        inputs: [
+          {
+            name: 'email',
+            type: 'email',
+            label: 'Email',
+            placeholder: 'Enter email',
+            iconlabel: 'email icon',
+            icon: 'email',
+            model: 'email',
+          },
+          {
+            name: 'password',
+            type: 'password',
+            label: 'Password',
+            placeholder: 'Enter password',
+            iconlabel: 'no encryption icon',
+            icon: 'no_encryption',
+            model: 'password',
+          },
+    ]}
+}
 }
