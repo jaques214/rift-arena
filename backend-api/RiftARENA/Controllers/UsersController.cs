@@ -167,9 +167,7 @@ namespace RiftArena.Controllers
                 {
                     return BadRequest();
                 }
-           
             
- 
         }
 
 
@@ -327,7 +325,7 @@ namespace RiftArena.Controllers
         public IActionResult AcceptRequests([FromBody] Request request)
         {
             var user = _userService.GetByUsername(User.Identity.Name);
-            if (user.TeamTag == null)
+            if (user.TeamTag != null)
             {
                 return BadRequest();
             }
@@ -349,7 +347,7 @@ namespace RiftArena.Controllers
                             _context.Update(request);
                             _context.Update(user);
 
-                            Team temp = _context.Teams.Find(request.Team);
+                            Team temp = _context.Teams.Find(request.Team.TeamId);
 
                             _teamService.AddMember(user,temp.TeamId);
                             _context.SaveChanges();
