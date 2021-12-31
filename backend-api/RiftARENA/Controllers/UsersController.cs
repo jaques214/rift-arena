@@ -40,7 +40,7 @@ namespace RiftArena.Controllers
             _context = context;
             _userService = userService;
             _appSettings = appSettings.Value;
-            _teamService = teamService; 
+            _teamService = teamService;
 
         }
 
@@ -93,7 +93,7 @@ namespace RiftArena.Controllers
         }
 
         //Vai atualizar as informa��es da conta Riot do utilizador
-        [HttpPost("updateRiot"),Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("updateRiot"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult UpdateStatsRiotAccount()
         {
             _userService.UpdateRiotAccount(User.Identity.Name);
@@ -143,30 +143,30 @@ namespace RiftArena.Controllers
 
 
         //POST: api/Users/createRequest
-        [HttpPost("createRequest"),Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("createRequest"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult CreateRequestByUser([FromBody] User userSent)
         {
-                User user = _userService.GetByUsername(User.Identity.Name);
-      
-                var team = _teamService.GetByTag(user.TeamTag);
+            User user = _userService.GetByUsername(User.Identity.Name);
 
-                if (team.TeamLeader.Equals(user.Nickname))
+            var team = _teamService.GetByTag(user.TeamTag);
+
+            if (team.TeamLeader.Equals(user.Nickname))
+            {
+                try
                 {
-                    try
-                    {
-                        _userService.CreateRequest(userSent.Nickname,team);
-                        _context.SaveChanges();
-                        return Ok();
-                    }
-                    catch (ApplicationException ex)
-                    {
-                        return BadRequest(new { message = ex.Message });
-                    }
+                    _userService.CreateRequest(userSent.Nickname, team);
+                    _context.SaveChanges();
+                    return Ok();
                 }
-                else
+                catch (ApplicationException ex)
                 {
-                    return BadRequest();
-                } 
+                    return BadRequest(new { message = ex.Message });
+                }
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
 
@@ -260,20 +260,20 @@ namespace RiftArena.Controllers
             {
                 try
                 {
-                    if(user.Password == null)
+                    if (user.Password == null)
                     {
                         userUp.Email = user.Email;
                     }
                     if (user.Email == null)
                     {
-                      userUp.Password = user.Password;
+                        userUp.Password = user.Password;
                     }
                     else if (user.Email != null && user.Password != null)
                     {
                         userUp.Password = user.Password;
                         userUp.Email = user.Email;
                         _userService.Update(userUp);
-                        _context.SaveChanges();     
+                        _context.SaveChanges();
                     }
                     return Ok();
 
@@ -330,41 +330,32 @@ namespace RiftArena.Controllers
             }
             else
             {
-               // if (user.Requests.Contains(request))
-                //{
-                    if (user.Requests.Contains(request))
-                    {
-                        if (request.Team.Members.Count == request.Team.MAX_MEMBERS)
-                        {
-                            return BadRequest();
-                        }
-                        else
-                        {
-                            request.Accepted = true;
-                            user.Requests.Remove(request);
-                            user.TeamTag = request.Team.Tag;
-                            _context.Update(request);
-                            _context.Update(user);
-
-                            Team temp = _context.Teams.Find(request.Team);
-
-                            _teamService.AddMember(user,temp.TeamId);
-                            _context.SaveChanges();
-
-                            return Ok(user);
-                        }
-                    }
-                    else
+                if (user.Requests.Contains(request))
+                {
+                    if (request.Team.Members.Count == request.Team.MAX_MEMBERS)
                     {
                         return BadRequest();
                     }
-               // }
-              //  else
-               // {
-               //     return BadRequest();
-            //    }
-           
+                    else
+                    {
+                        request.Accepted = true;
+                        user.Requests.Remove(request);
+                        user.TeamTag = request.Team.Tag;
+                        _context.Update(request);
+                        _context.Update(user);
 
+                        Team temp = _context.Teams.Find(request.Team);
+
+                        _teamService.AddMember(user, temp.TeamId);
+                        _context.SaveChanges();
+
+                        return Ok(user);
+                    }
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
         }
 
@@ -398,9 +389,6 @@ namespace RiftArena.Controllers
                     return BadRequest();
                 }
             }
-            //}
-
-
         }
     }
 }
