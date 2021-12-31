@@ -149,12 +149,18 @@ namespace RiftArena.Controllers
                 User user = _userService.GetByUsername(User.Identity.Name);
       
                 var team = _teamService.GetByTag(user.TeamTag);
+            if(user.TeamTag != null)
+            {
+                return BadRequest();
+            }
+            else
+            {
 
                 if (team.TeamLeader.Equals(user.Nickname))
                 {
                     try
                     {
-                        _userService.CreateRequest(userSent.Nickname,team);
+                        _userService.CreateRequest(userSent.Nickname, team);
                         _context.SaveChanges();
                         return Ok();
                     }
@@ -167,6 +173,8 @@ namespace RiftArena.Controllers
                 {
                     return BadRequest();
                 }
+
+            }       
             
         }
 
