@@ -17,6 +17,7 @@ namespace RiftArena.Models.Services
         void DeleteTeam(string userID);
         void AddMember(User user, string userID);
         void RemoveMember(User user, string userID);
+        void LeaveTeam(string UserID, User user);
 
     }
     public class TeamServices : ITeamService
@@ -45,6 +46,11 @@ namespace RiftArena.Models.Services
         public Team GetByID(int id)
         {
             return _context.Teams.Find(id);
+        }
+
+        public Team GetByTag(string tag)
+        {
+            return _context.Teams.SingleOrDefault(x => x.Tag == tag);
         }
 
         /// <summary>
@@ -208,6 +214,28 @@ namespace RiftArena.Models.Services
             _context.SaveChanges();
         }
 
+        /// <summary>
+        /// Método que permite que um utilizador saia da sua equipa.
+        /// </summary>
+        /// <param name="UserID">User logado que pretende sair da equipa</param>
+        /// <param name="user">Nickname do utilizador a substituir caso seja o teamLeader a sair.</param>
+        public void LeaveTeam(string UserID, User user)
+        {
+            var userTemp = _context.Users.SingleOrDefault(x => x.Nickname == UserID);
+            var TeamTemp = GetByTag(userTemp.TeamTag);
+
+            if (TeamTemp.TeamLeader == userTemp.Nickname)
+            {
+                TeamTemp.Members.Remove(userTemp);
+                TeamTemp.NumberMembers--;
+                TeamTemp.TeamLeader = user.Nickname;
+            }
+            else
+            {
+                TeamTemp.Members.Remove(userTemp);
+                TeamTemp.NumberMembers--;
+            }
+        }
 
         //criar metodo para calcular rank
     }
