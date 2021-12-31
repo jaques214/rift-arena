@@ -324,7 +324,7 @@ namespace RiftArena.Controllers
         public IActionResult AcceptRequests([FromBody] Request request)
         {
             var user = _userService.GetByUsername(User.Identity.Name);
-            if (user.TeamTag == null)
+            if (user.TeamTag != null)
             {
                 return BadRequest();
             }

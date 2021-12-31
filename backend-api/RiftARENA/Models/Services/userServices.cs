@@ -397,6 +397,7 @@ namespace RiftArena.Models.Services
 
             if (userTemp != null)
             {
+                
                 Request request = new Request
                 {
                     UserNickname = userTemp.Nickname,
@@ -404,11 +405,17 @@ namespace RiftArena.Models.Services
                     Accepted = false
                 };
 
+                if (userTemp.Requests.Contains(request))
+                {
+                    throw new AppException("Can't create another equal request.");
+                }
+               
                 userTemp.Requests.Add(request);
 
                 _context.Requests.Add(request);
                 _context.SaveChanges();
                 return request;
+
             }
             else
             {
