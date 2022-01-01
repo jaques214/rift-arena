@@ -154,7 +154,6 @@ namespace RiftArena.Controllers
         [HttpGet("withToken"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<User> GetByToken()
         {
-            System.Console.WriteLine(User.Identity.Name);
             var user = _userService.GetByUsername(User.Identity.Name);
             if (user == null)
             {
