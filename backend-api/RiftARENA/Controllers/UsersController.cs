@@ -362,7 +362,7 @@ namespace RiftArena.Controllers
                             _teamService.AddMember(user,temp.TeamId);
                             _context.SaveChanges();
 
-                            return Ok(user);
+                            return Ok();
                         }
                     }
                     else
