@@ -72,7 +72,7 @@ namespace RiftArena.Models.Services
 
             if (string.IsNullOrWhiteSpace(team.Tag))
                 throw new AppException("Team tag is required");
-                
+
             if (team.Tag.Length != 3)
                 throw new AppException("TAG should contain only 3 letters");
 
@@ -226,15 +226,25 @@ namespace RiftArena.Models.Services
 
             if (TeamTemp.TeamLeader == userTemp.Nickname)
             {
-                TeamTemp.Members.Remove(userTemp);
-                TeamTemp.NumberMembers--;
-                TeamTemp.TeamLeader = user.Nickname;
+                if (user.Nickname == null)
+                {
+                    throw new AppException("Team leader cannot be removed without substitute.");
+                }
+                else
+                {
+                    TeamTemp.Members.Remove(userTemp);
+                    TeamTemp.NumberMembers--;
+                    TeamTemp.TeamLeader = user.Nickname;
+                }
             }
             else
             {
                 TeamTemp.Members.Remove(userTemp);
                 TeamTemp.NumberMembers--;
             }
+
+            _context.Teams.Update(TeamTemp);
+            _context.SaveChanges();
         }
 
         //criar metodo para calcular rank

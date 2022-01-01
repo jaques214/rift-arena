@@ -154,7 +154,7 @@ namespace RiftArena.Controllers
             return Ok();
         }
 
-        // POST: api/Teams/leaveTeam
+        // PUT: api/Teams/leaveTeam
         /// <summary>
         /// Método que permite que um utilizador saia da sua equipa.
         /// </summary>
@@ -162,7 +162,6 @@ namespace RiftArena.Controllers
         /// <returns>OK 200</returns>
         [HttpPut("leaveTeam"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult LeaveTeam([FromBody] User userNickname){
-            
             _service.LeaveTeam(User.Identity.Name, userNickname);
             return Ok();
         }
