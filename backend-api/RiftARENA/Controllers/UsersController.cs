@@ -149,8 +149,7 @@ namespace RiftArena.Controllers
             User user = _userService.GetByUsername(User.Identity.Name);
 
             var team = _teamService.GetByTag(user.TeamTag);
-
-            if (team.TeamLeader.Equals(user.Nickname))
+            if (user.TeamTag == null)
             {
                 try
                 {
@@ -324,6 +323,8 @@ namespace RiftArena.Controllers
         public IActionResult AcceptRequests([FromBody] Request request)
         {
             var user = _userService.GetByUsername(User.Identity.Name);
+            var req = _context.Requests.Find(request.RequestId);
+
             if (user.TeamTag != null)
             {
                 return BadRequest();
@@ -369,20 +370,22 @@ namespace RiftArena.Controllers
         public IActionResult RefuseRequest([FromBody] Request request)
         {
             var user = _userService.GetByUsername(User.Identity.Name);
+            var req = _context.Requests.Find(request.RequestId);
+
             if (user.TeamTag == null)
             {
                 return BadRequest();
             }
             else
             {
-                if (user.Requests.Contains(request))
+                if (user.Requests.Contains(req))
                 {
-                    request.Accepted = false;
-                    user.Requests.Remove(request);
-                    _context.Update(request);
+                    req.Accepted = false;
+                    user.Requests.Remove(req);
+                    _context.Update(req);
                     _context.Update(user);
                     _context.SaveChanges();
-                    return Ok(user);
+                    return Ok();
                 }
                 else
                 {
