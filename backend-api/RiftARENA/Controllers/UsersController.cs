@@ -389,20 +389,22 @@ namespace RiftArena.Controllers
         public IActionResult RefuseRequest([FromBody] Request request)
         {
             var user = _userService.GetByUsername(User.Identity.Name);
+            var req = _context.Requests.Find(request.RequestId);
+
             if (user.TeamTag == null)
             {
                 return BadRequest();
             }
             else
             {
-                if (user.Requests.Contains(request))
+                if (user.Requests.Contains(req))
                 {
-                    request.Accepted = false;
-                    user.Requests.Remove(request);
-                    _context.Update(request);
+                    req.Accepted = false;
+                    user.Requests.Remove(req);
+                    _context.Update(req);
                     _context.Update(user);
                     _context.SaveChanges();
-                    return Ok(user);
+                    return Ok();
                 }
                 else
                 {
