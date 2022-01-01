@@ -146,9 +146,10 @@ namespace RiftArena.Controllers
         [HttpPost("createRequest"),Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult CreateRequestByUser([FromBody] User userSent)
         {
-                User user = _userService.GetByUsername(User.Identity.Name);
+            User user = _userService.GetByUsername(User.Identity.Name);
       
-                var team = _teamService.GetByTag(user.TeamTag);
+            var team = _teamService.GetByTag(user.TeamTag);
+
             if(user.TeamTag == null)
             {
                 return BadRequest();
@@ -391,7 +392,7 @@ namespace RiftArena.Controllers
             var user = _userService.GetByUsername(User.Identity.Name);
             var req = _context.Requests.Find(request.RequestId);
 
-            if (user.TeamTag == null)
+            if (user.TeamTag != null)
             {
                 return BadRequest();
             }
