@@ -149,7 +149,7 @@ namespace RiftArena.Controllers
                 User user = _userService.GetByUsername(User.Identity.Name);
       
                 var team = _teamService.GetByTag(user.TeamTag);
-            if(user.TeamTag != null)
+            if(user.TeamTag == null)
             {
                 return BadRequest();
             }
@@ -333,6 +333,8 @@ namespace RiftArena.Controllers
         public IActionResult AcceptRequests([FromBody] Request request)
         {
             var user = _userService.GetByUsername(User.Identity.Name);
+            var req = _context.Requests.Find(request.RequestId);
+
             if (user.TeamTag != null)
             {
                 return BadRequest();
@@ -341,21 +343,21 @@ namespace RiftArena.Controllers
             {
                // if (user.Requests.Contains(request))
                 //{
-                    if (user.Requests.Contains(request))
+                    if (user.Requests.Contains(req))
                     {
-                        if (request.Team.Members.Count == request.Team.MAX_MEMBERS)
+                        if (req.Team.Members.Count == req.Team.MAX_MEMBERS)
                         {
                             return BadRequest();
                         }
                         else
                         {
-                            request.Accepted = true;
-                            user.Requests.Remove(request);
-                            user.TeamTag = request.Team.Tag;
-                            _context.Update(request);
+                            req.Accepted = true;
+                            user.Requests.Remove(req);
+                            user.TeamTag = req.Team.Tag;
+                            _context.Update(req);
                             _context.Update(user);
 
-                            Team temp = _context.Teams.Find(request.Team.TeamId);
+                            Team temp = _context.Teams.Find(req.Team.TeamId);
 
                             _teamService.AddMember(user,temp.TeamId);
                             _context.SaveChanges();
