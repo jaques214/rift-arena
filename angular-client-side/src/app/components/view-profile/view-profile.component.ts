@@ -1,11 +1,12 @@
-import { TeamRestService } from './../../services/team-rest/team-rest.service';
 import { Observable } from 'rxjs';
-import { Component, OnInit, Input } from '@angular/core';
-import { UserRestService } from '@services/user-rest/user-rest.service';
-import {User} from '@models/user'
+import { Component, OnInit } from '@angular/core';
+import { User } from '@models/user'
 import { LinkedAccount } from '@models/linked_acount';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Team } from '@models/team';
+import { UserRestService } from '@services/user-rest/user-rest.service';
+import { TeamRestService } from '@services/team-rest/team-rest.service';
+import { Router } from '@angular/router';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-view-profile',
@@ -13,16 +14,14 @@ import { Team } from '@models/team';
   styleUrls: ['./view-profile.component.css']
 })
 export class ViewProfileComponent implements OnInit {
-  @Input() input!: any;
-  @Input() username = '';
-  @Input() rank = '';
-  @Input() region = '';
+  username = '';
+  rank = '';
+  region = '';
   user?: User;
   team?: Team;
   account?: LinkedAccount;
   info: any;
   icon?: string;
-  label?: string;
   fileSelected?: File;
   image = (this.user?.profileImage as unknown as string);
   imageFieldName: string = this.normalizeImageName(this.image);
@@ -31,41 +30,52 @@ export class ViewProfileComponent implements OnInit {
   accountFlag: string = "view";
   formFields: any = User.fields();
   accountFields: any = LinkedAccount.fields();
+  form!: FormGroup;
 
-  constructor(private restService : UserRestService, private teamRestService : TeamRestService, private route: ActivatedRoute, private router: Router) {
+  constructor(private restService : UserRestService, private teamRestService : TeamRestService,
+     private router: Router) {
     const routeState = this.router?.getCurrentNavigation()?.extras?.state
     if (routeState) {
       this.user = routeState['user'];
       this.populateForm()
     }
-   }
-
-   ngOnInit(): void {
-    const id = this.route.snapshot.params['id'];
-      this.getUser().subscribe((user) => {
-        this.user = user;
-        this.account = this.user?.linkedAccount;
-        this.populateForm();
-        if(this.account == undefined) {
-          this.info = "No Linked Account";
-          this.icon = "add_circle_outline";
-        }
-        else {
-          this.info = {
-            username: this.account.username,
-            rank: this.account.rank,
-            region: this.account.region,
-          };
-        }
-        console.log(this.info);
-        console.log(this.account);
-        this.getTeam(1).subscribe((team) => {
-          this.team = team;
-        });
-      });
+  }
+   
+  ngOnInit(): void {
+    this.getUser().subscribe((user) => {
+      this.user = user;
+      this.account = this.user?.linkedAccount;
+      this.populateForm();
+      if(this.account == undefined) {
+        this.info = "No Linked Account";
+        this.icon = "add_circle_outline";
+      }
+      else {
+        this.info = {
+          username: this.account.username,
+          rank: this.account.rank,
+          region: this.account.region,
+        };
+      }
+    });
   }
 
-   populateForm(){
+  inputFieldOnChange(value: string): any {
+    this.accountFields.inputs.forEach((input:any) => {
+      if(input.type == 'select') {
+        switch(input.value) {
+          case 'rank':
+            this.rank = value;
+            break;
+          case 'region':
+            this.region = value;
+            break;
+        }
+      }
+    });
+  }
+
+  populateForm() {
     //if a user already exists populates the formFields inputs.
     this.formFields.inputs.forEach((input:any) => {
       input.model! = (this.user as any)[input.name!];
@@ -73,12 +83,12 @@ export class ViewProfileComponent implements OnInit {
   }
 
   clickEvent() {
-      this.flag = (this.flag == "view") ? "edit" : "view";
+    this.flag = (this.flag == "view") ? "edit" : "view";
   }
 
   clickAccount() {
     this.accountFlag = (this.accountFlag == "view") ? "edit" : "view";
-}
+  }
 
   editUser(user: User): void {
     this.restService.updateUser(user.password!, user.email!).subscribe({
@@ -88,9 +98,7 @@ export class ViewProfileComponent implements OnInit {
           this.populateForm();
         });
       },
-      error: error => {
-        // TODO: have error handling 
-      }
+      error: (err) => console.log(err)
     });
   }
 
@@ -102,13 +110,13 @@ export class ViewProfileComponent implements OnInit {
     let convert: string = "";
     
     if(this.user != null) {
-        let values = Object.entries(this.user!);
+      let values = Object.entries(this.user!);
 
-        values.forEach(val => {
-          if(val[0] == value) {
-            convert = val[1];
+      values.forEach(val => {
+        if(val[0] == value) {
+          convert = val[1];
         }
-        });
+      });
     }
     return convert;
   }
@@ -130,6 +138,9 @@ export class ViewProfileComponent implements OnInit {
     return (this.user?.teamTag) ? this.user?.teamTag : "No Team";
   }
 
+  /**
+   * Submeter dados atualizados do utilizador
+   */
   onSubmit(): void {
     const data = this.user!;
     this.formFields.inputs.forEach((input:any) => {
@@ -140,39 +151,23 @@ export class ViewProfileComponent implements OnInit {
   }
 
   onSubmitAccount(): void {
-    const data = this.account! || new LinkedAccount();
+    const data = new LinkedAccount();
     this.accountFields.inputs.forEach((input:any) => {
-      (data as any)[input.name!] = input.model;
+      if(input.type != 'select') {
+        (data as any)[input.name!] = input.model;
+      }
     });
     this.accountFlag = "view";
-    // if(this.accountFlag = "view") {
-    //   this.icon = "add_circle_outline";
-    //   this.label = "add circle outline icon";
-    //   this.accountFlag = "edit";
-    // }
-    // else {
-    //   this.accountFlag = "view";
-    // }
     this.addAccount(data);
   }
 
   addAccount(account: LinkedAccount): void {
-    this.username = this.accountFields.inputs[0]!.model;
-    console.log("Username", this.username);
-    this.region = this.accountFields.inputs[1]!.model;
-    this.rank = this.accountFields.inputs[2]!.model;
+    this.username = account.username!;
 
-    this.restService.addAccount(this.username, this.rank, this.region).subscribe(() => {
-     /* if(this.account == undefined) {
-        this.info = "No Linked Account";
-      }
-      else {
-        this.info = this.user?.linkedAccount;
-        console.log(this.info);
-      }*/
-      //this.user.linkedAccount = this.info.username;
-      window.location.reload();
-  });
+    this.restService.addAccount(this.username, this.rank, this.region).subscribe({
+      next: () => window.location.reload(),
+      error: (err) => console.log(err)
+    });
   }
 
 }

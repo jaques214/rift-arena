@@ -3,8 +3,7 @@
   <h3>Profile Image</h3>
   <div [ngClass]="'container'">
     <div>
-      <img
-        *ngIf="image != undefined"
+      <img *ngIf="image != undefined"
         src="{{ imageFieldPath }}"
         alt="account circle icon"/>
       <mat-icon aria-hidden="false" aria-label="account circle icon" matSuffix>account_circle</mat-icon>
@@ -40,14 +39,9 @@
   <div *ngFor="let input of formFields.inputs">
     <div [ngClass]="'item'">
       <p [ngClass]="'subtitle'">{{ input.name }}</p>
-      <mat-icon
-        *ngIf="flag == 'view'"
-        (click)="clickEvent()"
-        aria-hidden="false"
-        aria-label="edit icon"
-        matSuffix
-        >edit</mat-icon
-      >
+      <mat-icon (click)="clickEvent()" aria-hidden="false" aria-label="edit icon" matSuffix>
+        edit
+      </mat-icon>
     </div>
     <ng-container [ngSwitch]="flag">
       <div *ngSwitchCase="'edit'" [ngClass]="'form-size'">
@@ -71,14 +65,14 @@
 
   <div [ngClass]="'item'">
     <p [ngClass]="'subtitle'">Linked Account</p>
-    <mat-icon *ngIf="flag == 'view'" (click)="clickAccount()" aria-hidden="false" aria-label="'label'" matSuffix>{{ icon }}</mat-icon>
+    <mat-icon *ngIf="account == undefined" (click)="clickAccount()" aria-hidden="false" matSuffix>{{ icon }}</mat-icon>
   </div>
 
   <ng-container [ngSwitch]="accountFlag">
     <ng-template [ngSwitchCase]="'edit'">
       <form (ngSubmit)="onSubmitAccount()">
         <div *ngFor="let input of accountFields.inputs">
-          <app-shared-form-field [input]="input"></app-shared-form-field>
+          <app-shared-form-field [input]="input" (valueOnChange)="inputFieldOnChange($event)"></app-shared-form-field>
         </div>
         <button mat-raised-button color="primary" type="submit">Submit</button>
       </form>

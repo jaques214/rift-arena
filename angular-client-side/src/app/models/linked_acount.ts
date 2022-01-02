@@ -25,20 +25,24 @@ static fields(){
             model: 'username',
           },
           {
-            name: 'rank',
-            type: 'text',
+            type: 'select',
             label: 'Rank',
-            placeholder: 'Choose rank',
+            value: 'rank',
             iconlabel: 'star icon',
             icon: 'star',
-            model: 'rank',
+            values: [
+              'I', 'II', 'III', 'IV',
+            ]
           },
           {
+            type: 'select',
             label: 'Region',
-            type: "select",
+            value: 'region',
             iconlabel: 'place icon',
             icon: 'place',
-            model: 'region',
+            values: [
+              'br1', 'eun1', 'euw1', 'jp1', 'kr', 'la1', 'la2', 'na1', 'oc1', 'ru', 'tr1',
+            ]
           },
     ]}
 }

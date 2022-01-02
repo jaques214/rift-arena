@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-shared-form-field',
@@ -8,12 +8,19 @@ import { Component, OnInit, Input } from '@angular/core';
 export class SharedFormFieldComponent implements OnInit {
   @Input() input!:any;
   @Input() type?:any;
+  @Output() valueOnChange = new EventEmitter<string>();
   hide = true;
-  regionValues = ['br1', 'eun1', 'euw1', 'jp1', 'kr', 'la1', 'la2', 'na1', 'oc1', 'ru', 'tr1'];
+  listValues: string[] = [];
+  selected: string = this.listValues[0];
 
-  constructor() { }
-
+  constructor() {
+  }
+  
   ngOnInit(): void {
-    this.type || (this.type = this.input.type)
+    this.type || (this.type = this.input.type);
+  }
+  
+  fieldOnChange(selected: string){
+    this.valueOnChange.emit(selected);
   }
 }
