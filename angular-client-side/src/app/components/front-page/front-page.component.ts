@@ -26,8 +26,9 @@ export class FrontPageComponent implements OnInit {
       this.teams = data;
       this.firstTeam = this.teams.splice(0, 1)[0];
       this.loader.hide();
-      if (data.length > 0) {
+      if (this.firstTeam != null) {
         this.noTeams = false;
+       
       }
     });
   }

@@ -1,12 +1,13 @@
-
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap");
 
 .dropdown-item:hover {
-  background-color: #234a95;
-  color: white;
+  background-color: #234a95 !important;
+  color: white !important;
 }
 
-.mat-h1, .mat-headline, .mat-typography h1 {
+.mat-h1,
+.mat-headline,
+.mat-typography h1 {
   font: 800 xx-large/32px "Montserrat", sans-serif;
 }
 
@@ -36,3 +37,4 @@ body {
 .mat-spinner circle {
   stroke: #20458a;
 }
+

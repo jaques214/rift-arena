@@ -29,6 +29,7 @@ import { UserRestService } from '@services/user-rest/user-rest.service';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { AuthGuard } from './guard/auth-guard.guard';
 import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
+import { CreateTourneyComponent } from './components/create-tourney/create-tourney.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +40,7 @@ import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
     SharedFormFieldComponent,
     ViewProfileComponent,
     CreateTeamComponent,
+    CreateTourneyComponent,
   ],
   imports: [
     FormsModule,
@@ -64,7 +66,7 @@ import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
     LoadingCircleService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     AuthGuard,
-    LoggedInAuthGuard,
+    LoggedInAuthGuard
   ],
   bootstrap: [AppComponent],
 })
