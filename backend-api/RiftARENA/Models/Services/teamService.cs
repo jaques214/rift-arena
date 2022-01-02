@@ -99,28 +99,30 @@ namespace RiftArena.Models.Services
             team.Rank = leader.LinkedAccount.Rank;
 
             //Guardar Imagem do poster
-            Console.WriteLine("1");
-            string rootPath = _env.WebRootPath;
-            Console.WriteLine("2");
-            string fileName = Path.GetFileNameWithoutExtension(team.PosterFile.FileName);
-            Console.WriteLine("3");
-            string extension = Path.GetExtension(team.PosterFile.FileName);
-            Console.WriteLine("4");
-            team.Poster = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-            Console.WriteLine("5");
-            string path = Path.Combine(rootPath+"/Images/", fileName);
-            Console.WriteLine("6");
-            using (var fileStream = new FileStream(path, FileMode.Create))
+            if (team.PosterFile != null)
             {
-                //team.PosterFile.CopyToAsync(fileStream);
-                Console.WriteLine("7");
-                team.PosterFile.CopyTo(fileStream);
+                Console.WriteLine("1");
+                string rootPath = _env.WebRootPath;
+                Console.WriteLine("2");
+                string fileName = Path.GetFileNameWithoutExtension(team.PosterFile.FileName);
+                Console.WriteLine("3");
+                string extension = Path.GetExtension(team.PosterFile.FileName);
+                Console.WriteLine("4");
+                team.Poster = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                Console.WriteLine("5");
+                string path = Path.Combine(rootPath+"/Images/", fileName);
+                Console.WriteLine("6");
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    //team.PosterFile.CopyToAsync(fileStream);
+                    Console.WriteLine("7");
+                    team.PosterFile.CopyTo(fileStream);
+                }
             }
 
 
 
-
-                _context.Teams.Add(team);
+            _context.Teams.Add(team);
 
             leader.TeamTag = team.Tag;
             _context.Users.Update(leader);
