@@ -21,27 +21,21 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   login(): void {
-    // validar se o user inseriu dados (verificar se model dos inputs é null (por enquanto é nickname/password mas 
+    // validar se o user inseriu dados (verificar se model dos inputs é null (por enquanto é nickname/password mas
     // vai ser alterado
     //, e se validou, pode avançar, senao, lançar um alert a dizer que n inseriu))
-    
+
     this.nickname = this.formFields.inputs[0]!.model;
     this.password = this.formFields.inputs[1]!.model;
 
     this.authService.login(this.nickname, this.password).subscribe(
-      (user: User) => {
-        console.log(this.nickname);
-        console.log(this.password);
-        localStorage.setItem('currentUser', JSON.stringify(user));
+      (result: any) => {
+        localStorage.setItem('currentUser', result.token);
         this.router.navigate(['/']);
-      
-
       },
       (err: any) => {
-        console.log(this.nickname);
         alert('erro no login');
       }
     );
   }
-
 }
