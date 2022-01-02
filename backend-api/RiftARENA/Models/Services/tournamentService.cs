@@ -104,9 +104,9 @@ namespace RiftArena.Models.Services
                 {
                     tournamentSer.Name = tournament.Name;
                     tournamentSer.Description = tournament.Description;
-                    if (tournament.NumberOfTeams != 8 && tournament.NumberOfTeams != 16 && tournament.NumberOfTeams != 32)
+                    if (tournament.NumberOfTeams != 4 && tournament.NumberOfTeams != 8 && tournament.NumberOfTeams != 16)
                     {
-                        throw new AppException("The numbers of teams of the tournament should be 8,16 or 32.");
+                        throw new AppException("The numbers of teams of the tournament should be 4, 8 or 16.");
                     }
                     else
                     {
