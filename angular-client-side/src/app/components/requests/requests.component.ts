@@ -39,7 +39,8 @@ export class RequestsComponent implements OnInit {
       members: this.requests[0].team.numberMembers
     },
   ]
-  displayedColumns: any[] = [{title: 'Tag', column: 'tag'}, {title: 'Team Leader', column: 'teamLeader'}, {title: 'Team Name', column: 'teamName'}, {title: 'Current Total of Members', column: 'members'}];
+  titles: any[] = ['Tag', 'Team Leader', 'Team Name', 'Current Total of Members'];
+  displayedColumns: any[] = ['tag', 'teamLeader', 'teamName', 'members'];
   data$!: Observable<any>;
   dataSource = new MatTableDataSource(this.ELEMENT_DATA);
   panelOpenState = false;
@@ -64,6 +65,11 @@ export class RequestsComponent implements OnInit {
 
   getRequestSize(): number {
     return this.requests.length;
+  }
+
+  getTitle(value: string) {
+    const index = this.displayedColumns.indexOf(value);
+    return this.titles[index];
   }
 
 }
