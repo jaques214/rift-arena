@@ -55,28 +55,23 @@ namespace RiftArena.Models.Services
         {
             if (string.IsNullOrEmpty(tournament.Name))
                 throw new AppException("Tournament name is required.");
-            if (tournament.NumberOfTeams != 8 && tournament.NumberOfTeams != 16 && tournament.NumberOfTeams != 32)
-                throw new AppException("The numbers of teams of the tournament should be 8,16 or 32.");
+            if (tournament.NumberOfTeams != 4 && tournament.NumberOfTeams != 8 && tournament.NumberOfTeams != 16)
+                throw new AppException("The numbers of teams of the tournament should be 4,8 or 16.");
             if (tournament.Rank == null)
                 throw new AppException("Choose a rank.");
             if (tournament.Date < System.DateTime.Now)
                 throw new AppException("Invalid date.");
-            if (tournament.MiniumTier == null)
-                throw new AppException("Choose a minium tier.");
+            if (tournament.Region == null)
+                throw new AppException("Choose a region.");
 
 
             var user = _context.Users.SingleOrDefault(x => x.Nickname == userID);
-            if (user.LinkedAccount == null)
-            {
-                throw new AppException("O utilizador precisa de vincular uma conta RIOT.");
-            }
-            else
-            {
+
                 tournament.CreatorNickname = userID;
                 tournament.Region = user.LinkedAccount.Region;
                 tournament.State = Status.NotPublished;
                 tournament.Stages = new List<Team>();
-            }
+            
 
             _context.Tournaments.Add(tournament);
             _context.SaveChanges();
@@ -129,7 +124,7 @@ namespace RiftArena.Models.Services
             }
             else
             {
-                throw new AppException("Utilizador logado não é o criador do torneio.");
+                throw new AppException("User logged in is not the tournament creator.");
             }
 
             _context.Tournaments.Update(tournamentSer);
@@ -152,7 +147,7 @@ namespace RiftArena.Models.Services
             }
             else
             {
-                throw new AppException("Utilizador logado não é o criador do torneio.");
+                throw new AppException("User logged in is not the tournament creator.");
             }
         }
 
@@ -170,7 +165,7 @@ namespace RiftArena.Models.Services
             }
             else
             {
-                throw new AppException("Utilizador logado não é o criador do torneio.");
+                throw new AppException("User logged in is not the tournament creator.");
             }
         }
     }

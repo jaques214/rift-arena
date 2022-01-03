@@ -108,7 +108,7 @@ namespace RiftArena.Models.Services
             team.GamesPlayed = 0;
             team.NumberMembers = 1;
             team.Rank = leader.LinkedAccount.Rank;
-
+            /*
             //Guardar Imagem do poster
             if (team.PosterFile != null)
             {
@@ -129,7 +129,7 @@ namespace RiftArena.Models.Services
                     Console.WriteLine("7");
                     team.PosterFile.CopyTo(fileStream);
                 }
-            }
+            }*/
 
 
 
@@ -170,7 +170,7 @@ namespace RiftArena.Models.Services
                 if (_context.Teams.Any(x => x.Tag == team.Tag))
                     throw new AppException("Team tag " + team.Tag + " is already taken");
             }
-
+            /*
             if (team.PosterFile != null)
             {
                 //Guardar Imagem do poster
@@ -191,7 +191,7 @@ namespace RiftArena.Models.Services
                     File.Delete(imagePath);
                 }
             }
-
+            */
             teamSer.Name = team.Name;
             teamSer.Tag = team.Tag;
             teamSer.Rank = team.Rank;
@@ -217,13 +217,14 @@ namespace RiftArena.Models.Services
                     team.Members[i].TeamTag = null;
                     _context.Users.Update(team.Members[i]);
                 }
+                /*
                 //Apagar a imagem que ja existe
                 var imagePath = Path.Combine("RiftARENA/Images", team.Poster);
                 if (File.Exists(imagePath))
                 {
                     File.Delete(imagePath);
                 }
-                
+                */
                 _context.Teams.Remove(team);
                 _context.SaveChanges();
             }
