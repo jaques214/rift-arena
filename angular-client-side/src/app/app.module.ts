@@ -12,6 +12,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {MatTableModule} from '@angular/material/table';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatRadioModule} from '@angular/material/radio';
 
 import { AppComponent } from './app.component';
 import { NavBarComponent } from '@components/nav-bar/nav-bar.component';
@@ -58,6 +61,9 @@ import { CreateTourneyComponent } from './components/create-tourney/create-tourn
     ReactiveFormsModule,
     FormsModule,
     MatSelectModule,
+    MatTableModule,
+    MatRadioModule,
+    MatExpansionModule,
   ],
   providers: [
     AuthService,

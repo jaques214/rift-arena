@@ -30,12 +30,15 @@ namespace RiftArena.Models.Services
         bool CheckValidatedRiot(LinkedAccount linked);
         User UnlinkRiot(string userID);
         List<Request> GetAllRequestsOfUserById(string userID);
+        void UpdateRiotAccount(string nickname);
+
+        Request CreateRequest(string nickname,Team team);
 
     }
     public class UserServices : IUserService
     {
         private RiftArenaContext _context;
-        
+
 
         public UserServices(RiftArenaContext context)
         {
@@ -47,8 +50,8 @@ namespace RiftArena.Models.Services
         {
             User userTemp = GetByUsername(userID);
 
-            if(userTemp == null)
-            {           
+            if (userTemp == null)
+            {
                 throw new AppException("Account not found");
             }
             else
@@ -62,30 +65,30 @@ namespace RiftArena.Models.Services
             Summoner_V4 summoner_v4 = new Summoner_V4(account.Region);
             var summoner = summoner_v4.GetSummonerStatsById(account.ID);
 
-            if(summoner == null)
+            if (summoner == null)
             {
                 throw new AppException("Not able to retrieve ingame stats");
             }
 
-            Console.WriteLine( "SUMMOMMER" + summoner);
-            account.Rank = summoner.rank;
-            
+            Console.WriteLine("SUMMOMMER" + summoner);
+            account.Rank = summoner.tier;
+
 
             return account.Rank;
         }
 
         //Verifica se o Summoner Existe na riot api
-        public bool VerifySummoner(string region,string summonerName)
+        public bool VerifySummoner(string region, string summonerName)
         {
             Summoner_V4 summoner_v4 = new Summoner_V4(region);
 
             var summoner = summoner_v4.GetSummonerByName(summonerName);
-            
+
             return summoner != null;
         }
 
         //Conecta a conta riot retornando já o user atualizado e confirma a validação pelo Icon
-        public User LinkRiot(string userID, string nickname,string region)
+        public User LinkRiot(string userID, string nickname, string region)
         {
             User userTemp = GetByUsername(userID);
 
@@ -93,33 +96,39 @@ namespace RiftArena.Models.Services
             {
                 Summoner_V4 summoner_v4 = new Summoner_V4(region);
                 var summoner = summoner_v4.GetSummonerByName(nickname);
-                Console.WriteLine(summoner);
+                
 
                 if (summoner == null)
                 {
-                    throw new AppException("Riot account not found");  
+                    throw new AppException("Riot account not found");
                 }
-                
-                var linkedTemp = new LinkedAccount
+
+                if(summoner.profileIconId != 7)
                 {
-                    Username = nickname,
-                    ProfileIconID = summoner.profileIconId,
-                    Region = region,
-                    ID = summoner.id,
-                    SummonerLevel = summoner.summonerLevel,
-                    Validated = false
-                };
+                   throw new AppException("Change your account Icon to the Rose Icon first");
+                }
+                else
+                {
+                    var linkedTemp = new LinkedAccount
+                    {
+                        Username = nickname,
+                        ProfileIconID = summoner.profileIconId,
+                        Region = region,
+                        ID = summoner.id,
+                        SummonerLevel = summoner.summonerLevel,
+                        Validated = true
+                    };
 
-                linkedTemp.Rank = GetSummonerRank(linkedTemp);
-                userTemp.LinkedAccount = linkedTemp;
-                userTemp.ContaRiot = nickname;
+                    linkedTemp.Rank = GetSummonerRank(linkedTemp);
+                    userTemp.LinkedAccount = linkedTemp;
+                    userTemp.ContaRiot = nickname;
 
-                if (CheckValidatedRiot(linkedTemp))
+                }
+
+                /*if (CheckValidatedRiot(linkedTemp))
                 {
                     linkedTemp.Validated = true;
-                }
-
-
+                }*/
 
             }
             else
@@ -127,6 +136,36 @@ namespace RiftArena.Models.Services
                 throw new AppException("User not found");
             }
             return userTemp;
+        }
+
+        //Atualiza o rank e Level da conta Riot vinculada
+        public void UpdateRiotAccount(string nickname)
+        {
+            User userTemp = GetByUsername(nickname);
+
+            if (userTemp == null)
+            {
+                throw new AppException("User not found");
+            }
+            else
+            {
+                var linkedTemp = _context.LinkedAccounts.Find(userTemp.LinkedAccount.ID);
+                if (linkedTemp == null)
+                {
+                    throw new AppException("No riot account linked to you.");
+                }
+                else
+                {
+                    Summoner_V4 summoner_v4 = new Summoner_V4(linkedTemp.Region);
+                    var summoner = summoner_v4.GetSummonerByName(linkedTemp.Username);
+
+                    linkedTemp.SummonerLevel = summoner.summonerLevel;
+                    linkedTemp.ProfileIconID = summoner.profileIconId;
+                    linkedTemp.Rank = GetSummonerRank(linkedTemp);
+                    // _context.LinkedAccounts.Update(linkedTemp);
+                }
+            }
+
         }
 
         //Muda o estado da conta para validada
@@ -157,19 +196,19 @@ namespace RiftArena.Models.Services
             {
                 throw new AppException("Riot account not found");
             }
-            /*if(userTemp.Team != null)
+            if(userTemp.TeamTag != null)
             {
                 throw new AppException("Can't unlink your account. Exit your team first before unlinking your RIOT account.");
-            }*/
+            }
 
             //if (_context.LinkedAccounts.Any(x => x.ID == userTemp.Name))
             LinkedAccount linkedTemp = _context.LinkedAccounts.Find(userTemp.LinkedAccount.ID);
             _context.LinkedAccounts.Remove(linkedTemp);
             _context.SaveChanges();
             userTemp.ContaRiot = null;
-            
 
-            return userTemp;     
+
+            return userTemp;
         }
 
 
@@ -242,7 +281,7 @@ namespace RiftArena.Models.Services
                 _context.SaveChanges();
             }
         }
-        
+
         /// <summary>
         /// Método responsável por criar um utilizador.
         /// </summary>
@@ -310,20 +349,25 @@ namespace RiftArena.Models.Services
         /// <param name="username">Nickname do utilizador</param>
         /// <param name="password">Password do utilizador.</param>
         /// <returns></returns>
-        public User Authenticate(string username, string password){
-            if(String.IsNullOrWhiteSpace(username) || String.IsNullOrWhiteSpace(password)){
+        public User Authenticate(string username, string password)
+        {
+            if (String.IsNullOrWhiteSpace(username) || String.IsNullOrWhiteSpace(password))
+            {
                 return null;
             }
 
             var user = _context.Users.SingleOrDefault(x => x.Nickname == username);
-            if(user != null){
-                if(VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt)){
+            if (user != null)
+            {
+                if (VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+                {
                     return user;
                 }
-            } 
-            
+            }
+
             return null;
         }
+
 
         /// <summary>
         /// Método para gerar o token de um utilizador logado.
@@ -331,7 +375,8 @@ namespace RiftArena.Models.Services
         /// <param name="key">Chave para criação do token.</param>
         /// <param name="user">Utilizador autenticado.</param>
         /// <returns>Token do utilizador autenticado.</returns>
-        public string GenerateToken(byte[] key, User user){
+        public string GenerateToken(byte[] key, User user)
+        {
             // authentication successful so generate jwt token
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenDescription = new SecurityTokenDescriptor
@@ -347,5 +392,45 @@ namespace RiftArena.Models.Services
 
             return tokenHandler.WriteToken(token);
         }
+
+
+
+        //Cria um request de um team leader para um determinado user entrar na sua equipa
+        public Request CreateRequest(string nickname,Team team)
+        {
+
+            var userTemp = GetByUsername(nickname);
+
+            if (userTemp != null)
+            {
+                
+                Request request = new Request
+                {
+                    UserNickname = userTemp.Nickname,
+                    Team = team,
+                    Accepted = false
+                };
+
+                if (userTemp.Requests.Contains(request))
+                {
+                    throw new AppException("Can't create another equal request.");
+                }
+               
+                userTemp.Requests.Add(request);
+
+                _context.Requests.Add(request);
+                _context.SaveChanges();
+                return request;
+
+            }
+            else
+            {
+                throw new AppException("User not found or non-existent.");
+            }
+
+        }
     }
 }
+
+
+

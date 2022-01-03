@@ -38,7 +38,6 @@ export class NavBarComponent implements OnInit {
     }
   }
 
-
   toogleProfileIcon() {
     let imageFieldPath = 'http://localhost:5001/api/' + this.user?.profileImage;
     return this.user?.profileImage
