@@ -17,7 +17,10 @@
         (form.get('rank')!.dirty && form.get('rank')!.invalid) ||
         (form.get('numberTeams')!.hasError('required') &&
           form.get('numberTeams')!.touched) ||
-        (form.get('numberTeams')!.dirty && form.get('numberTeams')!.invalid)
+        (form.get('numberTeams')!.dirty && form.get('numberTeams')!.invalid) ||
+        (form.get('dateTourney')!.hasError('required') &&
+          form.get('dateTourney')!.touched) ||
+        (form.get('dateTourney')!.dirty && form.get('dateTourney')!.invalid)
       "
       class="alert alert-danger"
       role="alert"
@@ -67,6 +70,17 @@
         <option value="master">Master</option>
         <option value="challenger">Challenger</option>
       </select>
+    </div>
+    <div class="mb-3">
+      <label for="formGroupTourneyName" class="form-group"
+        >Insert Date</label
+      >
+      <input
+        type="datetime-local"
+        class="form-control"
+        formControlName="dateTourney"
+        id="formGroupExampleInput"
+      />
     </div>
     <div class="d-flex justify-content-between">
       <button
