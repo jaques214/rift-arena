@@ -53,8 +53,9 @@ export class ViewProfileComponent implements OnInit {
       else {
         this.info = {
           username: this.account.username,
-          rank: this.account.rank,
           region: this.account.region,
+          rank: this.account.rank,
+          summonerLevel: this.account.summonerLevel,
         };
       }
     });
@@ -206,7 +207,7 @@ export class ViewProfileComponent implements OnInit {
   addAccount(account: LinkedAccount): void {
     this.username = account.username!;
 
-    this.restService.addAccount(this.username, this.rank, this.region).subscribe({
+    this.restService.addAccount(this.username, this.region).subscribe({
       next: () => window.location.reload(),
       error: (err) => console.log(err)
     });

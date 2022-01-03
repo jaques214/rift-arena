@@ -29,10 +29,10 @@ export class UserRestService {
     return this.http.get<LinkedList<User>>(endpoint, httpOptions);
   }
 
-  addAccount(username: string, rank: string, region: string): Observable<any> {
+  addAccount(username: string, region: string): Observable<any> {
     const url = `${endpoint}/vincularConta`;
     return this.http.post(url, 
-      JSON.stringify({ Username: username, Rank: rank, Region: region }),
+      JSON.stringify({ Username: username, Region: region }),
       httpOptions);
   }
 

@@ -26,16 +26,6 @@ static fields(){
           },
           {
             type: 'select',
-            label: 'Rank',
-            value: 'rank',
-            iconlabel: 'star icon',
-            icon: 'star',
-            values: [
-              'I', 'II', 'III', 'IV',
-            ]
-          },
-          {
-            type: 'select',
             label: 'Region',
             value: 'region',
             iconlabel: 'place icon',
