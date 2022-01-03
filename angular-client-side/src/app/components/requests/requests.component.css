@@ -9,8 +9,13 @@ table {
 }
 
 th.mat-header-cell {
+    text-align: center;
     color: #DF711F;
     font-weight: bold;
+}
+
+td, td.mat-cell {
+    text-align: center;
 }
   
 .mat-form-field {
@@ -41,4 +46,71 @@ button {
     font-weight: bold;
     background-color: #8EB0FC;
     border: 2px solid #24499A;
+}
+
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.mat-expansion-panel-header-description {
+    flex-grow: 0;
+    margin-right: 0;
+}
+
+.example-headers-align {
+  display: none;
+}
+
+.request-table {
+    display: block;
+}
+
+.example-headers-align .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+.mat-expansion-panel-header-title {
+    margin-right: 0;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 768px) {
+    table {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .mat-expansion-panel {
+        box-shadow: none;
+    }
+
+    .mat-expansion-panel-header, .mat-expansion-panel-header:focus, .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:hover:not([aria-disabled=true])  {
+        background: rgba(253, 202, 164, 1);
+        border: 2px solid #DF711F;
+    }
+
+    .mat-expansion-panel-header.mat-expanded:focus, .mat-expansion-panel-header.mat-expanded:hover {
+        background: rgba(253, 202, 164, 1);
+    }
+
+    .mat-expansion-panel-header-title {
+        text-transform: uppercase;
+        font-weight: bold;
+        color: #DF711F;
+    }
+
+    .mat-expansion-panel-header-description .mat-icon {
+        color: #DF711F;
+    }
+
+    .example-headers-align {
+        display: block;
+        margin-bottom: 15px;
+    }
+
+    .request-table {
+        display: none;
+    }    
 }

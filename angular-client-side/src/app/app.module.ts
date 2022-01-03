@@ -13,6 +13,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {MatTableModule} from '@angular/material/table';
+import {MatExpansionModule} from '@angular/material/expansion';
 import {MatRadioModule} from '@angular/material/radio';
 
 import { AppComponent } from './app.component';
@@ -62,6 +63,7 @@ import { RequestsComponent } from './components/requests/requests.component';
     MatSelectModule,
     MatTableModule,
     MatRadioModule,
+    MatExpansionModule,
   ],
   providers: [
     AuthService,

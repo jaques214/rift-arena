@@ -39,12 +39,12 @@
   <div *ngFor="let input of formFields.inputs">
     <div [ngClass]="'item'">
       <p [ngClass]="'subtitle'">{{ input.name }}</p>
-      <mat-icon (click)="clickEvent()" aria-hidden="false" aria-label="edit icon" matSuffix>
+      <mat-icon (click)="clickEvent(input.name)" aria-hidden="false" aria-label="edit icon" matSuffix>
         edit
       </mat-icon>
     </div>
     <ng-container [ngSwitch]="flag">
-      <div *ngSwitchCase="'edit'" [ngClass]="'form-size'">
+      <div *ngSwitchCase="'edit-' + input.name" [ngClass]="'form-size'">
         <form (ngSubmit)="onSubmit()">
           <div>
             <ng-container *ngIf="input.name">

@@ -75,6 +75,19 @@ export class ViewProfileComponent implements OnInit {
     });
   }
 
+  changeFlag(name: string): string {
+    switch(name) {
+      case 'email':
+        this.flag = 'edit-' + name;
+        break;
+      case 'password':
+        this.flag = 'edit-' + name;
+        break;
+    }
+    console.log(this.flag);
+    return this.flag;
+  }
+
   populateForm() {
     //if a user already exists populates the formFields inputs.
     this.formFields.inputs.forEach((input:any) => {
@@ -82,8 +95,8 @@ export class ViewProfileComponent implements OnInit {
     });
   }
 
-  clickEvent() {
-    this.flag = (this.flag == "view") ? "edit" : "view";
+  clickEvent(name: string) {
+    this.flag = (this.flag == "view") ? this.changeFlag(name) : "view";
   }
 
   clickAccount() {
@@ -106,7 +119,36 @@ export class ViewProfileComponent implements OnInit {
     return this.restService.getUser();
   }
 
-  getUserValue(value: any) {
+  hideText(index: number, str: string): string {
+    let convert: string = "";
+    const tam = str.length;
+    while(index < tam) {
+      convert += '*';
+      index++;
+    }
+    return convert;
+  }
+
+  selectValue(key: string, value: string): string {
+    let convert: string;
+    let i = 0;
+    switch(key) {
+      case "email":
+        let part = value.split('@');
+        let teste = part[0].slice(1, part[0].length - 2);
+        convert = part[0].slice(0, 1) + this.hideText(i, teste) + part[0].slice(part[0].length - 1) + '@' + part[1];
+      break;
+      case "password":
+        convert = this.hideText(i, value);
+      break;
+      default:
+        convert = value;
+        break;
+    }
+    return convert;
+  }
+
+  getUserValue(value: any): string {
     let convert: string = "";
     
     if(this.user != null) {
@@ -114,7 +156,7 @@ export class ViewProfileComponent implements OnInit {
 
       values.forEach(val => {
         if(val[0] == value) {
-          convert = val[1];
+          convert = this.selectValue(value, val[1]);         
         }
       });
     }
