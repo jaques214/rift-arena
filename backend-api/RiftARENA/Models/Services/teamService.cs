@@ -224,17 +224,21 @@ namespace RiftArena.Models.Services
             var userTemp = _context.Users.SingleOrDefault(x => x.Nickname == UserID);
             var TeamTemp = GetByTag(userTemp.TeamTag);
 
+            var userSubstitute = _context.Users.SingleOrDefault(x => x.Nickname == user.Nickname);
+
             if (TeamTemp.TeamLeader == userTemp.Nickname)
             {
                 if (user.Nickname == null)
                 {
                     throw new AppException("Team leader cannot be removed without substitute.");
                 }
-                else
+                else if(TeamTemp.Members.Contains(userSubstitute))
                 {
                     TeamTemp.Members.Remove(userTemp);
                     TeamTemp.NumberMembers--;
                     TeamTemp.TeamLeader = user.Nickname;
+                } else {
+                    throw new AppException("The substituted does not belong to the team.");
                 }
             }
             else
