@@ -12,8 +12,8 @@
 
   <ng-template [ngSwitchCase]="'select'">
     <mat-form-field appearance="standard" ngClass="form-field">
-      <mat-select required>
-        <mat-option *ngFor="let region of regionValues" value="{{region}}">{{region}}</mat-option>
+      <mat-select [(ngModel)]="selected" required (selectionChange)="fieldOnChange(selected)">
+        <mat-option *ngFor="let val of input.values" [value]="val">{{val}}</mat-option>
       </mat-select>
       <mat-label><mat-icon aria-hidden="false" aria-label="" matSuffix>
         {{ input.icon }}

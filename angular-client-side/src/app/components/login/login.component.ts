@@ -9,12 +9,11 @@ import { AuthService } from '@services/auth/auth.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  @Input() nickname = '';
-  @Input() password = '';
+  nickname: string = '';
+  password: string = '';
   hide = true;
   formFields: any = User.loginFields();
   title: string = 'Insert your account data';
-  @Input() input!: any;
 
   constructor(public router: Router, private authService: AuthService) {}
 
@@ -28,14 +27,12 @@ export class LoginComponent implements OnInit {
     this.nickname = this.formFields.inputs[0]!.model;
     this.password = this.formFields.inputs[1]!.model;
 
-    this.authService.login(this.nickname, this.password).subscribe(
-      (result: any) => {
+    this.authService.login(this.nickname, this.password).subscribe({
+      next: (result: any) => {
         localStorage.setItem('currentUser', result.token);
         this.router.navigate(['/']);
       },
-      (err: any) => {
-        alert('erro no login');
-      }
-    );
+      error: (err) => alert("Erro no login")
+    });
   }
 }

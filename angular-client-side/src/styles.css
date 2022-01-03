@@ -6,6 +6,10 @@
   color: white;
 }
 
+.mat-h3, .mat-typography h3 {
+  font: 800 xx-large/32px "Montserrat", sans-serif;
+}
+
 .mat-h1, .mat-headline, .mat-typography h1 {
   font: 800 xx-large/32px "Montserrat", sans-serif;
 }
