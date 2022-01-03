@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RiftArena.Models
 {
+        //Eliminar rank e Tier do model User
         public class User
         {
             [Key]

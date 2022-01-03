@@ -32,13 +32,16 @@ namespace RiftArena.Controllers
         //Context da BD
         private readonly RiftArenaContext _context;
         private readonly IUserService _userService;
+        private readonly ITeamService _teamService;
         private readonly AppSettings _appSettings;
 
-        public UsersController(RiftArenaContext context, IUserService userService, IOptions<AppSettings> appSettings)
+        public UsersController(RiftArenaContext context, IUserService userService, IOptions<AppSettings> appSettings, ITeamService teamService)
         {
             _context = context;
             _userService = userService;
             _appSettings = appSettings.Value;
+            _teamService = teamService; 
+
         }
 
         //GET: api/Users/requests
@@ -89,6 +92,15 @@ namespace RiftArena.Controllers
             });
         }
 
+        //Vai atualizar as informações da conta Riot do utilizador
+        [HttpPost("updateRiot"),Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public ActionResult UpdateStatsRiotAccount()
+        {
+            _userService.UpdateRiotAccount(User.Identity.Name);
+            _context.SaveChanges();
+            return Ok();
+        }
+
 
         //POST: api/Users/desvincular
         /// <summary>
@@ -130,6 +142,45 @@ namespace RiftArena.Controllers
         }
 
 
+        //POST: api/Users/createRequest
+        [HttpPost("createRequest"),Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult CreateRequestByUser([FromBody] User userSent)
+        {
+            User user = _userService.GetByUsername(User.Identity.Name);
+      
+            var team = _teamService.GetByTag(user.TeamTag);
+
+            if(user.TeamTag == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+
+                if (team.TeamLeader.Equals(user.Nickname))
+                {
+                    try
+                    {
+                        _userService.CreateRequest(userSent.Nickname, team);
+                        _context.SaveChanges();
+                        return Ok();
+                    }
+                    catch (ApplicationException ex)
+                    {
+                        return BadRequest(new { message = ex.Message });
+                    }
+                }
+                else
+                {
+                    return BadRequest();
+                }
+
+            }       
+            
+        }
+
+
+
         //GET: api/Users/{username: string}
         /// <summary>
         /// MÃ©todo que retorna os dados do utilizador pesquisado pelo seu nickname.
@@ -153,6 +204,7 @@ namespace RiftArena.Controllers
         /// <returns>Os dados do utilizador logado.</returns>
         [HttpGet("withToken"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<User> GetByToken()
+
         {
             System.Console.WriteLine(User.Identity.Name);
             var user = _userService.GetByUsername(User.Identity.Name);
@@ -218,12 +270,23 @@ namespace RiftArena.Controllers
             {
                 try
                 {
-                    // save 
-                    userUp.Password = user.Password;
-                    userUp.Email = user.Email;
-                    _userService.Update(userUp);
-                    _context.SaveChanges();
+                    if(user.Password == null)
+                    {
+                        userUp.Email = user.Email;
+                    }
+                    if (user.Email == null)
+                    {
+                      userUp.Password = user.Password;
+                    }
+                    else if (user.Email != null && user.Password != null)
+                    {
+                        userUp.Password = user.Password;
+                        userUp.Email = user.Email;
+                        _userService.Update(userUp);
+                        _context.SaveChanges();     
+                    }
                     return Ok();
+
                 }
                 catch (AppException ex)
                 {
@@ -271,49 +334,50 @@ namespace RiftArena.Controllers
         public IActionResult AcceptRequests([FromBody] Request request)
         {
             var user = _userService.GetByUsername(User.Identity.Name);
-            /*if (user.Team != null)
-            {
-              return BadRequest();
-            }
-            else
-            {*/
-            if (user.Requests.Contains(request))
-            {
-                if (user.Requests.Contains(request))
-                {
-                    if (request.Team.Members.Count == request.Team.MAX_MEMBERS)
-                    {
-                        return BadRequest();
-                    }
-                    else
-                    {
-                        request.Accepted = true;
-                        user.Requests.Remove(request);
-                        user.TeamTag = request.Team.Tag;
-                        _context.Update(request);
-                        _context.Update(user);
+            var req = _context.Requests.Find(request.RequestId);
 
-                        Team temp = _context.Teams.Find(request.Team);
-
-                        temp.Members.Add(user);
-                        _context.Teams.Update(temp);
-                        _context.SaveChanges();
-
-                        return Ok(user);
-                    }
-                }
-                else
-                {
-                    return BadRequest();
-                }
-            }
-            else
+            if (user.TeamTag != null)
             {
                 return BadRequest();
             }
+            else
+            {
+               // if (user.Requests.Contains(request))
+                //{
+                    if (user.Requests.Contains(req))
+                    {
+                        if (req.Team.Members.Count == req.Team.MAX_MEMBERS)
+                        {
+                            return BadRequest();
+                        }
+                        else
+                        {
+                            req.Accepted = true;
+                            user.Requests.Remove(req);
+                            user.TeamTag = req.Team.Tag;
+                            _context.Update(req);
+                            _context.Update(user);
 
-            //}     
+                            Team temp = _context.Teams.Find(req.Team.TeamId);
 
+                            _teamService.AddMember(user,temp.TeamId);
+                            _context.SaveChanges();
+
+                            return Ok();
+                        }
+                    }
+                    else
+                    {
+                        return BadRequest();
+                    }
+               // }
+              //  else
+               // {
+               //     return BadRequest();
+            //    }
+           
+
+            }
         }
 
         //POST: api/Users/refuseRequest
@@ -326,33 +390,26 @@ namespace RiftArena.Controllers
         public IActionResult RefuseRequest([FromBody] Request request)
         {
             var user = _userService.GetByUsername(User.Identity.Name);
-            /* if (user.Team != null)
-             {
-                 return BadRequest();
-             }
-             else
-             {*/
-            if (user.Requests.Contains(request))
-            {
-                request.Accepted = false;
-                user.Requests.Remove(request);
-                _context.Update(request);
-                _context.Update(user);
-                _context.SaveChanges();
-                return Ok(user);
-            }
-            else
-            {
-                return BadRequest();
-            }
+            var req = _context.Requests.Find(request.RequestId);
+
+        
+                if (user.Requests.Contains(req))
+                {
+                    req.Accepted = false;
+                    user.Requests.Remove(req);
+                    _context.Update(req);
+                    _context.Update(user);
+                    _context.SaveChanges();
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            
+            //}
+
         }
-        //}
-
-
-        private bool UserExists(int id)
-        {
-            return _context.Users.Any(e => e.UserID == id);
-        }
-
     }
 }
+
