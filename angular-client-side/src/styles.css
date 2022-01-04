@@ -1,9 +1,8 @@
-
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap");
 
 .dropdown-item:hover {
-  background-color: #234a95;
-  color: white;
+  background-color: #234a95 !important;
+  color: white !important;
 }
 
 .mat-h3, .mat-typography h3 {
@@ -40,3 +39,4 @@ body {
 .mat-spinner circle {
   stroke: #20458a;
 }
+
