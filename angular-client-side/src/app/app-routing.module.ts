@@ -5,7 +5,7 @@ import { FrontPageComponent } from '@components/front-page/front-page.component'
 import { LoginComponent } from '@components/login/login.component';
 import { RegisterComponent } from '@components/register/register.component';
 import { ViewProfileComponent } from '@components/view-profile/view-profile.component';
-import { RequestsComponent } from '@components/requests/requests.component';
+import { CreateTourneyComponent } from './components/create-tourney/create-tourney.component';
 import { AuthGuard } from './guard/auth-guard.guard';
 import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
 
@@ -35,8 +35,8 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'requests',
-    component: RequestsComponent,
+    path: 'create-tourney',
+    component: CreateTourneyComponent,
     canActivate: [AuthGuard],
   },
   { path: '**', redirectTo: '', pathMatch: 'full' },

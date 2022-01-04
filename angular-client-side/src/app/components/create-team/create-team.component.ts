@@ -3,10 +3,10 @@ import {
   FormGroup,
   FormControl,
   Validators,
-  AbstractControl,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TeamRestService } from '@src/app/services/team-rest/team-rest.service';
+import { UserRestService } from '@src/app/services/user-rest/user-rest.service';
 
 @Component({
   selector: 'app-create-team',
@@ -16,9 +16,19 @@ import { TeamRestService } from '@src/app/services/team-rest/team-rest.service';
 export class CreateTeamComponent implements OnInit {
   form!: FormGroup;
 
-  constructor(private teamService: TeamRestService, private router: Router) {}
+  constructor(
+    private teamService: TeamRestService,
+    private userService: UserRestService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
+    this.userService.getUser().subscribe((user) => {
+      if (user.teamTag != null) {
+        this.router.navigate(['/']);
+      }
+    });
+
     this.form = new FormGroup({
       teamName: new FormControl(null, [
         Validators.required,
@@ -43,7 +53,6 @@ export class CreateTeamComponent implements OnInit {
     if (this.isEnable()) {
       let tag: string = this.form.get('tagName')?.value;
       let teamName: string = this.form.get('teamName')?.value;
-
 
       this.teamService.createTeam(tag, teamName).subscribe(
         () => {
