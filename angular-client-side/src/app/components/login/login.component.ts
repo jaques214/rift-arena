@@ -9,39 +9,30 @@ import { AuthService } from '@services/auth/auth.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  @Input() nickname = '';
-  @Input() password = '';
+  nickname: string = '';
+  password: string = '';
   hide = true;
   formFields: any = User.loginFields();
   title: string = 'Insert your account data';
-  @Input() input!: any;
 
   constructor(public router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {}
 
   login(): void {
-    // validar se o user inseriu dados (verificar se model dos inputs é null (por enquanto é nickname/password mas 
+    // validar se o user inseriu dados (verificar se model dos inputs é null (por enquanto é nickname/password mas
     // vai ser alterado
     //, e se validou, pode avançar, senao, lançar um alert a dizer que n inseriu))
-    
+
     this.nickname = this.formFields.inputs[0]!.model;
     this.password = this.formFields.inputs[1]!.model;
 
-    this.authService.login(this.nickname, this.password).subscribe(
-      (user: User) => {
-        console.log(this.nickname);
-        console.log(this.password);
-        localStorage.setItem('currentUser', JSON.stringify(user));
+    this.authService.login(this.nickname, this.password).subscribe({
+      next: (result: any) => {
+        localStorage.setItem('currentUser', result.token);
         this.router.navigate(['/']);
-      
-
       },
-      (err: any) => {
-        console.log(this.nickname);
-        alert('erro no login');
-      }
-    );
+      error: (err) => alert("Erro no login")
+    });
   }
-
 }

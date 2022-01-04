@@ -89,7 +89,7 @@
             Leader:
 
             <a style="font-weight: normal">{{
-              firstTeam.teamLeader.nickname
+              firstTeam.teamLeader
             }}</a>
           </li>
           <li class="list-group-item" style="font-weight: bold">
@@ -122,7 +122,7 @@
           <li class="list-group-item" style="font-weight: bold">
             Leader:
 
-            <a style="font-weight: normal">{{ team.teamLeader.nickname }}</a>
+            <a style="font-weight: normal">{{ team.teamLeader }}</a>
           </li>
           <li class="list-group-item" style="font-weight: bold">
             Rank:
@@ -147,6 +147,7 @@
     </button>
   </div>
 </div>
+<h1 style="text-align:center;" *ngIf="noTeams == true">Sem informação no momento.</h1>
 <div *ngIf="firstTeam == undefined && teams == undefined">
   <mat-progress-spinner
     style="

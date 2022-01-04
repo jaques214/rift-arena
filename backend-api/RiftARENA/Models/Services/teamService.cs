@@ -15,9 +15,10 @@ namespace RiftArena.Models.Services
         Team GetByID(int id);
         Team UpdateTeam(Team team, string userID);
         void DeleteTeam(string userID);
-        void AddMember(User user, string userID);
+        void AddMember(User user, int id);
         void RemoveMember(User user, string userID);
         void LeaveTeam(string UserID, User user);
+        Team GetByTag(string Tag);
 
     }
     public class TeamServices : ITeamService
@@ -48,9 +49,14 @@ namespace RiftArena.Models.Services
             return _context.Teams.Find(id);
         }
 
-        public Team GetByTag(string tag)
+        /// <summary>
+        /// Método que retorna uma equipa através de uma tag
+        /// </summary>
+        /// <param name="tag">tag da equipa a retornar</param>
+        /// <returns>Equipa com tag fornecido</returns>
+        public Team GetByTag(string Tag)
         {
-            return _context.Teams.SingleOrDefault(x => x.Tag == tag);
+            return _context.Teams.SingleOrDefault(x => x.Tag == Tag);
         }
 
         /// <summary>
@@ -162,9 +168,9 @@ namespace RiftArena.Models.Services
         /// </summary>
         /// <param name="user">User que será adicionado</param>
         /// <exception cref="AppException">Exceção caso a equipa não exista ou esteja cheia</exception>
-        public void AddMember(User user, string userID)
+        public void AddMember(User user,int id)
         {
-            var TeamTemp = _context.Teams.SingleOrDefault(x => x.TeamLeader == userID);
+            var TeamTemp = _context.Teams.Find(id);
             if (TeamTemp == null)
             {
                 throw new AppException("Not Found");

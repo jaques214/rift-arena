@@ -11,9 +11,13 @@ import { LoadingCircleService } from '@services/loading-circle/loading-circle.se
 export class FrontPageComponent implements OnInit {
   firstTeam!: Team;
   teams!: Team[];
+  noTeams: boolean = true;
   loading = this.loader.loading$;
 
-  constructor(private teamService: TeamRestService,  private loader: LoadingCircleService) {}
+  constructor(
+    private teamService: TeamRestService,
+    private loader: LoadingCircleService
+  ) {}
 
   ngOnInit(): void {
     this.loader.show();
@@ -21,8 +25,10 @@ export class FrontPageComponent implements OnInit {
     this.teamService.getTeams().subscribe((data) => {
       this.teams = data;
       this.firstTeam = this.teams.splice(0, 1)[0];
-      
-    this.loader.hide();
+      this.loader.hide();
+      if (data.length > 0) {
+        this.noTeams = false;
+      }
     });
   }
 
