@@ -240,6 +240,7 @@ namespace RiftArena.Models.Services
                 }
                 else if(TeamTemp.Members.Contains(userSubstitute))
                 {
+                    userTemp.TeamTag = null;
                     TeamTemp.Members.Remove(userTemp);
                     TeamTemp.NumberMembers--;
                     TeamTemp.TeamLeader = user.Nickname;
