@@ -10,23 +10,33 @@ import { dateValidator } from '@src/app/CustomValidator';
 })
 export class CreateTourneyComponent implements OnInit {
   form!: FormGroup;
+  ranks: string[] = [
+    'Iron',
+    'Bronze',
+    'Silver',
+    'Gold',
+    'Platinum',
+    'Diamond',
+    'Grandmaster',
+    'Master',
+    'Challenger',
+  ];
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    this.form = new FormGroup(
-      {
-        tourneyName: new FormControl(null, [
-          Validators.required,
-          Validators.pattern(
-            '^([A-Z]{1}[A-Za-z]+(([ ]{0,1}[A-Za-z])+[a-z]*)*)$'
-          ),
-        ]),
-        numberTeams: new FormControl(null),
-        rank: new FormControl(null),
-        dateTourney: new FormControl(null,[ Validators.required, dateValidator()]),
-      }
-    );
+    this.form = new FormGroup({
+      tourneyName: new FormControl(null, [
+        Validators.required,
+        Validators.pattern('^([A-Z]{1}[A-Za-z]+(([ ]{0,1}[A-Za-z])+[a-z]*)*)$'),
+      ]),
+      numberTeams: new FormControl(null),
+      rank: new FormControl(null),
+      dateTourney: new FormControl(null, [
+        Validators.required,
+        dateValidator(),
+      ]),
+    });
   }
 
   isEnable(): boolean {

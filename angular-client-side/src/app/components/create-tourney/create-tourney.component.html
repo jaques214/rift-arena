@@ -60,15 +60,7 @@
         formControlName="rank"
         id="formGroupExampleInput"
       >
-        <option value="iron">Iron</option>
-        <option value="bronze">Bronze</option>
-        <option value="silver">Silver</option>
-        <option value="gold">Gold</option>
-        <option value="platinum">Platinum</option>
-        <option value="diamond">Diamond</option>
-        <option value="grandmaster">Grandmaster</option>
-        <option value="master">Master</option>
-        <option value="challenger">Challenger</option>
+      <option *ngFor="let r of ranks" [value]="r">{{r}}</option>
       </select>
     </div>
     <div class="mb-3">
