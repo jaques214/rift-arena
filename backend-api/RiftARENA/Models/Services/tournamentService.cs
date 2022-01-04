@@ -68,7 +68,6 @@ namespace RiftArena.Models.Services
             var user = _context.Users.SingleOrDefault(x => x.Nickname == userID);
 
                 tournament.CreatorNickname = userID;
-                tournament.Region = user.LinkedAccount.Region;
                 tournament.State = Status.NotPublished;
                 tournament.Stages = new List<Team>();
             
