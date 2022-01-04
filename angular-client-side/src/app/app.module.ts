@@ -23,16 +23,17 @@ import { FrontPageComponent } from '@components/front-page/front-page.component'
 import { RegisterComponent } from '@components/register/register.component';
 import { SharedFormFieldComponent } from '@components/shared-form-field/shared-form-field.component';
 import { ViewProfileComponent } from '@components/view-profile/view-profile.component';
-import { LoadingCircleService } from '@services/loading-circle/loading-circle.service';
 import { CreateTeamComponent } from '@components/create-team/create-team.component';
-import { JwtInterceptor } from './interceptors/jwt/jwt-interceptor.interceptor';
+import { CreateTourneyComponent } from '@components/create-tourney/create-tourney.component';
+import { RequestsComponent } from '@components/requests/requests.component';
 
+import { JwtInterceptor } from './interceptors/jwt/jwt-interceptor.interceptor';
+import { LoadingCircleService } from '@services/loading-circle/loading-circle.service';
 import { AuthService } from '@services/auth/auth.service';
 import { UserRestService } from '@services/user-rest/user-rest.service';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { AuthGuard } from './guard/auth-guard.guard';
 import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
-import { CreateTourneyComponent } from './components/create-tourney/create-tourney.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,6 +45,7 @@ import { CreateTourneyComponent } from './components/create-tourney/create-tourn
     ViewProfileComponent,
     CreateTeamComponent,
     CreateTourneyComponent,
+    RequestsComponent,
   ],
   imports: [
     FormsModule,
@@ -72,7 +74,7 @@ import { CreateTourneyComponent } from './components/create-tourney/create-tourn
     LoadingCircleService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     AuthGuard,
-    LoggedInAuthGuard
+    LoggedInAuthGuard,
   ],
   bootstrap: [AppComponent],
 })

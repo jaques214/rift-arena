@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CreateTeamComponent } from '@components/create-team/create-team.component';
 import { FrontPageComponent } from '@components/front-page/front-page.component';
@@ -6,8 +6,9 @@ import { LoginComponent } from '@components/login/login.component';
 import { RegisterComponent } from '@components/register/register.component';
 import { ViewProfileComponent } from '@components/view-profile/view-profile.component';
 import { CreateTourneyComponent } from './components/create-tourney/create-tourney.component';
-import { AuthGuard } from './guard/auth-guard.guard';
+import { RequestsComponent } from '@components/requests/requests.component';
 import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
+import { AuthGuard } from './guard/auth-guard.guard';
 
 const routes: Routes = [
   {
@@ -37,6 +38,11 @@ const routes: Routes = [
   {
     path: 'create-tourney',
     component: CreateTourneyComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'requests',
+    component: RequestsComponent,
     canActivate: [AuthGuard],
   },
   { path: '**', redirectTo: '', pathMatch: 'full' },
