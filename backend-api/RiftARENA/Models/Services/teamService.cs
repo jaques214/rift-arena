@@ -249,6 +249,7 @@ namespace RiftArena.Models.Services
             }
             else
             {
+                userTemp.TeamTag = null;
                 TeamTemp.Members.Remove(userTemp);
                 TeamTemp.NumberMembers--;
             }
