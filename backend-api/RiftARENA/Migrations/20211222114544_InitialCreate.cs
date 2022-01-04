@@ -97,7 +97,7 @@ namespace RiftARENA.Migrations
                         column: x => x.LinkedAccountID,
                         principalTable: "LinkedAccounts",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Users_Teams_TeamId",
                         column: x => x.TeamId,

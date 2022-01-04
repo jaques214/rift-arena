@@ -276,6 +276,7 @@ namespace RiftArena.Models.Services
             if (user != null)
             {
                 _context.Users.Remove(user);
+                _context.LinkedAccounts.Remove(user.LinkedAccount);
                 _context.SaveChanges();
             }
         }
