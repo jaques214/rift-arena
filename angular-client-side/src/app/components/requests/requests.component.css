@@ -75,6 +75,10 @@ button {
     justify-content: center;
 }
 
+.mat-expansion-panel {
+    border: 2px solid #DF711F;
+}
+
 @media only screen and (max-width: 768px) {
     table {
         width: 100%;
@@ -86,9 +90,13 @@ button {
         box-shadow: none;
     }
 
+    .mat-accordion .mat-expansion-panel:first-of-type {
+        margin-bottom: 3px;
+    }
+
     .mat-expansion-panel-header, .mat-expansion-panel-header:focus, .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:hover:not([aria-disabled=true])  {
         background: rgba(253, 202, 164, 1);
-        border: 2px solid #DF711F;
+        /* border-bottom: 2px solid #DF711F; */
     }
 
     .mat-expansion-panel-header.mat-expanded:focus, .mat-expansion-panel-header.mat-expanded:hover {

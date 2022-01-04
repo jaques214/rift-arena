@@ -7,27 +7,31 @@
         <mat-label>Filter</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Nickname" #input>
       </mat-form-field>
-      
+
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
         <ng-container matColumnDef="{{data}}" *ngFor="let data of displayedColumns">
             <th mat-header-cell *matHeaderCellDef>{{ getTitle(data) + ':' }}</th>
 
-            <td *matCellDef="let element"> 
-              <mat-radio-group aria-label="Select an option">
-                <mat-radio-button value="{{data}}">{{element[data]}}</mat-radio-button>
-              </mat-radio-group>
+            <td *matCellDef="let element">
+              <ng-container *ngIf="getTitle(data) == 'Tag'">
+                <mat-radio-group aria-label="Select an option">
+                  <mat-radio-button value="{{data}}">{{element[data]}}</mat-radio-button>
+                </mat-radio-group>
+              </ng-container>
+              <ng-container *ngIf="getTitle(data) != 'Tag'">
+                {{element[data]}}
+              </ng-container>
             </td>
 
-            <td mat-cell *matCellDef="let element"> {{element[data]}} </td>
 
         </ng-container>
-        
+
         <!-- <ng-container *ngFor="let data of displayedColumns"> -->
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         <!-- </ng-container> -->
-      
+
         <!-- Row shown when there is no matching data. -->
         <tr class="mat-row" *matNoDataRow>
           <td class="mat-cell" colspan="4">No requests matching the filter</td>
@@ -46,15 +50,16 @@
               <mat-icon>{{panelOpenState ? 'remove' : 'add'}}</mat-icon>
             </mat-panel-description>
           </mat-expansion-panel-header>
-      
-          <ng-container *ngFor="let data of displayedColumns">
-            <p *ngIf="data !== 'tag'"><strong>{{getTitle(data) + ':'}}</strong></p>
-            <p *ngFor="let element of ELEMENT_DATA"> {{ element }} </p>
+
+          <ng-container class="accordion-content" *ngFor="let data of displayedColumns">
+            <ng-container *ngIf="data !== 'tag'">
+              <p><strong>{{getTitle(data) + ':'}}</strong> {{ getColumn(data) }} </p>
+            </ng-container>
           </ng-container>
         </mat-expansion-panel>
-          
-      </mat-accordion>      
-      
+
+      </mat-accordion>
+
       <p><strong>Total Requests:</strong> {{getRequestSize()}}</p>
 
       <button mat-flat-button class="btn-blue">Save</button>

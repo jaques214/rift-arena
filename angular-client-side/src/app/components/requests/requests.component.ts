@@ -31,16 +31,33 @@ export class RequestsComponent implements OnInit {
     },
     accepted: 1,
   };
-  requests: any[] = [this.r];
+  r2 = {
+    requestId: 1,
+    user: null, 
+    teamTag: "TeamTag",
+    team: {
+      teamLeader: "Jaques Resende",
+      teamName: "Team 3",
+      numberMembers: 4,
+    },
+    accepted: 1,
+  };
+  requests: any[] = [this.r, this.r2];
   ELEMENT_DATA: PeriodicElement[] = [
     {tag: this.requests[0].teamTag, 
       teamLeader: this.requests[0].team.teamLeader, 
       teamName: this.requests[0].team.teamName, 
       members: this.requests[0].team.numberMembers
     },
+    {tag: this.requests[1].teamTag, 
+      teamLeader: this.requests[1].team.teamLeader, 
+      teamName: this.requests[1].team.teamName, 
+      members: this.requests[1].team.numberMembers
+    },
   ]
   titles: any[] = ['Tag', 'Team Leader', 'Team Name', 'Current Total of Members'];
   displayedColumns: any[] = ['tag', 'teamLeader', 'teamName', 'members'];
+  //values = this.getColumn();
   data$!: Observable<any>;
   dataSource = new MatTableDataSource(this.ELEMENT_DATA);
   panelOpenState = false;
@@ -70,6 +87,15 @@ export class RequestsComponent implements OnInit {
   getTitle(value: string) {
     const index = this.displayedColumns.indexOf(value);
     return this.titles[index];
+  }
+
+  getColumn(value: string) {
+    let values: any[] = [];
+    this.ELEMENT_DATA.forEach(val => {
+        values = Object.values(val);
+    });
+    const index = this.displayedColumns.indexOf(value);
+    return values[index];
   }
 
 }
