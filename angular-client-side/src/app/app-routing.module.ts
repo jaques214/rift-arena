@@ -6,6 +6,7 @@ import { LoginComponent } from '@components/login/login.component';
 import { RegisterComponent } from '@components/register/register.component';
 import { ViewProfileComponent } from '@components/view-profile/view-profile.component';
 import { CreateTourneyComponent } from './components/create-tourney/create-tourney.component';
+import { ManageTourneyComponent } from './components/manage-tourney/manage-tourney.component';
 import { AuthGuard } from './guard/auth-guard.guard';
 import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
 
@@ -39,6 +40,7 @@ const routes: Routes = [
     component: CreateTourneyComponent,
     canActivate: [AuthGuard],
   },
+  { path: 'manage-tourney', component: ManageTourneyComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 

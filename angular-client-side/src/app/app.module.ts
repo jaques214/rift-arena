@@ -33,6 +33,7 @@ import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { AuthGuard } from './guard/auth-guard.guard';
 import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
 import { CreateTourneyComponent } from './components/create-tourney/create-tourney.component';
+import { ManageTourneyComponent } from './components/manage-tourney/manage-tourney.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,6 +45,7 @@ import { CreateTourneyComponent } from './components/create-tourney/create-tourn
     ViewProfileComponent,
     CreateTeamComponent,
     CreateTourneyComponent,
+    ManageTourneyComponent,
   ],
   imports: [
     FormsModule,

@@ -1,0 +1,34 @@
+<app-nav-bar></app-nav-bar>
+<h1 class="mat-h3" style="text-align: center">Tournament Name</h1>
+<div class="container">
+  <div class="d-flex justify-content-center mt-5">
+    <mat-form-field appearance="fill">
+      <mat-label>Select the stage</mat-label>
+      <mat-select [(value)]="selectedStage">
+        <mat-option [value]="option.value" *ngFor="let option of stages">{{
+          option.viewValue
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="container">
+    <div class="d-flex flex-column">
+      <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+        <mat-radio-button value="1">Team 1</mat-radio-button>
+        <mat-radio-button value="2">Team 2</mat-radio-button>
+      </mat-radio-group>
+      <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+        <mat-radio-button value="1">Team 1</mat-radio-button>
+        <mat-radio-button value="2">Team 2</mat-radio-button>
+      </mat-radio-group>
+      <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+        <mat-radio-button value="1">Team 1</mat-radio-button>
+        <mat-radio-button value="2">Team 2</mat-radio-button>
+      </mat-radio-group>
+      <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
+        <mat-radio-button value="1">Team 1</mat-radio-button>
+        <mat-radio-button value="2">Team 2</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+</div>
