@@ -32,7 +32,7 @@ import { UserRestService } from '@services/user-rest/user-rest.service';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { AuthGuard } from './guard/auth-guard.guard';
 import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
-import { RequestsComponent } from './components/requests/requests.component';
+import { CreateTourneyComponent } from './components/create-tourney/create-tourney.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +43,7 @@ import { RequestsComponent } from './components/requests/requests.component';
     SharedFormFieldComponent,
     ViewProfileComponent,
     CreateTeamComponent,
-    RequestsComponent,
+    CreateTourneyComponent,
   ],
   imports: [
     FormsModule,
@@ -72,7 +72,7 @@ import { RequestsComponent } from './components/requests/requests.component';
     LoadingCircleService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     AuthGuard,
-    LoggedInAuthGuard,
+    LoggedInAuthGuard
   ],
   bootstrap: [AppComponent],
 })
