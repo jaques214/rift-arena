@@ -392,12 +392,7 @@ namespace RiftArena.Controllers
             var user = _userService.GetByUsername(User.Identity.Name);
             var req = _context.Requests.Find(request.RequestId);
 
-            if (user.TeamTag != null)
-            {
-                return BadRequest();
-            }
-            else
-            {
+        
                 if (user.Requests.Contains(req))
                 {
                     req.Accepted = false;
@@ -411,9 +406,8 @@ namespace RiftArena.Controllers
                 {
                     return BadRequest();
                 }
-            }
+            
             //}
-
 
         }
     }

@@ -12,6 +12,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {MatTableModule} from '@angular/material/table';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatRadioModule} from '@angular/material/radio';
 
 import { AppComponent } from './app.component';
 import { NavBarComponent } from '@components/nav-bar/nav-bar.component';
@@ -29,6 +32,7 @@ import { UserRestService } from '@services/user-rest/user-rest.service';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { AuthGuard } from './guard/auth-guard.guard';
 import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
+import { CreateTourneyComponent } from './components/create-tourney/create-tourney.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +43,7 @@ import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
     SharedFormFieldComponent,
     ViewProfileComponent,
     CreateTeamComponent,
+    CreateTourneyComponent,
   ],
   imports: [
     FormsModule,
@@ -56,6 +61,9 @@ import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
     ReactiveFormsModule,
     FormsModule,
     MatSelectModule,
+    MatTableModule,
+    MatRadioModule,
+    MatExpansionModule,
   ],
   providers: [
     AuthService,
@@ -64,7 +72,7 @@ import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
     LoadingCircleService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     AuthGuard,
-    LoggedInAuthGuard,
+    LoggedInAuthGuard
   ],
   bootstrap: [AppComponent],
 })
