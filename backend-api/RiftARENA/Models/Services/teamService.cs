@@ -17,8 +17,8 @@ namespace RiftArena.Models.Services
         Team GetByID(int id);
         Team UpdateTeam(Team team, string userID);
         void DeleteTeam(string userID);
-        void AddMember(User user, int id);
-        void RemoveMember(User user, string userID);
+        void AddMember(string nickname, int id);
+        void RemoveMember(string nickname, string userID);
         Team GetByTag(string Tag);
 
     }
@@ -235,8 +235,9 @@ namespace RiftArena.Models.Services
         /// </summary>
         /// <param name="user">User que será adicionado</param>
         /// <exception cref="AppException">Exceção caso a equipa não exista ou esteja cheia</exception>
-        public void AddMember(User user,int id)
+        public void AddMember(string nickname,int id)
         {
+            var user = _context.Users.SingleOrDefault(x => x.Nickname == nickname);
             var TeamTemp = _context.Teams.Find(id);
             if (TeamTemp == null)
             {
@@ -268,8 +269,9 @@ namespace RiftArena.Models.Services
         /// <param name="id">ID da equipa que o user será removido</param>
         /// <param name="user">User que será removido</param>
         /// <exception cref="AppException">Exceção caso a equipa não exista ou o user a ser removido seja o team leader</exception>
-        public void RemoveMember(User user, string userID)
+        public void RemoveMember(string nickname, string userID)
         {
+            var user = _context.Users.SingleOrDefault(x => x.Nickname == nickname);
             var TeamTemp = _context.Teams.SingleOrDefault(x => x.TeamLeader == userID);
             if (TeamTemp == null)
             {
