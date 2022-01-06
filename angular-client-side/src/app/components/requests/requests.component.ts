@@ -1,11 +1,7 @@
-import { User } from '@models/user';
-import { Request } from '@models/request';
-import { Router } from '@angular/router';
 import { UserRestService } from '@services/user-rest/user-rest.service';
 import { Component, OnInit } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import { Observable } from 'rxjs';
-import { LinkedList } from 'linked-list-typescript';
+import {SelectionModel} from '@angular/cdk/collections';
 
 export interface PeriodicElement {
   tag: string;
@@ -20,63 +16,108 @@ export interface PeriodicElement {
   styleUrls: ['./requests.component.css']
 })
 export class RequestsComponent implements OnInit {
-  r = {
-    requestId: 1,
-    user: null, 
-    teamTag: "TeamTag",
-    team: {
-      teamLeader: "Jaques Resende",
-      teamName: "Team 1",
-      numberMembers: 4,
+  requests: any = [];
+  ELEMENT_DATA: PeriodicElement[] = [];
+  //titles: any[] = ['Tag', 'Team Leader', 'Team Name', 'Current Total of Members'];
+
+  columns = [
+    {
+      columnDef: 'select',
     },
-    accepted: 1,
-  };
-  r2 = {
-    requestId: 1,
-    user: null, 
-    teamTag: "TeamTag",
-    team: {
-      teamLeader: "Jaques Resende",
-      teamName: "Team 3",
-      numberMembers: 4,
+    {
+      columnDef: 'tag',
+      header: 'Tag',
+      cell: (element: PeriodicElement) => `${element.tag}`,
     },
-    accepted: 1,
-  };
-  requests: any[] = [this.r, this.r2];
-  ELEMENT_DATA: PeriodicElement[] = [
-    {tag: this.requests[0].teamTag, 
-      teamLeader: this.requests[0].team.teamLeader, 
-      teamName: this.requests[0].team.teamName, 
-      members: this.requests[0].team.numberMembers
+    {
+      columnDef: 'teamLeader',
+      header: 'Team Leader',
+      cell: (element: PeriodicElement) => `${element.teamLeader}`,
     },
-    {tag: this.requests[1].teamTag, 
-      teamLeader: this.requests[1].team.teamLeader, 
-      teamName: this.requests[1].team.teamName, 
-      members: this.requests[1].team.numberMembers
+    {
+      columnDef: 'teamName',
+      header: 'Team Name',
+      cell: (element: PeriodicElement) => `${element.teamName}`,
     },
-  ]
-  titles: any[] = ['Tag', 'Team Leader', 'Team Name', 'Current Total of Members'];
-  displayedColumns: any[] = ['tag', 'teamLeader', 'teamName', 'members'];
-  //values = this.getColumn();
-  data$!: Observable<any>;
-  dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+    {
+      columnDef: 'members',
+      header: 'Current Total of Members',
+      cell: (element: PeriodicElement) => `${element.members}`,
+    },
+  ];
+
+  columnsMobile = [
+    {
+      columnDef: 'teamLeader',
+      header: 'Team Leader',
+    },
+    {
+      columnDef: 'teamName',
+      header: 'Team Name',
+    },
+    {
+      columnDef: 'members',
+      header: 'Current Total of Members',
+    },
+  ];
+  dataSource: any;
+  displayedColumns = this.columns.map(c => c.columnDef);
+  displayedMobileColumns = this.columnsMobile.map(c => c.columnDef);
   panelOpenState = false;
+  selection = new SelectionModel<PeriodicElement>(true, []);
+
+  constructor(private restService: UserRestService) { }
+
+  ngOnInit(): void {
+    this.getRequests().subscribe((data: {}) => {
+      this.requests = data;
+      this.populateTable();
+      this.dataSource = new MatTableDataSource<PeriodicElement>(this.ELEMENT_DATA);
+    });
+  }
+
+  populateTable() {
+    for (let index = 0; index < this.getRequestSize(); index++) {
+      this.ELEMENT_DATA[index] = {
+        tag: this.requests[index].team.tag, 
+        teamLeader: this.requests[index].team.teamLeader, 
+        teamName: this.requests[index].team.name, 
+        members: this.requests[index].team.numberMembers
+      };
+    }
+  }
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+
+    this.selection.select(...this.dataSource.data);
+  }
+
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: PeriodicElement): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.tag + 1}`;
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  constructor(private restService: UserRestService, private router: Router) { }
-
-  ngOnInit(): void {
-    this.getRequests();
-    console.log(this.displayedColumns[0].column);
-    console.log(this.requests);
-    console.log(this.ELEMENT_DATA);
-  }
-
-  getRequests(): Observable<LinkedList<Request>> {
+  getRequests() {
     return this.restService.getRequests();
   }
 
@@ -85,17 +126,20 @@ export class RequestsComponent implements OnInit {
   }
 
   getTitle(value: string) {
-    const index = this.displayedColumns.indexOf(value);
-    return this.titles[index];
+      const index = this.displayedMobileColumns.indexOf(value);
+      return this.columnsMobile[index].header;
   }
 
   getColumn(value: string) {
     let values: any[] = [];
-    this.ELEMENT_DATA.forEach(val => {
-        values = Object.values(val);
-    });
-    const index = this.displayedColumns.indexOf(value);
-    return values[index];
+    console.log(this.ELEMENT_DATA);
+    // this.ELEMENT_DATA?.forEach(val => {
+    //   console.log(val);
+    //     values = Object.values(val);
+    // });
+    console.log(values);
+    const index = this.displayedMobileColumns.indexOf(value);
+    return this.ELEMENT_DATA[index + 1];
   }
 
 }

@@ -15,6 +15,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {MatTableModule} from '@angular/material/table';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 import { AppComponent } from './app.component';
 import { NavBarComponent } from '@components/nav-bar/nav-bar.component';
@@ -34,6 +35,7 @@ import { UserRestService } from '@services/user-rest/user-rest.service';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { AuthGuard } from './guard/auth-guard.guard';
 import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
+import { ViewTeamComponent } from './view-team/view-team.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,6 +48,7 @@ import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
     CreateTeamComponent,
     CreateTourneyComponent,
     RequestsComponent,
+    ViewTeamComponent,
   ],
   imports: [
     FormsModule,
@@ -66,6 +69,7 @@ import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
     MatTableModule,
     MatRadioModule,
     MatExpansionModule,
+    MatCheckboxModule,
   ],
   providers: [
     AuthService,

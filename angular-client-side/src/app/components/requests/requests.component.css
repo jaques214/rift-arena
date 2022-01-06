@@ -91,6 +91,7 @@ button {
     }
 
     .mat-accordion .mat-expansion-panel:first-of-type {
+        background: rgba(253, 202, 164, 1);
         margin-bottom: 3px;
     }
 
