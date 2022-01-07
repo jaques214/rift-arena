@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using RiftArena.Models;
 using RiftArena.Models.Contexts;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace RiftArena.Models.Services
 {
@@ -15,8 +17,8 @@ namespace RiftArena.Models.Services
         Team GetByID(int id);
         Team UpdateTeam(Team team, string userID);
         void DeleteTeam(string userID);
-        void AddMember(User user, int id);
-        void RemoveMember(User user, string userID);
+        void AddMember(string nickname, int id);
+        void RemoveMember(string nickname, string userID);
         Team GetByTag(string Tag);
 
     }
@@ -24,9 +26,11 @@ namespace RiftArena.Models.Services
     {
         private RiftArenaContext _context;
 
-        public TeamServices(RiftArenaContext context)
+        private readonly IWebHostEnvironment _env;
+        public TeamServices(RiftArenaContext context, IWebHostEnvironment env)
         {
             _context = context;
+            this._env = env;
         }
 
         /// <summary>
@@ -65,9 +69,15 @@ namespace RiftArena.Models.Services
         /// <returns>Equipa criada</returns>
         /// <exception cref="AppException">Exceção caso a equipa a criar falhe nas validações</exception>
         public Team CreateTeam(Team team, string userID)
-        //falta usar o token para verificar se o user logado ja esta numa equipa e se ja tem conta vinculada
         {
             team.Members = new List<User>();
+            var leader = _context.Users.SingleOrDefault(x => x.Nickname == userID);
+
+            if(leader.TeamTag != null)
+                throw new AppException("Already has a team");
+
+            if (leader.LinkedAccount == null)
+                throw new AppException("Linked Account is required");
 
             if (string.IsNullOrWhiteSpace(team.Name))
                 throw new AppException("Team name is required");
@@ -77,18 +87,18 @@ namespace RiftArena.Models.Services
 
             if (string.IsNullOrWhiteSpace(team.Tag))
                 throw new AppException("Team tag is required");
-            Console.WriteLine(team.Tag.Length);
+
             if (team.Tag.Length != 3)
                 throw new AppException("TAG should contain only 3 letters");
 
             if (_context.Teams.Any(x => x.Tag == team.Tag))
                 throw new AppException("Team tag \"" + team.Tag + "\" is already taken");
-
+            
             if (_context.Teams.Any(x => x.TeamLeader == team.TeamLeader))
                 throw new AppException("TeamLeader\"" + team.TeamLeader + "\"is already taken");
 
 
-            var leader = _context.Users.SingleOrDefault(x => x.Nickname == userID);
+
 
             team.TeamLeader = leader.Nickname;
             team.Members.Add(leader);
@@ -97,7 +107,31 @@ namespace RiftArena.Models.Services
             team.TournamentsWon = 0;
             team.GamesPlayed = 0;
             team.NumberMembers = 1;
-            team.Rank = leader.Rank;
+            team.Rank = leader.LinkedAccount.Rank;
+            /*
+            //Guardar Imagem do poster
+            if (team.PosterFile != null)
+            {
+                Console.WriteLine("1");
+                string rootPath = _env.WebRootPath;
+                Console.WriteLine("2");
+                string fileName = Path.GetFileNameWithoutExtension(team.PosterFile.FileName);
+                Console.WriteLine("3");
+                string extension = Path.GetExtension(team.PosterFile.FileName);
+                Console.WriteLine("4");
+                team.Poster = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                Console.WriteLine("5");
+                string path = Path.Combine(rootPath+"/Images/", fileName);
+                Console.WriteLine("6");
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    //team.PosterFile.CopyToAsync(fileStream);
+                    Console.WriteLine("7");
+                    team.PosterFile.CopyTo(fileStream);
+                }
+            }*/
+
+
 
             _context.Teams.Add(team);
 
@@ -136,7 +170,28 @@ namespace RiftArena.Models.Services
                 if (_context.Teams.Any(x => x.Tag == team.Tag))
                     throw new AppException("Team tag " + team.Tag + " is already taken");
             }
-
+            /*
+            if (team.PosterFile != null)
+            {
+                //Guardar Imagem do poster
+                string rootPath = _env.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(team.PosterFile.FileName);
+                string extension = Path.GetExtension(team.PosterFile.FileName);
+                team.Poster = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                string path = Path.Combine(rootPath + "/Images/", fileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    //team.PosterFile.CopyToAsync(fileStream);
+                    team.PosterFile.CopyTo(fileStream);
+                }
+                //Apagar a imagem que ja existe
+                var imagePath = Path.Combine("RiftARENA/Images", teamSer.Poster);
+                if (File.Exists(imagePath))
+                {
+                    File.Delete(imagePath);
+                }
+            }
+            */
             teamSer.Name = team.Name;
             teamSer.Tag = team.Tag;
             teamSer.Rank = team.Rank;
@@ -156,7 +211,20 @@ namespace RiftArena.Models.Services
             var team = _context.Teams.SingleOrDefault(x => x.TeamLeader == userID);
             if (team != null)
             {
-                //colocar o team dos members a null
+
+                for (int i = 0; i < team.Members.Count; i++)
+                {
+                    team.Members[i].TeamTag = null;
+                    _context.Users.Update(team.Members[i]);
+                }
+                /*
+                //Apagar a imagem que ja existe
+                var imagePath = Path.Combine("RiftARENA/Images", team.Poster);
+                if (File.Exists(imagePath))
+                {
+                    File.Delete(imagePath);
+                }
+                */
                 _context.Teams.Remove(team);
                 _context.SaveChanges();
             }
@@ -167,25 +235,30 @@ namespace RiftArena.Models.Services
         /// </summary>
         /// <param name="user">User que será adicionado</param>
         /// <exception cref="AppException">Exceção caso a equipa não exista ou esteja cheia</exception>
-        public void AddMember(User user,int id)
+        public void AddMember(string nickname,int id)
         {
+            var user = _context.Users.SingleOrDefault(x => x.Nickname == nickname);
             var TeamTemp = _context.Teams.Find(id);
             if (TeamTemp == null)
             {
                 throw new AppException("Not Found");
             }
-            else
-            {
-                if (TeamTemp.NumberMembers == TeamTemp.MAX_MEMBERS)
+            else if(TeamTemp.NumberMembers == TeamTemp.MAX_MEMBERS)
                 {
                     throw new AppException("Team full");
                 }
-                else
+                else if(user.LinkedAccount == null)
                 {
-                    TeamTemp.Members.Add(user);
-                    TeamTemp.NumberMembers++;
+                    throw new AppException("Linked Account is required");
                 }
-            }
+                else
+                    {
+                        user.TeamTag = TeamTemp.Tag;
+                        TeamTemp.Members.Add(user);
+                        TeamTemp.NumberMembers++;
+                        TeamTemp.Rank = GetRankMean(TeamTemp.TeamId);
+                    }
+            
             _context.Teams.Update(TeamTemp);
             _context.SaveChanges();
         }
@@ -196,8 +269,9 @@ namespace RiftArena.Models.Services
         /// <param name="id">ID da equipa que o user será removido</param>
         /// <param name="user">User que será removido</param>
         /// <exception cref="AppException">Exceção caso a equipa não exista ou o user a ser removido seja o team leader</exception>
-        public void RemoveMember(User user, string userID)
+        public void RemoveMember(string nickname, string userID)
         {
+            var user = _context.Users.SingleOrDefault(x => x.Nickname == nickname);
             var TeamTemp = _context.Teams.SingleOrDefault(x => x.TeamLeader == userID);
             if (TeamTemp == null)
             {
@@ -211,15 +285,100 @@ namespace RiftArena.Models.Services
                 }
                 else
                 {
+                    user.TeamTag = null;
                     TeamTemp.Members.Remove(user);
                     TeamTemp.NumberMembers--;
+                    TeamTemp.Rank = GetRankMean(TeamTemp.TeamId);
                 }
             }
             _context.Teams.Update(TeamTemp);
             _context.SaveChanges();
         }
 
+        /// <summary>
+        /// Método que permite calcular a média de rank da equipa
+        /// </summary>
+        /// <param name="id">Id da equipa a calcular a média de rank</param>
+        /// <returns>Rank médio</returns>
+        public string GetRankMean (int id)
+        {
+            var Rank = "";
+            var TeamTemp = GetByID (id);
+            var x = 0;
+            var Ranktemp = 0;
 
-        //criar metodo para calcular rank
+
+            for (int i = 0; i < TeamTemp.Members.Count; i++)
+            {
+                switch (TeamTemp.Members[i].LinkedAccount.Rank){
+                    case "IRON":
+                        x = x + 1;
+                        break;
+                    case "BRONZE":
+                        x = x + 2;
+                        break;
+                    case "SILVER":
+                        x = x + 3;
+                        break;
+                    case "GOLD":
+                        x = x + 4;
+                        break;
+                    case "PLATINUM":
+                        x = x + 5;
+                        break;
+                    case "DIAMOND":
+                        x = x + 6;
+                        break;
+                    case "MASTER":
+                        x = x + 7;
+                        break;
+                    case "GRANDMASTER":
+                        x = x + 8;
+                        break;
+                    case "CHALLENGER":
+                        x = x + 9;
+                        break;
+                    default:
+                        x = 0;
+                        break;
+
+                }
+            }
+            Ranktemp = x / TeamTemp.Members.Count;
+
+            switch (Ranktemp)
+            {
+                case 1:
+                    Rank = "IRON";
+                    break;
+                case 2:
+                    Rank = "BRONZE";
+                    break;
+                case 3:
+                    Rank = "SILVER";
+                    break;
+                case 4:
+                    Rank = "GOLD";
+                    break;
+                case 5:
+                    Rank = "PLATINUM";
+                    break;
+                case 6:
+                    Rank = "DIAMOND";
+                    break;
+                case 7:
+                    Rank = "MASTER";
+                    break;
+                case 8:
+                    Rank = "GRANDMASTER";
+                    break;
+                case 9:
+                    Rank = "CHALLENGER";
+                    break;
+            }
+
+            return Rank;
+        }
+
     }
 }
