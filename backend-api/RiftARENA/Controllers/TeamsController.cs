@@ -10,6 +10,8 @@ using RiftArena.Models.Services;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.IO;
+using System.Net.Http.Headers;
 
 
 namespace RiftArena.Controllers

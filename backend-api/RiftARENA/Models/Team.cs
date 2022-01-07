@@ -31,11 +31,7 @@ namespace RiftArena.Models
         public virtual List<User> Members { get; set; }
 
         public string Poster { get; set; }
-        /*
-        [NotMapped]
-        [DisplayName("Upload File")]
-        public IFormFile PosterFile { get; set; }
-        */
+
         public virtual List<Tournament> Tournament {get; set; }
 
         public readonly int MAIN_MEMBERS = 5;
