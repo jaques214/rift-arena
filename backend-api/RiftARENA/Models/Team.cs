@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Http;
 using RiftArena.Models;
 
 namespace RiftArena.Models
@@ -29,7 +31,11 @@ namespace RiftArena.Models
         public virtual List<User> Members { get; set; }
 
         public string Poster { get; set; }
-
+        /*
+        [NotMapped]
+        [DisplayName("Upload File")]
+        public IFormFile PosterFile { get; set; }
+        */
         public virtual List<Tournament> Tournament {get; set; }
 
         public readonly int MAIN_MEMBERS = 5;

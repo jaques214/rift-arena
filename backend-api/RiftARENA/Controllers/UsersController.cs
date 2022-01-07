@@ -357,7 +357,7 @@ namespace RiftArena.Controllers
 
                         Team temp = _context.Teams.Find(req.Team.TeamId);
 
-                        _teamService.AddMember(user, temp.TeamId);
+                        _teamService.AddMember(user.Nickname, temp.TeamId);
                         _context.SaveChanges();
 
                         return Ok();

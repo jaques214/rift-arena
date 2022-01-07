@@ -133,7 +133,7 @@ namespace RiftArena.Controllers
         [HttpPost("addMember"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult AddMember([FromBody] User user,int id)
         {
-            _service.AddMember(user,id);
+            _service.AddMember(user.Nickname,id);
             _context.SaveChanges();
 
             return Ok();
@@ -148,7 +148,7 @@ namespace RiftArena.Controllers
         [HttpDelete("removeMember"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult RemoveMember([FromBody] User user)
         {
-            _service.RemoveMember(user, User.Identity.Name);
+            _service.RemoveMember(user.Nickname, User.Identity.Name);
             _context.SaveChanges();
 
             return Ok();
