@@ -21,20 +21,19 @@ export class NavBarComponent implements OnInit {
 
   ngOnInit(): void {
     if (localStorage.getItem('currentUser') !== null) {
-      this.userService.getUser().subscribe(
-        (user) => {
+      this.userService.getUser().subscribe({
+        next: (user) => {
           this.user = user;
           if (this.user.teamTag != null) {
             this.hasTeam = true;
           }
           this.userService.getRequests().subscribe((requests: any) => {
             this.numberOfRequests = requests.length;
+            console.log(this.numberOfRequests);
           });
         },
-        (err) => {
-          localStorage.removeItem('currentUser');
-        }
-      );
+        error: () => localStorage.removeItem('currentUser')
+      });
     }
   }
 

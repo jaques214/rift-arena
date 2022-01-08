@@ -173,9 +173,9 @@ export class ViewProfileComponent implements OnInit {
     this.fileSelected = target?.files?.[0] as File;
   }
 
-  getTeam(teamId: number): Observable<any> {
-    return this.teamRestService.getTeam(teamId);
-  }
+  // getTeam(): Observable<any> {
+  //   return this.teamRestService.getTeam();
+  // }
 
   getTeamName() {
     return (this.user?.teamTag) ? this.user?.teamTag : "No Team";

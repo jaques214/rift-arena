@@ -27,6 +27,8 @@ import { ViewProfileComponent } from '@components/view-profile/view-profile.comp
 import { CreateTeamComponent } from '@components/create-team/create-team.component';
 import { CreateTourneyComponent } from '@components/create-tourney/create-tourney.component';
 import { RequestsComponent } from '@components/requests/requests.component';
+import { ViewTeamComponent } from '@components/view-team/view-team.component';
+import { ViewAllTeamsComponent } from '@components/view-all-teams/view-all-teams.component';
 
 import { JwtInterceptor } from './interceptors/jwt/jwt-interceptor.interceptor';
 import { LoadingCircleService } from '@services/loading-circle/loading-circle.service';
@@ -35,7 +37,6 @@ import { UserRestService } from '@services/user-rest/user-rest.service';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { AuthGuard } from './guard/auth-guard.guard';
 import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
-import { ViewTeamComponent } from './view-team/view-team.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,6 +50,7 @@ import { ViewTeamComponent } from './view-team/view-team.component';
     CreateTourneyComponent,
     RequestsComponent,
     ViewTeamComponent,
+    ViewAllTeamsComponent,
   ],
   imports: [
     FormsModule,

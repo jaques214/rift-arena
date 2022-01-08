@@ -45,3 +45,8 @@ body {
   background-color: #fff;
 }
 
+/*.poster {
+  background-image: url("assets/images/238-300x200.jpg");
+  flex-basis: 300px;
+  height: 200px;
+}*/

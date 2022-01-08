@@ -1,0 +1,46 @@
+<app-nav-bar></app-nav-bar>
+<header>
+  <div>
+    <h1>{{ team?.name }}</h1>
+    <p><i>{{ '#' + team?.tag }}</i></p>
+  </div>
+  <div class="staricon">
+    <mat-icon>star</mat-icon>
+  </div>
+</header>
+
+<section>
+    <div class="container">
+      <div>
+        <p>{{ 'Wins: ' + team?.wins }}</p>
+      </div>
+      <div>
+        <p>{{ 'Defeats: ' + team?.defeats }}</p>
+      </div>
+      <div>
+        <p>{{ 'Games Played: ' + team?.gamesPlayed }}</p>
+      </div>
+    </div>
+
+    <p class="subtitle">Team Members:</p>
+    <div class="example-container mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource">
+      
+          <ng-container matColumnDef="icon">
+            <th mat-header-cell *matHeaderCellDef> Icon </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.icon}}
+                <!-- <mat-icon>star</mat-icon> -->
+            </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="nickname">
+            <th mat-header-cell *matHeaderCellDef> Nickname </th>
+            <td mat-cell *matCellDef="let element"> {{element.nickname}} </td>
+          </ng-container>
+      
+          <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+</section>

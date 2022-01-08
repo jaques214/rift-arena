@@ -90,7 +90,7 @@ export class RequestsComponent implements OnInit {
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
+    const numRows = this.dataSource?.data.length;
     return numSelected === numRows;
   }
 
@@ -123,23 +123,6 @@ export class RequestsComponent implements OnInit {
 
   getRequestSize(): number {
     return this.requests.length;
-  }
-
-  getTitle(value: string) {
-      const index = this.displayedMobileColumns.indexOf(value);
-      return this.columnsMobile[index].header;
-  }
-
-  getColumn(value: string) {
-    let values: any[] = [];
-    console.log(this.ELEMENT_DATA);
-    // this.ELEMENT_DATA?.forEach(val => {
-    //   console.log(val);
-    //     values = Object.values(val);
-    // });
-    console.log(values);
-    const index = this.displayedMobileColumns.indexOf(value);
-    return this.ELEMENT_DATA[index + 1];
   }
 
 }

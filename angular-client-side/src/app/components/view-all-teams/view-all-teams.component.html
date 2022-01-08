@@ -1,0 +1,25 @@
+<app-nav-bar></app-nav-bar>
+<h1>My Team</h1>
+<section style="background-image: 'team?.poster';">
+    <div>
+        <h1>{{team?.name + '#' + team?.tag }}</h1>
+    </div>
+</section>
+<h1>All Teams</h1>
+<section class="flex-container">
+    <ng-container *ngFor="let team of teams">
+        <div class="star-icon">
+        <figure>
+            <div class="item">
+                <img src="assets/images/238-300x200.jpg" alt="team-poster">
+                <mat-icon>star</mat-icon>
+            </div>
+            <figcaption>{{ team.name + ' #' + team.tag }}</figcaption>
+            <figcaption>{{ team.numberMembers + " members" }}</figcaption>
+        </figure>
+        </div>
+        <!-- <div class="poster"></div>
+        <p>{{team.name + '#' + team.tag }}</p>
+        <p>{{ team.numberMembers + " members" }}</p> -->
+    </ng-container>
+</section>

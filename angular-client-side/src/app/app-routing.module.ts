@@ -1,5 +1,7 @@
 import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ViewTeamComponent } from '@components/view-team/view-team.component';
+import { ViewAllTeamsComponent } from '@components/view-all-teams/view-all-teams.component';
 import { CreateTeamComponent } from '@components/create-team/create-team.component';
 import { FrontPageComponent } from '@components/front-page/front-page.component';
 import { LoginComponent } from '@components/login/login.component';
@@ -38,6 +40,16 @@ const routes: Routes = [
   {
     path: 'create-tourney',
     component: CreateTourneyComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'view-team',
+    component: ViewTeamComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'view-all-teams',
+    component: ViewAllTeamsComponent,
     canActivate: [AuthGuard],
   },
   {

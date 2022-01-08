@@ -1,0 +1,21 @@
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.item {
+    position: relative;
+}
+
+.item .mat-icon {
+    font-size: 44px;
+    width: auto;
+    height: auto;
+    position: absolute;
+    bottom: -15px;
+    right: -15px;
+}

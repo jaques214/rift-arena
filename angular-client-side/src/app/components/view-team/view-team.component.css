@@ -1,0 +1,52 @@
+.example-container {
+  height: 200px;
+  overflow: auto;
+}
+  
+table {
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.container div {
+  padding: 0 15px;
+}
+
+.container div p {
+    font-size: 24px;
+}
+
+section {
+  padding: 0 50px;
+}
+
+header {
+  display: flex;
+  padding: 0 50px;
+}
+
+header div {
+  margin: auto;
+  width: 50%;
+}
+
+header .staricon {
+  text-align: end;
+}
+
+header .mat-icon {
+  width: auto;
+  height: auto;
+  text-align: center;
+  font-size: 60px;
+  margin: auto;
+}
+
+.subtitle {
+  font-size: 20px;
+  margin: 25px 0;
+}

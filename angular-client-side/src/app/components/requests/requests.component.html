@@ -32,50 +32,13 @@
             {{column.header + ":" }}
           </th>
           <td mat-cell *matCellDef="let row">
-            <!-- <ng-container *ngIf="column.columnDef != 'select'"> -->
               {{column?.cell(row)}}
-            <!-- </ng-container> -->
           </td>
         </ng-container>
 
-        <!-- <ng-container matColumnDef="{{displayedColumns[0]}}">
-          <th mat-header-cell *matHeaderCellDef>{{ getTitle(displayedColumns[0]) + ':' }}</th>
-          <td rowspan="2" *matCellDef="let element">
-            <mat-radio-group aria-label="Select an option">
-              <mat-radio-button value="{{displayedColumns[0]}}">{{element[displayedColumns[0]]}}</mat-radio-button>
-            </mat-radio-group>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="{{displayedColumns[1]}}">
-          <th mat-header-cell *matHeaderCellDef>{{ getTitle(displayedColumns[1]) + ':' }}</th>
-          <td *matCellDef="let element">{{element[displayedColumns[1]]}}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="{{displayedColumns[2]}}">
-          <th mat-header-cell *matHeaderCellDef>{{ getTitle(displayedColumns[2]) + ':' }}</th>
-          <td *matCellDef="let element">{{element[displayedColumns[2]]}}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="{{displayedColumns[3]}}">
-          <th mat-header-cell *matHeaderCellDef>{{ getTitle(displayedColumns[3]) + ':' }}</th>
-          <td *matCellDef="let element">{{element[displayedColumns[3]]}}</td>
-        </ng-container> -->
-
-        <!-- <ng-container *ngFor="let data of displayedColumns">
-          <ng-container *ngIf="getTitle(data) != 'Tag'">
-            <ng-container matColumnDef="{{data}}">
-              <th mat-header-cell *matHeaderCellDef>{{ getTitle(data) + ':' }}</th>
-              <td *matCellDef="let element">{{element[data]}}</td>
-            </ng-container>
-          </ng-container>
-        </ng-container> -->
-
-        <!-- <ng-container *ngFor="let data of displayedColumns"> -->
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
           (click)="selection.toggle(row)">
-        <!-- </ng-container> -->
 
         <!-- Row shown when there is no matching data. -->
         <tr class="mat-row" *matNoDataRow>
@@ -85,22 +48,23 @@
     </div>
 
       <mat-accordion class="example-headers-align">
-        <mat-expansion-panel hideToggle *ngFor="let request of requests" (opened)="panelOpenState = true"
+        <mat-expansion-panel hideToggle *ngFor="let element of ELEMENT_DATA" (opened)="panelOpenState = true"
         (closed)="panelOpenState = false">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              {{ '#' + request.team.tag }}
+              {{ '#' + element.tag }}
             </mat-panel-title>
             <mat-panel-description>
               <mat-icon>{{panelOpenState ? 'remove' : 'add'}}</mat-icon>
             </mat-panel-description>
           </mat-expansion-panel-header>
-
-          <ng-container class="accordion-content" *ngFor="let column of columnsMobile">
-            <!-- <ng-container *ngIf="column.columnDef != 'select' and column.columnDef != 'tag'"> -->
-              <p><strong>{{getTitle(column.columnDef) + ':'}}</strong> {{ getColumn(column.columnDef) }} </p>
-            <!-- </ng-container> -->
-          </ng-container>
+            <p><strong>Team Leader:</strong> {{ element.teamLeader }} </p>
+            <p><strong>Team Name:</strong> {{ element.teamName }} </p>
+            <p><strong>Current Total of Members:</strong> {{ element.members }} </p>
+            <mat-radio-group aria-label="Select an option">
+              <mat-radio-button value="1">Accept</mat-radio-button>
+              <mat-radio-button value="2">Refuse</mat-radio-button>
+            </mat-radio-group>            
         </mat-expansion-panel>
 
       </mat-accordion>
