@@ -67,11 +67,11 @@ namespace RiftArena.Models.Services
 
             var user = _context.Users.SingleOrDefault(x => x.Nickname == userID);
 
-                tournament.NumberOfTeams = 0;
-                tournament.CreatorNickname = userID;
-                tournament.State = Status.NotPublished;
-                tournament.Stages = new List<Team>();
-            
+            tournament.NumberOfTeams = 0;
+            tournament.CreatorNickname = userID;
+            tournament.State = Status.NotPublished;
+            tournament.Stages = new List<Team>();
+
 
             _context.Tournaments.Add(tournament);
             _context.SaveChanges();
@@ -173,7 +173,32 @@ namespace RiftArena.Models.Services
         /// Método que permite adicionar uma equipa a um torneio.
         /// </summary>
         /// <param name="id">ID do torneio no qual irá entrar a equipa.</param>
-        public void AddTeam(int id, string userNickname){
+        public void AddTeam(int id, string userNickname)
+        {
+            var tournament = GetById(id);
+            var user = _context.Users.SingleOrDefault(x => x.Nickname == userNickname);
+
+            if (tournament.NumberOfTeams == tournament.MaxTeams)
+            {
+                throw new AppException("Full tournament, try another.");
+            }
+            else if (user.TeamTag == null)
+            {
+                throw new AppException("O utilizador não pertence a nenhuma equipa");
+            }
+            else
+            {
+                var team = _context.Teams.SingleOrDefault(x => x.Tag == user.TeamTag);
+                if (team.TeamLeader != user.Nickname)
+                {
+                    throw new AppException("Apenas o teamLeader poderá inscrever-se no tourneio.");
+                }
+                else
+                {
+                    tournament.Stages.Add(team);
+                    team.Tournament.Add(tournament);
+                }
+            }
 
         }
 
