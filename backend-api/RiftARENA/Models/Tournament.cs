@@ -41,5 +41,6 @@ namespace RiftArena.Models
 
         public string CreatorNickname {get; set; }
 
+        public int MaxTeams {get; set;}
     }
 }

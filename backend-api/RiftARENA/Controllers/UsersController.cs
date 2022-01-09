@@ -397,6 +397,8 @@ namespace RiftArena.Controllers
                 return BadRequest();
             }
         }
+        
+        
     }
 }
 
