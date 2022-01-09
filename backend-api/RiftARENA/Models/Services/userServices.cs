@@ -70,7 +70,6 @@ namespace RiftArena.Models.Services
                 throw new AppException("Not able to retrieve ingame stats");
             }
 
-            Console.WriteLine("SUMMOMMER" + summoner);
             account.Rank = summoner.tier;
 
 
@@ -96,7 +95,6 @@ namespace RiftArena.Models.Services
             {
                 Summoner_V4 summoner_v4 = new Summoner_V4(region);
                 var summoner = summoner_v4.GetSummonerByName(nickname);
-                
 
                 if (summoner == null)
                 {
@@ -278,6 +276,7 @@ namespace RiftArena.Models.Services
             if (user != null)
             {
                 _context.Users.Remove(user);
+                _context.LinkedAccounts.Remove(user.LinkedAccount);
                 _context.SaveChanges();
             }
         }
