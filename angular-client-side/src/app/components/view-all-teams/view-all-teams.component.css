@@ -19,3 +19,7 @@
     bottom: -15px;
     right: -15px;
 }
+
+figcaption {
+    padding-top: 8px;
+}

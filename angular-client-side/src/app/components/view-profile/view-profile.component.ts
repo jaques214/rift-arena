@@ -14,6 +14,7 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./view-profile.component.css']
 })
 export class ViewProfileComponent implements OnInit {
+  public response!: {dbPath: ''};
   username = '';
   rank = '';
   region = '';
@@ -22,10 +23,7 @@ export class ViewProfileComponent implements OnInit {
   account?: LinkedAccount;
   info: any;
   icon?: string;
-  fileSelected?: File;
-  image = (this.user?.profileImage as unknown as string);
-  imageFieldName: string = this.normalizeImageName(this.image);
-  imageFieldPath = 'https://localhost:5001/api/' + this.image;
+  imageFieldPath = this.response?.dbPath;
   flag : string = "view";
   accountFlag: string = "view";
   formFields: any = User.fields();
@@ -59,6 +57,14 @@ export class ViewProfileComponent implements OnInit {
         };
       }
     });
+  }
+
+  public uploadFinished = (event: any) => {
+    this.response = event;
+  }
+
+  public createImgPath = (serverPath: string) => {
+    return `https://localhost:5001/${serverPath}`;
   }
 
   inputFieldOnChange(value: string): any {
@@ -162,15 +168,6 @@ export class ViewProfileComponent implements OnInit {
       });
     }
     return convert;
-  }
-
-  normalizeImageName(imagePath: string): string {
-    return imagePath?.split('_')?.splice(2)?.join('_');
-  }
-
-  onFileSelected(user: any): void {
-    const target: HTMLInputElement | null = user.target as HTMLInputElement;
-    this.fileSelected = target?.files?.[0] as File;
   }
 
   // getTeam(): Observable<any> {

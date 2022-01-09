@@ -68,6 +68,11 @@ export class ViewTeamComponent implements OnInit {
       };
     }
   }
+
+  getCompletePercentage(numberMembers: number) {
+    let percentage = (numberMembers * 100)/5;
+    return percentage;
+  }
 }
 
 export interface PeriodicElement {

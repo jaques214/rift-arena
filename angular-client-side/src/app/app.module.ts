@@ -16,6 +16,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { AppComponent } from './app.component';
 import { NavBarComponent } from '@components/nav-bar/nav-bar.component';
@@ -37,6 +38,7 @@ import { UserRestService } from '@services/user-rest/user-rest.service';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { AuthGuard } from './guard/auth-guard.guard';
 import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
+import { UploadComponent } from './components/upload/upload.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,6 +53,7 @@ import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
     RequestsComponent,
     ViewTeamComponent,
     ViewAllTeamsComponent,
+    UploadComponent,
   ],
   imports: [
     FormsModule,
@@ -72,6 +75,7 @@ import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
     MatRadioModule,
     MatExpansionModule,
     MatCheckboxModule,
+    Ng2SearchPipeModule,
   ],
   providers: [
     AuthService,

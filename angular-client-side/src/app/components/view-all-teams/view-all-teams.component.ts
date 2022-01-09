@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class ViewAllTeamsComponent implements OnInit {
   team?: Team;
+  searchText?: string;
   teams: any = [];
   
   constructor(private teamService: TeamRestService) { }
@@ -37,5 +38,24 @@ export class ViewAllTeamsComponent implements OnInit {
   addTeamPoster() {
     
   }
+
+  // applyFilter(event: Event) {
+  //   const filter = (event.target as HTMLInputElement).value;
+
+  //   let input, div, i, txtValue;
+  //   input = document.getElementById('input');
+  //   div = document.getElementsByClassName('team-content');
+
+  //   // Loop through all list items, and hide those who don't match the search query
+  //   for (i = 0; i < div.length; i++) {
+  //     txtValue = a.textContent || a.innerText;
+  //     if (txtValue.toUpperCase().indexOf(filter) > -1) {
+  //       li[i].style.display = "";
+  //     } else {
+  //     li[i].style.display = "none";
+  //   }
+  // }
+  //   this.teams.filter = filterValue.trim().toLowerCase();
+  // }
 
 }

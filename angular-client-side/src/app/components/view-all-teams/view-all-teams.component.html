@@ -6,8 +6,12 @@
     </div>
 </section>
 <h1>All Teams</h1>
+<mat-form-field appearance="standard">
+    <mat-label>Filter</mat-label>
+    <input matInput [(ngModel)]="searchText" placeholder="Ex. ium">
+  </mat-form-field>
 <section class="flex-container">
-    <ng-container *ngFor="let team of teams">
+    <ng-container class="team-content" *ngFor="let team of teams | filter : searchText!">
         <div class="star-icon">
         <figure>
             <div class="item">
@@ -15,7 +19,7 @@
                 <mat-icon>star</mat-icon>
             </div>
             <figcaption>{{ team.name + ' #' + team.tag }}</figcaption>
-            <figcaption>{{ team.numberMembers + " members" }}</figcaption>
+            <figcaption>{{ team.numberMembers + " member(s)" }}</figcaption>
         </figure>
         </div>
         <!-- <div class="poster"></div>
