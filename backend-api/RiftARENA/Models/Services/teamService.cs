@@ -17,6 +17,7 @@ namespace RiftArena.Models.Services
         Team GetByID(int id);
         Team UpdateTeam(Team team, string userID);
         void DeleteTeam(string userID);
+        void LeaveTeam(string UserID, User user);
         void AddMember(string nickname, int id);
         void RemoveMember(string nickname, string userID);
         Team GetByTag(string Tag);
@@ -296,6 +297,46 @@ namespace RiftArena.Models.Services
         }
 
         /// <summary>
+        /// Método que permite que um utilizador saia da sua equipa.
+        /// </summary>
+        /// <param name="UserID">User logado que pretende sair da equipa</param>
+        /// <param name="user">Nickname do utilizador a substituir caso seja o teamLeader a sair.</param>
+        public void LeaveTeam(string UserID, User user)
+        {
+            var userTemp = _context.Users.SingleOrDefault(x => x.Nickname == UserID);
+            var TeamTemp = GetByTag(userTemp.TeamTag);
+
+            
+
+            if (TeamTemp.TeamLeader == userTemp.Nickname)
+            {
+                var userSubstitute = _context.Users.SingleOrDefault(x => x.Nickname == user.Nickname);
+                if (user.Nickname == null)
+                {
+                    throw new AppException("Team leader cannot be removed without substitute.");
+                }
+                else if(TeamTemp.Members.Contains(userSubstitute))
+                {
+                    userTemp.TeamTag = null;
+                    TeamTemp.Members.Remove(userTemp);
+                    TeamTemp.NumberMembers--;
+                    TeamTemp.TeamLeader = user.Nickname;
+                } else {
+                    throw new AppException("The substituted does not belong to the team.");
+                }
+            }
+            else
+            {
+                userTemp.TeamTag = null;
+                TeamTemp.Members.Remove(userTemp);
+                TeamTemp.NumberMembers--;
+            }
+
+            _context.Teams.Update(TeamTemp);
+            _context.SaveChanges();
+        }
+
+
         /// Método que permite calcular a média de rank da equipa
         /// </summary>
         /// <param name="id">Id da equipa a calcular a média de rank</param>

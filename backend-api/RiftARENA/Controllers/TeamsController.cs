@@ -139,7 +139,7 @@ namespace RiftArena.Controllers
             return Ok();
         }
 
-        //POST: api/Teams/removeMember
+        // POST: api/Teams/removeMember
         /// <summary>
         /// Método que permite a remoção de um membro a uma equipa, chamando o método RemoveMember implementado no teamService
         /// </summary>
@@ -151,6 +151,18 @@ namespace RiftArena.Controllers
             _service.RemoveMember(user.Nickname, User.Identity.Name);
             _context.SaveChanges();
 
+            return Ok();
+        }
+
+        // PUT: api/Teams/leaveTeam
+        /// <summary>
+        /// Método que permite que um utilizador saia da sua equipa.
+        /// </summary>
+        /// <param name="userNickname">Nickname do utilizador a substituir caso seja o teamLeader a sair.</param>
+        /// <returns>OK 200</returns>
+        [HttpPut("leaveTeam"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public ActionResult LeaveTeam([FromBody] User userNickname){
+            _service.LeaveTeam(User.Identity.Name, userNickname);
             return Ok();
         }
 
