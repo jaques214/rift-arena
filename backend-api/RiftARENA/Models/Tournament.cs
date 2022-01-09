@@ -29,8 +29,6 @@ namespace RiftArena.Models
 
         public float Prize { get; set; }
 
-        public string MiniumTier { get; set; }
-
         public string Poster { get; set; }
 
         public virtual List<Team> Stages { get; set; }
