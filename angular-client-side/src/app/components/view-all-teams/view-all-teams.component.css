@@ -23,3 +23,41 @@
 figcaption {
     padding-top: 8px;
 }
+
+.caption {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+
+header {
+    margin-bottom: 1.5rem;
+}
+
+header h1 {
+    font-size: 40px;
+    font-variant: small-caps;
+    text-align: center;
+}
+
+.caption div {
+    padding: 20px;
+    margin: auto;
+    width: fit-content;
+    background-color: black;
+    color: #fff;
+}
+
+.all-teams {
+    padding: 0 20px;
+}
+
+.all-teams h1 {
+    font-variant: small-caps;
+    text-align: center;
+}
+
+.form-control {
+    margin-bottom: 15px;
+}

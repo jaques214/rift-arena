@@ -9,8 +9,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./view-all-teams.component.css']
 })
 export class ViewAllTeamsComponent implements OnInit {
-  team?: Team;
-  searchText?: string;
+  team!: Team;
+  searchText!: string;
   teams: any = [];
   
   constructor(private teamService: TeamRestService) { }

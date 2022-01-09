@@ -1,29 +1,42 @@
 <app-nav-bar></app-nav-bar>
-<h1>My Team</h1>
-<section class="background">
-    <div>
-        <h1>{{team?.name + '#' + team?.tag }}</h1>
-    </div>
-</section>
-<h1>All Teams</h1>
-<mat-form-field appearance="standard">
-    <mat-label>Filter</mat-label>
-    <input matInput [(ngModel)]="searchText" placeholder="Ex. ium">
-  </mat-form-field>
-<section class="flex-container">
-    <ng-container class="team-content" *ngFor="let team of teams | filter : searchText!">
-        <div class="star-icon">
-        <figure>
-            <div class="item">
-                <img src="assets/images/238-300x200.jpg" alt="team-poster">
-                <mat-icon>star</mat-icon>
+<ng-container *ngIf="team != undefined;">
+        <header>
+            <h1>My Team</h1>
+        </header>
+    <section class="parallax">
+        <div class="caption">
+            <div>
+                <h1>{{team?.name + ' #' + team?.tag }}</h1>
+                <p>{{team?.numberMembers + " member(s)"}}</p>
+                <button mat-flat-button type="button" [routerLink]="'/view-team'">View more</button>
             </div>
-            <figcaption>{{ team.name + ' #' + team.tag }}</figcaption>
-            <figcaption>{{ team.numberMembers + " member(s)" }}</figcaption>
-        </figure>
         </div>
-        <!-- <div class="poster"></div>
-        <p>{{team.name + '#' + team.tag }}</p>
-        <p>{{ team.numberMembers + " members" }}</p> -->
+    </section>
+</ng-container>
+<section class="all-teams">
+    <h1>All Teams</h1>
+
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText">
+    </div>
+
+    <ng-container *ngIf="team == undefined;">
+        <p>Atualmente não tem equipas criadas</p>
+    </ng-container>
+    <ng-container *ngIf="team != undefined;">
+        <section class="flex-container">
+            <ng-container class="team-content" *ngFor="let team of teams | filter : searchText">
+                <div class="star-icon">
+                <figure>
+                    <div class="item">
+                        <img src="assets/images/238-300x200.jpg" alt="team-poster">
+                        <mat-icon>star</mat-icon>
+                    </div>
+                    <figcaption>{{ team.name + ' #' + team.tag }}</figcaption>
+                    <figcaption>{{ team.numberMembers + " member(s)" }}</figcaption>
+                </figure>
+                </div>
+            </ng-container>
+        </section>
     </ng-container>
 </section>
