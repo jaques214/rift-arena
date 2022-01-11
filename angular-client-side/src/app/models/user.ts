@@ -28,7 +28,7 @@ export class User {
           model: 'nickname',
         },
         {
-          name: 'password',
+          name: 'current_password',
           type: 'password',
           label: 'Password',
           placeholder: 'Enter password',
@@ -62,7 +62,7 @@ export class User {
           model: 'email',
         },
         {
-          name: 'password',
+          name: 'current_password',
           type: 'password',
           label: 'Password',
           placeholder: 'Enter password',
@@ -71,7 +71,7 @@ export class User {
           model: 'password',
         },
         {
-          name: 'confirm-password',
+          name: 'new_password',
           type: 'password',
           label: 'Confirm Password',
           placeholder: 'Enter password again',

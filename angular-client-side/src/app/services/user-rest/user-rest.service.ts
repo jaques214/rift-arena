@@ -52,6 +52,13 @@ export class UserRestService {
       httpOptions);
   }
 
+  acceptRequest(requestID: number): Observable<any> {
+    const url = `${endpoint}/acceptRequest`;
+    return this.http.post(url, 
+      JSON.stringify({ RequestId: requestID }),
+      httpOptions);
+  }
+
   getRequests(): Observable<LinkedList<Request>> {
     return this.http.get<LinkedList<Request>>(
       endpoint + '/requests',

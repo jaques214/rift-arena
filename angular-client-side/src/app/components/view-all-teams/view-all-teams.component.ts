@@ -1,7 +1,9 @@
+import { UserRestService } from '@services/user-rest/user-rest.service';
 import { Component, OnInit } from '@angular/core';
 import { Team } from '@models/team';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { Observable } from 'rxjs';
+import { User } from '@models/user';
 
 @Component({
   selector: 'app-view-all-teams',
@@ -10,33 +12,41 @@ import { Observable } from 'rxjs';
 })
 export class ViewAllTeamsComponent implements OnInit {
   team!: Team;
+  user!:string;
   searchText!: string;
   teams: any = [];
   
-  constructor(private teamService: TeamRestService) { }
+  constructor(private userService: UserRestService, private teamService: TeamRestService) { }
 
   ngOnInit(): void {
-    this.getTeam().subscribe((team) => {
+    this.getTeam(1).subscribe((team) => {
       this.team = team;
       console.log(this.team);
     });
 
     this.getTeams().subscribe((data: {}) => {
-      this.teams = data;
+      console.log(data);
+      console.log(this.team);
+      if(data == this.team) {
+        this.teams = data;
+      }
       console.log(this.teams)
     });
   }
 
-  getTeam(): Observable<Team> {
-    return this.teamService.getTeam(1);
+  getTeam(teamId: number): Observable<Team> {
+    return this.teamService.getTeam(teamId);
   }
 
   getTeams(): Observable<Team[]> {
     return this.teamService.getTeams();
   }
 
-  addTeamPoster() {
-    
+  getUser() {
+    this.userService.getUser().subscribe((user) => {
+      this.user = user.teamTag!;
+      console.log(this.user);
+    });
   }
 
   // applyFilter(event: Event) {

@@ -2,6 +2,8 @@ import { UserRestService } from '@services/user-rest/user-rest.service';
 import { Component, OnInit } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 export interface PeriodicElement {
   tag: string;
@@ -66,7 +68,7 @@ export class RequestsComponent implements OnInit {
   panelOpenState = false;
   selection = new SelectionModel<PeriodicElement>(true, []);
 
-  constructor(private restService: UserRestService) { }
+  constructor(private router: Router, private restService: UserRestService) { }
 
   ngOnInit(): void {
     this.getRequests().subscribe((data: {}) => {
@@ -123,6 +125,16 @@ export class RequestsComponent implements OnInit {
 
   getRequestSize(): number {
     return this.requests.length;
+  }
+
+  acceptRequest(requestID: number) {
+    console.log(this.selection.selected);
+    this.restService.acceptRequest(requestID).subscribe({
+      next: () => {
+        this.router.navigate(['/view-team']);
+      },
+      error: (err: any) => console.log(err)
+    });
   }
 
 }

@@ -101,10 +101,10 @@ namespace RiftArena.Models.Services
                     throw new AppException("Riot account not found");
                 }
 
-                if(summoner.profileIconId != 7)
-                {
-                   throw new AppException("Change your account Icon to the Rose Icon first");
-                }
+                //if(summoner.profileIconId != 7)
+                //{
+                //   throw new AppException("Change your account Icon to the Rose Icon first");
+                //}
                 else
                 {
                     var linkedTemp = new LinkedAccount
