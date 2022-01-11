@@ -1,0 +1,117 @@
+.example-container {
+    min-height: 55px;
+    max-height: 250px;
+    width: 50%;
+    overflow-y:scroll;
+    border: 1px solid black;
+}
+
+td:first-child {
+  border-right: 1px solid black;
+}
+  
+table, td {
+  padding: 0 15px;
+}
+
+table {
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.container div p {
+    font-size: 24px;
+}
+
+section {
+  padding: 0 50px;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  padding: 0 50px;
+}
+
+header .content {
+  margin: auto 0;
+  display: flex;
+}
+
+.content div:first-child {
+  width: auto;
+}
+
+.content div {
+  text-align: left;
+}
+
+.content div:last-child {
+  margin-left: 20px;
+}
+
+header div {
+  width: 50%;
+}
+
+header .staricon {
+  margin: auto;
+  text-align: end;
+}
+
+.rank-icon {
+  width: 75px;
+  text-align: center;
+}
+
+.rank-icon .mat-icon {
+  width: auto;
+  height: auto;
+  font-size: 48px;
+}
+
+header .mat-icon {
+  width: auto;
+  height: auto;
+  text-align: center;
+  font-size: 60px;
+  margin: auto;
+}
+
+.subtitle {
+  font-size: 20px;
+  margin: 25px 0;
+}
+
+@media only screen and (max-width: 600px) {
+  .container {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .container div {
+    text-align: center;
+  }
+
+  header {
+    flex-direction: column;
+  }
+  header div {
+    width: 100%;
+  }
+
+  header .staricon {
+    text-align: left;
+  }
+
+  .example-container {
+    width: 100%;
+}
+}

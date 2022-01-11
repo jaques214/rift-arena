@@ -3,13 +3,19 @@
   <h3>Profile Image</h3>
   <div [ngClass]="'container'">
     <div>
-      <img *ngIf="image != undefined"
-        src="{{ imageFieldPath }}"
+      <img *ngIf="imageFieldPath != undefined"
+        src="{{ createImgPath(imageFieldPath) }}"
         alt="account circle icon"/>
-      <mat-icon aria-hidden="false" aria-label="account circle icon" matSuffix>account_circle</mat-icon>
-    </div>
-
+        <mat-icon aria-hidden="false" aria-label="account circle icon" matSuffix>account_circle</mat-icon>
+      </div>
+      
     <div>
+      <app-upload [title]="'Insert profile image'" (onUploadFinished)="uploadFinished($event)"></app-upload>
+      <p>
+        {{ imageFieldPath || "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB" }}
+      </p>
+    </div>
+    <!-- <div>
       <input
         [hidden]="true"
         type="file"
@@ -28,7 +34,7 @@
             "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB"
         }}
       </p>
-    </div>
+    </div> -->
   </div>
 </section>
 <section>

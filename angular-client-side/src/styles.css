@@ -42,7 +42,6 @@ body {
 .mat-spinner circle {
   stroke: #234a95;
 }
-
 .mat-radio-group {
   margin-bottom: 16px;
 }
@@ -55,6 +54,32 @@ body {
   border-color: #234a95 !important;
 }
 
-.mat-radio-button.mat-accent .mat-radio-inner-circle, .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+.mat-radio-button.mat-accent .mat-radio-inner-circle,
+.mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
   background-color: #234a95 !important;
+}
+.mat-expansion-panel-body {
+  padding: 16px 24px 16px !important;
+  background-color: #fff;
+}
+
+.parallax {
+  position: relative;
+  background-image: url("assets/images/238-300x200.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 80%;
+  opacity: 0.65;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Turn off parallax scrolling for all tablets and phones. */
+@media only screen and (max-device-width: 1366px) {
+  .parallax {
+    background-attachment: scroll;
+  }
 }

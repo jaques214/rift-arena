@@ -29,6 +29,7 @@ export class FrontPageComponent implements OnInit {
 
     this.teamService.getTeams().subscribe((data) => {
       this.teams = data;
+      console.log(this.teams);
       this.firstTeam = this.teams.splice(0, 1)[0];
       if (this.firstTeam != null) {
         this.noTeams = false;

@@ -12,9 +12,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import {MatTableModule} from '@angular/material/table';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatTableModule } from '@angular/material/table';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { AppComponent } from './app.component';
 import { NavBarComponent } from '@components/nav-bar/nav-bar.component';
@@ -23,16 +25,19 @@ import { FrontPageComponent } from '@components/front-page/front-page.component'
 import { RegisterComponent } from '@components/register/register.component';
 import { SharedFormFieldComponent } from '@components/shared-form-field/shared-form-field.component';
 import { ViewProfileComponent } from '@components/view-profile/view-profile.component';
-import { LoadingCircleService } from '@services/loading-circle/loading-circle.service';
 import { CreateTeamComponent } from '@components/create-team/create-team.component';
+import { RequestsComponent } from '@components/requests/requests.component';
+import { ViewTeamComponent } from '@components/view-team/view-team.component';
+import { ViewAllTeamsComponent } from '@components/view-all-teams/view-all-teams.component';
 import { JwtInterceptor } from './interceptors/jwt/jwt-interceptor.interceptor';
-
+import { LoadingCircleService } from '@services/loading-circle/loading-circle.service';
 import { AuthService } from '@services/auth/auth.service';
 import { UserRestService } from '@services/user-rest/user-rest.service';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { AuthGuard } from './guard/auth-guard.guard';
 import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
-import { CreateTourneyComponent } from './components/create-tourney/create-tourney.component';
+import { UploadComponent } from './components/upload/upload.component';
+import { CreateTourneyComponent } from '@components/create-tourney/create-tourney.component';
 import { ManageTourneyComponent } from './components/manage-tourney/manage-tourney.component';
 @NgModule({
   declarations: [
@@ -45,6 +50,10 @@ import { ManageTourneyComponent } from './components/manage-tourney/manage-tourn
     ViewProfileComponent,
     CreateTeamComponent,
     CreateTourneyComponent,
+    RequestsComponent,
+    ViewTeamComponent,
+    ViewAllTeamsComponent,
+    UploadComponent,
     ManageTourneyComponent,
   ],
   imports: [
@@ -66,6 +75,8 @@ import { ManageTourneyComponent } from './components/manage-tourney/manage-tourn
     MatTableModule,
     MatRadioModule,
     MatExpansionModule,
+    MatCheckboxModule,
+    Ng2SearchPipeModule,
   ],
   providers: [
     AuthService,
@@ -74,7 +85,7 @@ import { ManageTourneyComponent } from './components/manage-tourney/manage-tourn
     LoadingCircleService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     AuthGuard,
-    LoggedInAuthGuard
+    LoggedInAuthGuard,
   ],
   bootstrap: [AppComponent],
 })

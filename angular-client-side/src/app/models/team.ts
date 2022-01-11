@@ -3,20 +3,20 @@ import {Tournament} from './tournament'
 
 export class Team {
     constructor (
-        public teamId: number,
-        public name: string,
-        public tag: string,
-        public teamLeader: User,
-        public rank: string,
-        public numberMembers: number,
-        public wins: number,
-        public defeats: number,
-        public gamesPlayed: number,
-        public tournamentsWon: number,
-        public poster: string,
-        public members: User[],
-        public tournament: Tournament[],
-        public winrate: number | null
+        public teamId?: number,
+        public name?: string,
+        public tag?: string,
+        public teamLeader?: User,
+        public rank?: string,
+        public numberMembers?: number,
+        public wins?: number,
+        public defeats?: number,
+        public gamesPlayed?: number,
+        public tournamentsWon?: number,
+        public poster?: string,
+        public members?: User[],
+        public tournament?: Tournament[],
+        public winrate?: number | null
     ) {}
 
     static fields(){

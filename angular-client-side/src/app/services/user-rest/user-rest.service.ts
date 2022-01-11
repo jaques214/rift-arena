@@ -45,6 +45,13 @@ export class UserRestService {
     );
   }
 
+  createRequests(nickname: string): Observable<any> {
+    const url = `${endpoint}/createRequest`;
+    return this.http.post(url, 
+      JSON.stringify({ Nickname: nickname }),
+      httpOptions);
+  }
+
   getRequests(): Observable<LinkedList<Request>> {
     return this.http.get<LinkedList<Request>>(
       endpoint + '/requests',
