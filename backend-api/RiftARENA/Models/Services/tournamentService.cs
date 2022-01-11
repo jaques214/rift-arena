@@ -15,6 +15,7 @@ namespace RiftArena.Models.Services
         Tournament UpdateTournament(int id, Tournament tournament, string userID);
         void DeleteTournament(int id, string userID);
         void PublishTournament(int id, string userID);
+        List<Team> startTournament(Tournament tournament);
     }
 
     public class TournamentService : ITournamentService
@@ -24,6 +25,84 @@ namespace RiftArena.Models.Services
         public TournamentService(RiftArenaContext context)
         {
             _context = context;
+        }
+
+        /// <summary>
+        /// Método que retorna o torneio existente com o nome especificado
+        /// </summary>
+        /// <returns>O torneio com x nome</returns>
+        public Tournament GetByTournamentName(string name)
+        {
+           return  _context.Tournaments.SingleOrDefault(x => x.Name == name);
+        }
+
+        /// <summary>
+        /// Método que permite a criação das brackets de um torneio
+        /// </summary>
+        /// <param name="tournament">Torneio a serem geradas as brackets</param>
+        /// <returns>Lista de aleatoriamente misturadas</returns>
+        /// <exception cref="AppException">Exceção caso o torneio a criar falhe nas validações</exception>
+        public List<Team> startTournament(Tournament tournament)
+        {
+            if(tournament.Date != DateTime.Now)
+            {
+                throw new AppException("Not on the scheduled date.");
+            }
+            else
+            {
+                Random rng = new Random();
+                tournament.State = Status.Online;
+
+                int n = tournament.Stages.Count;
+
+                while (n > 1)
+                {
+                    n--;
+                    int k = rng.Next(n + 1);
+                    Team value = tournament.Stages[k];
+                    tournament.Stages[k] = tournament.Stages[n];
+                    tournament.Stages[n] = value;
+                }
+            }
+
+            return tournament.Stages;
+        }
+
+        /// <summary>
+        /// Método que permite passar para a próxima fase do torneio enviando as equipas que passaram
+        /// equipas enviadas na lista nexTeams já vêm pela ordem que são selecionadas como vencedoras
+        /// logo a equipa da primeira posição sabe que irá jogar com a equipa da segunda posição
+        /// </summary>
+        /// <param name="tournament">Torneio a serem atualizadas as brackets</param>
+        /// <returns>Lista de equipas atualizadas</returns>
+        /// <exception cref="AppException">Exceção caso o torneio a criar falhe nas validações</exception>
+        public List<Team> nextStage(List<Team> nextTeams,string tournamentName)
+        {
+            var tournament = GetByTournamentName(tournamentName);
+
+            if (tournament.State != Status.Online)
+            {
+                throw new AppException("Not able to continue.");
+            }
+            else
+            {
+                for (int i = 0; i < tournament.Stages.Count; i++)
+                {
+                    if (!(nextTeams.Contains(tournament.Stages.ElementAt(i)))){
+                        //como saber que é por exemplo a primeira vez que é chamado este método para atribuir à equipa retirada
+                        TeamTournament teamTournamentTemp = new TeamTournament();
+                        //deveriamos usar team tag e tournament name ? em vez de id ?
+                        teamTournamentTemp.TeamId = tournament.Stages.ElementAt(i).TeamId; 
+                        teamTournamentTemp.TournamentId = tournament.TournamentId;
+                        tournament.Stages.Remove(tournament.Stages.ElementAt(i));
+                    }
+                }
+                tournament.Stages = nextTeams;
+                _context.Tournaments.Update(tournament);
+                _context.SaveChanges();
+
+                return tournament.Stages;
+            }
         }
 
         /// <summary>

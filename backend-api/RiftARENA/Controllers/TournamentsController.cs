@@ -4,6 +4,7 @@ using RiftArena.Models;
 using RiftArena.Models.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Collections.Generic;
 
 namespace RiftArena.Controllers 
 {
@@ -31,6 +32,21 @@ namespace RiftArena.Controllers
             _context.SaveChanges();
             return CreatedAtRoute("GetTournament", new { id = tournament.TournamentId }, tournament);
         }
+
+        [HttpPost("startTournament"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult startTournament([FromBody] Tournament tournament)
+        {
+            _service.startTournament(tournament);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        public IActionResult nextStage([FromBody] List<Team> nextTeams,string tournamentName)
+        {
+            return Ok();
+        }
+
+
 
         //GET: api/Tournaments/{id:int}
         /// <summary>
