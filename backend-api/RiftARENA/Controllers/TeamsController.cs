@@ -71,6 +71,22 @@ namespace RiftArena.Controllers
         }
 
         /// <summary>
+        /// Método que retorna uma equipa através de uma Tag, chamando o método GetByTag implementado no teamService
+        /// </summary>
+        /// <param name="Tag">Tag da equipa a retornar</param>
+        /// <returns>Equipa com Tag fornecida</returns>
+        //GET: api/Teams/{Tag}
+        [HttpGet("{Tag}", Name = "GetTeamByTag")]
+        public ActionResult<Team> GetByTag (string Tag)
+        {
+            var teamCon = _service.GetByTag(Tag);
+            if (teamCon == null)
+                return NotFound();
+            else
+                return Ok(teamCon);
+        }
+
+        /// <summary>
         /// Método que retorna todas as equipas existentes, chamando o método GetAll implementado no teamService
         /// </summary>
         /// <returns>Todas as equipas existentes</returns>
