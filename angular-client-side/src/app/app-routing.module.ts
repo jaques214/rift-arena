@@ -58,6 +58,7 @@ const routes: Routes = [
     component: RequestsComponent,
     canActivate: [AuthGuard],
   },
+  { path: 'manage-tourney', component: ManageTourneyComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 

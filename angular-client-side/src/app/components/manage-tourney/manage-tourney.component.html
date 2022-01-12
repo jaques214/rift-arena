@@ -1,6 +1,7 @@
 <app-nav-bar></app-nav-bar>
 <h1 class="mat-h3" style="text-align: center">Tournament Name</h1>
 <div class="container">
+  <!--
   <div class="d-flex justify-content-center mt-5">
     <mat-form-field appearance="fill">
       <mat-label>Select the stage</mat-label>
@@ -10,25 +11,27 @@
         }}</mat-option>
       </mat-select>
     </mat-form-field>
+  </div>-->
+  <div class="d-flex justify-content-center mt-5">
+    <h1>Stage {{stages[0].value}}</h1>
   </div>
-  <div class="container">
-    <div class="d-flex flex-column">
-      <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
-        <mat-radio-button value="1">Team 1</mat-radio-button>
-        <mat-radio-button value="2">Team 2</mat-radio-button>
-      </mat-radio-group>
-      <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
-        <mat-radio-button value="1">Team 1</mat-radio-button>
-        <mat-radio-button value="2">Team 2</mat-radio-button>
-      </mat-radio-group>
-      <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
-        <mat-radio-button value="1">Team 1</mat-radio-button>
-        <mat-radio-button value="2">Team 2</mat-radio-button>
-      </mat-radio-group>
-      <mat-radio-group aria-label="Select an option" class="d-flex flex-column">
-        <mat-radio-button value="1">Team 1</mat-radio-button>
-        <mat-radio-button value="2">Team 2</mat-radio-button>
+  <div>
+    <div *ngFor="let radio of radioGroup; let i = index">
+      <!--for cicle-->
+      <mat-radio-group
+        [(ngModel)]="radioGroup[i].v"
+        class="example-radio-group bd-highlight"
+      >
+        <mat-radio-button [value]="radioButton[i].value[0]">
+          {{ radioButton[i].value[0] }}
+        </mat-radio-button>
+        <mat-radio-button [value]="radioButton[i].value[1]">
+          {{ radioButton[i].value[1] }}
+        </mat-radio-button>
       </mat-radio-group>
     </div>
   </div>
+  <button type="submit" (click)="getAllValues()" class="btn btn-blue">
+    Go to Next Phase
+  </button>
 </div>
