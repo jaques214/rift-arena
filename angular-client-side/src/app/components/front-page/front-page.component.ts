@@ -15,7 +15,7 @@ export class FrontPageComponent implements OnInit {
   teams!: Team[];
   firstTourney!: Tournament;
   tourneys!: Tournament[];
-  noTeams: boolean = true;
+  noInfo: boolean = true;
   loading = this.loader.loading$;
 
   constructor(
@@ -31,15 +31,17 @@ export class FrontPageComponent implements OnInit {
       this.teams = data;
       console.log(this.teams);
       this.firstTeam = this.teams.splice(0, 1)[0];
-      if (this.firstTeam != null) {
-        this.noTeams = false;
-      }
+    
     });
 
     this.tourneyService.getTourneys().subscribe((data) => {
       this.tourneys = data;
       this.firstTourney = this.tourneys.splice(0, 1)[0];
+      console.log(this.firstTourney);
       this.loader.hide();
+      if (this.firstTeam != null || this.firstTourney != null) {
+        this.noInfo = false;
+      }
     });
   }
 
@@ -49,5 +51,4 @@ export class FrontPageComponent implements OnInit {
 
     return Math.round((team.wins / team.gamesPlayed) * 10 * 100) / 10;
   }
-
 }

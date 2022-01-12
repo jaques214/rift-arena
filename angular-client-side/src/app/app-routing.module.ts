@@ -11,6 +11,7 @@ import { CreateTourneyComponent } from './components/create-tourney/create-tourn
 import { RequestsComponent } from '@components/requests/requests.component';
 import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
 import { AuthGuard } from './guard/auth-guard.guard';
+import { ManageTourneyComponent } from './components/manage-tourney/manage-tourney.component';
 
 const routes: Routes = [
   {
@@ -50,13 +51,13 @@ const routes: Routes = [
   {
     path: 'view-all-teams',
     component: ViewAllTeamsComponent,
-    canActivate: [AuthGuard],
   },
   {
     path: 'requests',
     component: RequestsComponent,
     canActivate: [AuthGuard],
   },
+  { path: 'manage-tourney', component: ManageTourneyComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
