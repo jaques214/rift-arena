@@ -33,6 +33,12 @@ namespace RiftArena.Controllers
             return CreatedAtRoute("GetTournament", new { id = tournament.TournamentId }, tournament);
         }
 
+        //POST: api/Tournaments/startTournament
+        /// <summary>
+        /// Método que permite ao utilizador logado iniciar um torneio.
+        /// </summary>
+        /// <param name="tournament">Dados do torneio a ser iniciado.</param>
+        /// <returns>Dados do torneio iniciado.</returns>
         [HttpPost("startTournament"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult startTournament([FromBody] Tournament tournament)
         {
@@ -41,8 +47,17 @@ namespace RiftArena.Controllers
             return Ok();
         }
 
-        public IActionResult nextStage([FromBody] List<Team> nextTeams,string tournamentName)
+        //POST: api/Tournaments/startTournament
+        /// <summary>
+        /// Método que permite ao utilizador logado iniciar um torneio.
+        /// </summary>
+        /// <param name="tournament">Dados do torneio a ser iniciado.</param>
+        /// <returns>Dados do torneio iniciado.</returns>
+        [HttpPost("nextStage"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult nextStage([FromBody] List<string> nextTeams,string tournamentName)
         {
+            _service.nextStage(nextTeams, tournamentName);
+            _context.SaveChanges();
             return Ok();
         }
 

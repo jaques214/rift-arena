@@ -15,16 +15,19 @@ namespace RiftArena.Models.Services
         Tournament UpdateTournament(int id, Tournament tournament, string userID);
         void DeleteTournament(int id, string userID);
         void PublishTournament(int id, string userID);
-        List<Team> startTournament(Tournament tournament);
+        Tournament startTournament(Tournament tournament);
+        Tournament nextStage(List<string> nextTeams, string tournamentName);
     }
 
     public class TournamentService : ITournamentService
     {
         private RiftArenaContext _context;
+        private readonly ITeamService _teamService;
 
-        public TournamentService(RiftArenaContext context)
+        public TournamentService(RiftArenaContext context, ITeamService teamService)
         {
             _context = context;
+            _teamService = teamService;
         }
 
         /// <summary>
@@ -42,7 +45,7 @@ namespace RiftArena.Models.Services
         /// <param name="tournament">Torneio a serem geradas as brackets</param>
         /// <returns>Lista de aleatoriamente misturadas</returns>
         /// <exception cref="AppException">Exceção caso o torneio a criar falhe nas validações</exception>
-        public List<Team> startTournament(Tournament tournament)
+        public Tournament startTournament(Tournament tournament)
         {
             if(tournament.Date != DateTime.Now)
             {
@@ -65,7 +68,7 @@ namespace RiftArena.Models.Services
                 }
             }
 
-            return tournament.Stages;
+            return tournament;
         }
 
         /// <summary>
@@ -76,9 +79,10 @@ namespace RiftArena.Models.Services
         /// <param name="tournament">Torneio a serem atualizadas as brackets</param>
         /// <returns>Lista de equipas atualizadas</returns>
         /// <exception cref="AppException">Exceção caso o torneio a criar falhe nas validações</exception>
-        public List<Team> nextStage(List<Team> nextTeams,string tournamentName)
+        public Tournament nextStage(List<string> nextTeams,string tournamentName)
         {
             var tournament = GetByTournamentName(tournamentName);
+            //em vez de enviar nextTeams como array de teams, envia array de Tags de team
 
             if (tournament.State != Status.Online)
             {
@@ -86,22 +90,33 @@ namespace RiftArena.Models.Services
             }
             else
             {
+                List<Team> nextTeamsTemp = new List<Team>();    
+
+                for(int j = 0;j< nextTeams.Count; j++)
+                {
+                    var team = _teamService.GetByTag(nextTeams.ElementAt(j));
+                    nextTeamsTemp.Add(team);
+                }
+
                 for (int i = 0; i < tournament.Stages.Count; i++)
                 {
-                    if (!(nextTeams.Contains(tournament.Stages.ElementAt(i)))){
+                    if (!(nextTeamsTemp.Contains(tournament.Stages.ElementAt(i)))){
+
                         //como saber que é por exemplo a primeira vez que é chamado este método para atribuir à equipa retirada
+                        //usar o stage campo novo da BD
+
                         TeamTournament teamTournamentTemp = new TeamTournament();
-                        //deveriamos usar team tag e tournament name ? em vez de id ?
+                        
                         teamTournamentTemp.TeamId = tournament.Stages.ElementAt(i).TeamId; 
                         teamTournamentTemp.TournamentId = tournament.TournamentId;
                         tournament.Stages.Remove(tournament.Stages.ElementAt(i));
                     }
                 }
-                tournament.Stages = nextTeams;
+                tournament.Stages = nextTeamsTemp;
                 _context.Tournaments.Update(tournament);
                 _context.SaveChanges();
 
-                return tournament.Stages;
+                return tournament;
             }
         }
 
