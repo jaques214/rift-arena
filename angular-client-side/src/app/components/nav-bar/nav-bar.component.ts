@@ -9,6 +9,7 @@ import { UserRestService } from '@services/user-rest/user-rest.service';
   styleUrls: ['./nav-bar.component.css'],
 })
 export class NavBarComponent implements OnInit {
+  public response!: {dbPath: ''};
   user?: User;
   profile?: string;
   numberOfRequests: number = 0;
@@ -21,28 +22,33 @@ export class NavBarComponent implements OnInit {
 
   ngOnInit(): void {
     if (localStorage.getItem('currentUser') !== null) {
-      this.userService.getUser().subscribe(
-        (user) => {
+      this.userService.getUser().subscribe({
+        next: (user) => {
           this.user = user;
           if (this.user.teamTag != null) {
             this.hasTeam = true;
           }
           this.userService.getRequests().subscribe((requests: any) => {
             this.numberOfRequests = requests.length;
+            console.log(this.numberOfRequests);
           });
         },
-        (err) => {
-          localStorage.removeItem('currentUser');
-        }
-      );
+        error: () => localStorage.removeItem('currentUser')
+      });
     }
   }
 
+  createImgPath = (serverPath: string) => {
+    return `https://localhost:5001/${serverPath}`;
+  }
+
+  public uploadFinished = (event: any) => {
+    this.response = event;
+  }
+
   toogleProfileIcon() {
-    let imageFieldPath = 'http://localhost:5001/api/' + this.user?.profileImage;
-    return this.user?.profileImage
-      ? imageFieldPath
-      : 'assets/images/profile-icon.png';
+    let imageFieldPath = this.createImgPath(this.response?.dbPath);
+    return this.response?.dbPath ? imageFieldPath : 'assets/images/profile-icon.png';
   }
 
   logout(): void {
