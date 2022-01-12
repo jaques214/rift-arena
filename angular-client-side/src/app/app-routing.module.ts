@@ -51,7 +51,6 @@ const routes: Routes = [
   {
     path: 'view-all-teams',
     component: ViewAllTeamsComponent,
-    canActivate: [AuthGuard],
   },
   {
     path: 'requests',
