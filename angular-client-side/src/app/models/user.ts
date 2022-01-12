@@ -12,7 +12,8 @@ export class User {
     public rank?: string,
     public teamTag?: string,
     public linkedAccount?: LinkedAccount,
-    public requests?: Request[]
+    public requests?: Request[],
+    public teamId?: number
   ) {}
 
   static loginFields() {

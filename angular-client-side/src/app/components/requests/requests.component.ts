@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
 export interface PeriodicElement {
+  requestId: number,
   tag: string;
   teamLeader: string;
   teamName: string;
@@ -18,6 +19,8 @@ export interface PeriodicElement {
   styleUrls: ['./requests.component.css']
 })
 export class RequestsComponent implements OnInit {
+  selectedValue!: string;
+  requestID!: number;
   requests: any = [];
   ELEMENT_DATA: PeriodicElement[] = [];
   //titles: any[] = ['Tag', 'Team Leader', 'Team Name', 'Current Total of Members'];
@@ -81,6 +84,7 @@ export class RequestsComponent implements OnInit {
   populateTable() {
     for (let index = 0; index < this.getRequestSize(); index++) {
       this.ELEMENT_DATA[index] = {
+        requestId: this.requests[index].requestId,
         tag: this.requests[index].team.tag, 
         teamLeader: this.requests[index].team.teamLeader, 
         teamName: this.requests[index].team.name, 
@@ -127,11 +131,27 @@ export class RequestsComponent implements OnInit {
     return this.requests.length;
   }
 
-  acceptRequest(requestID: number) {
-    console.log(this.selection.selected);
-    this.restService.acceptRequest(requestID).subscribe({
+  getRequestID():number {
+    return (this.selection.selected[0].requestId == undefined) ? 
+      this.requestID = (this.selectedValue.slice(0,1) as any) : 
+      this.requestID = this.selection.selected[0].requestId;
+  }
+
+  acceptRequest() {
+    this.requestID = this.getRequestID();
+    this.restService.acceptRequest(this.requestID).subscribe({
+       next: () => {
+         this.router.navigate(['/view-team']);
+       },
+       error: (err: any) => console.log(err)
+     });
+  }
+
+  refuseRequest() {
+    this.requestID = this.getRequestID();
+    this.restService.acceptRequest(this.requestID).subscribe({
       next: () => {
-        this.router.navigate(['/view-team']);
+        this.router.navigate(['/']);
       },
       error: (err: any) => console.log(err)
     });

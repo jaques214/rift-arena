@@ -65,11 +65,11 @@ body {
 
 .parallax {
   position: relative;
-  background-image: url("assets/images/238-300x200.jpg");
+  background-image: url("assets/images/image_placeholder.png");
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   min-height: 80%;
   opacity: 0.65;
   margin-bottom: 1.5rem;
