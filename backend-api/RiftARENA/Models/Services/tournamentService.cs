@@ -194,7 +194,9 @@ namespace RiftArena.Models.Services
                 {
                     throw new AppException("Apenas o teamLeader poderá inscrever-se no tourneio.");
                 }
-                else
+                else if (team.Rank != tournament.Rank){
+                    throw new AppException("O rank da equipa não se encon");
+                } else
                 {
                     /*TeamTournament teamTournament = new TeamTournament();
                     teamTournament.TeamId = team.TeamId;
@@ -203,7 +205,7 @@ namespace RiftArena.Models.Services
                     _context.TeamTournaments.Update(teamTournament); */
 
                     tournament.Stages.Add(team);
-                    team.Tournament.Add(tournament);
+                    team.Tournament.Add(tournament.Name);
                     
                     _context.Teams.Update(team);
                     _context.Tournaments.Update(tournament);
