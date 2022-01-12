@@ -196,14 +196,21 @@ namespace RiftArena.Models.Services
                 }
                 else
                 {
+                    /*TeamTournament teamTournament = new TeamTournament();
+                    teamTournament.TeamId = team.TeamId;
+                    teamTournament.TournamentId = tournament.TournamentId;
+                    
+                    _context.TeamTournaments.Update(teamTournament); */
+
                     tournament.Stages.Add(team);
                     team.Tournament.Add(tournament);
+                    
+                    _context.Teams.Update(team);
+                    _context.Tournaments.Update(tournament);
                 }
             }
 
-            _context.Tournaments.Update(tournament);
             _context.SaveChanges();
-
         }
 
     }

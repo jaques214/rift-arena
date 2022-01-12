@@ -17,5 +17,7 @@ namespace RiftArena.Models.Contexts
         public DbSet<LinkedAccount> LinkedAccounts { get; set; }
         public DbSet<Messages> Messages { get; set; }
 
+        public DbSet<TeamTournament> TeamTournaments {get; set;}
+
     }
 }
