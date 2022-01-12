@@ -16,7 +16,7 @@ namespace RiftArena.Controllers
             try
             {
                 var file = Request.Form.Files[0];
-                var folderName = Path.Combine("StaticFiles", "Images");
+                var folderName = Path.Combine("Resources", "Images");
                 var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
 
                 if (file.Length > 0)
@@ -24,7 +24,8 @@ namespace RiftArena.Controllers
                     var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
                     var fullPath = Path.Combine(pathToSave, fileName);
                     var dbPath = Path.Combine(folderName, fileName);
-
+                    Console.WriteLine(fullPath);
+                    Console.WriteLine(dbPath);
                     using (var stream = new FileStream(fullPath, FileMode.Create))
                     {
                         file.CopyTo(stream);

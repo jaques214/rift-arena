@@ -101,12 +101,12 @@ namespace RiftArena.Models.Services
                     throw new AppException("Riot account not found");
                 }
 
-                if(summoner.profileIconId != 7)
+                /*if(summoner.profileIconId != 7)
                 {
                    throw new AppException("Change your account Icon to the Rose Icon first");
                 }
                 else
-                {
+                {*/
                     var linkedTemp = new LinkedAccount
                     {
                         Username = nickname,
@@ -121,7 +121,7 @@ namespace RiftArena.Models.Services
                     userTemp.LinkedAccount = linkedTemp;
                     userTemp.ContaRiot = nickname;
 
-                }
+                //}
 
                 /*if (CheckValidatedRiot(linkedTemp))
                 {
