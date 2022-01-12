@@ -128,31 +128,31 @@ addRequest(): void {
 
   getRankIcon(key: any) {
     switch (key) {
-      case 'Iron':
+      case 'IRON':
         this.rankIcon = './assets/images/ranked-emblems/Emblem_Iron.png';
         break;
-      case 'Bronze':
+      case 'BRONZE':
         this.rankIcon = './assets/images/ranked-emblems/Emblem_Bronze.png';
         break;
-      case 'Silver':
+      case 'SILVER':
         this.rankIcon = './assets/images/ranked-emblems/Emblem_Silver.png';
         break;
-      case 'Gold':
+      case 'GOLD':
         this.rankIcon = './assets/images/ranked-emblems/Emblem_Gold.png';
         break;
-      case 'Platinum':
+      case 'PLATINUM':
         this.rankIcon = './assets/images/ranked-emblems/Emblem_Platinum.png';
         break;
-      case 'Diamond':
+      case 'DIAMOND':
         this.rankIcon = './assets/images/ranked-emblems/Emblem_Diamond.png';
         break;
-      case 'Grandmaster':
+      case 'GRANDMASTER':
         this.rankIcon = './assets/images/ranked-emblems/Emblem_Grandmaster.png';
         break;
-      case 'Master':
+      case 'MASTER':
         this.rankIcon = './assets/images/ranked-emblems/Emblem_Master.png';
         break;
-      case 'Challenger':
+      case 'CHALLENGER':
         this.rankIcon = './assets/images/ranked-emblems/Emblem_Challenger.png';
         break;
       default:
