@@ -10,7 +10,7 @@ using RiftArena.Models.Contexts;
 namespace RiftARENA.Migrations
 {
     [DbContext(typeof(RiftArenaContext))]
-    [Migration("20220112101952_UpdateCreatev3")]
+    [Migration("20220112124820_UpdateCreatev3")]
     partial class UpdateCreatev3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -142,6 +142,22 @@ namespace RiftARENA.Migrations
                     b.ToTable("Teams");
                 });
 
+            modelBuilder.Entity("RiftArena.Models.TeamTournament", b =>
+                {
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TournamentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
+
+                    b.HasKey("TeamId", "TournamentId");
+
+                    b.ToTable("TeamTournaments");
+                });
+
             modelBuilder.Entity("RiftArena.Models.Tournament", b =>
                 {
                     b.Property<int>("TournamentId")
@@ -180,6 +196,9 @@ namespace RiftARENA.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Region")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Stage")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("State")

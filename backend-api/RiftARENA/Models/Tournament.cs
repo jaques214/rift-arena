@@ -32,6 +32,7 @@ namespace RiftArena.Models
         public string Poster { get; set; }
 
         public virtual List<Team> Stages { get; set; }
+        public string Stage {get; set;}
 
         public Status State { get; set; }
 

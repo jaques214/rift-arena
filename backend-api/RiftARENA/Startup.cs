@@ -13,6 +13,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using RiftArena.Helpers;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 
 
 namespace RiftArena
@@ -33,7 +34,7 @@ namespace RiftArena
             services.AddDbContext<RiftArenaContext>(opt => opt
             .UseSqlServer(Configuration.GetConnectionString("RiftArena"))
             .UseLazyLoadingProxies());
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             /*services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
