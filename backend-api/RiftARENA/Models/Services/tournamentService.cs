@@ -15,6 +15,7 @@ namespace RiftArena.Models.Services
         Tournament UpdateTournament(int id, Tournament tournament, string userID);
         void DeleteTournament(int id, string userID);
         void PublishTournament(int id, string userID);
+        void AddTeam(int id, string userNickname);
     }
 
     public class TournamentService : ITournamentService
@@ -199,6 +200,9 @@ namespace RiftArena.Models.Services
                     team.Tournament.Add(tournament);
                 }
             }
+
+            _context.Tournaments.Update(tournament);
+            _context.SaveChanges();
 
         }
 
