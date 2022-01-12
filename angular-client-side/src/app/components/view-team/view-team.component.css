@@ -90,6 +90,15 @@ header .mat-icon {
   margin: 25px 0;
 }
 
+.request {
+  margin-top: 20px;
+}
+
+.icon {
+  width: 80px;
+  height: auto;
+}
+
 @media only screen and (max-width: 600px) {
   .container {
     flex-direction: column;

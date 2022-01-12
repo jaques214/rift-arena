@@ -61,16 +61,17 @@
             <p><strong>Team Leader:</strong> {{ element.teamLeader }} </p>
             <p><strong>Team Name:</strong> {{ element.teamName }} </p>
             <p><strong>Current Total of Members:</strong> {{ element.members }} </p>
-            <mat-radio-group aria-label="Select an option">
-              <mat-radio-button value="1">Accept</mat-radio-button>
-              <mat-radio-button value="2">Refuse</mat-radio-button>
-            </mat-radio-group>            
+            <mat-radio-group [(ngModel)]="selectedValue" aria-label="Select an option">
+              <mat-radio-button [value]="element.requestId + '1'">Accept</mat-radio-button>
+              <mat-radio-button [value]="element.requestId + '2'">Refuse</mat-radio-button>
+            </mat-radio-group>        
+                {{selectedValue}}
         </mat-expansion-panel>
 
       </mat-accordion>
 
       <p><strong>Total Requests:</strong> {{getRequestSize()}}</p>
 
-      <button mat-flat-button class="btn-blue">Save</button>
-      <button mat-flat-button class="btn-blue">Cancel</button>
+      <button mat-flat-button class="btn-blue" (click)="acceptRequest()">Save</button>
+      <button mat-flat-button class="btn-blue" (click)="refuseRequest()">Cancel</button>
 </section>

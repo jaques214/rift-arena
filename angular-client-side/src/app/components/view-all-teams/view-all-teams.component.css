@@ -24,6 +24,10 @@ figcaption {
     padding-top: 8px;
 }
 
+figure img {
+    width: 300px;
+}
+
 .caption {
     position: absolute;
     left: 0;

@@ -51,7 +51,43 @@
     </div>
     <ng-container [ngSwitch]="flag">
       <div *ngSwitchCase="'edit-' + input.name" [ngClass]="'form-size'">
-        <form (ngSubmit)="onSubmit()">
+        
+        <app-shared-form-field [input]="input" [value]="'Submit'" [flag]="flag"></app-shared-form-field>
+        <!-- <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+          <ng-container [ngSwitch]="input.type">
+      
+            <ng-template [ngSwitchCase]="'password'">
+              <mat-form-field appearance="standard" ngClass="form-field">
+                <mat-label>{{ input.label }}</mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'" placeholder="{{ input.placeholder }}" 
+                  name="{{ input.name }}" formControlName="{{ input.name }}" required>
+                <mat-icon matSuffix id="password" (click)="hide = !hide" [attr.aria-label]="'Hide password'" 
+                  [attr.aria-pressed]="hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                <mat-error *ngIf="authForm.get(input.name)?.invalid">{{getErrorMessage(input.name)}}</mat-error>
+              </mat-form-field>
+            </ng-template>
+      
+            <ng-template [ngSwitchDefault]>
+              <mat-form-field appearance="standard" ngClass="form-field">
+                <mat-label>{{ input.label }}</mat-label>
+                <input matInput type="{{ input.type }}" placeholder="{{ input.placeholder }}" name="{{ input.name }}" 
+                  formControlName="{{ input.name }}" required/>
+                <mat-icon aria-hidden="false" aria-label="" matSuffix>{{ input.icon }}</mat-icon>
+                <mat-error *ngIf="authForm.get(input.name)?.invalid">{{getErrorMessage(input.name)}}</mat-error>
+              </mat-form-field>
+            </ng-template>
+      
+          </ng-container>
+        <div>
+          <button mat-flat-button class="btn-blue" type="submit">Submit</button>
+        </div>
+      </form> -->
+
+
+        <!-- <ng-container *ngIf="input.name"> -->
+          <!-- <app-shared-form-field [input]="input" [value]="'Submit'" [submitMethod]="onSubmit()"></app-shared-form-field> -->
+        <!-- </ng-container> -->
+        <!-- <form (ngSubmit)="onSubmit()">
           <div>
             <ng-container *ngIf="input.name">
               <app-shared-form-field [input]="input"></app-shared-form-field>
@@ -60,7 +96,7 @@
           <button mat-raised-button color="primary" type="submit">
             Submit
           </button>
-        </form>
+        </form> -->
       </div>
 
       <ng-template [ngSwitchDefault]>
@@ -76,12 +112,12 @@
 
   <ng-container [ngSwitch]="accountFlag">
     <ng-template [ngSwitchCase]="'edit'">
-      <form (ngSubmit)="onSubmitAccount()">
-        <div *ngFor="let input of accountFields.inputs">
-          <app-shared-form-field [input]="input" (valueOnChange)="inputFieldOnChange($event)"></app-shared-form-field>
-        </div>
+      <!-- <form (ngSubmit)="onSubmitAccount()">
+        <div *ngFor="let input of accountFields.inputs"> -->
+          <app-account-form-group [formFields]="accountFields.inputs" [value]="'Submit'" [accountFlag]="accountFlag"></app-account-form-group>
+        <!-- </div>
         <button mat-raised-button color="primary" type="submit">Submit</button>
-      </form>
+      </form> -->
     </ng-template>
 
     <ng-template [ngSwitchDefault]>

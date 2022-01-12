@@ -37,6 +37,8 @@ import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { AuthGuard } from './guard/auth-guard.guard';
 import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
 import { UploadComponent } from './components/upload/upload.component';
+import { SharedFormGroupComponent } from './components/shared-form-group/shared-form-group.component';
+import { AccountFormGroupComponent } from './components/account-form-group/account-form-group.component';
 import { CreateTourneyComponent } from '@components/create-tourney/create-tourney.component';
 import { ManageTourneyComponent } from './components/manage-tourney/manage-tourney.component';
 @NgModule({
@@ -54,6 +56,8 @@ import { ManageTourneyComponent } from './components/manage-tourney/manage-tourn
     ViewTeamComponent,
     ViewAllTeamsComponent,
     UploadComponent,
+    SharedFormGroupComponent,
+    AccountFormGroupComponent,
     ManageTourneyComponent,
   ],
   imports: [
