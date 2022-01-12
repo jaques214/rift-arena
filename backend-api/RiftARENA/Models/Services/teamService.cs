@@ -161,7 +161,6 @@ namespace RiftArena.Models.Services
 
             teamSer.Name = team.Name;
             teamSer.Tag = team.Tag;
-            teamSer.Rank = team.Rank;
 
 
             _context.Teams.Update(teamSer);
