@@ -1,8 +1,11 @@
+import { UserRestService } from '@services/user-rest/user-rest.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@services/auth/auth.service';
 import { ConfirmedValidator } from '@src/app/confirmed.validator';
+import { User } from '@models/user';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-shared-form-field',
@@ -11,74 +14,75 @@ import { ConfirmedValidator } from '@src/app/confirmed.validator';
 })
 export class SharedFormFieldComponent implements OnInit {
   @Input() input!:any;
-  @Input() type?:any;
   @Input() value!:string;
+  @Input() flag!:any;
   // @Input() formFields!:any;
   @Input() submitMethod: any;
-  @Output() valueOnChange = new EventEmitter<string>();
-  @Output() authMethod = new EventEmitter<string>();
+  user!:User;
   hide = true;
-  listValues: string[] = [];
-  selected: string = this.listValues[0];
   authForm!: FormGroup;
   message!: string;
 
-  constructor(public router: Router, private authService: AuthService) {
+  constructor(public router: Router, private authService: AuthService, private restService: UserRestService) {
   }
   
   ngOnInit(): void {
     // console.log(this.formFields);
     this.authForm = new FormGroup({
-      nickname: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
-      current_password: new FormControl('', [Validators.required]),
-      new_password: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required]),
     }
-      // validator: ConfirmedValidator('current_password', 'new_password')
+    // validator: ConfirmedValidator('current_password', 'new_password')
     
     );
-    // this.type || (this.type = this.formFields.type);
-  }
-  
-  fieldOnChange(selected: string){
-    this.valueOnChange.emit(selected);
-  }
-
-  submit() {
-    console.log(this.router.url);
-    switch (this.router.url) {
-      case '/login':
-        this.login();
-        break;
-      default:
-        this.register();
-        break;
-    }
+    this.getUser().subscribe((user) => {
+      this.user = user;
+      this.populateForm();
+    });
   }
 
-  login(): void {
-    // validar se o user inseriu dados (verificar se model dos inputs é null (por enquanto é nickname/password mas
-    // vai ser alterado
-    //, e se validou, pode avançar, senao, lançar um alert a dizer que n inseriu))
+  populateForm() {
+    let values = Object.entries(this.user);
+    //console.log(values);
+    //if a user already exists populates the formFields inputs.
+      
+      let teste = this.authForm.get(this.input.name);
+      values.forEach((val:any) => {
+        if(val[0] == this.input.name) {
+          teste!.setValue(val[1]);
+        }
 
-    this.authService.login(this.authForm.get("nickname")?.value, this.authForm.get("current_password")?.value).subscribe({
-      next: (result: any) => {
-        localStorage.setItem('currentUser', result.token);
-        this.router.navigate(['/']);
+      // this.form.get(input.name).setValue('');
+      // input.model! = (this.user as any)[input.name!];
+    });
+  }
+
+  getUser(): Observable<any> {
+    return this.restService.getUser();
+  }
+
+  editUser(user: User): void {
+    this.restService.updateUser(user.password!, user.email!).subscribe({
+      next: () => {
+        this.getUser().subscribe((user) => {
+          this.user = user;
+          this.populateForm();
+        });
       },
-      error: () => console.log("Erro no login")
+      error: (err) => console.log(err)
     });
   }
 
-  register(): void{
-    this.authService.register(this.authForm.get('email')?.value, this.authForm.get('nickname')?.value, 
-    this.authForm.get('current_password')?.value).subscribe({
-      next: (result: any) => {
-        localStorage.setItem('currentUser', result.token);
-        this.router.navigate(['/'])
-    },
-    error: () => console.log("Erro no registo")
-    });
+  /**
+   * Submeter dados atualizados do utilizador
+   */
+   onSubmit(): void {
+    const data = this.user!;
+    (data as any)[this.input.name!] = this.authForm.get(this.input.name)?.value
+    //console.log(data);
+    this.flag = "view";
+    console.log(this.flag);
+    this.editUser(data);
   }
 
   getErrorMessage(name: string) {
@@ -88,17 +92,11 @@ export class SharedFormFieldComponent implements OnInit {
 
     // console.log(name);
     switch (name) {
-      case 'nickname':
-        this.message = "The nickname can't have any accents";
-      break;
       case 'email':
         this.message = 'Not a valid email';
       break;
-      case 'current_password':
+      case 'password':
         this.message = 'Not a valid password';
-      break;
-      case 'new_password':
-        this.message = 'The password does not match';
       break;
     }
 

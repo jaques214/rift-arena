@@ -51,8 +51,9 @@
     </div>
     <ng-container [ngSwitch]="flag">
       <div *ngSwitchCase="'edit-' + input.name" [ngClass]="'form-size'">
-
-        <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+        
+        <app-shared-form-field [input]="input" [value]="'Submit'" [flag]="flag"></app-shared-form-field>
+        <!-- <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
           <ng-container [ngSwitch]="input.type">
       
             <ng-template [ngSwitchCase]="'password'">
@@ -80,7 +81,9 @@
         <div>
           <button mat-flat-button class="btn-blue" type="submit">Submit</button>
         </div>
-      </form>
+      </form> -->
+
+
         <!-- <ng-container *ngIf="input.name"> -->
           <!-- <app-shared-form-field [input]="input" [value]="'Submit'" [submitMethod]="onSubmit()"></app-shared-form-field> -->
         <!-- </ng-container> -->
@@ -109,12 +112,12 @@
 
   <ng-container [ngSwitch]="accountFlag">
     <ng-template [ngSwitchCase]="'edit'">
-      <form (ngSubmit)="onSubmitAccount()">
-        <div *ngFor="let input of accountFields.inputs">
-          <app-shared-form-field [input]="input" (valueOnChange)="inputFieldOnChange($event)"></app-shared-form-field>
-        </div>
+      <!-- <form (ngSubmit)="onSubmitAccount()">
+        <div *ngFor="let input of accountFields.inputs"> -->
+          <app-account-form-group [formFields]="accountFields.inputs" [value]="'Submit'" [accountFlag]="accountFlag"></app-account-form-group>
+        <!-- </div>
         <button mat-raised-button color="primary" type="submit">Submit</button>
-      </form>
+      </form> -->
     </ng-template>
 
     <ng-template [ngSwitchDefault]>

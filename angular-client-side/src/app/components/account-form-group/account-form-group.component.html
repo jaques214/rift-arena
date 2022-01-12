@@ -1,0 +1,34 @@
+<form [formGroup]="form" (ngSubmit)="onSubmitAccount()">
+    <ng-container *ngFor="let input of formFields">
+      <ng-container [ngSwitch]="input.type">
+        <ng-template [ngSwitchCase]="'select'">
+          <mat-form-field appearance="standard" ngClass="form-field">
+            <!-- <mat-select [(ngModel)]="selected" formControlName="{{}}"  required (selectionChange)="fieldOnChange(selected)"> -->
+            <mat-select formControlName="{{input.value}}" required>  
+                <mat-option *ngFor="let val of input.values" [value]="val">{{val}}</mat-option>
+            </mat-select>
+            <mat-label><mat-icon aria-hidden="false" aria-label="" matSuffix>
+              {{ input.icon }}
+              </mat-icon> {{ input.label }}</mat-label>
+            </mat-form-field>
+            <p>{{this.form.get(input.value)?.value}}</p>
+        </ng-template>
+  
+        <ng-template [ngSwitchDefault]>
+            <div>
+          <mat-form-field appearance="standard" ngClass="form-field">
+            <mat-label>{{ input.label }}</mat-label>
+            <input matInput type="{{ input.type }}" placeholder="{{ input.placeholder }}" name="{{ input.name }}" 
+              formControlName="{{ input.name }}" required/>
+            <mat-icon aria-hidden="false" aria-label="" matSuffix>{{ input.icon }}</mat-icon>
+            <mat-error *ngIf="form.get(input.name)?.invalid">{{getErrorMessage(input.name)}}</mat-error>
+          </mat-form-field>
+        </div>
+        </ng-template>
+  
+      </ng-container>
+    </ng-container>
+    <div>
+      <button mat-flat-button class="btn-blue" type="submit">{{value}}</button>
+    </div>
+  </form>

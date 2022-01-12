@@ -40,6 +40,7 @@ import { AuthGuard } from './guard/auth-guard.guard';
 import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
 import { UploadComponent } from './components/upload/upload.component';
 import { SharedFormGroupComponent } from './components/shared-form-group/shared-form-group.component';
+import { AccountFormGroupComponent } from './components/account-form-group/account-form-group.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,6 +57,7 @@ import { SharedFormGroupComponent } from './components/shared-form-group/shared-
     ViewAllTeamsComponent,
     UploadComponent,
     SharedFormGroupComponent,
+    AccountFormGroupComponent,
   ],
   imports: [
     FormsModule,

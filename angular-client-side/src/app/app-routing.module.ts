@@ -46,6 +46,7 @@ const routes: Routes = [
     path: 'view-team',
     component: ViewTeamComponent,
     canActivate: [AuthGuard],
+    canActivateChild: [LoggedInAuthGuard],
   },
   {
     path: 'view-all-teams',
