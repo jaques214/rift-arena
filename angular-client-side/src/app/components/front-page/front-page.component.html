@@ -1,7 +1,7 @@
 <app-nav-bar></app-nav-bar>
 <div
   class="container-fluid d-flex justify-content-center gap-3 row main-container"
-  *ngIf="firstTeam != undefined && teams != undefined"
+  *ngIf="firstTeam != undefined || teams != undefined || firstTourney != undefined || tourneys !=undefined"
 >
   <!-- <p class="fs-4 text-center">Newest Tournaments</p>
   <div class="row d-flex justify-content-center">
@@ -71,79 +71,6 @@
     </button>
   </div> -->
   <!--Top 3 Teams-->
-  <p class="fs-4 text-center mt-5">Top 3 Teams</p>
-  <div class="row d-flex justify-content-center">
-    <div
-      class="container d-flex justify-content-center row gap-3"
-      style="text-align: center"
-    >
-      <div class="card" style="width: 18rem">
-        <div class="card-body">
-          <h5 class="card-title">#{{ firstTeam.tag }}</h5>
-          <p class="card-text">
-            {{ firstTeam.name }}
-          </p>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item" style="font-weight: bold">
-            Leader:
-
-            <a style="font-weight: normal">{{ firstTeam.teamLeader }}</a>
-          </li>
-          <li class="list-group-item" style="font-weight: bold">
-            Rank:
-
-            <a style="font-weight: normal">{{ firstTeam.rank }}</a>
-          </li>
-          <li class="list-group-item" style="font-weight: bold">
-            Winrate:
-
-            <a style="font-weight: normal">{{ getWinrate(firstTeam) }}%</a>
-          </li>
-        </ul>
-        <div class="card-body">
-          <a href="#" class="card-link">View Members</a>
-        </div>
-      </div>
-      <div
-        class="card d-none d-lg-block"
-        style="width: 18rem"
-        *ngFor="let team of teams"
-      >
-        <div class="card-body">
-          <h5 class="card-title">#{{ team.tag }}</h5>
-          <p class="card-text">
-            {{ team.name }}
-          </p>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item" style="font-weight: bold">
-            Leader:
-
-            <a style="font-weight: normal">{{ team.teamLeader }}</a>
-          </li>
-          <li class="list-group-item" style="font-weight: bold">
-            Rank:
-
-            <a style="font-weight: normal">{{ team.rank }}</a>
-          </li>
-          <li class="list-group-item" style="font-weight: bold">
-            Winrate:
-
-            <a style="font-weight: normal">{{ getWinrate(team) }}%</a>
-          </li>
-        </ul>
-        <div class="card-body">
-          <a href="#" class="card-link">View Members</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-sd-2 d-flex justify-content-center mb-4">
-    <button class="btn btn-blue btn-block inline" type="button">
-      View All
-    </button>
-  </div>
   <p class="fs-4 text-center mt-5">Top Tournaments</p>
   <div class="row d-flex justify-content-center">
     <div
@@ -153,60 +80,55 @@
       <div class="card" style="width: 18rem">
         <div class="card-body">
           <p class="card-text">
-            {{ firstTourney?.name }}
+            {{ firstTourney.name }}
           </p>
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item" style="font-weight: bold">
-            Teams:
+            Teams: 
 
-            <a style="font-weight: normal">{{ firstTourney?.numberOfTeams }}</a>
+            <a style="font-weight: normal">{{ firstTourney.numberOfTeams }}</a>
           </li>
           <li class="list-group-item" style="font-weight: bold">
             Rank:
 
-            <a style="font-weight: normal">{{ firstTourney?.rank }}</a>
+            <a style="font-weight: normal">{{ firstTourney.rank }}</a>
           </li>
           <li class="list-group-item" style="font-weight: bold">
             Date:
 
-            <a style="font-weight: normal">{{ firstTourney?.date }}%</a>
+            <a style="font-weight: normal">{{ firstTourney.date }}%</a>
           </li>
         </ul>
         <div class="card-body">
           <a href="#" class="card-link">View More</a>
         </div>
       </div>
-      <div
-        class="card d-none d-lg-block"
-        style="width: 18rem"
-        *ngFor="let team of teams"
-      >
+      <div class="card" style="width: 18rem" *ngFor="let tourney of tourneys | slice:0:2; let i =index">
         <div class="card-body">
-          <h5 class="card-title">#{{ team.tag }}</h5>
           <p class="card-text">
-            {{ team.name }}
+            {{ tourney.name }}
           </p>
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item" style="font-weight: bold">
-            Leader:
+            Teams:
 
-            <a style="font-weight: normal">{{ team.teamLeader }}</a>
+            <a style="font-weight: normal">{{ tourney.numberOfTeams }}</a>
           </li>
           <li class="list-group-item" style="font-weight: bold">
             Rank:
 
-            <a style="font-weight: normal">{{ team.rank }}</a>
+            <a style="font-weight: normal">{{ tourney.rank }}</a>
           </li>
           <li class="list-group-item" style="font-weight: bold">
-            Winrate:
+            Date:
 
-            <a style="font-weight: normal">{{ getWinrate(team) }}%</a>
+            <a style="font-weight: normal">{{ tourney.date }}%</a>
           </li>
         </ul>
         <div class="card-body">
-          <a href="#" class="card-link">View Members</a>
+          <a href="#" class="card-link">View More</a>
         </div>
       </div>
     </div>
@@ -217,7 +139,7 @@
     </button>
   </div>
 </div>
-<h1 style="text-align: center" *ngIf="noTeams == true">
+<h1 style="text-align: center" *ngIf="noInfo == true">
   Sem informação no momento.
 </h1>
 <div *ngIf="firstTeam == undefined && teams == undefined">
