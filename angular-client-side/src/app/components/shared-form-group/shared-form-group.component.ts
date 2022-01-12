@@ -1,19 +1,18 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '@services/auth/auth.service';
-import { ConfirmedValidator } from '@src/app/confirmed.validator';
+import { AuthService } from '@src/app/services/auth/auth.service';
 
 @Component({
-  selector: 'app-shared-form-field',
-  templateUrl: './shared-form-field.component.html',
-  styleUrls: ['./shared-form-field.component.css']
+  selector: 'app-shared-form-group',
+  templateUrl: './shared-form-group.component.html',
+  styleUrls: ['./shared-form-group.component.css']
 })
-export class SharedFormFieldComponent implements OnInit {
+export class SharedFormGroupComponent implements OnInit {
   @Input() input!:any;
   @Input() type?:any;
   @Input() value!:string;
-  // @Input() formFields!:any;
+  @Input() formFields!:any;
   @Input() submitMethod: any;
   @Output() valueOnChange = new EventEmitter<string>();
   @Output() authMethod = new EventEmitter<string>();
@@ -22,12 +21,12 @@ export class SharedFormFieldComponent implements OnInit {
   selected: string = this.listValues[0];
   authForm!: FormGroup;
   message!: string;
-
+  
   constructor(public router: Router, private authService: AuthService) {
   }
   
   ngOnInit(): void {
-    // console.log(this.formFields);
+    console.log(this.formFields);
     this.authForm = new FormGroup({
       nickname: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),

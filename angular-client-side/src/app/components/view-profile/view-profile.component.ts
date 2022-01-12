@@ -6,7 +6,7 @@ import { Team } from '@models/team';
 import { UserRestService } from '@services/user-rest/user-rest.service';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { Router } from '@angular/router';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-view-profile',
@@ -28,10 +28,11 @@ export class ViewProfileComponent implements OnInit {
   accountFlag: string = "view";
   formFields: any = User.fields();
   accountFields: any = LinkedAccount.fields();
-  form!: FormGroup;
+  authForm!: FormGroup;
+  hide = true;
+  message!: string;
 
-  constructor(private restService : UserRestService, private teamRestService : TeamRestService,
-     private router: Router) {
+  constructor(private restService : UserRestService, private router: Router) {
     const routeState = this.router?.getCurrentNavigation()?.extras?.state
     if (routeState) {
       this.user = routeState['user'];
@@ -39,7 +40,7 @@ export class ViewProfileComponent implements OnInit {
     }
   }
    
-  ngOnInit(): void {
+  ngOnInit(): void {   
     this.getUser().subscribe((user) => {
       this.user = user;
       this.account = this.user?.linkedAccount;
@@ -56,6 +57,12 @@ export class ViewProfileComponent implements OnInit {
           summonerLevel: this.account.summonerLevel,
         };
       }
+    });
+    this.authForm = new FormGroup({
+      nickname: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      current_password: new FormControl('', [Validators.required]),
+      new_password: new FormControl('', [Validators.required]),
     });
   }
 
@@ -82,12 +89,36 @@ export class ViewProfileComponent implements OnInit {
     });
   }
 
+  getErrorMessage(name: string) {
+    if (this.authForm.get(name)?.hasError('required')) {
+      return 'You must enter a value';
+    }
+
+    // console.log(name);
+    switch (name) {
+      case 'nickname':
+        this.message = "The nickname can't have any accents";
+      break;
+      case 'email':
+        this.message = 'Not a valid email';
+      break;
+      case 'current_password':
+        this.message = 'Not a valid password';
+      break;
+      case 'new_password':
+        this.message = 'The password does not match';
+      break;
+    }
+
+    return this.authForm.get(name)?.hasError(name) ? this.message : '';
+  }
+
   changeFlag(name: string): string {
     switch(name) {
       case 'email':
         this.flag = 'edit-' + name;
         break;
-      case 'password':
+      case 'current_password':
         this.flag = 'edit-' + name;
         break;
     }
@@ -96,9 +127,19 @@ export class ViewProfileComponent implements OnInit {
   }
 
   populateForm() {
+    let values = Object.entries(this.user!);
+    console.log(values);
     //if a user already exists populates the formFields inputs.
     this.formFields.inputs.forEach((input:any) => {
-      input.model! = (this.user as any)[input.name!];
+      
+      let teste = this.authForm.get(input.name);
+      values.forEach((val:any) => {
+        if(val[0] == input.name) {
+          teste!.setValue(val[1]);
+        }
+      });
+      // this.form.get(input.name).setValue('');
+      // input.model! = (this.user as any)[input.name!];
     });
   }
 
@@ -111,7 +152,7 @@ export class ViewProfileComponent implements OnInit {
   }
 
   editUser(user: User): void {
-    this.restService.updateUser(user.password!, user.email!).subscribe({
+    this.restService.updateUser(user.current_password!, user.email!).subscribe({
       next: () => {
         this.getUser().subscribe((user) => {
           this.user = user;
@@ -145,7 +186,7 @@ export class ViewProfileComponent implements OnInit {
         let teste = part[0].slice(1, part[0].length - 2);
         convert = part[0].slice(0, 1) + this.hideText(i, teste) + part[0].slice(part[0].length - 1) + '@' + part[1];
       break;
-      case "password":
+      case "current_password":
         convert = this.hideText(i, value);
       break;
       default:
@@ -160,7 +201,7 @@ export class ViewProfileComponent implements OnInit {
     
     if(this.user != null) {
       let values = Object.entries(this.user!);
-
+      console.log(values);
       values.forEach(val => {
         if(val[0] == value) {
           convert = this.selectValue(value, val[1]);         
@@ -184,7 +225,9 @@ export class ViewProfileComponent implements OnInit {
   onSubmit(): void {
     const data = this.user!;
     this.formFields.inputs.forEach((input:any) => {
-      (data as any)[input.name!] = input.model;
+      // (data as any)[input.name!] = input.model;
+      (data as any)[input.name!] = this.authForm.get(input.name)?.value
+      console.log(data);
     });
     this.flag = "view";
     this.editUser(data);

@@ -1,6 +1,5 @@
-<form [formGroup]="authForm" (ngSubmit)="submit()">
-  <ng-container *ngFor="let input of formFields">
-    <ng-container [ngSwitch]="input.type">
+<form [formGroup]="authForm" (ngSubmit)="submitMethod">
+    <ng-container [ngSwitch]="type">
 
       <ng-template [ngSwitchCase]="'password'">
         <mat-form-field appearance="standard" ngClass="form-field">
@@ -11,14 +10,6 @@
             [attr.aria-pressed]="hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
           <mat-error *ngIf="authForm.get(input.name)?.invalid">{{getErrorMessage(input.name)}}</mat-error>
         </mat-form-field>
-
-        <!-- <mat-form-field *ngIf="router.url == '/register'" appearance="standard" ngClass="form-field">
-          <mat-label>Confirm Password</mat-label>
-          <input matInput [type]="hide ? 'password' : 'text'" placeholder="Enter new password" name="new_password">
-          <mat-icon matSuffix id="password" (click)="hide = !hide" [attr.aria-label]="'Hide password'" 
-            [attr.aria-pressed]="hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-          <mat-error *ngIf="authForm.get('new_password')?.invalid">{{getErrorMessage('new_password')}}</mat-error>
-        </mat-form-field> -->
       </ng-template>
 
       <ng-template [ngSwitchCase]="'select'">
@@ -43,7 +34,6 @@
       </ng-template>
 
     </ng-container>
-  </ng-container>
   <div>
     <button mat-flat-button class="btn-blue" type="submit">{{value}}</button>
   </div>

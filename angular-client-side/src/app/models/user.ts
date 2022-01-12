@@ -7,7 +7,7 @@ export class User {
     public userID?: number,
     public nickname?: string,
     public email?: string,
-    public password?: string,
+    public current_password?: string,
     public profileImage?: File,
     public rank?: string,
     public teamTag?: string,
@@ -68,7 +68,7 @@ export class User {
           placeholder: 'Enter password',
           iconlabel: 'no encryption icon',
           icon: 'no_encryption',
-          model: 'password',
+          // model: 'password',
         },
         {
           name: 'new_password',
@@ -77,7 +77,7 @@ export class User {
           placeholder: 'Enter password again',
           iconlabel: 'no encryption icon',
           icon: 'no_encryption',
-          model: 'password',
+          // model: 'password',
         },
       ],
     };
@@ -96,7 +96,7 @@ export class User {
           model: 'email',
         },
         {
-          name: 'password',
+          name: 'current_password',
           type: 'password',
           label: 'Password',
           placeholder: 'Enter password',

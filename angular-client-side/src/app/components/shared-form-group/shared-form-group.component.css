@@ -1,0 +1,11 @@
+.mat-icon {
+    color: #24499A;
+}
+
+#password {
+    cursor: pointer;
+}
+
+.mat-form-field {
+    width: 80%;
+}

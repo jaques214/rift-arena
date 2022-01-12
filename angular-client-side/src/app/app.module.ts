@@ -39,6 +39,7 @@ import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { AuthGuard } from './guard/auth-guard.guard';
 import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
 import { UploadComponent } from './components/upload/upload.component';
+import { SharedFormGroupComponent } from './components/shared-form-group/shared-form-group.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,6 +55,7 @@ import { UploadComponent } from './components/upload/upload.component';
     ViewTeamComponent,
     ViewAllTeamsComponent,
     UploadComponent,
+    SharedFormGroupComponent,
   ],
   imports: [
     FormsModule,
