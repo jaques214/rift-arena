@@ -12,10 +12,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import {MatTableModule} from '@angular/material/table';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatTableModule } from '@angular/material/table';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { AppComponent } from './app.component';
@@ -26,11 +26,9 @@ import { RegisterComponent } from '@components/register/register.component';
 import { SharedFormFieldComponent } from '@components/shared-form-field/shared-form-field.component';
 import { ViewProfileComponent } from '@components/view-profile/view-profile.component';
 import { CreateTeamComponent } from '@components/create-team/create-team.component';
-import { CreateTourneyComponent } from '@components/create-tourney/create-tourney.component';
 import { RequestsComponent } from '@components/requests/requests.component';
 import { ViewTeamComponent } from '@components/view-team/view-team.component';
 import { ViewAllTeamsComponent } from '@components/view-all-teams/view-all-teams.component';
-
 import { JwtInterceptor } from './interceptors/jwt/jwt-interceptor.interceptor';
 import { LoadingCircleService } from '@services/loading-circle/loading-circle.service';
 import { AuthService } from '@services/auth/auth.service';
@@ -41,6 +39,8 @@ import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
 import { UploadComponent } from './components/upload/upload.component';
 import { SharedFormGroupComponent } from './components/shared-form-group/shared-form-group.component';
 import { AccountFormGroupComponent } from './components/account-form-group/account-form-group.component';
+import { CreateTourneyComponent } from '@components/create-tourney/create-tourney.component';
+import { ManageTourneyComponent } from './components/manage-tourney/manage-tourney.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,6 +58,7 @@ import { AccountFormGroupComponent } from './components/account-form-group/accou
     UploadComponent,
     SharedFormGroupComponent,
     AccountFormGroupComponent,
+    ManageTourneyComponent,
   ],
   imports: [
     FormsModule,
