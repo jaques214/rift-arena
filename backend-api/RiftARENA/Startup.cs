@@ -13,15 +13,10 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using RiftArena.Helpers;
-<<<<<<< HEAD
-using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
-
-=======
 using Microsoft.AspNetCore.Http.Features;
 using System.IO;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Http;
->>>>>>> 001ae899407e93164e2cf3472957686c4d1e8d36
 
 namespace RiftArena
 {
