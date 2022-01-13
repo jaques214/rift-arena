@@ -101,22 +101,29 @@ namespace RiftArena.Models.Services
                 {
                     tournamentSer.Name = tournament.Name;
                     tournamentSer.Description = tournament.Description;
-                    if (tournament.MaxTeams != 4 && tournament.MaxTeams != 8 && tournament.MaxTeams != 16)
+                    if (tournament.MaxTeams != 0)
                     {
-                        throw new AppException("The numbers of teams of the tournament should be 4, 8 or 16.");
-                    }
-                    else
-                    {
-                        tournamentSer.MaxTeams = tournament.MaxTeams;
+                        if (tournament.MaxTeams != 4 && tournament.MaxTeams != 8 && tournament.MaxTeams != 16)
+                        {
+                            throw new AppException("The numbers of teams of the tournament should be 4, 8 or 16.");
+                        }
+                        else
+                        {
+                            tournamentSer.MaxTeams = tournament.MaxTeams;
+                        }
                     }
                     tournamentSer.Rank = tournament.Rank;
-                    if (tournament.Date > System.DateTime.Now || tournamentSer.Date > System.DateTime.Now)
+                    if (tournament.Date > System.DateTime.Now)
                     {
                         tournamentSer.Date = tournament.Date;
                     }
                     else
                     {
-                        throw new AppException("Invalid date.");
+                        if (tournamentSer.Date < System.DateTime.Now)
+                        {
+                            throw new AppException("Invalid date.");
+                        }
+
                     }
                     if (tournament.Poster != tournamentSer.Poster)
                     {
@@ -214,7 +221,7 @@ namespace RiftArena.Models.Services
                 {
                     tournament.Stages.Add(team);
                     team.Tournament.Add(tournament);
-                    System.Console.WriteLine(team.Tournament);
+                    tournament.NumberOfTeams++;
 
                     _context.Teams.Update(team);
                     _context.Tournaments.Update(tournament);
