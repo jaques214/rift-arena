@@ -203,6 +203,7 @@ namespace RiftArena.Models.Services
         {
             var user = _context.Users.SingleOrDefault(x => x.Nickname == nickname);
             var TeamTemp = _context.Teams.Find(id);
+            var teamLeader = _context.Users.SingleOrDefault(x => x.Nickname == TeamTemp.TeamLeader);
             if (TeamTemp == null)
             {
                 throw new AppException("Not Found");
@@ -215,13 +216,17 @@ namespace RiftArena.Models.Services
                 {
                     throw new AppException("Linked Account is required");
                 }
-                else
+                else if (user.LinkedAccount.Region != teamLeader.LinkedAccount.Region)
                     {
-                        user.TeamTag = TeamTemp.Tag;
-                        TeamTemp.Members.Add(user);
-                        TeamTemp.NumberMembers++;
-                        TeamTemp.Rank = GetRankMean(TeamTemp.TeamId);
-                    }
+                throw new AppException("User region does not match team leader region");
+            }
+                    else
+                        {
+                            user.TeamTag = TeamTemp.Tag;
+                            TeamTemp.Members.Add(user);
+                            TeamTemp.NumberMembers++;
+                            TeamTemp.Rank = GetRankMean(TeamTemp.TeamId);
+                        }
             
             _context.Teams.Update(TeamTemp);
             _context.SaveChanges();
