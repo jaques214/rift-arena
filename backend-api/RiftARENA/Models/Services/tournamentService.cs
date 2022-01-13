@@ -197,28 +197,21 @@ namespace RiftArena.Models.Services
             }
             else if (user.TeamTag == null)
             {
-                throw new AppException("O utilizador não pertence a nenhuma equipa");
+                throw new AppException("User does not belong to any team.");
             }
             else
             {
                 var team = _context.Teams.SingleOrDefault(x => x.Tag == user.TeamTag);
                 if (team.TeamLeader != user.Nickname)
                 {
-                    throw new AppException("Apenas o teamLeader poderá inscrever-se no tourneio.");
+                    throw new AppException("Only teamLeader will be able to register for the tournament.");
                 }
                 else if (team.Rank != tournament.Rank)
                 {
-                    throw new AppException("O rank da equipa não se encontra de acordo.");
-                    System.Console.WriteLine("ranks diferentes");
+                    throw new AppException("The team's rank is not in agreement.");
                 }
                 else
                 {
-                    /*TeamTournament teamTournament = new TeamTournament();
-                    teamTournament.TeamId = team.TeamId;
-                    teamTournament.TournamentId = tournament.TournamentId;
-                    
-                    _context.TeamTournaments.Update(teamTournament); */
-                    System.Console.WriteLine("entro no else");
                     tournament.Stages.Add(team);
                     team.Tournament.Add(tournament);
                     System.Console.WriteLine(team.Tournament);
