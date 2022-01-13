@@ -11,6 +11,8 @@ import { UserRestService } from '@services/user-rest/user-rest.service';
 export class NavBarComponent implements OnInit {
   user?: User;
   profile?: string;
+  numberOfRequests: number = 0;
+  hasTeam: boolean = false;
 
   constructor(
     private userService: UserRestService,
@@ -22,17 +24,18 @@ export class NavBarComponent implements OnInit {
       this.userService.getUser().subscribe(
         (user) => {
           this.user = user;
+          if (this.user.teamTag != null) {
+            this.hasTeam = true;
+          }
+          this.userService.getRequests().subscribe((requests: any) => {
+            this.numberOfRequests = requests.length;
+          });
         },
         (err) => {
           localStorage.removeItem('currentUser');
         }
       );
     }
-  }
-
-  myProfile() {
-    this.profile = `/profile/${this.user?.userID}`;
-    return this.profile;
   }
 
   toogleProfileIcon() {

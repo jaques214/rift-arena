@@ -149,6 +149,10 @@ namespace RiftArena.Controllers
             User user = _userService.GetByUsername(User.Identity.Name);
 
             var team = _teamService.GetByTag(user.TeamTag);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8ff24312e3f551234251a2b69704588814aed871
             if (user.TeamTag == null)
             {
                 try
@@ -164,8 +168,32 @@ namespace RiftArena.Controllers
             }
             else
             {
+<<<<<<< HEAD
                 return BadRequest();
             }
+=======
+
+                if (team.TeamLeader.Equals(user.Nickname))
+                {
+                    try
+                    {
+                        _userService.CreateRequest(userSent.Nickname, team);
+                        _context.SaveChanges();
+                        return Ok();
+                    }
+                    catch (ApplicationException ex)
+                    {
+                        return BadRequest(new { message = ex.Message });
+                    }
+                }
+                else
+                {
+                    return BadRequest();
+                }
+
+            }
+
+>>>>>>> 8ff24312e3f551234251a2b69704588814aed871
         }
 
 
@@ -195,7 +223,6 @@ namespace RiftArena.Controllers
         public ActionResult<User> GetByToken()
 
         {
-            System.Console.WriteLine(User.Identity.Name);
             var user = _userService.GetByUsername(User.Identity.Name);
             if (user == null)
             {
@@ -331,14 +358,21 @@ namespace RiftArena.Controllers
             }
             else
             {
+<<<<<<< HEAD
                 if (user.Requests.Contains(request))
                 {
                     if (request.Team.Members.Count == request.Team.MAX_MEMBERS)
+=======
+                if (user.Requests.Contains(req))
+                {
+                    if (req.Team.Members.Count == req.Team.MAX_MEMBERS)
+>>>>>>> 8ff24312e3f551234251a2b69704588814aed871
                     {
                         return BadRequest();
                     }
                     else
                     {
+<<<<<<< HEAD
                         request.Accepted = true;
                         user.Requests.Remove(request);
                         user.TeamTag = request.Team.Tag;
@@ -351,6 +385,20 @@ namespace RiftArena.Controllers
                         _context.SaveChanges();
 
                         return Ok(user);
+=======
+                        req.Accepted = true;
+                        user.Requests.Remove(req);
+                        user.TeamTag = req.Team.Tag;
+                        _context.Update(req);
+                        _context.Update(user);
+
+                        Team temp = _context.Teams.Find(req.Team.TeamId);
+
+                        _teamService.AddMember(user.Nickname, temp.TeamId);
+                        _context.SaveChanges();
+
+                        return Ok();
+>>>>>>> 8ff24312e3f551234251a2b69704588814aed871
                     }
                 }
                 else
@@ -372,25 +420,19 @@ namespace RiftArena.Controllers
             var user = _userService.GetByUsername(User.Identity.Name);
             var req = _context.Requests.Find(request.RequestId);
 
-            if (user.TeamTag == null)
+
+            if (user.Requests.Contains(req))
             {
-                return BadRequest();
+                req.Accepted = false;
+                user.Requests.Remove(req);
+                _context.Update(req);
+                _context.Update(user);
+                _context.SaveChanges();
+                return Ok();
             }
             else
             {
-                if (user.Requests.Contains(req))
-                {
-                    req.Accepted = false;
-                    user.Requests.Remove(req);
-                    _context.Update(req);
-                    _context.Update(user);
-                    _context.SaveChanges();
-                    return Ok();
-                }
-                else
-                {
-                    return BadRequest();
-                }
+                return BadRequest();
             }
         }
     }

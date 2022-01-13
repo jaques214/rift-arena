@@ -4,6 +4,7 @@ using RiftArena.Models;
 using RiftArena.Models.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Collections.Generic;
 
 namespace RiftArena.Controllers 
 {
@@ -31,6 +32,36 @@ namespace RiftArena.Controllers
             _context.SaveChanges();
             return CreatedAtRoute("GetTournament", new { id = tournament.TournamentId }, tournament);
         }
+
+        //POST: api/Tournaments/startTournament
+        /// <summary>
+        /// Método que permite ao utilizador logado iniciar um torneio.
+        /// </summary>
+        /// <param name="tournament">Dados do torneio a ser iniciado.</param>
+        /// <returns>Dados do torneio iniciado.</returns>
+        [HttpPost("startTournament"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult startTournament([FromBody] Tournament tournament)
+        {
+            _service.startTournament(tournament);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        //POST: api/Tournaments/startTournament
+        /// <summary>
+        /// Método que permite ao utilizador logado iniciar um torneio.
+        /// </summary>
+        /// <param name="tournament">Dados do torneio a ser iniciado.</param>
+        /// <returns>Dados do torneio iniciado.</returns>
+        [HttpPost("nextStage"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult nextStage([FromBody] List<string> nextTeams,string tournamentName)
+        {
+            _service.nextStage(nextTeams, tournamentName);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+
 
         //GET: api/Tournaments/{id:int}
         /// <summary>

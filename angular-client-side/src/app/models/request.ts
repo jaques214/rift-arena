@@ -1,3 +1,4 @@
+import { Team } from './team';
 import {User} from './user'
 
 export class Request {
@@ -5,7 +6,7 @@ export class Request {
         public requestId: number,
         public user: User,
         public teamTag: string,
-        public teamName: string,
+        public team: Team,
         public accepted: boolean,
     ) {}
 }

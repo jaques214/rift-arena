@@ -70,7 +70,6 @@ namespace RiftArena.Models.Services
                 throw new AppException("Not able to retrieve ingame stats");
             }
 
-            Console.WriteLine("SUMMOMMER" + summoner);
             account.Rank = summoner.tier;
 
 
@@ -96,33 +95,38 @@ namespace RiftArena.Models.Services
             {
                 Summoner_V4 summoner_v4 = new Summoner_V4(region);
                 var summoner = summoner_v4.GetSummonerByName(nickname);
-                Console.WriteLine(summoner);
 
                 if (summoner == null)
                 {
                     throw new AppException("Riot account not found");
                 }
 
-                var linkedTemp = new LinkedAccount
+                if(summoner.profileIconId != 7)
                 {
-                    Username = nickname,
-                    ProfileIconID = summoner.profileIconId,
-                    Region = region,
-                    ID = summoner.id,
-                    SummonerLevel = summoner.summonerLevel,
-                    Validated = false
-                };
-
-                linkedTemp.Rank = GetSummonerRank(linkedTemp);
-                userTemp.LinkedAccount = linkedTemp;
-                userTemp.ContaRiot = nickname;
-
-                if (CheckValidatedRiot(linkedTemp))
+                   throw new AppException("Change your account Icon to the Rose Icon first");
+                }
+                else
                 {
-                    linkedTemp.Validated = true;
+                    var linkedTemp = new LinkedAccount
+                    {
+                        Username = nickname,
+                        ProfileIconID = summoner.profileIconId,
+                        Region = region,
+                        ID = summoner.id,
+                        SummonerLevel = summoner.summonerLevel,
+                        Validated = true
+                    };
+
+                    linkedTemp.Rank = GetSummonerRank(linkedTemp);
+                    userTemp.LinkedAccount = linkedTemp;
+                    userTemp.ContaRiot = nickname;
+
                 }
 
-
+                /*if (CheckValidatedRiot(linkedTemp))
+                {
+                    linkedTemp.Validated = true;
+                }*/
 
             }
             else
@@ -272,6 +276,7 @@ namespace RiftArena.Models.Services
             if (user != null)
             {
                 _context.Users.Remove(user);
+                _context.LinkedAccounts.Remove(user.LinkedAccount);
                 _context.SaveChanges();
             }
         }
