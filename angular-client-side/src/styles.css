@@ -5,11 +5,14 @@
   color: white !important;
 }
 
-.mat-h3, .mat-typography h3 {
+.mat-h3,
+.mat-typography h3 {
   font: 800 xx-large/32px "Montserrat", sans-serif;
 }
 
-.mat-h1, .mat-headline, .mat-typography h1 {
+.mat-h1,
+.mat-headline,
+.mat-typography h1 {
   font: 800 xx-large/32px "Montserrat", sans-serif;
 }
 
@@ -37,6 +40,46 @@ body {
 
 .mat-progress-spinner circle,
 .mat-spinner circle {
-  stroke: #20458a;
+  stroke: #234a95;
+}
+.mat-radio-group {
+  margin-bottom: 16px;
 }
 
+.mat-radio-button {
+  margin-bottom: 4px;
+}
+
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color: #234a95 !important;
+}
+
+.mat-radio-button.mat-accent .mat-radio-inner-circle,
+.mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+  background-color: #234a95 !important;
+}
+.mat-expansion-panel-body {
+  padding: 16px 24px 16px !important;
+  background-color: #fff;
+}
+
+.parallax {
+  position: relative;
+  background-image: url("assets/images/image_placeholder.png");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  min-height: 80%;
+  opacity: 0.65;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Turn off parallax scrolling for all tablets and phones. */
+@media only screen and (max-device-width: 1366px) {
+  .parallax {
+    background-attachment: scroll;
+  }
+}

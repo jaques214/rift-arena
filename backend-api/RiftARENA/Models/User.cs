@@ -24,6 +24,7 @@ namespace RiftArena.Models
             public virtual LinkedAccount LinkedAccount  { get; set; }
             public virtual List<Request> Requests   { get; set; }
             public string TeamTag { get; set; }
+            public string Poster { get; set; }
 
         public override string ToString()
         {

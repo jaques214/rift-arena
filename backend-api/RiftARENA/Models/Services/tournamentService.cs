@@ -4,6 +4,7 @@ using RiftArena.Models.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.IO;
 
 namespace RiftArena.Models.Services
 {
@@ -117,6 +118,13 @@ namespace RiftArena.Models.Services
                     {
                         throw new AppException("Invalid date.");
                     }
+                    if (tournament.Poster != tournamentSer.Poster)
+                    {
+                        if (File.Exists(tournamentSer.Poster))
+                        {
+                            File.Delete(tournamentSer.Poster);
+                        }
+                    }
                 }
                 else
                 {
@@ -143,6 +151,10 @@ namespace RiftArena.Models.Services
             var tournament = _context.Tournaments.Find(id);
             if (tournament != null && tournament.CreatorNickname == userID)
             {
+                if (File.Exists(tournament.Poster))
+                {
+                    File.Delete(tournament.Poster);
+                }
                 _context.Tournaments.Remove(tournament);
                 _context.SaveChanges();
             }

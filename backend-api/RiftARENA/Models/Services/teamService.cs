@@ -109,28 +109,7 @@ namespace RiftArena.Models.Services
             team.GamesPlayed = 0;
             team.NumberMembers = 1;
             team.Rank = leader.LinkedAccount.Rank;
-            /*
-            //Guardar Imagem do poster
-            if (team.PosterFile != null)
-            {
-                Console.WriteLine("1");
-                string rootPath = _env.WebRootPath;
-                Console.WriteLine("2");
-                string fileName = Path.GetFileNameWithoutExtension(team.PosterFile.FileName);
-                Console.WriteLine("3");
-                string extension = Path.GetExtension(team.PosterFile.FileName);
-                Console.WriteLine("4");
-                team.Poster = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-                Console.WriteLine("5");
-                string path = Path.Combine(rootPath+"/Images/", fileName);
-                Console.WriteLine("6");
-                using (var fileStream = new FileStream(path, FileMode.Create))
-                {
-                    //team.PosterFile.CopyToAsync(fileStream);
-                    Console.WriteLine("7");
-                    team.PosterFile.CopyTo(fileStream);
-                }
-            }*/
+
 
 
 
@@ -171,31 +150,17 @@ namespace RiftArena.Models.Services
                 if (_context.Teams.Any(x => x.Tag == team.Tag))
                     throw new AppException("Team tag " + team.Tag + " is already taken");
             }
-            /*
-            if (team.PosterFile != null)
+
+            if (team.Poster != teamSer.Poster)
             {
-                //Guardar Imagem do poster
-                string rootPath = _env.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(team.PosterFile.FileName);
-                string extension = Path.GetExtension(team.PosterFile.FileName);
-                team.Poster = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-                string path = Path.Combine(rootPath + "/Images/", fileName);
-                using (var fileStream = new FileStream(path, FileMode.Create))
+                if (File.Exists(teamSer.Poster))
                 {
-                    //team.PosterFile.CopyToAsync(fileStream);
-                    team.PosterFile.CopyTo(fileStream);
-                }
-                //Apagar a imagem que ja existe
-                var imagePath = Path.Combine("RiftARENA/Images", teamSer.Poster);
-                if (File.Exists(imagePath))
-                {
-                    File.Delete(imagePath);
+                    File.Delete(teamSer.Poster);
                 }
             }
-            */
+
             teamSer.Name = team.Name;
             teamSer.Tag = team.Tag;
-            teamSer.Rank = team.Rank;
 
 
             _context.Teams.Update(teamSer);
@@ -218,14 +183,12 @@ namespace RiftArena.Models.Services
                     team.Members[i].TeamTag = null;
                     _context.Users.Update(team.Members[i]);
                 }
-                /*
-                //Apagar a imagem que ja existe
-                var imagePath = Path.Combine("RiftARENA/Images", team.Poster);
-                if (File.Exists(imagePath))
+                if (File.Exists(team.Poster))
                 {
-                    File.Delete(imagePath);
+                    File.Delete(team.Poster);
                 }
-                */
+
+
                 _context.Teams.Remove(team);
                 _context.SaveChanges();
             }
