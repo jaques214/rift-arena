@@ -2,8 +2,11 @@ import { UserRestService } from '@services/user-rest/user-rest.service';
 import { Component, OnInit } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 export interface PeriodicElement {
+  requestId: number,
   tag: string;
   teamLeader: string;
   teamName: string;
@@ -16,6 +19,8 @@ export interface PeriodicElement {
   styleUrls: ['./requests.component.css']
 })
 export class RequestsComponent implements OnInit {
+  selectedValue!: string;
+  requestID!: number;
   requests: any = [];
   ELEMENT_DATA: PeriodicElement[] = [];
   //titles: any[] = ['Tag', 'Team Leader', 'Team Name', 'Current Total of Members'];
@@ -66,7 +71,7 @@ export class RequestsComponent implements OnInit {
   panelOpenState = false;
   selection = new SelectionModel<PeriodicElement>(true, []);
 
-  constructor(private restService: UserRestService) { }
+  constructor(private router: Router, private restService: UserRestService) { }
 
   ngOnInit(): void {
     this.getRequests().subscribe((data: {}) => {
@@ -79,6 +84,7 @@ export class RequestsComponent implements OnInit {
   populateTable() {
     for (let index = 0; index < this.getRequestSize(); index++) {
       this.ELEMENT_DATA[index] = {
+        requestId: this.requests[index].requestId,
         tag: this.requests[index].team.tag, 
         teamLeader: this.requests[index].team.teamLeader, 
         teamName: this.requests[index].team.name, 
@@ -123,6 +129,32 @@ export class RequestsComponent implements OnInit {
 
   getRequestSize(): number {
     return this.requests.length;
+  }
+
+  getRequestID():number {
+    return (this.selection.selected[0].requestId == undefined) ? 
+      this.requestID = (this.selectedValue.slice(0,1) as any) : 
+      this.requestID = this.selection.selected[0].requestId;
+  }
+
+  acceptRequest() {
+    this.requestID = this.getRequestID();
+    this.restService.acceptRequest(this.requestID).subscribe({
+       next: () => {
+         this.router.navigate(['/view-team']);
+       },
+       error: (err: any) => console.log(err)
+     });
+  }
+
+  refuseRequest() {
+    this.requestID = this.getRequestID();
+    this.restService.acceptRequest(this.requestID).subscribe({
+      next: () => {
+        this.router.navigate(['/']);
+      },
+      error: (err: any) => console.log(err)
+    });
   }
 
 }

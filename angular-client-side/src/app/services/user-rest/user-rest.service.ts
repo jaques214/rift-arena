@@ -45,10 +45,24 @@ export class UserRestService {
     );
   }
 
-  createRequests(nickname: string): Observable<any> {
+  createRequest(nickname: string): Observable<any> {
     const url = `${endpoint}/createRequest`;
     return this.http.post(url, 
       JSON.stringify({ Nickname: nickname }),
+      httpOptions);
+  }
+
+  acceptRequest(requestID: number): Observable<any> {
+    const url = `${endpoint}/acceptRequest`;
+    return this.http.post(url, 
+      JSON.stringify({ RequestId: requestID }),
+      httpOptions);
+  }
+
+  refuseRequest(requestID: number): Observable<any> {
+    const url = `${endpoint}/refuseRequest`;
+    return this.http.post(url, 
+      JSON.stringify({ RequestId: requestID }),
       httpOptions);
   }
 

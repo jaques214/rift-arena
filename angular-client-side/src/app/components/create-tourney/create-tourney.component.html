@@ -12,8 +12,7 @@
         (form.get('tourneyName')!.hasError('required') &&
           form.get('tourneyName')!.touched) ||
         (form.get('tourneyName')!.dirty && form.get('tourneyName')!.invalid) ||
-        (form.get('rank')!.hasError('required') &&
-          form.get('rank')!.touched) ||
+        (form.get('rank')!.hasError('required') && form.get('rank')!.touched) ||
         (form.get('rank')!.dirty && form.get('rank')!.invalid) ||
         (form.get('numberTeams')!.hasError('required') &&
           form.get('numberTeams')!.touched) ||
@@ -40,6 +39,18 @@
       />
     </div>
     <div class="mb-3">
+      <label for="formGroupDescription" class="form-group"
+        >Insert Tourney Description</label
+      >
+      <input
+        type="text"
+        class="form-control"
+        formControlName="description"
+        id="formGroupExampleInput"
+        placeholder="Example: Este torneio ..."
+      />
+    </div>
+    <div class="mb-3">
       <label for="formGroupNumberTeams" class="form-group"
         >Number of Teams</label
       >
@@ -60,13 +71,23 @@
         formControlName="rank"
         id="formGroupExampleInput"
       >
-      <option *ngFor="let r of ranks" [value]="r">{{r}}</option>
+        <option *ngFor="let r of ranks" [value]="r">{{ r }}</option>
       </select>
     </div>
     <div class="mb-3">
-      <label for="formGroupTourneyName" class="form-group"
-        >Insert Date</label
+      <label for="formGroupRegion" class="form-group">Region</label>
+      <select
+        class="form-select"
+        formControlName="region"
+        id="formGroupExampleInput"
       >
+        <option *ngFor="let region of regions" [value]="region">
+          {{ region }}
+        </option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="formGroupTourneyName" class="form-group">Insert Date</label>
       <input
         type="datetime-local"
         class="form-control"
@@ -82,7 +103,7 @@
       >
         Go Back
       </button>
-      <button [ngClass]="{ disabled: !isEnable() }" class="btn btn-blue">
+      <button [ngClass]="{ disabled: !isEnable() }" (submit)="save()" class="btn btn-blue">
         Create
       </button>
     </div>
