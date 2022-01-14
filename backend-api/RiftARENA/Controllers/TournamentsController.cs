@@ -4,6 +4,8 @@ using RiftArena.Models;
 using RiftArena.Models.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.IO;
+using System.Net.Http.Headers;
 
 namespace RiftArena.Controllers 
 {
@@ -103,5 +105,6 @@ namespace RiftArena.Controllers
             _context.SaveChanges();
             return Ok();
         }
+
     }
 }
