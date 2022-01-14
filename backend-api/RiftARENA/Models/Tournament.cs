@@ -21,6 +21,7 @@ namespace RiftArena.Models
 
         public string Description { get; set;}
 
+        [RegularExpression(@"^([A-Z]+)$", ErrorMessage = "Rank can only be capital letters")]
         public string Rank { get; set; }
 
         public string Region { get; set; }

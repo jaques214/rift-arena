@@ -209,6 +209,8 @@ namespace RiftArena.Models.Services
             else
             {
                 var team = _context.Teams.SingleOrDefault(x => x.Tag == user.TeamTag);
+                var teamLeader = _context.Users.SingleOrDefault(x => x.Nickname == team.TeamLeader);
+
                 if (team.TeamLeader != user.Nickname)
                 {
                     throw new AppException("Only teamLeader will be able to register for the tournament.");
@@ -216,6 +218,10 @@ namespace RiftArena.Models.Services
                 else if (team.Rank != tournament.Rank)
                 {
                     throw new AppException("The team's rank is not in agreement.");
+                }
+                else if (teamLeader.LinkedAccount.Region != tournament.Region)
+                {
+                    throw new AppException("The team region does not belong to the tournament region.");
                 }
                 else
                 {
