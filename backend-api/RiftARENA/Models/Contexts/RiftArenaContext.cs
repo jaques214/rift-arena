@@ -9,6 +9,7 @@ namespace RiftArena.Models.Contexts
         {
 
         }
+        
 
         public DbSet<User> Users { get; set; }
         public DbSet<Team> Teams { get; set; }
@@ -16,6 +17,11 @@ namespace RiftArena.Models.Contexts
         public DbSet<Request> Requests { get; set; }
         public DbSet<LinkedAccount> LinkedAccounts { get; set; }
         public DbSet<Messages> Messages { get; set; }
+        public DbSet<TeamTournament> TeamTournaments {get; set;}
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder){
+            modelBuilder.Entity<TeamTournament>().HasKey(o => new {o.TeamId, o.TournamentId});
+        }
 
     }
 }
