@@ -58,7 +58,7 @@ namespace RiftArena.Controllers
         /// <param name="id">ID da equipa a retornar</param>
         /// <returns>Equipa com ID fornecido</returns>
         //GET: api/Teams/{id: int}
-        [HttpGet("{id}", Name = "GetTeam")]
+        [HttpGet("{id:int}", Name = "GetTeam")]
         public ActionResult<Team> GetByID(int id)
         {
 

@@ -106,5 +106,15 @@ namespace RiftArena.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Método que permite adicionar a equipa de um utilizador logado ao torneio.
+        /// </summary>
+        /// <param name="id">ID do torneio a ser atualizado.</param>
+        /// <returns>Ok 200</returns>
+        [HttpPut("{id:int}/addMyTeam"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public ActionResult AddTeam(int id){
+            _service.AddTeam(id, User.Identity.Name);
+            return Ok();
+        }
     }
 }
