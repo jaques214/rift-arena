@@ -38,6 +38,7 @@ export class ViewProfileComponent implements OnInit {
   }
    
   ngOnInit(): void {   
+    console.log(this.flag);
     this.getUser().subscribe((user) => {
       this.user = user;
       this.account = this.user?.linkedAccount;

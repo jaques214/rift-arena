@@ -4,7 +4,7 @@
     <mat-card-title>{{ title }}</mat-card-title>
   </mat-card-header>
   <mat-card-content class="container">   
-    <app-shared-form-group [formFields]="formFields.inputs" [value]="'Register'"></app-shared-form-group>
+    <app-shared-form-group [formFields]="formFields.inputs" [value]="'Register'" [authForm]="authForm"></app-shared-form-group>
   </mat-card-content>
   <mat-card-actions ngClass="container">
     <p>Already have an account? Login <a [routerLink]="['/login']">here</a></p>

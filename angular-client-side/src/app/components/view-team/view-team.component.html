@@ -2,9 +2,26 @@
 <ng-container *ngIf="team != undefined">
 <header>
   <div class="content">
-    <div>
-      <h1>{{ team?.name }}</h1>
-      <p><i>{{ '#' + team?.tag }}</i></p>
+    <div *ngFor="let input of formFields.inputs">
+      <ng-container [ngSwitch]="flag">
+        <div *ngSwitchCase="'edit-' + input.name" [ngClass]="'form-size'">
+          <app-shared-form-field [input]="input" [value]="'Submit'" [obj]="team" [flag]="flag"></app-shared-form-field>
+        </div>
+
+        <ng-template [ngSwitchDefault]>
+          <div [ngClass]="'item'">
+            <ng-container *ngIf="input.name == 'name'" >
+              <h1>{{ team?.name }}</h1>
+            </ng-container>
+            <ng-container *ngIf="input.name == 'tag'">             
+              <p><i>{{ '#' + team?.tag }}</i></p>
+            </ng-container>
+            <mat-icon (click)="clickEvent(input.name)" aria-hidden="false" aria-label="edit icon" matSuffix>
+              edit
+            </mat-icon>
+          </div>
+        </ng-template>
+      </ng-container>
     </div>
     <div>
       <img src="{{ getRankIcon(team?.rank) }}" class="icon" alt="icon">

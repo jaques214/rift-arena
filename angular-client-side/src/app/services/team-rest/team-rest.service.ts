@@ -25,6 +25,14 @@ export class TeamRestService {
     return this.http.get<Team[]>(endpoint, httpOptions);
   }
 
+  updateTeam(name: string, tag: string, poster: string): Observable<Team> {
+    return this.http.put<Team>(
+      endpoint,
+      JSON.stringify({ Name: name, Tag: tag, Poster: poster }),
+      httpOptions
+    );
+  }
+
   createTeam(tag: string, nameTeam: string): Observable<any> {
     return this.http.post<any>(
       endpoint + 'createTeam',

@@ -2,10 +2,10 @@ import { UserRestService } from '@services/user-rest/user-rest.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '@services/auth/auth.service';
-import { ConfirmedValidator } from '@src/app/confirmed.validator';
 import { User } from '@models/user';
 import { Observable } from 'rxjs';
+import { Team } from '@models/team';
+import { TeamRestService } from '@services/team-rest/team-rest.service';
 
 @Component({
   selector: 'app-shared-form-field',
@@ -18,12 +18,12 @@ export class SharedFormFieldComponent implements OnInit {
   @Input() flag!:any;
   // @Input() formFields!:any;
   @Input() submitMethod: any;
-  user!:User;
+  @Input() obj!:any;
   hide = true;
   authForm!: FormGroup;
   message!: string;
 
-  constructor(public router: Router, private authService: AuthService, private restService: UserRestService) {
+  constructor(public router: Router, private restService: UserRestService, private teamRestService: TeamRestService) {
   }
   
   ngOnInit(): void {
@@ -35,14 +35,16 @@ export class SharedFormFieldComponent implements OnInit {
     // validator: ConfirmedValidator('current_password', 'new_password')
     
     );
-    this.getUser().subscribe((user) => {
-      this.user = user;
-      this.populateForm();
-    });
+    // this.getUser().subscribe((user) => {
+    //   this.user = user;
+    //   this.populateForm();
+    // });
+
+    this.populateForm();
   }
 
   populateForm() {
-    let values = Object.entries(this.user);
+    let values = Object.entries(this.obj);
     //console.log(values);
     //if a user already exists populates the formFields inputs.
       
@@ -65,7 +67,23 @@ export class SharedFormFieldComponent implements OnInit {
     this.restService.updateUser(user.password!, user.email!).subscribe({
       next: () => {
         this.getUser().subscribe((user) => {
-          this.user = user;
+          this.obj = user;
+          this.populateForm();
+        });
+      },
+      error: (err) => console.log(err)
+    });
+  }
+
+  getTeam(): Observable<any> {
+    return this.teamRestService.getTeam(1);
+  }
+
+  editTeam(team: Team): void {
+    this.teamRestService.updateTeam(team.name!, team.tag!, team.poster!).subscribe({
+      next: () => {
+        this.getTeam().subscribe((team) => {
+          this.obj = team;
           this.populateForm();
         });
       },
@@ -74,10 +92,10 @@ export class SharedFormFieldComponent implements OnInit {
   }
 
   /**
-   * Submeter dados atualizados do utilizador
+   * Submeter dados atualizados
    */
    onSubmit(): void {
-    const data = this.user!;
+    const data = this.obj!;
     (data as any)[this.input.name!] = this.authForm.get(this.input.name)?.value
     //console.log(data);
     this.flag = "view";

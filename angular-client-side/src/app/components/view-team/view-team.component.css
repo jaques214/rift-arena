@@ -99,6 +99,26 @@ header .mat-icon {
   height: auto;
 }
 
+.item {
+  align-items: center;
+  display: flex;
+  margin: auto;
+}
+
+.mat-form-field {
+  width: 80%;
+}
+
+.item .mat-icon {
+  cursor: pointer;
+  padding-left: 8px;
+  align-content: center;
+}
+
+.item .mat-icon:hover {
+  color: #24499A;
+}
+
 @media only screen and (max-width: 600px) {
   .container {
     flex-direction: column;

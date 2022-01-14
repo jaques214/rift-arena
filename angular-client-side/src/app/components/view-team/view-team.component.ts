@@ -26,6 +26,8 @@ export class ViewTeamComponent implements OnInit {
   users: any = [];
   isShow = true;
   selectedValue!: string;
+  flag : string = "view";
+  formFields: any = Team.fields();
 
   constructor(private router: Router, private teamService: TeamRestService, private restService: UserRestService) { }
 
@@ -88,6 +90,39 @@ export class ViewTeamComponent implements OnInit {
 
   toggleDisplay() {
     this.isShow = !this.isShow;
+  }
+
+  changeFlag(name: string): string {
+    switch(name) {
+      case 'tag':
+        this.flag = 'edit-' + name;
+        break;
+      case 'name':
+        this.flag = 'edit-' + name;
+        break;
+    }
+    console.log(this.flag);
+    return this.flag;
+  }
+
+  clickEvent(name: string) {
+    this.flag = (this.flag == "view") ? this.changeFlag(name) : "view";
+    console.log(this.flag);
+  }
+
+  getTeamValue(value: any): string {
+    let convert: string = "";
+    
+    if(this.team != null) {
+      let values = Object.entries(this.team!);
+      //console.log(values);
+      values.forEach(val => {
+        if(val[0] == value) {
+          convert = val[1];         
+        }
+      });
+    }
+    return convert;
   }
   
 addRequest(): void {

@@ -23,12 +23,11 @@ export class Team {
         return {
             inputs: [
               {
-                name: 'teamName',
+                name: 'name',
                 type: 'text',
                 placeholder: 'Enter Team Name',
                 iconlabel: 'account circle icon',
                 icon: 'account_circle',
-                model: undefined,
               },
               {
                 name: 'tag',
@@ -36,7 +35,6 @@ export class Team {
                 placeholder: 'Enter Team Tag',
                 iconlabel: 'code icon',
                 icon: 'code',
-                model: undefined,
               },
         ]}
     }

@@ -41,6 +41,8 @@ import { SharedFormGroupComponent } from './components/shared-form-group/shared-
 import { AccountFormGroupComponent } from './components/account-form-group/account-form-group.component';
 import { CreateTourneyComponent } from '@components/create-tourney/create-tourney.component';
 import { ManageTourneyComponent } from './components/manage-tourney/manage-tourney.component';
+import { ViewAllTourneysComponent } from './components/view-all-tourneys/view-all-tourneys.component';
+import { ViewTourneyComponent } from './components/view-tourney/view-tourney.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,6 +61,8 @@ import { ManageTourneyComponent } from './components/manage-tourney/manage-tourn
     SharedFormGroupComponent,
     AccountFormGroupComponent,
     ManageTourneyComponent,
+    ViewAllTourneysComponent,
+    ViewTourneyComponent,
   ],
   imports: [
     FormsModule,
