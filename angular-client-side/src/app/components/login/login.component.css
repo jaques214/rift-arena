@@ -43,6 +43,10 @@
   font-weight: bold;
 }
 
+#logo {
+  text-align: center;
+}
+
 .main-mat-card{
   background-color: white;
 }

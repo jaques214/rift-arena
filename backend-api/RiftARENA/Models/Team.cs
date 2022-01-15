@@ -16,6 +16,8 @@ namespace RiftArena.Models
         [RegularExpression(@"^[A-Z]{3}$", ErrorMessage = "TAG should only have 3 characters and can only be letters")]
         public string Tag { get; set; }
         public string TeamLeader { get; set; }
+        
+        [RegularExpression(@"^([A-Z]+)$", ErrorMessage = "Rank can only be capital letters")]
         public string Rank { get; set; }
 
         public int NumberMembers { get; set; }
@@ -31,11 +33,7 @@ namespace RiftArena.Models
         public virtual List<User> Members { get; set; }
 
         public string Poster { get; set; }
-        /*
-        [NotMapped]
-        [DisplayName("Upload File")]
-        public IFormFile PosterFile { get; set; }
-        */
+
         public virtual List<Tournament> Tournament {get; set; }
 
         public readonly int MAIN_MEMBERS = 5;

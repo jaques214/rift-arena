@@ -21,6 +21,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using RiftArena.Helpers;
 using Newtonsoft.Json;
 using System.Web;
+using System.IO;
+using System.Net.Http.Headers;
 
 namespace RiftArena.Controllers
 {
@@ -397,6 +399,8 @@ namespace RiftArena.Controllers
                 return BadRequest();
             }
         }
+        
+        
     }
 }
 

@@ -10,7 +10,7 @@ namespace RiftArena.Models
         {
             [Key]
             public int UserID { get; set; }
-            [RegularExpression(@"^([A-Z]{1}[A-Za-z]+(([ ]{0,1}[A-Za-z])+[a-z]*)*)$", ErrorMessage = "Invalid nickname")]
+            [RegularExpression(@"^([A-Z]{1}[A-Za-z]+(([ ]{0,1}[A-Za-z1-9])+[a-z]*)*)$", ErrorMessage = "Invalid nickname")]
             public string Nickname { get; set; }     
             public string Password { get; set; }
             public byte[]  PasswordHash { get; set; }
@@ -24,6 +24,7 @@ namespace RiftArena.Models
             public virtual LinkedAccount LinkedAccount  { get; set; }
             public virtual List<Request> Requests   { get; set; }
             public string TeamTag { get; set; }
+            public string Poster { get; set; }
 
         public override string ToString()
         {

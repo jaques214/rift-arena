@@ -15,7 +15,9 @@ namespace RiftARENA.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-
+            migrationBuilder.DropColumn(
+                name: "Position",
+                table: "TeamTournament");
         }
     }
 }

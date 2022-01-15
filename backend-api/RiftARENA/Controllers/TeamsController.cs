@@ -10,6 +10,8 @@ using RiftArena.Models.Services;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.IO;
+using System.Net.Http.Headers;
 
 
 namespace RiftArena.Controllers
@@ -56,7 +58,7 @@ namespace RiftArena.Controllers
         /// <param name="id">ID da equipa a retornar</param>
         /// <returns>Equipa com ID fornecido</returns>
         //GET: api/Teams/{id: int}
-        [HttpGet("{id}", Name = "GetTeam")]
+        [HttpGet("{id:int}", Name = "GetTeam")]
         public ActionResult<Team> GetByID(int id)
         {
 
@@ -66,6 +68,22 @@ namespace RiftArena.Controllers
             else
                 return Ok(teamCon);
 
+        }
+
+        /// <summary>
+        /// Método que retorna uma equipa através de uma Tag, chamando o método GetByTag implementado no teamService
+        /// </summary>
+        /// <param name="Tag">Tag da equipa a retornar</param>
+        /// <returns>Equipa com Tag fornecida</returns>
+        //GET: api/Teams/{Tag}
+        [HttpGet("{Tag}", Name = "GetTeamByTag")]
+        public ActionResult<Team> GetByTag (string Tag)
+        {
+            var teamCon = _service.GetByTag(Tag);
+            if (teamCon == null)
+                return NotFound();
+            else
+                return Ok(teamCon);
         }
 
         /// <summary>
