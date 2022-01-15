@@ -49,25 +49,52 @@ namespace RiftArena.Models.Services
         /// <exception cref="AppException">Exceção caso o torneio a criar falhe nas validações</exception>
         public Tournament startTournament(Tournament tournament)
         {
-            if(tournament.Date != DateTime.Now)
+            //passar isto para enum na classe Tournament
+            string[] v4Temp = new string[] { "4", "2", "1" };
+            string[] v8Temp = new string[] { "8", "4", "2", "1" };
+            string[] v16Temp = new string[] { "16", "8", "4", "2", "1" };
+
+            if (tournament.Date != DateTime.Now)
             {
                 throw new AppException("Not on the scheduled date.");
             }
             else
             {
-                Random rng = new Random();
-                tournament.State = Status.Online;
-
-                int n = tournament.Stages.Count;
-
-                while (n > 1)
+                if(tournament.NumberOfTeams != tournament.MaxTeams)
                 {
-                    n--;
-                    int k = rng.Next(n + 1);
-                    Team value = tournament.Stages[k];
-                    tournament.Stages[k] = tournament.Stages[n];
-                    tournament.Stages[n] = value;
+                    tournament.State = Status.Canceled;
+                    throw new AppException("Not enough teams to play, tournament canceled.");
                 }
+                else
+                {
+                    Random rng = new Random();
+                    tournament.State = Status.Online;
+
+                    int n = tournament.Stages.Count;
+
+                    while (n > 1)
+                    {
+                        n--;
+                        int k = rng.Next(n + 1);
+                        Team value = tournament.Stages[k];
+                        tournament.Stages[k] = tournament.Stages[n];
+                        tournament.Stages[n] = value;
+                    }
+                    if (tournament.MaxTeams == 4)
+                    {
+                        tournament.Stage = v4Temp.First();
+
+                    }
+                    else if (tournament.MaxTeams == 8)
+                    {
+                        tournament.Stage = v8Temp.First();
+                    }
+                    else
+                    {
+                        tournament.Stage = v16Temp.First();
+                    }
+                }
+      
             }
 
             return tournament;
@@ -83,8 +110,14 @@ namespace RiftArena.Models.Services
         /// <exception cref="AppException">Exceção caso o torneio a criar falhe nas validações</exception>
         public Tournament nextStage(List<string> nextTeams,string tournamentName)
         {
+            //passar isto para enum na classe Tournament
+            //Testar
+            string[] v4Temp = new string[] { "4", "2", "1" };
+            string[] v8Temp = new string[] { "8", "4", "2","1" };
+            string[] v16Temp = new string[] { "16", "8", "4", "2", "1" };
+
             var tournament = GetByTournamentName(tournamentName);
-            //em vez de enviar nextTeams como array de teams, envia array de Tags de team
+            
 
             if (tournament.State != Status.Online)
             {
@@ -104,22 +137,67 @@ namespace RiftArena.Models.Services
                 {
                     if (!(nextTeamsTemp.Contains(tournament.Stages.ElementAt(i)))){
 
-                        //como saber que é por exemplo a primeira vez que é chamado este método para atribuir à equipa retirada
-                        //usar o stage campo novo da BD
-
                         TeamTournament teamTournamentTemp = new TeamTournament();
                         
                         teamTournamentTemp.TeamId = tournament.Stages.ElementAt(i).TeamId; 
                         teamTournamentTemp.TournamentId = tournament.TournamentId;
+                        teamTournamentTemp.Position = Int32.Parse(tournament.Stage);
                         tournament.Stages.Remove(tournament.Stages.ElementAt(i));
                     }
                 }
                 tournament.Stages = nextTeamsTemp;
+                var index = FindStage(v4Temp, tournament.Stage);
+
+                if (tournament.Stages.Count == 1)
+                {
+                    tournament.FinalWinner = tournament.Stages.First().Tag;
+                    tournament.State = Status.Closed;
+                }
+                else
+                {
+                    if (index == -1)
+                    {
+                        throw new Exception("Erro que não devia dar");
+                    }
+                    else
+                    {
+                        if (tournament.MaxTeams == 4)
+                        {
+                            tournament.Stage = v4Temp[index + 1];
+                        }
+
+                        if (tournament.MaxTeams == 8)
+                        {
+                            tournament.Stage = v8Temp[index + 1];
+                        }
+
+                        if (tournament.MaxTeams == 16)
+                        {
+                            tournament.Stage = v16Temp[index + 1];
+                        }
+
+                    }
+                }
+
                 _context.Tournaments.Update(tournament);
                 _context.SaveChanges();
 
                 return tournament;
             }
+        }
+
+
+        /// <summary>
+        /// Método que retorna todos o indice do stage atual
+        /// </summary>
+        /// <returns>Índice do stage atual</returns>
+        public int FindStage(string[] vX,string stageAtual)
+        {
+            for(int i = 0; i < vX.Length; i++)
+            {
+                if(vX[i] == stageAtual) return i;
+            }
+            return -1;
         }
 
         /// <summary>
