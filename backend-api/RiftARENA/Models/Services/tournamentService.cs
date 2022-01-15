@@ -141,6 +141,7 @@ namespace RiftArena.Models.Services
                         {
                             File.Delete(tournamentSer.Poster);
                         }
+                        tournamentSer.Poster = tournament.Poster;
                     }
                 }
                 else

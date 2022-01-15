@@ -158,7 +158,7 @@ namespace RiftArena.Models.Services
                     File.Delete(teamSer.Poster);
                 }
             }
-
+            teamSer.Poster = team.Poster;
             teamSer.Name = team.Name;
             teamSer.Tag = team.Tag;
 

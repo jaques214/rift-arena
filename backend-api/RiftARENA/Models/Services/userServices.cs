@@ -255,7 +255,7 @@ namespace RiftArena.Models.Services
                     File.Delete(user.Poster);
                 }
             }
-
+            user.Poster = userParam.Poster;
             user.Email = userParam.Email;
             user.Nickname = userParam.Nickname;
 
