@@ -138,20 +138,32 @@ namespace RiftArena.Models.Services
                     if (!(nextTeamsTemp.Contains(tournament.Stages.ElementAt(i)))){
 
                         TeamTournament teamTournamentTemp = new TeamTournament();
-                        
+                        //confirmar se é bem fazer estas 2 linhas (142 e 143)
+                        var team = _teamService.GetByTag(tournament.Stages.ElementAt(i).Tag);
+                        team.Defeats++;
+
                         teamTournamentTemp.TeamId = tournament.Stages.ElementAt(i).TeamId; 
                         teamTournamentTemp.TournamentId = tournament.TournamentId;
                         teamTournamentTemp.Position = Int32.Parse(tournament.Stage);
                         tournament.Stages.Remove(tournament.Stages.ElementAt(i));
+
+                        //falta mudar no context
                     }
                 }
                 tournament.Stages = nextTeamsTemp;
+                setTeamWins(nextTeamsTemp);
                 var index = FindStage(v4Temp, tournament.Stage);
 
                 if (tournament.Stages.Count == 1)
                 {
                     tournament.FinalWinner = tournament.Stages.First().Tag;
+                    var winner = _teamService.GetByTag(tournament.Stages.First().Tag);
+                    winner.TournamentsWon++;
                     tournament.State = Status.Closed;
+
+                    _context.Teams.Update(winner);
+                    _context.SaveChanges();
+                    
                 }
                 else
                 {
@@ -183,6 +195,21 @@ namespace RiftArena.Models.Services
                 _context.SaveChanges();
 
                 return tournament;
+            }
+        }
+
+        /// <summary>
+        /// Método que atribui as estatisticas de vitorias às equipas que passam
+        /// </summary>
+        public void setTeamWins(List<Team> teams)
+        {
+            for (int i = 0; i < teams.Count; i++)
+            {
+                teams.ElementAt(i).Wins++;
+                
+                _context.Teams.Update(teams.ElementAt(i)); 
+                _context.SaveChanges();
+
             }
         }
 
