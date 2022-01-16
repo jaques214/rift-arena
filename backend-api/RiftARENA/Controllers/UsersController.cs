@@ -151,10 +151,18 @@ namespace RiftArena.Controllers
             User user = _userService.GetByUsername(User.Identity.Name);
 
             var team = _teamService.GetByTag(user.TeamTag);
-
             if (user.TeamTag == null)
             {
-                return BadRequest();
+                try
+                {
+                    _userService.CreateRequest(userSent.Nickname, team);
+                    _context.SaveChanges();
+                    return Ok();
+                }
+                catch (ApplicationException ex)
+                {
+                    return BadRequest(new { message = ex.Message });
+                }
             }
             else
             {
