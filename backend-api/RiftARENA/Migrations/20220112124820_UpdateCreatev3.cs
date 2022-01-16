@@ -31,25 +31,10 @@ namespace RiftARENA.Migrations
                 table: "TeamTournament",
                 columns: new[] { "StagesTeamId", "TournamentId" });
 
-            migrationBuilder.CreateTable(
-                name: "TeamTournaments",
-                columns: table => new
-                {
-                    TeamId = table.Column<int>(type: "int", nullable: false),
-                    TournamentId = table.Column<int>(type: "int", nullable: false),
-                    Position = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TeamTournaments", x => new { x.TeamId, x.TournamentId });
-                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "TeamTournaments");
-
             migrationBuilder.DropPrimaryKey(
                 name: "PK_TeamTournament",
                 table: "TeamTournament");
