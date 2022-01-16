@@ -69,11 +69,10 @@ namespace RiftArena.Controllers
         /// </summary>
         /// <param name="id">Id do torneio.</param>
         /// <returns>Equipas e posição no torneio.</returns>
-        [HttpGet("{id:int}", Name = "GetTeamsAndStagesInTournament")]
+        [HttpGet("{id:int}/getTeamsInTournament", Name = "GetTeamsAndStagesInTournament")]
         public IActionResult GetTeamsAndStagesInTournament(int id)
         {
-            _service.GetTeamsAndStageByTournament(id);
-            return Ok();
+            return Ok(_service.GetTeamsAndStageByTournament(id));
         }
 
 

@@ -19,9 +19,5 @@ namespace RiftArena.Models.Contexts
         public DbSet<Messages> Messages { get; set; }
         public DbSet<TeamTournament> TeamTournaments {get; set;}
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder){
-            modelBuilder.Entity<TeamTournament>().HasKey(o => new {o.TeamId, o.TournamentId});
-        }
-
     }
 }

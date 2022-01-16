@@ -342,6 +342,9 @@ namespace RiftArena.Models.Services
                             File.Delete(tournamentSer.Poster);
                         }
                     }
+                    if(tournament.Region != null){
+                        tournamentSer.Region = tournament.Region;
+                    }
                 }
                 else
                 {
