@@ -1,0 +1,96 @@
+<app-nav-bar></app-nav-bar>
+<ng-container *ngIf="team != undefined">
+<header>
+  <div class="content">
+    <div>
+      <h1>{{ team?.name }}</h1>
+      <p><i>{{ '#' + team?.tag }}</i></p>
+    </div>
+    <div>
+      <img src="{{ getRankIcon(team?.rank) }}" class="icon" alt="icon">
+    </div>
+  </div>
+  <div class="staricon">
+    <p>{{getCompletePercentage(team?.numberMembers!) + "% of total members"}}</p>
+    <p>{{team?.numberMembers}} member(s) + 2 substitute members</p>
+    <p><strong>Rank:</strong> {{team?.rank}}</p>
+  </div>
+</header>
+
+<section>
+    <div class="container">
+      <div>
+        <p>{{ 'Wins: ' + team?.wins }}</p>
+      </div>
+      <div>
+        <p>{{ 'Defeats: ' + team?.defeats }}</p>
+      </div>
+      <div>
+        <p>{{ 'Games Played: ' + team?.gamesPlayed }}</p>
+      </div>
+    </div>
+
+    <p class="subtitle">Main Team Members:</p>
+    <div class="example-container">
+        <table *ngFor="let member of team?.members">
+          <tbody height="40px">
+          <tr>
+            <td class="rank-icon"><img src="{{ getRankIcon(member.linkedAccount?.rank!) }}" class="icon" alt="icon"></td>
+            <td>
+                {{member.nickname}}
+                
+            </td>
+          </tr>
+          </tbody>
+          <!-- <ng-container matColumnDef="nickname">
+            <th mat-header-cell *matHeaderCellDef> Nickname </th>
+            <td mat-cell *matCellDef="let element"> {{element.nickname}} </td>
+          </ng-container> -->
+      
+          <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
+        </table>
+      </div>
+      <p class="subtitle">Substitute Team Members:</p>
+    <div class="example-container">
+        <table *ngFor="let member of team?.members">
+          <tbody height="40px">
+          <tr>
+            <td class="rank-icon">
+              <img src="{{ getRankIcon(member.linkedAccount?.rank!) }}" class="icon" alt="icon">
+            </td>
+            <td>
+                {{member.nickname}}
+            </td>
+          </tr>
+          </tbody>
+          <!-- <ng-container matColumnDef="nickname">
+            <th mat-header-cell *matHeaderCellDef> Nickname </th>
+            <td mat-cell *matCellDef="let element"> {{element.nickname}} </td>
+          </ng-container> -->
+      
+          <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
+        </table>
+      </div>
+
+      <div *ngIf="team?.teamLeader == nickname" class="request">
+        <button mat-flat-button class="btn-blue" type="submit" (click)="toggleDisplay()">Create Request</button>
+        <div [hidden] = "isShow">
+          <form>
+            <mat-form-field appearance="standard" ngClass="form-field">
+            <mat-select [(ngModel)]="selectedValue" name="users" required>
+              <ng-container *ngFor="let user of users" >
+                <mat-option *ngIf="user.nickname != nickname" [value]="user.nickname">{{user.nickname}}</mat-option>
+              </ng-container>
+            </mat-select>
+          <mat-label><mat-icon aria-hidden="false" aria-label="" matSuffix>
+            account_circle
+            </mat-icon> Users</mat-label>
+          </mat-form-field>
+          <button mat-flat-button class="btn-blue" type="submit" (click)="addRequest()">Send Request</button>
+          </form>
+        </div>
+      </div>
+</section>
+</ng-container>

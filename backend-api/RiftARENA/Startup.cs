@@ -13,7 +13,10 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using RiftArena.Helpers;
-
+using Microsoft.AspNetCore.Http.Features;
+using System.IO;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Http;
 
 namespace RiftArena
 {
@@ -33,7 +36,7 @@ namespace RiftArena
             services.AddDbContext<RiftArenaContext>(opt => opt
             .UseSqlServer(Configuration.GetConnectionString("RiftArena"))
             .UseLazyLoadingProxies());
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             /*services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
@@ -42,7 +45,15 @@ namespace RiftArena
                        .AllowAnyHeader();
             }));*/
             services.AddCors();
-            
+
+
+            services.Configure<FormOptions>(o =>
+            {
+                o.ValueCountLimit = int.MaxValue;
+                o.MultipartBodyLengthLimit = int.MaxValue;
+                o.MemoryBufferThreshold = int.MaxValue;
+            });
+
             /*services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RiftARENA", Version = "v1" });
@@ -101,6 +112,13 @@ namespace RiftArena
             }
 
             app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions{
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
+                RequestPath = new PathString("/Resources")
+            });
+
 
             app.UseRouting();
             

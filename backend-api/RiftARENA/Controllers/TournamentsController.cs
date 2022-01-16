@@ -4,6 +4,8 @@ using RiftArena.Models;
 using RiftArena.Models.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.IO;
+using System.Net.Http.Headers;
 using System.Collections.Generic;
 
 namespace RiftArena.Controllers 
@@ -132,6 +134,17 @@ namespace RiftArena.Controllers
         {
             _service.PublishTournament(id, User.Identity.Name);
             _context.SaveChanges();
+            return Ok();
+        }
+
+        /// <summary>
+        /// Método que permite adicionar a equipa de um utilizador logado ao torneio.
+        /// </summary>
+        /// <param name="id">ID do torneio a ser atualizado.</param>
+        /// <returns>Ok 200</returns>
+        [HttpPut("{id:int}/addMyTeam"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public ActionResult AddTeam(int id){
+            _service.AddTeam(id, User.Identity.Name);
             return Ok();
         }
     }

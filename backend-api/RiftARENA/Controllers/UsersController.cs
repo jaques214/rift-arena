@@ -21,6 +21,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using RiftArena.Helpers;
 using Newtonsoft.Json;
 using System.Web;
+using System.IO;
+using System.Net.Http.Headers;
 
 namespace RiftArena.Controllers
 {
@@ -149,10 +151,6 @@ namespace RiftArena.Controllers
             User user = _userService.GetByUsername(User.Identity.Name);
 
             var team = _teamService.GetByTag(user.TeamTag);
-<<<<<<< HEAD
-=======
-
->>>>>>> 8ff24312e3f551234251a2b69704588814aed871
             if (user.TeamTag == null)
             {
                 try
@@ -168,10 +166,6 @@ namespace RiftArena.Controllers
             }
             else
             {
-<<<<<<< HEAD
-                return BadRequest();
-            }
-=======
 
                 if (team.TeamLeader.Equals(user.Nickname))
                 {
@@ -193,7 +187,6 @@ namespace RiftArena.Controllers
 
             }
 
->>>>>>> 8ff24312e3f551234251a2b69704588814aed871
         }
 
 
@@ -358,34 +351,14 @@ namespace RiftArena.Controllers
             }
             else
             {
-<<<<<<< HEAD
-                if (user.Requests.Contains(request))
-                {
-                    if (request.Team.Members.Count == request.Team.MAX_MEMBERS)
-=======
                 if (user.Requests.Contains(req))
                 {
                     if (req.Team.Members.Count == req.Team.MAX_MEMBERS)
->>>>>>> 8ff24312e3f551234251a2b69704588814aed871
                     {
                         return BadRequest();
                     }
                     else
                     {
-<<<<<<< HEAD
-                        request.Accepted = true;
-                        user.Requests.Remove(request);
-                        user.TeamTag = request.Team.Tag;
-                        _context.Update(request);
-                        _context.Update(user);
-
-                        Team temp = _context.Teams.Find(request.Team);
-
-                        _teamService.AddMember(user, temp.TeamId);
-                        _context.SaveChanges();
-
-                        return Ok(user);
-=======
                         req.Accepted = true;
                         user.Requests.Remove(req);
                         user.TeamTag = req.Team.Tag;
@@ -398,7 +371,6 @@ namespace RiftArena.Controllers
                         _context.SaveChanges();
 
                         return Ok();
->>>>>>> 8ff24312e3f551234251a2b69704588814aed871
                     }
                 }
                 else
@@ -435,6 +407,8 @@ namespace RiftArena.Controllers
                 return BadRequest();
             }
         }
+        
+        
     }
 }
 

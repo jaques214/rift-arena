@@ -12,7 +12,8 @@ export class User {
     public rank?: string,
     public teamTag?: string,
     public linkedAccount?: LinkedAccount,
-    public requests?: Request[]
+    public requests?: Request[],
+    public teamId?: number
   ) {}
 
   static loginFields() {
@@ -34,7 +35,7 @@ export class User {
           placeholder: 'Enter password',
           iconlabel: 'no encryption icon',
           icon: 'no_encryption',
-          model: 'password',
+          // model: 'password',
         },
       ],
     };
@@ -68,16 +69,16 @@ export class User {
           placeholder: 'Enter password',
           iconlabel: 'no encryption icon',
           icon: 'no_encryption',
-          model: 'password',
+          // model: 'password',
         },
         {
-          name: 'confirm-password',
+          name: 'new_password',
           type: 'password',
           label: 'Confirm Password',
           placeholder: 'Enter password again',
           iconlabel: 'no encryption icon',
           icon: 'no_encryption',
-          model: 'password',
+          // model: 'password',
         },
       ],
     };
@@ -93,7 +94,7 @@ export class User {
           placeholder: 'Enter email',
           iconlabel: 'email icon',
           icon: 'email',
-          model: 'email',
+          // model: 'email',
         },
         {
           name: 'password',
@@ -102,7 +103,7 @@ export class User {
           placeholder: 'Enter password',
           iconlabel: 'no encryption icon',
           icon: 'no_encryption',
-          model: 'password',
+          // model: 'password',
         },
       ],
     };

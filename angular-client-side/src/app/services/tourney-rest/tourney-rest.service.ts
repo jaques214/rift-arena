@@ -19,5 +19,12 @@ export class TourneyRestService {
   getTourneys(): Observable<Tournament[]> {
     return this.http.get<Tournament[]>(endpoint, httpOptions);
   }
-  
+
+  createTourney(tourney: object): Observable<Tournament> {
+    return this.http.post<Tournament>(
+      endpoint + 'createTournament',
+      tourney,
+      httpOptions
+    );
+  }
 }
