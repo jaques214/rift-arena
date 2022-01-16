@@ -55,12 +55,12 @@ namespace RiftArena.Models.Services
             string[] v8Temp = new string[] { "8", "4", "2", "1" };
             string[] v16Temp = new string[] { "16", "8", "4", "2", "1" };
 
-            if (tournament.Date != DateTime.Now)
+           /* if (tournament.Date != DateTime.Now)
             {
                 throw new AppException("Not on the scheduled date.");
             }
             else
-            {
+            {*/
                 if(tournament.NumberOfTeams != tournament.MaxTeams)
                 {
                     tournament.State = Status.Canceled;
@@ -96,7 +96,7 @@ namespace RiftArena.Models.Services
                     }
                 }
       
-            }
+            //}
 
             return tournament;
         }
