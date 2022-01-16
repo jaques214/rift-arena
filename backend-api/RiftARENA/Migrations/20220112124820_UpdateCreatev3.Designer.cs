@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RiftArena.Models.Contexts;
 
 namespace RiftARENA.Migrations
 {
     [DbContext(typeof(RiftArenaContext))]
-    partial class RiftArenaContextModelSnapshot : ModelSnapshot
+    [Migration("20220112124820_UpdateCreatev3")]
+    partial class UpdateCreatev3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -237,9 +239,6 @@ namespace RiftARENA.Migrations
 
                     b.Property<byte[]>("PasswordSalt")
                         .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Poster")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("TeamId")
                         .HasColumnType("int");
