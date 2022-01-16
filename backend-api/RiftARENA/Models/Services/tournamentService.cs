@@ -19,6 +19,7 @@ namespace RiftArena.Models.Services
         void AddTeam(int id, string userNickname);
         Tournament startTournament(Tournament tournament);
         Tournament nextStage(List<string> nextTeams, string tournamentName);
+        List<TeamTournament> GetTeamsAndStageByTournament(int id);
     }
 
     public class TournamentService : ITournamentService
@@ -138,7 +139,7 @@ namespace RiftArena.Models.Services
                     if (!(nextTeamsTemp.Contains(tournament.Stages.ElementAt(i)))){
 
                         TeamTournament teamTournamentTemp = new TeamTournament();
-                        //confirmar se é bem fazer estas 2 linhas (142 e 143)
+                        
                         var team = _teamService.GetByTag(tournament.Stages.ElementAt(i).Tag);
                         team.Defeats++;
 
@@ -147,7 +148,9 @@ namespace RiftArena.Models.Services
                         teamTournamentTemp.Position = Int32.Parse(tournament.Stage);
                         tournament.Stages.Remove(tournament.Stages.ElementAt(i));
 
-                        //falta mudar no context
+                        _context.TeamTournaments.Add(teamTournamentTemp);
+                        _context.Teams.Update(team);
+                        _context.SaveChanges();
                     }
                 }
                 tournament.Stages = nextTeamsTemp;
@@ -196,6 +199,14 @@ namespace RiftArena.Models.Services
 
                 return tournament;
             }
+        }
+
+        public List<TeamTournament> GetTeamsAndStageByTournament(int id)
+        {
+            var x = _context.TeamTournaments.Where(x => x.TournamentId == id);
+            Console.WriteLine(x.ToString());
+            
+            return x.ToList();
         }
 
         /// <summary>

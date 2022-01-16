@@ -63,6 +63,19 @@ namespace RiftArena.Controllers
             return Ok();
         }
 
+       
+        /// <summary>
+        /// Método que permite ver as teams todas de um torneio e o seu stage.
+        /// </summary>
+        /// <param name="id">Id do torneio.</param>
+        /// <returns>Equipas e posição no torneio.</returns>
+        [HttpGet("{id:int}", Name = "GetTeamsAndStagesInTournament")]
+        public IActionResult GetTeamsAndStagesInTournament(int id)
+        {
+            _service.GetTeamsAndStageByTournament(id);
+            return Ok();
+        }
+
 
 
         //GET: api/Tournaments/{id:int}
