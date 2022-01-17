@@ -107,7 +107,24 @@ namespace RiftArena.Controllers
                 return Ok(tournaments);
             }
         }
+        /// <summary>
+        /// Método que retorna uma lista com todos os torneios criados pelo user logado.
+        /// </summary>
+        /// <returns>Ok 200 e lista dos torneios criados pelo user logado ou No content 204 caso não haja conteúdo.</returns>
+        [HttpGet("getUserTournaments"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public ActionResult<Tournament> GetAllUserTournaments()
+        {
+            var myTournaments =  _service.GetAllUserTournaments(User.Identity.Name);
+            if (myTournaments == null)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return Ok(myTournaments);
+            }
 
+        }
         //DELETE: api/Tournaments/{id}
         /// <summary>
         /// Método que permite eliminar um torneio criado e não publicado.

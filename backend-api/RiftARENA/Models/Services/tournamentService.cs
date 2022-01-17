@@ -12,6 +12,7 @@ namespace RiftArena.Models.Services
     {
         Tournament CreateTournament(Tournament tournament, string userID);
         IEnumerable<Tournament> GetAll();
+        IEnumerable<Tournament> GetAllUserTournaments(string userID);
         Tournament GetById(int id);
         Tournament UpdateTournament(int id, Tournament tournament, string userID);
         void DeleteTournament(int id, string userID);
@@ -259,6 +260,24 @@ namespace RiftArena.Models.Services
         {
             return _context.Tournaments.ToList();
         }
+        /// <summary>
+        /// Método que retorna todos os torneios criados pelo user logado
+        /// </summary>
+        /// <param name="userID">Nickname do user logado</param>
+        /// <returns>Todos os torneios criados pelo user</returns>
+        public IEnumerable<Tournament> GetAllUserTournaments(string userID)
+        {
+            var myTournaments = new List<Tournament>();
+            var allTour = _context.Tournaments.ToList();
+            for (int i = 0; i < allTour.Count; i++)
+            {
+                if(allTour[i].CreatorNickname == userID)
+                {
+                    myTournaments.Add(allTour[i]);
+                }
+            }
+            return myTournaments;
+        }
 
         /// <summary>
         /// Método que retorna um torneio através de um ID
@@ -322,8 +341,15 @@ namespace RiftArena.Models.Services
             {
                 if (tournamentSer.State == Status.NotPublished)
                 {
-                    tournamentSer.Name = tournament.Name;
-                    tournamentSer.Description = tournament.Description;
+                    if(tournament.Name != null){
+                        tournamentSer.Name = tournament.Name;
+                    }
+
+                    if(tournament.Description != null)
+                    {
+                        tournamentSer.Description = tournament.Description;
+                    }
+
                     if (tournament.MaxTeams != 0)
                     {
                         if (tournament.MaxTeams != 4 && tournament.MaxTeams != 8 && tournament.MaxTeams != 16)
@@ -335,7 +361,11 @@ namespace RiftArena.Models.Services
                             tournamentSer.MaxTeams = tournament.MaxTeams;
                         }
                     }
-                    tournamentSer.Rank = tournament.Rank;
+                    if(tournament.Rank != null)
+                    {
+                        tournamentSer.Rank = tournament.Rank;
+                    }
+
                     if (tournament.Date > System.DateTime.Now)
                     {
                         tournamentSer.Date = tournament.Date;
@@ -348,12 +378,13 @@ namespace RiftArena.Models.Services
                         }
 
                     }
-                    if (tournament.Poster != tournamentSer.Poster)
+                    if (tournament.Poster != tournamentSer.Poster && tournament.Poster != null)
                     {
                         if (File.Exists(tournamentSer.Poster))
                         {
                             File.Delete(tournamentSer.Poster);
                         }
+                        tournamentSer.Poster = tournament.Poster;
                     }
                     if(tournament.Region != null){
                         tournamentSer.Region = tournament.Region;
