@@ -23,7 +23,7 @@ namespace RiftArena.Controllers
                 {
                     var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
                     var fullPath = Path.Combine(pathToSave, fileName);
-                    var dbPath = Path.Combine(folderName, fileName);
+                    var dbPath = fileName;
                     Console.WriteLine(fullPath);
                     Console.WriteLine(dbPath);
                     using (var stream = new FileStream(fullPath, FileMode.Create))
