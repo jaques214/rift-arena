@@ -68,6 +68,9 @@ namespace RiftArena.Models.Services
                 }
                 else
                 {
+                  if(tournament.State == Status.Published)
+                  {
+
                     Random rng = new Random();
                     tournament.State = Status.Online;
 
@@ -94,6 +97,13 @@ namespace RiftArena.Models.Services
                     {
                         tournament.Stage = v16Temp.First();
                     }
+
+                  }
+                  else
+                  {
+                    throw new AppException("Tournament not published yet.");
+                  }
+                   
                 }
 
             //}
