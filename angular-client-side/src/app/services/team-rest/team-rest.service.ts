@@ -17,18 +17,19 @@ export class TeamRestService {
   constructor(private http: HttpClient) {}
 
   // por enquanto está ID mas com a alteraçao vai ser pela TAG
-  getTeam(id: number): Observable<Team> {
-    return this.http.get<Team>(endpoint + `${id}`, httpOptions);
+  getTeam(tag: String): Observable<Team> {
+    return this.http.get<Team>(endpoint + tag, httpOptions);
   }
 
   getTeams(): Observable<Team[]> {
     return this.http.get<Team[]>(endpoint, httpOptions);
   }
 
-  updateTeam(name: string, tag: string, poster: string): Observable<Team> {
+  updateTeam(obj: object): Observable<Team> {
     return this.http.put<Team>(
       endpoint,
-      JSON.stringify({ Name: name, Tag: tag, Poster: poster }),
+      // { Name: name, Tag: tag, Poster: poster }
+      JSON.stringify(obj),
       httpOptions
     );
   }

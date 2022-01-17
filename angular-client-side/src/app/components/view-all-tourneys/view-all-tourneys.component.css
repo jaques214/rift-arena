@@ -1,0 +1,57 @@
+section {
+    padding: 0 35px;
+    width: 100%;
+}
+
+#box {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    padding: 15px;
+    border: 1px solid #000;
+}
+
+.poster {
+    width: 100%;
+    height: auto;
+}
+
+section div.content:first-child {
+    width: 40%;
+}
+
+section div.content:last-child {
+    width: 60%;
+}
+
+section div.content,
+section .tournament-container {
+    display: flex;
+}
+
+section .tournament-container {
+    flex-direction: row;
+    gap: 30px;
+}
+
+header {
+    padding: 0px 35px 15px 35px;
+    text-align: end;
+}
+
+header a {
+    padding: 0 8px;
+    text-decoration: none;
+}
+
+@media only screen and (max-width: 700px) {
+    section div.content:first-child,
+    section div.content:last-child {
+        width: 100%;
+    }
+
+    section .tournament-container {
+        flex-direction: column;
+    }
+}

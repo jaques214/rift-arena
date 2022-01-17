@@ -9,18 +9,106 @@
 td:first-child {
   border-right: 1px solid black;
 }
-  
+
 table, td {
-  padding: 0 15px;
+  padding: 10px 15px;
 }
 
 table {
   width: 100%;
 }
 
+.item h1,
+.item p {
+  margin: 12px 0;
+}
+
+.profile-container {
+  display: flex;
+  width: 40%;
+  background-color: #dddbdb;
+  justify-content: center;
+  padding: 20px 10px;
+  flex-wrap: wrap;
+  margin: auto;
+  border-radius: 10px;
+}
+
+.profile-container .mat-icon {
+  text-align: center;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  font-size: 120px;
+}
+
+.profile-container p {
+  font-size: 12px;
+  margin-bottom: 0;
+}
+
+.parallax-team {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  max-height: 80%;
+  min-height: max-content;
+  /* background-image: url("assets/images/image_placeholder.png"); */
+  /* background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  min-height: 80%;
+  opacity: 0.65;
+  margin-bottom: 1.5rem;
+  display: flex; */
+}
+
+section.caption {
+  position: absolute;
+  width: 100%;
+  padding: 30px 50px;
+}
+
+.none {
+  position: relative;
+  width: 100%;
+  padding: 30px 50px 0px 50px;
+}
+
+.caption .head,
+.none .head {
+  flex-direction: row;
+  display: flex;
+}
+
+.details {
+  padding-top: 25px;
+}
+
+.bg-image {
+  object-fit: cover;
+  object-position: center center;
+  width: 100%;
+  opacity: 0.65;
+}
+
+.content, .staricon {
+  opacity: 1;
+}
+
+/* .caption {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  text-align: center;
+} */
+
 .container {
   display: flex;
   flex-wrap: wrap;
+  padding: 20px 0;
   gap: 25px;
   flex-direction: row;
   justify-content: center;
@@ -34,14 +122,7 @@ section {
   padding: 0 50px;
 }
 
-header {
-  display: flex;
-  flex-direction: row;
-  padding: 0 50px;
-}
-
-header .content {
-  margin: auto 0;
+.content {
   display: flex;
 }
 
@@ -53,16 +134,16 @@ header .content {
   text-align: left;
 }
 
-.content div:last-child {
+.rank {
   margin-left: 20px;
 }
 
-header div {
+.staricon,
+.content {
   width: 50%;
 }
 
-header .staricon {
-  margin: auto;
+.staricon {
   text-align: end;
 }
 
@@ -77,12 +158,11 @@ header .staricon {
   font-size: 48px;
 }
 
-header .mat-icon {
+.mat-icon {
   width: auto;
   height: auto;
   text-align: center;
-  font-size: 60px;
-  margin: auto;
+  font-size: 40px;
 }
 
 .subtitle {
@@ -105,6 +185,10 @@ header .mat-icon {
   margin: auto;
 }
 
+.item:last-child .mat-icon {
+  font-size: 24px;
+}
+
 .mat-form-field {
   width: 80%;
 }
@@ -119,6 +203,13 @@ header .mat-icon {
   color: #24499A;
 }
 
+.form-size {
+  padding: 0 20px;
+  margin: 20px 0;
+  text-align: center;
+  width: 100%;
+}
+
 @media only screen and (max-width: 600px) {
   .container {
     flex-direction: column;
@@ -129,14 +220,14 @@ header .mat-icon {
     text-align: center;
   }
 
-  header {
+  section.caption {
     flex-direction: column;
   }
-  header div {
+  section.caption div {
     width: 100%;
   }
 
-  header .staricon {
+  section.caption .staricon {
     text-align: left;
   }
 

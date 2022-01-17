@@ -1,11 +1,13 @@
 import { UserRestService } from '@services/user-rest/user-rest.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from '@models/user';
 import { Observable } from 'rxjs';
 import { Team } from '@models/team';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
+import ConfirmedValidator from '@src/app/confirmed.validator';
+//import ConfirmedValidator from '@src/app/confirmed.validator';
 
 @Component({
   selector: 'app-shared-form-field',
@@ -13,6 +15,7 @@ import { TeamRestService } from '@services/team-rest/team-rest.service';
   styleUrls: ['./shared-form-field.component.css']
 })
 export class SharedFormFieldComponent implements OnInit {
+  passwordFields: any = User.paswordfields();
   @Input() input!:any;
   @Input() value!:string;
   @Input() flag!:any;
@@ -20,43 +23,76 @@ export class SharedFormFieldComponent implements OnInit {
   @Input() submitMethod: any;
   @Input() obj!:any;
   hide = true;
-  authForm!: FormGroup;
+  @Input() authForm!: FormGroup;
+  // = new FormGroup({
+    //email: new FormControl(''),
+    // pass: new FormGroup({
+    //   password: new FormControl(''),
+    //   new_password: new FormControl(''),
+    // })
+  //});
   message!: string;
 
-  constructor(public router: Router, private restService: UserRestService, private teamRestService: TeamRestService) {
+  constructor(public router: Router, 
+    private restService: UserRestService, 
+    private teamRestService: TeamRestService, 
+    private formBuilder: FormBuilder) {
   }
   
   ngOnInit(): void {
     // console.log(this.formFields);
-    this.authForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required]),
-    }
-    // validator: ConfirmedValidator('current_password', 'new_password')
-    
-    );
-    // this.getUser().subscribe((user) => {
-    //   this.user = user;
-    //   this.populateForm();
+    // this.authForm = new FormGroup({
+    //   email: new FormControl('', [Validators.required, Validators.email]),
+    //   pass: new FormGroup({
+    //     password: new FormControl('', [Validators.required]),
+    //     new_password: new FormControl('', [Validators.required]),
+    //   },
+    //     {
+    //       validators: [ConfirmedValidator.match('password', 'new_password')]
+    //     }
+    //   )
     // });
+    // this.authForm = this.formBuilder.group({
+    //   email: ['', Validators.required, Validators.email],
+      // pass: this.formBuilder.group({
+      //   password: ['', Validators.required],
+      //   new_password: ['', Validators.required],
+      // }
+      // {
+      //   validators: [ConfirmedValidator.match('password', 'new_password')]
+      // }
+      //)
+    //});
 
     this.populateForm();
   }
 
   populateForm() {
-    let values = Object.entries(this.obj);
-    //console.log(values);
     //if a user already exists populates the formFields inputs.
-      
-      let teste = this.authForm.get(this.input.name);
+    let values = Object.entries(this.obj);
+    console.log(values);
+
+    if(this.input.type == 'password') {
+      let teste = this.authForm.get('pass');
+      console.log(teste);
       values.forEach((val:any) => {
         if(val[0] == this.input.name) {
-          teste!.setValue(val[1]);
+          teste?.get(this.input.name)?.setValue(val[1]);
         }
-
-      // this.form.get(input.name).setValue('');
-      // input.model! = (this.user as any)[input.name!];
-    });
+      });
+    }
+    else {
+      console.log(this.input.name);
+      let teste = this.authForm.get(this.input.name);
+      console.log(teste);
+      values.forEach((val:any) => {
+        if(val[0] == this.input.name) {
+          console.log(val[0])
+          console.log(val[1]);
+          teste?.setValue(val[1]);
+        }
+      });
+    }
   }
 
   getUser(): Observable<any> {
@@ -70,17 +106,22 @@ export class SharedFormFieldComponent implements OnInit {
           this.obj = user;
           this.populateForm();
         });
+        //window.location.reload()
       },
       error: (err) => console.log(err)
     });
   }
 
   getTeam(): Observable<any> {
-    return this.teamRestService.getTeam(1);
+    return this.teamRestService.getTeam(this.obj.teamTag);
   }
 
   editTeam(team: Team): void {
-    this.teamRestService.updateTeam(team.name!, team.tag!, team.poster!).subscribe({
+    const editValues = {
+      Name: team.name,
+      Tag: team.tag
+    } 
+    this.teamRestService.updateTeam(editValues).subscribe({
       next: () => {
         this.getTeam().subscribe((team) => {
           this.obj = team;
@@ -96,8 +137,12 @@ export class SharedFormFieldComponent implements OnInit {
    */
    onSubmit(): void {
     const data = this.obj!;
-    (data as any)[this.input.name!] = this.authForm.get(this.input.name)?.value
-    //console.log(data);
+    if(this.input.type == 'password') {
+      (data as any)[this.input.name!] = this.authForm.get('password')?.value
+    }
+    else {
+      (data as any)[this.input.name!] = this.authForm.get(this.input.name)?.value
+    }
     this.flag = "view";
     console.log(this.flag);
     this.editUser(data);
@@ -116,8 +161,12 @@ export class SharedFormFieldComponent implements OnInit {
       case 'password':
         this.message = 'Not a valid password';
       break;
+      case 'new_password':
+         this.message = 'Password and Confirm Password must be match.';
+      break;
     }
 
-    return this.authForm.get(name)?.hasError(name) ? this.message : '';
+    //console.log(this.authForm.get(name)?.errors);
+    return (this.authForm.get(name)?.hasError(name) || this.authForm.get(name)?.errors?.['matching']) ? this.message : '';
   }
 }

@@ -1,4 +1,4 @@
-import { LinkedAccount } from '@models/linked_acount';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { UserRestService } from '@services/user-rest/user-rest.service';
 import { Component, OnInit } from '@angular/core';
@@ -7,6 +7,8 @@ import { User } from '@models/user';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { LinkedList } from 'linked-list-typescript';
+import ConfirmedValidator from '@src/app/confirmed.validator';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-view-team',
@@ -14,100 +16,99 @@ import { LinkedList } from 'linked-list-typescript';
   styleUrls: ['./view-team.component.css']
 })
 export class ViewTeamComponent implements OnInit {
-  user?: string;
   nickname!: string;
-  teams: any = [];
-  team?: Team;
+  nicknameList: any = [];
+  teamTag!: string;
+  team!: Team;
   rankIcon!: string;
   displayedColumns = ['icon', 'nickname'];
   ELEMENT_DATA: PeriodicElement[] = [];
   dataSource: any;
-  id?: number;
   users: any = [];
   isShow = true;
+  bool = true;
   selectedValue!: string;
-  flag : string = "view";
+  flag!:string;
   formFields: any = Team.fields();
+  filename!: string[];
+  file: string = "";
+  response!: {dbPath: ''};
+  editForm!:FormGroup;
+  form: FormGroup = new FormGroup({
+    users: new FormControl(''),
+  });
+  route: string = this.router.url;
 
-  constructor(private router: Router, private teamService: TeamRestService, private restService: UserRestService) { }
+  constructor(private router: Router, 
+    private teamService: TeamRestService, 
+    private restService: UserRestService, 
+    private formBuilder: FormBuilder,
+    private scroller: ViewportScroller) { }
 
   ngOnInit(): void {
+    this.editForm = new FormGroup({
+      name: new FormControl('', [Validators.required]),
+      tag: new FormControl('', [Validators.required]),
+    }); 
+
     this.getUsers().subscribe((data: {}) => {
       this.users = data;
-    });
-    // console.log(this.teams);
-    // this.restService.getUser().subscribe((user) => {
-    //   this.user = user.teamTag;
-    //   console.log(this.user);
-    //   const found = this.teams.find(element => element.tag = this.user)
-    //   console.log(found);
-    //   //return this.teamService.getTeam(1);
-    // });
-    this.restService.getUser().subscribe((user) => {
-      this.user = user.teamTag!;
-      this.nickname = user.nickname!;
-      console.log(this.user);
-      console.log(this.nickname);
-      this.getTeams().subscribe((data: {}) => {
-        // console.log(data);
-        // console.log(this.team);
-       
-          this.teams = data;
-          //console.log(this.user);
-          //const found = this.teams.find((element:any) => element.tag == this.user)
-          (this.team as any) = this.getTeam();
-          //console.log(found);
-        console.log(this.teams);
+      console.log(this.users);
+      this.populateUsers();
+      console.log(this.nicknameList);
+
+      this.form = this.formBuilder.group({
+        users: ['', Validators.required],
+      },
+      {
+        validators: [ConfirmedValidator.matchUser('users', this.nicknameList)]
       });
     });
-    // this.restService.getUser().subscribe((user) => {
-    //   this.getTeam().subscribe((team) => {
-    //     this.team = team;
-    //     console.log(this.team);
-    //     this.populateTable();
-    //     this.dataSource = this.ELEMENT_DATA;
-    //     console.log(this.ELEMENT_DATA);
-    //     this.user = user.teamId;
-    //     console.log(this.user);
-    //     console.log(this.team?.tag);
-    //     if(this.user == this.team?.tag) {
-    //       this.id = this.team?.teamId;
-    //     }
-    //     console.log(this.id);
-    //   });
-    // });
-    //this.getUser();
+    this.getUser().subscribe((user) => {
+      this.nickname = user.nickname!;
+      this.getTeam(user.teamTag!).subscribe((team) => {
+        this.team = team;
+        console.log(this.team);
+      });
+    });
   }
 
-  // getTeam() {
-  
-  //   this.restService.getUser().subscribe((user) => {
-  //     this.user = user.teamTag;
-  //     console.log(this.user);
-  //     //return this.teamService.getTeam(1);
-  //   });
-  // }
+  populateUsers() {
+    this.users.forEach((element:any) => {
+      this.nicknameList.push(element.nickname);
+    });
+  }
 
   toggleDisplay() {
     this.isShow = !this.isShow;
   }
 
-  changeFlag(name: string): string {
-    switch(name) {
-      case 'tag':
-        this.flag = 'edit-' + name;
-        break;
-      case 'name':
-        this.flag = 'edit-' + name;
-        break;
-    }
-    console.log(this.flag);
-    return this.flag;
-  }
+  // changeFlag(name: string): boolean {
+  //   let bool!: boolean
+  //   switch(this.flag) {
+  //     case 'name':
+  //       bool = true;
+  //       break;
+  //     case 'tag':
+  //       bool = true;
+  //       break;
+  //   }
+  //   //console.log(this.flag);
+  //   return bool;
+  // }
 
   clickEvent(name: string) {
-    this.flag = (this.flag == "view") ? this.changeFlag(name) : "view";
+    this.flag = name;
     console.log(this.flag);
+    if(!this.bool) {
+      this.bool = true;
+    }
+    else {
+      this.scroller.scrollToAnchor("name");
+      this.bool = false;
+    }
+    
+    console.log(this.bool);
   }
 
   getTeamValue(value: any): string {
@@ -115,7 +116,6 @@ export class ViewTeamComponent implements OnInit {
     
     if(this.team != null) {
       let values = Object.entries(this.team!);
-      //console.log(values);
       values.forEach(val => {
         if(val[0] == value) {
           convert = val[1];         
@@ -132,34 +132,17 @@ addRequest(): void {
   });
 }
 
-
-  getTeam(): Observable<Team> {
-    const found = this.teams.find((element:any) => element.tag == this.user)
-    //console.log(found);
-    return found;
-  }
-
-  getTeams(): Observable<Team[]> {
-    return this.teamService.getTeams();
+  getTeam(tag: string): Observable<Team> {
+    return this.teamService.getTeam(tag);
   }
 
   getUser() {
-    this.restService.getUser();
+    return this.restService.getUser();
   }
 
   getUsers(): Observable<LinkedList<User>> {
     return this.restService.getUsers();
   }
-  // getUser() {
-  //   this.restService.getUser().subscribe((user) => {
-  //     this.user = user.teamTag;
-  //     if(this.user == this.team?.tag) {
-  //       this.id = user.teamId;
-  //     }
-  //     console.log(this.id);
-  //     console.log(this.user);
-  //   });
-  // }
 
   getRankIcon(key: any) {
     switch (key) {
@@ -207,12 +190,55 @@ addRequest(): void {
     }
   }
 
+  getClass() {
+    return (this.team?.poster == undefined) ? "none" : "caption"; 
+  }
+
   getCompletePercentage(numberMembers: number) {
     let percentage = (numberMembers * 100)/5;
     return percentage;
   }
-}
 
+  changeTitle() {
+    return (this.team?.poster) ? 'Change Team Poster' : 'Upload Team Poster';
+  }
+
+  public uploadFinished = (event: any) => {
+    this.response = event;
+    console.log(this.response);
+    (this.team!.poster as any) = this.response.dbPath;
+    this.filename = (this.team?.poster! as string).split('\\');
+    console.log(this.filename);
+    this.file = this.filename[2];
+  }
+
+  getFileName(): string {
+    return (this.filename != undefined) ? this.filename[2] : "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB"; 
+  }
+
+  public createImgPath = (serverPath: string) => {
+    console.log(serverPath);
+    return `https://localhost:5001/${serverPath}`;
+  }
+
+  editTeam(): Observable<Team> {
+    console.log(this.file);
+    const editValues = {
+      Name: this.team.name,
+      Tag: this.team.tag,
+      Poster: this.file,
+    } 
+    return this.teamService.updateTeam(editValues);
+  }
+
+  getErrorMessage() {
+    if (this.form.get('users')?.hasError('required')) {
+      return 'You must enter a value';
+    }
+
+    return (this.form.get('users')?.hasError('users') || this.form.get('users')?.errors?.['matching']) ? "This user doesn't exist." : "";
+  }
+}
 export interface PeriodicElement {
   icon: string;
   nickname: string;

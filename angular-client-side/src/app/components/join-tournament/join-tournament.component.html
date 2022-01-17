@@ -1,0 +1,20 @@
+<app-nav-bar></app-nav-bar>
+<h1>{{'Join ' + tourney?.name }}</h1>
+<h3>Team Rank Required: {{tourney?.rank}}</h3>
+<h3>Number of Teams allowed: {{tourney?.maxTeams}}</h3>
+<h3>Day: {{tourney?.date}}</h3>
+<h3>Region: {{tourney?.region}}</h3>
+
+<p class="subtitle">Main Team Members:</p>
+<div class="example-container">
+    <table *ngFor="let team of teams">
+        <tbody height="40px">
+          <tr>
+            <td>
+                {{team.nickname}}        
+            </td>
+          </tr>
+        </tbody>
+     </table>
+</div>
+<button mat-button type="button" color="primary" (click)="addTeam(tourney?.tournamentId!, userNickname)">Join</button>

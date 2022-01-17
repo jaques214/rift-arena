@@ -9,7 +9,7 @@ import { UserRestService } from '@services/user-rest/user-rest.service';
   styleUrls: ['./nav-bar.component.css'],
 })
 export class NavBarComponent implements OnInit {
-  public response!: {dbPath: ''};
+  response!: {dbPath: ''};
   user?: User;
   profile?: string;
   numberOfRequests: number = 0;
@@ -39,16 +39,18 @@ export class NavBarComponent implements OnInit {
   }
 
   createImgPath = (serverPath: string) => {
-    return `https://localhost:5001/${serverPath}`;
+    return `https://localhost:5001/Resources/Images/${serverPath}`;
   }
 
   public uploadFinished = (event: any) => {
     this.response = event;
+    (this.user!.poster as any) = this.response.dbPath;
+    console.log(this.user!.poster)
   }
 
   toogleProfileIcon() {
-    let imageFieldPath = this.createImgPath(this.response?.dbPath);
-    return this.response?.dbPath ? imageFieldPath : 'assets/images/profile-icon.png';
+    let imageFieldPath = this.createImgPath(this.user?.poster!);
+    return this.user?.poster ? imageFieldPath : 'assets/images/profile-icon.png';
   }
 
   logout(): void {

@@ -3,7 +3,6 @@
       <ng-container [ngSwitch]="input.type">
         <ng-template [ngSwitchCase]="'select'">
           <mat-form-field appearance="standard" ngClass="form-field">
-            <!-- <mat-select [(ngModel)]="selected" formControlName="{{}}"  required (selectionChange)="fieldOnChange(selected)"> -->
             <mat-select formControlName="{{input.value}}" required>  
                 <mat-option *ngFor="let val of input.values" [value]="val">{{val}}</mat-option>
             </mat-select>
@@ -11,7 +10,6 @@
               {{ input.icon }}
               </mat-icon> {{ input.label }}</mat-label>
             </mat-form-field>
-            <!-- <p>{{this.form.get(input.value)?.value}}</p> -->
         </ng-template>
   
         <ng-template [ngSwitchDefault]>

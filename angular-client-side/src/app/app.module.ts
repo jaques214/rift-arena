@@ -16,6 +16,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { AppComponent } from './app.component';
@@ -43,6 +44,7 @@ import { CreateTourneyComponent } from '@components/create-tourney/create-tourne
 import { ManageTourneyComponent } from './components/manage-tourney/manage-tourney.component';
 import { ViewAllTourneysComponent } from './components/view-all-tourneys/view-all-tourneys.component';
 import { ViewTourneyComponent } from './components/view-tourney/view-tourney.component';
+import { JoinTournamentComponent } from './components/join-tournament/join-tournament.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -63,6 +65,7 @@ import { ViewTourneyComponent } from './components/view-tourney/view-tourney.com
     ManageTourneyComponent,
     ViewAllTourneysComponent,
     ViewTourneyComponent,
+    JoinTournamentComponent,
   ],
   imports: [
     FormsModule,
@@ -84,6 +87,7 @@ import { ViewTourneyComponent } from './components/view-tourney/view-tourney.com
     MatRadioModule,
     MatExpansionModule,
     MatCheckboxModule,
+    MatTooltipModule,
     Ng2SearchPipeModule,
   ],
   providers: [

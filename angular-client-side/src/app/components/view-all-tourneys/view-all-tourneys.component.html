@@ -1,1 +1,28 @@
-<p>view-all-tourneys works!</p>
+<app-nav-bar></app-nav-bar>
+<header>
+    <a href="#">Subscribed Tournaments</a>
+    <a href="#">Created Tournaments</a>
+</header>
+<section>
+    <div id="box">
+        <div class="tournament-container" *ngFor="let tourney of tournaments">
+            <div class="content">
+                <img src="{{tourney?.poster}}" class="poster" alt="poster">
+            </div>
+            <div class="content">
+                <div>
+    
+                    <h3>{{tourney?.name}}</h3>
+                    <p>{{tourney?.description}}</p>
+                    <p>{{'- ' + tourney?.state}}</p>
+                    <p>{{'- Date: ' + tourney?.date}}</p>
+                    <p>{{'- Max Teams: ' + tourney?.maxTeams}}</p>
+                    <p>{{'- Minimum Tier: ' + tourney?.minimumTier}}</p>
+                    <p>{{'- Prize: ' + tourney?.prize}}</p>
+                    <button mat-flat-button color="primary" type="button" [routerLink]="'/view-tourney'">View more</button>
+                </div>
+    
+            </div>
+        </div>
+    </div>
+</section>

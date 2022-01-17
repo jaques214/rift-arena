@@ -1,40 +1,35 @@
 <app-nav-bar></app-nav-bar>
 <ng-container *ngIf="team != undefined">
-<header>
-  <div class="content">
-    <div *ngFor="let input of formFields.inputs">
-      <ng-container [ngSwitch]="flag">
-        <div *ngSwitchCase="'edit-' + input.name" [ngClass]="'form-size'">
-          <app-shared-form-field [input]="input" [value]="'Submit'" [obj]="team" [flag]="flag"></app-shared-form-field>
-        </div>
-
-        <ng-template [ngSwitchDefault]>
-          <div [ngClass]="'item'">
-            <ng-container *ngIf="input.name == 'name'" >
-              <h1>{{ team?.name }}</h1>
-            </ng-container>
-            <ng-container *ngIf="input.name == 'tag'">             
-              <p><i>{{ '#' + team?.tag }}</i></p>
-            </ng-container>
-            <mat-icon (click)="clickEvent(input.name)" aria-hidden="false" aria-label="edit icon" matSuffix>
+<header class="parallax-team">
+    <img *ngIf="team?.poster != undefined" src="{{createImgPath(team?.poster!)}}" alt="poster" class="bg-image">
+    <section class="{{getClass()}}">
+      <div class="head">
+      <div class="content">
+        <div>
+          <div class="item">
+            <h1>{{ team?.name }}</h1>
+            <mat-icon (click)="clickEvent('name')" aria-hidden="false" aria-label="edit icon" matSuffix>
+              edit
+            </mat-icon>
+          </div>  
+    
+          <div class="item">
+            <p><i>{{ '#' + team?.tag }}</i></p>
+            <mat-icon (click)="clickEvent('tag')" aria-hidden="false" aria-label="edit icon" matSuffix>
               edit
             </mat-icon>
           </div>
-        </ng-template>
-      </ng-container>
+        </div>
+        <div class="rank">
+          <img src="{{ getRankIcon(team?.rank) }}" class="icon" alt="icon" [matTooltipPosition]="'below'" matTooltip="{{ team?.rank + ' RANK' }}">
+        </div>
+      </div>
+      <div class="staricon">
+        <p>{{getCompletePercentage(team?.numberMembers!) + "% of total members"}}</p>
+        <p>{{team?.numberMembers}} member(s) + 2 substitute members</p>
+        <!-- <p><strong>Rank:</strong> {{team?.rank}}</p> -->
+      </div>
     </div>
-    <div>
-      <img src="{{ getRankIcon(team?.rank) }}" class="icon" alt="icon">
-    </div>
-  </div>
-  <div class="staricon">
-    <p>{{getCompletePercentage(team?.numberMembers!) + "% of total members"}}</p>
-    <p>{{team?.numberMembers}} member(s) + 2 substitute members</p>
-    <p><strong>Rank:</strong> {{team?.rank}}</p>
-  </div>
-</header>
-
-<section>
     <div class="container">
       <div>
         <p>{{ 'Wins: ' + team?.wins }}</p>
@@ -46,6 +41,23 @@
         <p>{{ 'Games Played: ' + team?.gamesPlayed }}</p>
       </div>
     </div>
+    </section> 
+</header>
+
+<div id="name"></div>
+<section [hidden] = "bool">
+  <div *ngFor="let input of formFields.inputs">
+    <div *ngIf="input.name == this.flag" [ngClass]="'form-size'">
+      <app-shared-form-field [input]="input" [value]="'Submit'" [obj]="team" [authForm]="editForm"></app-shared-form-field>
+    </div>
+  </div>
+</section>
+
+<section class="details">
+  <div [ngClass]="'profile-container'">
+    <app-upload [title]="changeTitle()" [getObj]="getTeam(team?.tag!)" [updateObj]="editTeam()" (onUploadFinished)="uploadFinished($event)"></app-upload>
+    <p>{{ getFileName() }}</p>
+  </div>
 
     <p class="subtitle">Main Team Members:</p>
     <div class="example-container">
@@ -68,6 +80,35 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
         </table>
       </div>
+
+      <div *ngIf="team?.teamLeader == nickname" class="request">
+        <button mat-flat-button class="btn-blue" type="submit" (click)="toggleDisplay()">Create Request</button>
+        <div [hidden] = "isShow">
+          <form [formGroup]="form">
+
+            <mat-form-field appearance="standard" ngClass="form-field">
+              <mat-label>Users</mat-label>
+              <input matInput type="text" placeholder="Select user" name="user" 
+                formControlName="users" required/>
+              <mat-icon aria-hidden="false" aria-label="" matSuffix>account_circle</mat-icon>
+              <mat-error *ngIf="form.get('users')?.invalid">{{getErrorMessage()}}</mat-error>
+            <!-- <mat-select [(ngModel)]="selectedValue" name="users" required>
+              <ng-container *ngFor="let user of users" >
+                <mat-option *ngIf="user.nickname != nickname" [value]="user.nickname">{{user.nickname}}</mat-option>
+              </ng-container>
+            </mat-select>
+          <mat-label><mat-icon aria-hidden="false" aria-label="" matSuffix>
+            account_circle
+            </mat-icon> Users</mat-label> -->
+
+          </mat-form-field>
+          <div>
+            <button mat-flat-button class="btn-blue" type="submit" [disabled]="form.invalid" (click)="addRequest()">Send Request</button>
+          </div>
+          </form>
+        </div>
+      </div>
+
       <p class="subtitle">Substitute Team Members:</p>
     <div class="example-container">
         <table *ngFor="let member of team?.members">
@@ -89,25 +130,6 @@
           <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
         </table>
-      </div>
-
-      <div *ngIf="team?.teamLeader == nickname" class="request">
-        <button mat-flat-button class="btn-blue" type="submit" (click)="toggleDisplay()">Create Request</button>
-        <div [hidden] = "isShow">
-          <form>
-            <mat-form-field appearance="standard" ngClass="form-field">
-            <mat-select [(ngModel)]="selectedValue" name="users" required>
-              <ng-container *ngFor="let user of users" >
-                <mat-option *ngIf="user.nickname != nickname" [value]="user.nickname">{{user.nickname}}</mat-option>
-              </ng-container>
-            </mat-select>
-          <mat-label><mat-icon aria-hidden="false" aria-label="" matSuffix>
-            account_circle
-            </mat-icon> Users</mat-label>
-          </mat-form-field>
-          <button mat-flat-button class="btn-blue" type="submit" (click)="addRequest()">Send Request</button>
-          </form>
-        </div>
       </div>
 </section>
 </ng-container>

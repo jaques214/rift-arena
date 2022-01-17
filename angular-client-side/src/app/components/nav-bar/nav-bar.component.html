@@ -32,7 +32,7 @@
             Tournaments
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="#">Visualize</a></li>
+            <li><a class="dropdown-item" href="/view-all-tourneys">Visualize</a></li>
             <li><a class="dropdown-item" href="/create-tourney">Create</a></li>
             <li *ngIf="hasTeam == true"><a class="dropdown-item" href="#">Join</a></li>
           </ul>
@@ -95,14 +95,14 @@
         <img
           src="{{toogleProfileIcon()}}"
           alt="Profile Picture"
-          class="img-responsive img-rounded"
+          class="img-responsive"
           style="max-height: 50px; max-width: 50px"
         />
       </div>
 
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
           <li><a class="dropdown-item" href="/profile">My Profile</a></li>
-          <li><a class="dropdown-item" href="#">My Tournaments</a></li>
+          <li><a class="dropdown-item" href="/view-tourney">My Tournaments</a></li>
           <li *ngIf="hasTeam == true"><a class="dropdown-item" href="/view-team">My Team</a></li>
           <li><a class="dropdown-item" (click)="logout()" href="">Logout</a></li>
         </ul>
@@ -126,7 +126,7 @@
             Tournaments
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="/view-tournaments">Visualize</a></li>
+            <li><a class="dropdown-item" href="/view-all-tourneys">Visualize</a></li>
           </ul>
         </div>
         <div class="dropdown nav-item">

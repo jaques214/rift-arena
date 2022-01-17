@@ -40,4 +40,9 @@ text-align: left;
 
 .img-responsive {
   margin-left: 15px;
+  border-radius: 100%;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  object-position: top center;
 }

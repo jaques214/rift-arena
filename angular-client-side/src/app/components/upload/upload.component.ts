@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { HttpEventType, HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-upload',
@@ -7,17 +8,20 @@ import { HttpEventType, HttpClient } from '@angular/common/http';
   styleUrls: ['./upload.component.css']
 })
 export class UploadComponent implements OnInit {
-  public progress!: number;
-  public message?: string;
+  progress!: number;
+  message!: string;
   @Input() title!: string;
-  @Output() public onUploadFinished = new EventEmitter();
+  @Output() onUploadFinished = new EventEmitter();
+  @Input() updateObj!: Observable<any>;
+  @Input() getObj!: Observable<any>;
+  obj!:any;
 
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
   }
 
-  public uploadFile = (files: any) => {
+  uploadFile = (files: any) => {
     if (files.length === 0) {
       return;
     }
@@ -35,5 +39,16 @@ export class UploadComponent implements OnInit {
           this.onUploadFinished.emit(event.body);
         }
       });
+
+    //console.log(this.filename);
+    this.updateObj.subscribe({
+      next: () => {
+        this.getObj.subscribe((obj) => {
+          this.obj = obj;
+          console.log(this.obj);
+        });
+      },
+      error: (err) => console.log(err)
+    });
   }
 }

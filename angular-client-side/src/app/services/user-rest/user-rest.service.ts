@@ -36,11 +36,18 @@ export class UserRestService {
       httpOptions);
   }
 
+  unlinkAccount(): Observable<any> {
+    const url = `${endpoint}/desvincularConta`;
+    return this.http.post(url, 
+      JSON.stringify({}),
+      httpOptions);
+  }
+
   // envia um user e retorna o mesmo user com a informação atualizada no servidor
-  updateUser(password: string, email: string): Observable<User> {
+  updateUser(password?: string, email?: string, poster?: string): Observable<User> {
     return this.http.put<User>(
       endpoint,
-      JSON.stringify({ Password: password, Email: email }),
+      JSON.stringify({ Password: password, Email: email, Poster: poster }),
       httpOptions
     );
   }

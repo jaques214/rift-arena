@@ -15,6 +15,7 @@ export class Tournament {
     constructor(
         public tournamentId: number,
         public numberOfTeams: number,
+        public maxTeams: number,
         public name: string,
         public state: State,
         public stages: LinkedList<Team>,

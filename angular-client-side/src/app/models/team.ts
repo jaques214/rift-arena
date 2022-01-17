@@ -16,7 +16,8 @@ export class Team {
         public poster?: string,
         public members?: User[],
         public tournament?: Tournament[],
-        public winrate?: number | null
+        public winrate?: number | null,
+        public substitutE_MEMBERS?: number
     ) {}
 
     static fields(){

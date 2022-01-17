@@ -3,16 +3,17 @@
   <h3>Profile Image</h3>
   <div [ngClass]="'container'">
     <div>
-      <img *ngIf="imageFieldPath != undefined"
-        src="{{ createImgPath(imageFieldPath) }}"
+      <img *ngIf="user?.poster != undefined"
+        src="{{ createImgPath(user?.poster!) }}"
+        class="profileImg"
         alt="account circle icon"/>
-        <mat-icon aria-hidden="false" aria-label="account circle icon" matSuffix>account_circle</mat-icon>
+        <mat-icon *ngIf="user?.poster == undefined" aria-hidden="false" aria-label="account circle icon" matSuffix>account_circle</mat-icon>
       </div>
       
     <div>
-      <app-upload [title]="'Insert profile image'" (onUploadFinished)="uploadFinished($event)"></app-upload>
+      <app-upload [title]="changeTitle()" [getObj]="getUser()" [updateObj]="editUser()" (onUploadFinished)="uploadFinished($event)"></app-upload>
       <p>
-        {{ imageFieldPath || "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB" }}
+        {{ getFileName() }}
       </p>
     </div>
   </div>
@@ -23,15 +24,15 @@
   </div>
   <p>{{ user?.nickname }}</p>
   <div *ngFor="let input of formFields.inputs">
-    <div [ngClass]="'item'">
-      <p [ngClass]="'subtitle'">{{ input.name }}</p>
-      <mat-icon (click)="clickEvent(input.name)" aria-hidden="false" aria-label="edit icon" matSuffix>
-        edit
-      </mat-icon>
-    </div>
+      <div [ngClass]="'item'">
+        <p [ngClass]="'subtitle'">{{ input.name }}</p>
+        <mat-icon (click)="clickEvent(input.name)" aria-hidden="false" aria-label="edit icon" matSuffix>
+          edit
+        </mat-icon>
+      </div>
     <ng-container [ngSwitch]="flag">
-      <div *ngSwitchCase="'edit-' + input.name" [ngClass]="'form-size'">   
-        <app-shared-form-field [input]="input" [value]="'Submit'" [obj]="user" [(ngModel)]="flag"></app-shared-form-field>
+      <div *ngSwitchCase="'edit-' + input.name" [ngClass]="'form-size'">
+        <app-shared-form-field [input]="input" [value]="'Submit'" [obj]="user" [authForm]="form"></app-shared-form-field>
       </div>
 
       <ng-template [ngSwitchDefault]>
@@ -67,6 +68,7 @@
           <p><strong>Region:</strong> {{ info?.region }}</p>
           <p><strong>Rank:</strong> {{ info?.rank }}</p>
           <p><strong>Summoner Level:</strong> {{ info?.summonerLevel }}</p>
+          <button mat-raised-button color="primary" type="submit" (click)="unlinkRiotAccount()">Unlink account</button>
         </ng-template>
       </ng-container>
 
