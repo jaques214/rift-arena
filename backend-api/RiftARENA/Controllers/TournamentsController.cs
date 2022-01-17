@@ -55,10 +55,10 @@ namespace RiftArena.Controllers
         /// </summary>
         /// <param name="tournament">Dados do torneio a ser iniciado.</param>
         /// <returns>Dados do torneio iniciado.</returns>
-        [HttpPost("nextStage"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult nextStage([FromBody] List<string> nextTeams,string tournamentName)
+        [HttpPost("{id:int}/nextStage"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult nextStage([FromBody] List<string> nextTeams,int id)
         {
-            _service.nextStage(nextTeams, tournamentName);
+            _service.nextStage(nextTeams,id);
             _context.SaveChanges();
             return Ok();
         }

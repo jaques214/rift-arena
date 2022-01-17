@@ -18,7 +18,7 @@ namespace RiftArena.Models.Services
         void PublishTournament(int id, string userID);
         void AddTeam(int id, string userNickname);
         Tournament startTournament(Tournament tournament);
-        Tournament nextStage(List<string> nextTeams, string tournamentName);
+        Tournament nextStage(List<string> nextTeams, int id);
         List<TeamTournament> GetTeamsAndStageByTournament(int id);
     }
 
@@ -50,6 +50,7 @@ namespace RiftArena.Models.Services
         /// <exception cref="AppException">Exceção caso o torneio a criar falhe nas validações</exception>
         public Tournament startTournament(Tournament tournament)
         {
+            var tournamentTemp = GetById(tournament.TournamentId);
             //passar isto para enum na classe Tournament
             string[] v4Temp = new string[] { "4", "2", "1" };
             string[] v8Temp = new string[] { "8", "4", "2", "1" };
@@ -61,41 +62,41 @@ namespace RiftArena.Models.Services
             }
             else
             {*/
-                if(tournament.NumberOfTeams != tournament.MaxTeams)
+                if(tournamentTemp.NumberOfTeams != tournamentTemp.MaxTeams)
                 {
-                    tournament.State = Status.Canceled;
+                tournamentTemp.State = Status.Canceled;
                     throw new AppException("Not enough teams to play, tournament canceled.");
                 }
                 else
                 {
-                  if(tournament.State == Status.Published)
+                  if(tournamentTemp.State == Status.Published)
                   {
 
                     Random rng = new Random();
-                    tournament.State = Status.Online;
+                    tournamentTemp.State = Status.Online;
 
-                    int n = tournament.Stages.Count;
+                    int n = tournamentTemp.Stages.Count;
 
                     while (n > 1)
                     {
                         n--;
                         int k = rng.Next(n + 1);
-                        Team value = tournament.Stages[k];
-                        tournament.Stages[k] = tournament.Stages[n];
-                        tournament.Stages[n] = value;
+                        Team value = tournamentTemp.Stages[k];
+                        tournamentTemp.Stages[k] = tournamentTemp.Stages[n];
+                        tournamentTemp.Stages[n] = value;
                     }
-                    if (tournament.MaxTeams == 4)
+                    if (tournamentTemp.MaxTeams == 4)
                     {
-                        tournament.Stage = v4Temp.First();
+                        tournamentTemp.Stage = v4Temp.First();
 
                     }
-                    else if (tournament.MaxTeams == 8)
+                    else if (tournamentTemp.MaxTeams == 8)
                     {
-                        tournament.Stage = v8Temp.First();
+                        tournamentTemp.Stage = v8Temp.First();
                     }
                     else
                     {
-                        tournament.Stage = v16Temp.First();
+                        tournamentTemp.Stage = v16Temp.First();
                     }
 
                   }
@@ -107,7 +108,7 @@ namespace RiftArena.Models.Services
                 }
 
             //}
-            _context.Tournaments.Update(tournament);
+            _context.Tournaments.Update(tournamentTemp);
             _context.SaveChanges(); 
 
             return tournament;
@@ -121,7 +122,7 @@ namespace RiftArena.Models.Services
         /// <param name="tournament">Torneio a serem atualizadas as brackets</param>
         /// <returns>Lista de equipas atualizadas</returns>
         /// <exception cref="AppException">Exceção caso o torneio a criar falhe nas validações</exception>
-        public Tournament nextStage(List<string> nextTeams,string tournamentName)
+        public Tournament nextStage(List<string> nextTeams,int id)
         {
             //passar isto para enum na classe Tournament
             //Testar
@@ -129,7 +130,7 @@ namespace RiftArena.Models.Services
             string[] v8Temp = new string[] { "8", "4", "2","1" };
             string[] v16Temp = new string[] { "16", "8", "4", "2", "1" };
 
-            var tournament = GetByTournamentName(tournamentName);
+            var tournament = GetById(id);
             
 
             if (tournament.State != Status.Online)
