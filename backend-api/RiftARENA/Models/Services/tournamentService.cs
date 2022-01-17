@@ -95,8 +95,10 @@ namespace RiftArena.Models.Services
                         tournament.Stage = v16Temp.First();
                     }
                 }
-      
+
             //}
+            _context.Tournaments.Update(tournament);
+            _context.SaveChanges(); 
 
             return tournament;
         }
