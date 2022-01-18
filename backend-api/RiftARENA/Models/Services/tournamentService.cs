@@ -12,10 +12,12 @@ namespace RiftArena.Models.Services
     {
         Tournament CreateTournament(Tournament tournament, string userID);
         IEnumerable<Tournament> GetAll();
+        IEnumerable<Tournament> GetAllUserTournaments(string userID);
         Tournament GetById(int id);
         Tournament UpdateTournament(int id, Tournament tournament, string userID);
         void DeleteTournament(int id, string userID);
         void PublishTournament(int id, string userID);
+        void AddTeam(int id, string userNickname);
     }
 
     public class TournamentService : ITournamentService
@@ -34,6 +36,24 @@ namespace RiftArena.Models.Services
         public IEnumerable<Tournament> GetAll()
         {
             return _context.Tournaments.ToList();
+        }
+        /// <summary>
+        /// Método que retorna todos os torneios criados pelo user logado
+        /// </summary>
+        /// <param name="userID">Nickname do user logado</param>
+        /// <returns>Todos os torneios criados pelo user</returns>
+        public IEnumerable<Tournament> GetAllUserTournaments(string userID)
+        {
+            var myTournaments = new List<Tournament>();
+            var allTour = _context.Tournaments.ToList();
+            for (int i = 0; i < allTour.Count; i++)
+            {
+                if(allTour[i].CreatorNickname == userID)
+                {
+                    myTournaments.Add(allTour[i]);
+                }
+            }
+            return myTournaments;
         }
 
         /// <summary>
@@ -56,7 +76,7 @@ namespace RiftArena.Models.Services
         {
             if (string.IsNullOrEmpty(tournament.Name))
                 throw new AppException("Tournament name is required.");
-            if (tournament.NumberOfTeams != 4 && tournament.NumberOfTeams != 8 && tournament.NumberOfTeams != 16)
+            if (tournament.MaxTeams != 4 && tournament.MaxTeams != 8 && tournament.MaxTeams != 16)
                 throw new AppException("The numbers of teams of the tournament should be 4,8 or 16.");
             if (tournament.Rank == null)
                 throw new AppException("Choose a rank.");
@@ -68,10 +88,11 @@ namespace RiftArena.Models.Services
 
             var user = _context.Users.SingleOrDefault(x => x.Nickname == userID);
 
-                tournament.CreatorNickname = userID;
-                tournament.State = Status.NotPublished;
-                tournament.Stages = new List<Team>();
-            
+            tournament.NumberOfTeams = 0;
+            tournament.CreatorNickname = userID;
+            tournament.State = Status.NotPublished;
+            tournament.Stages = new List<Team>();
+
 
             _context.Tournaments.Add(tournament);
             _context.SaveChanges();
@@ -97,31 +118,50 @@ namespace RiftArena.Models.Services
             {
                 if (tournamentSer.State == Status.NotPublished)
                 {
-                    tournamentSer.Name = tournament.Name;
-                    tournamentSer.Description = tournament.Description;
-                    if (tournament.NumberOfTeams != 4 && tournament.NumberOfTeams != 8 && tournament.NumberOfTeams != 16)
-                    {
-                        throw new AppException("The numbers of teams of the tournament should be 4, 8 or 16.");
+                    if(tournament.Name != null){
+                        tournamentSer.Name = tournament.Name;
                     }
-                    else
+
+                    if(tournament.Description != null)
                     {
-                        tournamentSer.NumberOfTeams = tournament.NumberOfTeams;
+                        tournamentSer.Description = tournament.Description;
                     }
-                    tournamentSer.Rank = tournament.Rank;
-                    if (tournament.Date > System.DateTime.Now || tournamentSer.Date > System.DateTime.Now)
+
+                    if (tournament.MaxTeams != 0)
+                    {
+                        if (tournament.MaxTeams != 4 && tournament.MaxTeams != 8 && tournament.MaxTeams != 16)
+                        {
+                            throw new AppException("The numbers of teams of the tournament should be 4, 8 or 16.");
+                        }
+                        else
+                        {
+                            tournamentSer.MaxTeams = tournament.MaxTeams;
+                        }
+                    }
+                    if(tournament.Rank != null)
+                    {
+                        tournamentSer.Rank = tournament.Rank;
+                    }
+
+                    if (tournament.Date > System.DateTime.Now)
                     {
                         tournamentSer.Date = tournament.Date;
                     }
                     else
                     {
-                        throw new AppException("Invalid date.");
+                        if (tournamentSer.Date < System.DateTime.Now)
+                        {
+                            throw new AppException("Invalid date.");
+                        }
+
                     }
-                    if (tournament.Poster != tournamentSer.Poster)
+                    if (tournament.Poster != tournamentSer.Poster && tournament.Poster != null)
                     {
                         if (File.Exists(tournamentSer.Poster))
                         {
                             File.Delete(tournamentSer.Poster);
                         }
+                        tournamentSer.Poster = tournament.Poster;
                     }
                 }
                 else
@@ -140,7 +180,7 @@ namespace RiftArena.Models.Services
         }
 
         /// <summary>
-        /// Método que permite a eliminação de um torneio
+        /// Método que permite a eliminação de um torneio.
         /// </summary>
         /// <param name="id">ID do torneio a eliminar</param>
         /// <param name="userID">ID do utilizador logado</param>
@@ -163,7 +203,7 @@ namespace RiftArena.Models.Services
         }
 
         /// <summary>
-        /// Método que permite a publicação de um torneio
+        /// Método que permite a publicação de um torneio.
         /// </summary>
         /// <param name="id">ID do torneio a ser publicado</param>
         /// <param name="userID">ID do utilizador logado</param>
@@ -179,5 +219,54 @@ namespace RiftArena.Models.Services
                 throw new AppException("User logged in is not the tournament creator.");
             }
         }
+
+        /// <summary>
+        /// Método que permite adicionar uma equipa a um torneio.
+        /// </summary>
+        /// <param name="id">ID do torneio no qual irá entrar a equipa.</param>
+        public void AddTeam(int id, string userNickname)
+        {
+            var tournament = GetById(id);
+            var user = _context.Users.SingleOrDefault(x => x.Nickname == userNickname);
+
+            if (tournament.NumberOfTeams == tournament.MaxTeams)
+            {
+                throw new AppException("Full tournament, try another.");
+            }
+            else if (user.TeamTag == null)
+            {
+                throw new AppException("User does not belong to any team.");
+            }
+            else
+            {
+                var team = _context.Teams.SingleOrDefault(x => x.Tag == user.TeamTag);
+                var teamLeader = _context.Users.SingleOrDefault(x => x.Nickname == team.TeamLeader);
+
+                if (team.TeamLeader != user.Nickname)
+                {
+                    throw new AppException("Only teamLeader will be able to register for the tournament.");
+                }
+                else if (team.Rank != tournament.Rank)
+                {
+                    throw new AppException("The team's rank is not in agreement.");
+                }
+                else if (teamLeader.LinkedAccount.Region != tournament.Region)
+                {
+                    throw new AppException("The team region does not belong to the tournament region.");
+                }
+                else
+                {
+                    tournament.Stages.Add(team);
+                    team.Tournament.Add(tournament);
+                    tournament.NumberOfTeams++;
+
+                    _context.Teams.Update(team);
+                    _context.Tournaments.Update(tournament);
+                }
+            }
+
+            _context.SaveChanges();
+        }
+
     }
 }
