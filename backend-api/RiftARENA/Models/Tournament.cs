@@ -21,7 +21,6 @@ namespace RiftArena.Models
 
         public string Description { get; set;}
 
-        [RegularExpression(@"^([A-Z]+)$", ErrorMessage = "Rank can only be capital letters")]
         public string Rank { get; set; }
 
         public string Region { get; set; }
@@ -33,7 +32,6 @@ namespace RiftArena.Models
         public string Poster { get; set; }
 
         public virtual List<Team> Stages { get; set; }
-        public string Stage {get; set;}
 
         public Status State { get; set; }
 
@@ -43,6 +41,5 @@ namespace RiftArena.Models
 
         public string CreatorNickname {get; set; }
 
-        public int MaxTeams {get; set;}
     }
 }

@@ -16,8 +16,6 @@ namespace RiftArena.Models
         [RegularExpression(@"^[A-Z]{3}$", ErrorMessage = "TAG should only have 3 characters and can only be letters")]
         public string Tag { get; set; }
         public string TeamLeader { get; set; }
-        
-        [RegularExpression(@"^([A-Z]+)$", ErrorMessage = "Rank can only be capital letters")]
         public string Rank { get; set; }
 
         public int NumberMembers { get; set; }

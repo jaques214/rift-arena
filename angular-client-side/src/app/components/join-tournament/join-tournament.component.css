@@ -1,0 +1,34 @@
+header {
+    width: 100%;
+    text-align: center;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-column-select {
+    text-align: center;
+}
+
+.mat-column-name {
+    text-align: left;
+}
+
+section {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+
+section button {
+    width: 150px;
+    margin-top: 15px;
+}
+
+.example-container {
+    min-height: 55px;
+    max-height: 250px;
+    overflow-y:scroll;
+    border: 1px solid black;
+}

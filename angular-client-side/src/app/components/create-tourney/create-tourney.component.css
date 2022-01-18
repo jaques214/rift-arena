@@ -1,0 +1,33 @@
+
+.tourney-container {
+    display: flex;
+    width: auto;
+    background-color: #dddbdb;
+    justify-content: center;
+    padding: 20px 10px;
+    flex-wrap: wrap;
+    margin: auto;
+    border-radius: 10px;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.tourney-container p {
+    text-align: center;
+    margin: 0;
+}
+
+@media screen and (min-width: 1000px) {
+    .tourney-container {
+      display: flex;
+      width: 50%;
+      background-color: #dddbdb;
+      justify-content: center;
+      padding: 20px 10px;
+      flex-wrap: wrap;
+      margin: auto;
+      border-radius: 10px;
+      flex-direction: column;
+      margin-bottom: 15px;
+    }
+}  

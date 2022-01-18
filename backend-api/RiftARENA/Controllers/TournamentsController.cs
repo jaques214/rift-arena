@@ -64,24 +64,7 @@ namespace RiftArena.Controllers
                 return Ok(tournaments);
             }
         }
-        /// <summary>
-        /// Método que retorna uma lista com todos os torneios criados pelo user logado.
-        /// </summary>
-        /// <returns>Ok 200 e lista dos torneios criados pelo user logado ou No content 204 caso não haja conteúdo.</returns>
-        [HttpGet("getUserTournaments"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public ActionResult<Tournament> GetAllUserTournaments()
-        {
-            var myTournaments =  _service.GetAllUserTournaments(User.Identity.Name);
-            if (myTournaments == null)
-            {
-                return NoContent();
-            }
-            else
-            {
-                return Ok(myTournaments);
-            }
 
-        }
         //DELETE: api/Tournaments/{id}
         /// <summary>
         /// Método que permite eliminar um torneio criado e não publicado.
@@ -123,15 +106,5 @@ namespace RiftArena.Controllers
             return Ok();
         }
 
-        /// <summary>
-        /// Método que permite adicionar a equipa de um utilizador logado ao torneio.
-        /// </summary>
-        /// <param name="id">ID do torneio a ser atualizado.</param>
-        /// <returns>Ok 200</returns>
-        [HttpPut("{id:int}/addMyTeam"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public ActionResult AddTeam(int id){
-            _service.AddTeam(id, User.Identity.Name);
-            return Ok();
-        }
     }
 }

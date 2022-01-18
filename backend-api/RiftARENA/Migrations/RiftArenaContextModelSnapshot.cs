@@ -140,22 +140,6 @@ namespace RiftARENA.Migrations
                     b.ToTable("Teams");
                 });
 
-            modelBuilder.Entity("RiftArena.Models.TeamTournament", b =>
-                {
-                    b.Property<int>("TeamId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TournamentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Position")
-                        .HasColumnType("int");
-
-                    b.HasKey("TeamId", "TournamentId");
-
-                    b.ToTable("TeamTournaments");
-                });
-
             modelBuilder.Entity("RiftArena.Models.Tournament", b =>
                 {
                     b.Property<int>("TournamentId")
@@ -175,9 +159,6 @@ namespace RiftARENA.Migrations
                     b.Property<string>("FinalWinner")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MaxTeams")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -194,9 +175,6 @@ namespace RiftARENA.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Region")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Stage")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("State")

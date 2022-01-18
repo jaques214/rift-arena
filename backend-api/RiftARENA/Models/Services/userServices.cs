@@ -242,21 +242,22 @@ namespace RiftArena.Models.Services
             if (user == null)
                 throw new AppException("User not found");
 
-            
-            if(userParam.Poster != user.Poster && userParam != null)
+            if (userParam.Nickname != user.Nickname)
+            {
+                // username has changed so check if the new username is already taken
+                if (_context.Users.Any(x => x.Nickname == userParam.Nickname))
+                    throw new AppException("Username " + userParam.Nickname + " is already taken");
+            }
+            if(userParam.Poster != user.Poster)
             {
                 if (File.Exists(user.Poster))
                 {
                     File.Delete(user.Poster);
                 }
-                user.Poster = userParam.Poster;
-
-            }
-            if (userParam.Email != null)
-            {
-                user.Email = userParam.Email;
             }
 
+            user.Email = userParam.Email;
+            user.Nickname = userParam.Nickname;
 
             // update password if it was entered
             if (!string.IsNullOrWhiteSpace(password))

@@ -36,7 +36,7 @@ namespace RiftArena
             services.AddDbContext<RiftArenaContext>(opt => opt
             .UseSqlServer(Configuration.GetConnectionString("RiftArena"))
             .UseLazyLoadingProxies());
-            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddControllers();
 
             /*services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {

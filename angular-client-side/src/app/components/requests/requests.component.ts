@@ -131,10 +131,10 @@ export class RequestsComponent implements OnInit {
     return this.requests.length;
   }
 
-  getRequestID():number {
-    return (this.selection.selected[0].requestId == undefined) ? 
+  getRequestID(): number {
+    return (this.selection.selected[0]?.requestId == undefined) ? 
       this.requestID = (this.selectedValue.slice(0,1) as any) : 
-      this.requestID = this.selection.selected[0].requestId;
+      this.requestID = this.selection.selected[0]?.requestId;
   }
 
   acceptRequest() {

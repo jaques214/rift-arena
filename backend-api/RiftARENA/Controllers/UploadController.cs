@@ -10,10 +10,6 @@ namespace RiftArena.Controllers
     [ApiController]
     public class UploadController : ControllerBase
     {
-        /// <summary>
-        /// Método que permite fazer o upload de ficheiros para o projeto
-        /// </summary>
-        /// <returns>Nome do ficheiro que levou upload</returns>
         [HttpPost, DisableRequestSizeLimit]
         public IActionResult Upload()
         {
@@ -27,7 +23,7 @@ namespace RiftArena.Controllers
                 {
                     var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
                     var fullPath = Path.Combine(pathToSave, fileName);
-                    var dbPath = fileName;
+                    var dbPath = Path.Combine(folderName, fileName);
                     Console.WriteLine(fullPath);
                     Console.WriteLine(dbPath);
                     using (var stream = new FileStream(fullPath, FileMode.Create))

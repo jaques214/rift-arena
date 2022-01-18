@@ -16,19 +16,19 @@ export class Team {
         public poster?: string,
         public members?: User[],
         public tournament?: Tournament[],
-        public winrate?: number | null
+        public winrate?: number | null,
+        public substitutE_MEMBERS?: number
     ) {}
 
     static fields(){
         return {
             inputs: [
               {
-                name: 'teamName',
+                name: 'name',
                 type: 'text',
                 placeholder: 'Enter Team Name',
                 iconlabel: 'account circle icon',
                 icon: 'account_circle',
-                model: undefined,
               },
               {
                 name: 'tag',
@@ -36,7 +36,6 @@ export class Team {
                 placeholder: 'Enter Team Tag',
                 iconlabel: 'code icon',
                 icon: 'code',
-                model: undefined,
               },
         ]}
     }
