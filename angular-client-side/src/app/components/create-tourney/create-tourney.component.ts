@@ -13,7 +13,7 @@ import { first, take } from 'rxjs/operators';
 export class CreateTourneyComponent implements OnInit {
   form!: FormGroup;
   ranks: string[] = [
-    'Iron',
+    'Iron', 
     'Bronze',
     'Silver',
     'Gold',
@@ -56,7 +56,7 @@ export class CreateTourneyComponent implements OnInit {
       dateTourney: new FormControl(null, [
         Validators.required,
         dateValidator(),
-      ]),
+      ]), 
     });
   }
 

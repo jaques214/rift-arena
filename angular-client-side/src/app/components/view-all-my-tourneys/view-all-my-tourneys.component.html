@@ -1,0 +1,39 @@
+<app-nav-bar></app-nav-bar>
+<div>
+  <h1 style="text-align: center">My Tourneys ({{4}})</h1>
+  <div class="row d-flex justify-content-center">
+    <div
+      class="container d-flex justify-content-center row gap-3"
+      style="text-align: center"
+    >
+      <div class="card" style="width: 18rem">
+        <!--<div>*ngFor="let tourney of tourneys; let i = index"</div>-->
+        <div class="card-body">
+          <p class="card-text">
+            {{ tourney.name }}
+          </p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" style="font-weight: bold">
+            Teams:
+
+            <a style="font-weight: normal">{{ tourney.numberOfTeams }}</a>
+          </li>
+          <li class="list-group-item" style="font-weight: bold">
+            Rank:
+
+            <a style="font-weight: normal">{{ tourney.rank }}</a>
+          </li>
+          <li class="list-group-item" style="font-weight: bold">
+            Date:
+
+            <a style="font-weight: normal">{{ tourney.date }}</a>
+          </li>
+        </ul>
+        <div class="card-body">
+          <a href="#" class="card-link">View More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
