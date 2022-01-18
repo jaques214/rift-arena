@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ConfirmedValidator } from '@app/confirmed.validator';
 import { AuthService } from '@services/auth/auth.service';
+import ConfirmedValidator from '@src/app/confirmed.validator';
 
 @Component({
   selector: 'app-shared-form-group',
@@ -12,22 +12,39 @@ import { AuthService } from '@services/auth/auth.service';
 export class SharedFormGroupComponent implements OnInit {
   @Input() formFields!:any;
   @Input() value!:string;
+  @Input() authForm!:FormGroup;
   hide = true;
-  authForm!: FormGroup;
+  // authForm: FormGroup = new FormGroup({
+  //   nickname: new FormControl(''),
+  //   email: new FormControl(''),
+  //   password: new FormControl(''),
+  //   new_password: new FormControl(''),
+  // });
   message!: string;
   
-  constructor(public router: Router, private authService: AuthService) {
+  constructor(public router: Router, private authService: AuthService, private formBuilder: FormBuilder) {
   }
   
   ngOnInit(): void {
+    // if(this.router.url == '/register') {
+    //   this.authForm = this.formBuilder.group({
+    //     nickname: ['', Validators.required],
+    //     email: ['', [Validators.required, Validators.email]],
+    //     password: ['', Validators.required],
+    //     new_password: ['', Validators.required],
+    //   },
+    //   {
+    //     validators: [ConfirmedValidator.match('password', 'new_password')]
+    //   });
+    // }
+    // else if(this.router.url == '/login') {
+    //   this.authForm = this.formBuilder.group({
+    //     nickname: ['', Validators.required],
+    //     email: ['', [Validators.required, Validators.email]],
+    //     password: ['', Validators.required],
+    //   });
+    // }
     //console.log(this.formFields);
-    this.authForm = new FormGroup({
-      nickname: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl(null, [Validators.required]),
-      new_password: new FormControl('', [Validators.required, ConfirmedValidator('password', 'new_password')]),
-    }
-    )
   }
 
   submit() {
@@ -71,6 +88,10 @@ export class SharedFormGroupComponent implements OnInit {
     return (name == "password") ? "current_password" : "new_password";
   }
 
+  getValidationResult(): boolean {
+    return (this.router.url == "/register") ? this.authForm.invalid : false;
+  }
+
   getErrorMessage(name: string) {
     if (this.authForm.get(name)?.hasError('required')) {
       return 'You must enter a value';
@@ -92,6 +113,7 @@ export class SharedFormGroupComponent implements OnInit {
       break;
     }
 
-    return (this.authForm.get(name)?.hasError(name) || this.authForm.get(name)?.errors?.['confirmedValidator']) ? this.message : '';
+    //console.log(this.authForm.get(name)?.errors);
+    return (this.authForm.get(name)?.hasError(name) || this.authForm.get(name)?.errors?.['matching']) ? this.message : '';
   }
 }

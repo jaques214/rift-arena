@@ -8,7 +8,7 @@ export class User {
     public nickname?: string,
     public email?: string,
     public password?: string,
-    public profileImage?: File,
+    public poster?: string,
     public rank?: string,
     public teamTag?: string,
     public linkedAccount?: LinkedAccount,
@@ -105,6 +105,31 @@ export class User {
           icon: 'no_encryption',
           // model: 'password',
         },
+      ],
+    };
+  }
+
+  static paswordfields() {
+    return {
+      inputs: [
+        {
+            name: 'password',
+            type: 'password',
+            label: 'Password',
+            placeholder: 'Enter password',
+            iconlabel: 'no encryption icon',
+            icon: 'no_encryption',
+            // model: 'password',
+          },
+          {
+            name: 'new_password',
+            type: 'password',
+            label: 'Confirm Password',
+            placeholder: 'Enter password again',
+            iconlabel: 'no encryption icon',
+            icon: 'no_encryption',
+            // model: 'password',
+          },
       ],
     };
   }

@@ -1,3 +1,6 @@
+import { JoinTournamentComponent } from './components/join-tournament/join-tournament.component';
+import { ViewTourneyComponent } from './components/view-tourney/view-tourney.component';
+import { ViewAllTourneysComponent } from './components/view-all-tourneys/view-all-tourneys.component';
 import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ViewTeamComponent } from '@components/view-team/view-team.component';
@@ -53,6 +56,18 @@ const routes: Routes = [
   {
     path: 'view-all-teams',
     component: ViewAllTeamsComponent,
+  },
+  {
+    path: 'view-all-tourneys',
+    component: ViewAllTourneysComponent,
+  },
+  {
+    path: 'view-tourney',
+    component: ViewTourneyComponent,
+  },
+  {
+    path: 'join-tournament',
+    component: JoinTournamentComponent,
   },
   {
     path: 'requests',

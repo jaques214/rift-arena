@@ -1,40 +1,22 @@
 <app-nav-bar></app-nav-bar>
 <section>
-  <h3>Profile Image</h3>
+  <h3>User Profile</h3>
+  <button mat-flat-button class="btn-red" type="button" (click)="removeUser()">Delete Profile</button>
   <div [ngClass]="'container'">
     <div>
-      <img *ngIf="imageFieldPath != undefined"
-        src="{{ createImgPath(imageFieldPath) }}"
+      <img *ngIf="user?.poster != undefined"
+        src="{{ createImgPath(user?.poster!) }}"
+        class="profileImg"
         alt="account circle icon"/>
-        <mat-icon aria-hidden="false" aria-label="account circle icon" matSuffix>account_circle</mat-icon>
+        <mat-icon *ngIf="user?.poster == undefined" aria-hidden="false" aria-label="account circle icon" matSuffix>account_circle</mat-icon>
       </div>
       
     <div>
-      <app-upload [title]="'Insert profile image'" (onUploadFinished)="uploadFinished($event)"></app-upload>
+      <app-upload [title]="changeTitle()" [getObj]="getUser()" [obj]="user" (onUploadFinished)="uploadFinished($event)"></app-upload>
       <p>
-        {{ imageFieldPath || "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB" }}
+        {{ getFileName() }}
       </p>
     </div>
-    <!-- <div>
-      <input
-        [hidden]="true"
-        type="file"
-        name="poster"
-        (change)="onFileSelected($event)"
-        #fileUpload
-      />
-      <button mat-flat-button type="button" (click)="fileUpload.click()">
-        Insert profile image
-      </button>
-      <p>
-        {{
-          this.fileSelected?.name ||
-            user?.profileImage?.name ||
-            imageFieldName ||
-            "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB"
-        }}
-      </p>
-    </div> -->
   </div>
 </section>
 <section>
@@ -43,60 +25,15 @@
   </div>
   <p>{{ user?.nickname }}</p>
   <div *ngFor="let input of formFields.inputs">
-    <div [ngClass]="'item'">
-      <p [ngClass]="'subtitle'">{{ input.name }}</p>
-      <mat-icon (click)="clickEvent(input.name)" aria-hidden="false" aria-label="edit icon" matSuffix>
-        edit
-      </mat-icon>
-    </div>
+      <div [ngClass]="'item'">
+        <p [ngClass]="'subtitle'">{{ input.name }}</p>
+        <mat-icon (click)="clickEvent(input.name)" aria-hidden="false" aria-label="edit icon" matSuffix>
+          edit
+        </mat-icon>
+      </div>
     <ng-container [ngSwitch]="flag">
       <div *ngSwitchCase="'edit-' + input.name" [ngClass]="'form-size'">
-        
-        <app-shared-form-field [input]="input" [value]="'Submit'" [flag]="flag"></app-shared-form-field>
-        <!-- <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
-          <ng-container [ngSwitch]="input.type">
-      
-            <ng-template [ngSwitchCase]="'password'">
-              <mat-form-field appearance="standard" ngClass="form-field">
-                <mat-label>{{ input.label }}</mat-label>
-                <input matInput [type]="hide ? 'password' : 'text'" placeholder="{{ input.placeholder }}" 
-                  name="{{ input.name }}" formControlName="{{ input.name }}" required>
-                <mat-icon matSuffix id="password" (click)="hide = !hide" [attr.aria-label]="'Hide password'" 
-                  [attr.aria-pressed]="hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                <mat-error *ngIf="authForm.get(input.name)?.invalid">{{getErrorMessage(input.name)}}</mat-error>
-              </mat-form-field>
-            </ng-template>
-      
-            <ng-template [ngSwitchDefault]>
-              <mat-form-field appearance="standard" ngClass="form-field">
-                <mat-label>{{ input.label }}</mat-label>
-                <input matInput type="{{ input.type }}" placeholder="{{ input.placeholder }}" name="{{ input.name }}" 
-                  formControlName="{{ input.name }}" required/>
-                <mat-icon aria-hidden="false" aria-label="" matSuffix>{{ input.icon }}</mat-icon>
-                <mat-error *ngIf="authForm.get(input.name)?.invalid">{{getErrorMessage(input.name)}}</mat-error>
-              </mat-form-field>
-            </ng-template>
-      
-          </ng-container>
-        <div>
-          <button mat-flat-button class="btn-blue" type="submit">Submit</button>
-        </div>
-      </form> -->
-
-
-        <!-- <ng-container *ngIf="input.name"> -->
-          <!-- <app-shared-form-field [input]="input" [value]="'Submit'" [submitMethod]="onSubmit()"></app-shared-form-field> -->
-        <!-- </ng-container> -->
-        <!-- <form (ngSubmit)="onSubmit()">
-          <div>
-            <ng-container *ngIf="input.name">
-              <app-shared-form-field [input]="input"></app-shared-form-field>
-            </ng-container>
-          </div>
-          <button mat-raised-button color="primary" type="submit">
-            Submit
-          </button>
-        </form> -->
+        <app-shared-form-field [input]="input" [value]="'Submit'" [obj]="user" [authForm]="form" [flag]="flag"></app-shared-form-field>
       </div>
 
       <ng-template [ngSwitchDefault]>
@@ -107,7 +44,7 @@
 
   <div [ngClass]="'item'">
     <p [ngClass]="'subtitle'">Linked Account</p>
-    <mat-icon *ngIf="account == undefined" (click)="clickAccount()" aria-hidden="false" matSuffix>{{ icon }}</mat-icon>
+    <mat-icon (click)="clickAccount()" aria-hidden="false" matSuffix>{{ icon }}</mat-icon>
   </div>
 
   <ng-container [ngSwitch]="accountFlag">
@@ -132,6 +69,7 @@
           <p><strong>Region:</strong> {{ info?.region }}</p>
           <p><strong>Rank:</strong> {{ info?.rank }}</p>
           <p><strong>Summoner Level:</strong> {{ info?.summonerLevel }}</p>
+          <button mat-raised-button color="primary" type="submit" (click)="unlinkRiotAccount()">Unlink account</button>
         </ng-template>
       </ng-container>
 

@@ -15,6 +15,7 @@ export class Tournament {
     constructor(
         public tournamentId: number,
         public numberOfTeams: number,
+        public maxTeams: number,
         public name: string,
         public state: State,
         public stages: LinkedList<Team>,
@@ -24,7 +25,6 @@ export class Tournament {
         public finalWinner: string,
         public description: string,
         public prize: number,
-        public minimumTier: string,
         public poster: string,
         public chat: Message[],
     ) {}
