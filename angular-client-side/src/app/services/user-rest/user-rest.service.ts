@@ -45,7 +45,7 @@ export class UserRestService {
 
   updateRiotAccount(username: string, region: string): Observable<any> {
     const url = `${endpoint}/updateRiot`;
-    return this.http.put<any>(
+    return this.http.post<any>(
       url,
       JSON.stringify({ Username: username, Region: region }),
       //JSON.stringify({ Password: password, Email: email, Poster: poster }),

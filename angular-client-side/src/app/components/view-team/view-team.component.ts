@@ -178,8 +178,9 @@ addRequest(nickname: string): void {
     return (this.form.get('users')?.hasError('users') || this.form.get('users')?.errors?.['matching']) ? "This user doesn't exist." : "";
   }
 
-  removeMember(id: number) {
-    this.teamService.removeMember(id).subscribe({
+  removeMember(nickname: string) {
+    console.log(nickname);
+    this.teamService.removeMember(nickname).subscribe({
       next: () => window.location.reload(),
       error: (err) => console.log(err)
     });

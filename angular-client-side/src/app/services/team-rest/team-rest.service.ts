@@ -7,6 +7,7 @@ const endpoint = 'https://localhost:5001/api/Teams/';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
   }),
 };
 
@@ -34,11 +35,18 @@ export class TeamRestService {
     );
   }
 
-  removeMember(id: number): Observable<any> {
+  removeMember(nickname: string): Observable<any> {
     return this.http.delete<any>(
-      endpoint + 'removeMember/' + id,
-      httpOptions
-    );
+      endpoint + 'removeMember',
+      {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        body: {
+          Nickname: nickname,
+        },
+      }
+    )
   }
 
   deleteTeam(): Observable<any> {
