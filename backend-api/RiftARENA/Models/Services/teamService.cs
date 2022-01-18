@@ -137,31 +137,38 @@ namespace RiftArena.Models.Services
                 throw new AppException("Team not found!");
 
 
-            if (team.Name != teamSer.Name)
+            if (team.Name != teamSer.Name && team.Name != null)
             {
 
                 if (_context.Teams.Any(x => x.Name == team.Name))
                     throw new AppException("Team name " + team.Name + " is already taken");
+                else
+                    teamSer.Name = team.Name;
             }
 
-            if (team.Tag != teamSer.Tag)
+            if (team.Tag != teamSer.Tag && team.Tag != null)
             {
 
                 if (_context.Teams.Any(x => x.Tag == team.Tag))
                     throw new AppException("Team tag " + team.Tag + " is already taken");
+                else
+                    teamSer.Tag = team.Tag;
             }
 
-            if (team.Poster != teamSer.Poster)
+            if (team.Poster != teamSer.Poster && team.Poster != null)
             {
                 if (File.Exists(teamSer.Poster))
                 {
                     File.Delete(teamSer.Poster);
                 }
+                teamSer.Poster = team.Poster;
             }
 
-            teamSer.Name = team.Name;
-            teamSer.Tag = team.Tag;
-
+            for (int i = 0; i < teamSer.Members.Count; i++)
+            {
+                teamSer.Members[i].TeamTag = team.Tag;
+                _context.Users.Update(teamSer.Members[i]);
+            }
 
             _context.Teams.Update(teamSer);
             _context.SaveChanges();
@@ -203,6 +210,7 @@ namespace RiftArena.Models.Services
         {
             var user = _context.Users.SingleOrDefault(x => x.Nickname == nickname);
             var TeamTemp = _context.Teams.Find(id);
+            var teamLeader = _context.Users.SingleOrDefault(x => x.Nickname == TeamTemp.TeamLeader);
             if (TeamTemp == null)
             {
                 throw new AppException("Not Found");
@@ -215,13 +223,17 @@ namespace RiftArena.Models.Services
                 {
                     throw new AppException("Linked Account is required");
                 }
-                else
+                else if (user.LinkedAccount.Region != teamLeader.LinkedAccount.Region)
                     {
-                        user.TeamTag = TeamTemp.Tag;
-                        TeamTemp.Members.Add(user);
-                        TeamTemp.NumberMembers++;
-                        TeamTemp.Rank = GetRankMean(TeamTemp.TeamId);
-                    }
+                throw new AppException("User region does not match team leader region");
+            }
+                    else
+                        {
+                            user.TeamTag = TeamTemp.Tag;
+                            TeamTemp.Members.Add(user);
+                            TeamTemp.NumberMembers++;
+                            TeamTemp.Rank = GetRankMean(TeamTemp.TeamId);
+                        }
             
             _context.Teams.Update(TeamTemp);
             _context.SaveChanges();
