@@ -1,0 +1,1051 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "RIFTARENA API V1",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/Users/requests": {
+      "get": {
+        "tags": ["User"],
+        "operationId": "GetAllRequests",
+        "summary": "Returna uma lista com os pedidos do utilioador logado.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ToDoItem"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ToDoItem"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ToDoItem"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/validarConta": {
+      "post": {
+        "tags": ["User"],
+        "operationId": "ValidateRiotAccount",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Request"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Request"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Request"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/vincularConta": {
+      "post": {
+        "tags": ["User"],
+        "operationId": "LinkAccountRiot",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "Nickname": {
+                    "type": "string"
+                  },
+                  "Rank": {
+                    "type": "string"
+                  },
+                  "ProfileIconID": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Nickname": {
+                      "type": "string"
+                    },
+                    "Rank": {
+                      "type": "string"
+                    },
+                    "ProfileIconID": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Nickname": {
+                      "type": "string"
+                    },
+                    "Rank": {
+                      "type": "string"
+                    },
+                    "ProfileIconID": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Nickname": {
+                      "type": "string"
+                    },
+                    "Rank": {
+                      "type": "string"
+                    },
+                    "ProfileIconID": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/udpateRiot": {
+      "post": {
+        "tags": ["User"],
+        "operationId": "UpdateStatsRiotAccount",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Nickname": {
+                      "type": "string"
+                    },
+                    "Rank": {
+                      "type": "string"
+                    },
+                    "ProfileIconID": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Nickname": {
+                      "type": "string"
+                    },
+                    "Rank": {
+                      "type": "string"
+                    },
+                    "ProfileIconID": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Nickname": {
+                      "type": "string"
+                    },
+                    "Rank": {
+                      "type": "string"
+                    },
+                    "ProfileIconID": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/desvincularConta": {
+      "post": {
+        "tags": ["User"],
+        "operationId": "UnLinkRiotAccount",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Users/register": {
+      "post": {
+        "tags": ["User"],
+        "operationId": "Register",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "Bad Request",
+          "content": {
+            "text/plain": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "text/json": {
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/createRequest": {
+      "post": {
+        "tags": ["User"],
+        "operationId": "CreateRequestByUser",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "404": {
+          "description": "Bad Request",
+          "content": {
+            "text/plain": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "text/json": {
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/{username}": {
+      "get": {
+        "tags": ["User"],
+        "operationId": "GetByUsername",
+        "summary": "Returns a user by username.",
+        "parameters": {
+          "- in": "path",
+          "name": "username",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            },
+            "404": {
+              "description": "Bad Request",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/withToken": {
+      "post": {
+        "tags": ["User"],
+        "operationId": "GetByToken",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "404": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Users": {
+      "get": {
+        "tags": ["User"],
+        "operationId": "GetAllUsers",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "404": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["User"],
+        "operationId": "Delete User",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["User"],
+        "operationId": "Update User",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/login": {
+      "post": {
+        "tags": ["User"],
+        "operationId": "UpdateStatsRiotAccount",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type":"object",
+                "properties":{
+                  "Nickname":{
+                    "type": "string"
+                  },
+                  "Password":{
+                    "type":"string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/acceptRequest": {
+      "post": {
+        "tags": ["User"],
+        "operationId": "Accept Request",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Nickname": {
+                      "type": "string"
+                    },
+                    "Rank": {
+                      "type": "string"
+                    },
+                    "ProfileIconID": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Nickname": {
+                      "type": "string"
+                    },
+                    "Rank": {
+                      "type": "string"
+                    },
+                    "ProfileIconID": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Nickname": {
+                      "type": "string"
+                    },
+                    "Rank": {
+                      "type": "string"
+                    },
+                    "ProfileIconID": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+      "/api/Users/refuseRequest": {
+        "post": {
+          "tags": ["User"],
+          "operationId": "Refuse Request",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Request"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success"
+            },
+            
+          }
+        }
+    
+     
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "UserID": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": false
+          },
+          "Nickname": {
+            "type": "string",
+            "nullable": false
+          },
+          "Password": {
+            "type": "string",
+            "nullable": false
+          },
+          "PasswordHash": {
+            "type": "array"
+          },
+          "PasswordSalt": {
+            "type": "array"
+          },
+          "Email": {
+            "type": "string",
+            "nullable": false
+          },
+          "ContaRiot": {
+            "type": "string",
+            "nullable": true
+          },
+          "NumVitoriasTotal": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "LinkedAccount": {
+            "$ref": "#/components/schemas/LinkedAccount"
+          },
+          "Requests": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Request"
+            }
+          },
+          "TeamTag": {
+            "type": "string",
+            "nullable": true
+          },
+          "Poster": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Tournament": {
+        "type": "object",
+        "properties": {
+          "TournamentId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": false
+          },
+          "NumberOfTeams": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": false
+          },
+          "Name": {
+            "type": "string",
+            "nullable": false
+          },
+          "Description": {
+            "type": "string",
+            "nullable": false
+          },
+          "Rank": {
+            "type": "string",
+            "nullable": true
+          },
+          "Region": {
+            "type": "string",
+            "nullable": true
+          },
+          "FinalWinner": {
+            "type": "string",
+            "nullable": true
+          },
+          "Prize": {
+            "type": "number",
+            "format": "float"
+          },
+          "Poster": {
+            "type": "string",
+            "nullable": true
+          },
+          "Stages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Team"
+            }
+          },
+          "Stage": {
+            "type": "string",
+            "nullable": true
+          },
+          "State": {
+            "type": "string",
+            "enum": [
+              "Published",
+              "NotPublished",
+              "Canceled",
+              "Soon",
+              "Online",
+              "Closed"
+            ]
+          },
+          "Chat": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Message"
+            },
+            "nullable": true
+          },
+          "Date": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "CreatorNickname": {
+            "type": "string",
+            "nullable": true
+          },
+          "MaxTeams": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 4,
+            "maximum": 16
+          }
+        },
+        "additionalProperties": false
+      },
+      "TeamTournament": {
+        "type": "object",
+        "properties": {
+          "TeamId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": false
+          },
+          "TournamentId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": false
+          },
+          "Position": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Team": {
+        "type": "object",
+        "properties": {
+          "TeamId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": false
+          },
+          "Name": {
+            "type": "string",
+            "nullable": false
+          },
+          "Tag": {
+            "type": "string",
+            "nullable": false
+          },
+          "TeamLeader": {
+            "type": "string",
+            "nullable": false
+          },
+          "Rank": {
+            "type": "string",
+            "nullable": false
+          },
+          "NumberMembers": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          "Wins": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          "Defeats": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          "GamesPlayed": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          "TournamentWon": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          "Members": {
+            "type": "array",
+            "item": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "Poster": {
+            "type": "string",
+            "nullable": true
+          },
+          "Tournament": {
+            "type": "array",
+            "item": {
+              "$ref": "#/components/schemas/Tournament"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "Request": {
+        "type": "object",
+        "properties": {
+          "RequestId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": false
+          },
+          "UserNickname": {
+            "type": "string",
+            "nullable": true
+          },
+          "Team": {
+            "$ref": "#/components/schemas/Team"
+          },
+          "Accepted": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Message": {
+        "type": "object",
+        "properties": {
+          "MessageId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Message": {
+            "type": "string",
+            "nullable": true
+          },
+          "Tournament": {
+            "$ref": "#/components/schemas/Tournament"
+          },
+          "UserID": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LinkedAccount": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": false
+          },
+          "Username": {
+            "type": "string",
+            "nullable": true
+          },
+          "ProfileIconID": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": false
+          },
+          "SummonerLevel": {
+            "type": "number",
+            "nullable": false
+          },
+          "Rank": {
+            "type": "string",
+            "nullable": false
+          },
+          "Region": {
+            "type": "string",
+            "nullable": false
+          },
+          "Validated": {
+            "type": "boolean",
+            "nullable": false
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
