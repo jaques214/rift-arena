@@ -164,6 +164,12 @@ namespace RiftArena.Models.Services
                 teamSer.Poster = team.Poster;
             }
 
+            for (int i = 0; i < teamSer.Members.Count; i++)
+            {
+                teamSer.Members[i].TeamTag = team.Tag;
+                _context.Users.Update(teamSer.Members[i]);
+            }
+
             _context.Teams.Update(teamSer);
             _context.SaveChanges();
 
