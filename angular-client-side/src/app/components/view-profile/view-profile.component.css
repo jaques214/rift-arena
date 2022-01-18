@@ -10,6 +10,14 @@ section h3 {
     font-weight: bold;
 }
 
+.profileImg {
+    border-radius: 100%;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    object-position: top center;
+}
+
 .container {
     display: flex;
     width: 80%;
@@ -18,6 +26,10 @@ section h3 {
     padding: 10px;
     border-radius: 10px;
     flex-wrap: wrap;
+}
+
+.container div:first-child {
+    text-align: center;
 }
 
 .container div {
@@ -61,6 +73,11 @@ section h3 {
 
 .item .mat-icon:hover {
     color: #24499A;
+}
+
+.btn-red {
+    color: #fff;
+    background-color: red;
 }
 
 @media screen and (min-width: 1000px) {

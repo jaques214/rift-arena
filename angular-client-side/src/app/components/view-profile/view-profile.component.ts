@@ -1,12 +1,11 @@
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { User } from '@models/user'
 import { LinkedAccount } from '@models/linked_acount';
 import { Team } from '@models/team';
 import { UserRestService } from '@services/user-rest/user-rest.service';
-import { TeamRestService } from '@services/team-rest/team-rest.service';
-import { Router } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import ConfirmedValidator from '@src/app/confirmed.validator';
 
 @Component({
   selector: 'app-view-profile',
@@ -14,39 +13,50 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./view-profile.component.css']
 })
 export class ViewProfileComponent implements OnInit {
-  public response!: {dbPath: ''};
+  response!: {dbPath: ''};
   user?: User;
   team?: Team;
   account?: LinkedAccount;
   info: any;
   icon?: string;
-  imageFieldPath = this.response?.dbPath;
   flag : string = "view";
   accountFlag: string = "view";
   formFields: any = User.fields();
+  passwordFields: any = User.paswordfields();
   accountFields: any = LinkedAccount.fields();
-  //authForm!: FormGroup;
   hide = true;
   message!: string;
+  filename!: string[];
+  file: string = "";
+  title!: string;
+  form!: FormGroup;
 
-  constructor(private restService : UserRestService, private router: Router) {
-    /*const routeState = this.router?.getCurrentNavigation()?.extras?.state
-    if (routeState) {
-      this.user = routeState['user'];
-      this.populateForm()
-    }*/
+  constructor(private restService : UserRestService) {
   }
    
-  ngOnInit(): void {   
+  ngOnInit(): void { 
+    this.form = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.email]),
+      pass: new FormGroup({
+        password: new FormControl('', [Validators.required]),
+        new_password: new FormControl('', [Validators.required]),
+      },
+        {
+          validators: [ConfirmedValidator.match('password', 'new_password')]
+        }
+      )
+    }); 
+    console.log(this.formFields); 
     this.getUser().subscribe((user) => {
-      this.user = user;
+      this.user = user;      
       this.account = this.user?.linkedAccount;
-      //this.populateForm();
+
       if(this.account == undefined) {
         this.info = "No Linked Account";
         this.icon = "add_circle_outline";
       }
       else {
+        this.icon = "edit";
         this.info = {
           username: this.account.username,
           region: this.account.region,
@@ -55,45 +65,40 @@ export class ViewProfileComponent implements OnInit {
         };
       }
     });
-    // this.authForm = new FormGroup({
-    //   nickname: new FormControl('', [Validators.required]),
-    //   email: new FormControl('', [Validators.required, Validators.email]),
-    //   password: new FormControl('', [Validators.required]),
-    //   new_password: new FormControl('', [Validators.required]),
-    // });
+  }
+
+  // editUser() {
+  //   return this.restService.updateUser(this.file);
+  // }
+
+  unlinkRiotAccount(): void {
+    this.restService.unlinkAccount().subscribe({
+      next: () => window.location.reload(),
+      error: (err) => console.log(err)
+    });
+  }
+
+  changeTitle() {
+    return (this.user?.poster) ? 'Change profile image' : 'Insert profile image';
   }
 
   public uploadFinished = (event: any) => {
     this.response = event;
+    //console.log(this.response);
+    (this.user!.poster as any) = this.response.dbPath;
+    this.filename = (this.user?.poster! as string).split('\\');
+    //console.log(this.filename);
+    this.file = this.filename[2];
+  }
+
+  getFileName(): string {
+    return (this.filename != undefined) ? this.filename[2] : "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB"; 
   }
 
   public createImgPath = (serverPath: string) => {
-    return `https://localhost:5001/${serverPath}`;
+    console.log(serverPath);
+    return `https://localhost:5001/Resources/Images/${serverPath}`;
   }
-
-  // getErrorMessage(name: string) {
-  //   if (this.authForm.get(name)?.hasError('required')) {
-  //     return 'You must enter a value';
-  //   }
-
-  //   // console.log(name);
-  //   switch (name) {
-  //     case 'nickname':
-  //       this.message = "The nickname can't have any accents";
-  //     break;
-  //     case 'email':
-  //       this.message = 'Not a valid email';
-  //     break;
-  //     case 'password':
-  //       this.message = 'Not a valid password';
-  //     break;
-  //     case 'new_password':
-  //       this.message = 'The password does not match';
-  //     break;
-  //   }
-
-  //   return this.authForm.get(name)?.hasError(name) ? this.message : '';
-  // }
 
   changeFlag(name: string): string {
     switch(name) {
@@ -104,32 +109,20 @@ export class ViewProfileComponent implements OnInit {
         this.flag = 'edit-' + name;
         break;
     }
-    console.log(this.flag);
+    //console.log(this.flag);
     return this.flag;
   }
 
   clickEvent(name: string) {
     this.flag = (this.flag == "view") ? this.changeFlag(name) : "view";
-    console.log(this.flag);
+    //console.log(this.flag);
   }
 
   clickAccount() {
     this.accountFlag = (this.accountFlag == "view") ? "edit" : "view";
   }
 
-  // editUser(user: User): void {
-  //   this.restService.updateUser(user.password!, user.email!).subscribe({
-  //     next: () => {
-  //       this.getUser().subscribe((user) => {
-  //         this.user = user;
-  //         this.populateForm();
-  //       });
-  //     },
-  //     error: (err) => console.log(err)
-  //   });
-  // }
-
-  getUser(): Observable<any> {
+  getUser(): Observable<User> {
     return this.restService.getUser();
   }
 
@@ -177,9 +170,12 @@ export class ViewProfileComponent implements OnInit {
     return convert;
   }
 
-  // getTeam(): Observable<any> {
-  //   return this.teamRestService.getTeam();
-  // }
+  removeUser() {
+    this.restService.removeProfile().subscribe({
+      next: () => window.location.reload(),
+      error: (err) => console.log(err)
+    });
+  }
 
   getTeamName() {
     return (this.user?.teamTag) ? this.user?.teamTag : "No Team";

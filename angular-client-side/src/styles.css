@@ -62,24 +62,3 @@ body {
   padding: 16px 24px 16px !important;
   background-color: #fff;
 }
-
-.parallax {
-  position: relative;
-  background-image: url("assets/images/image_placeholder.png");
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  min-height: 80%;
-  opacity: 0.65;
-  margin-bottom: 1.5rem;
-  display: flex;
-  align-items: center;
-}
-
-/* Turn off parallax scrolling for all tablets and phones. */
-@media only screen and (max-device-width: 1366px) {
-  .parallax {
-    background-attachment: scroll;
-  }
-}

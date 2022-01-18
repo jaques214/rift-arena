@@ -27,6 +27,9 @@ export class CreateTeamComponent implements OnInit {
       if (user.teamTag != null) {
         this.router.navigate(['/']);
       }
+      if(user.linkedAccount == null){
+        this.router.navigate(['/']);
+      }
     });
 
     this.form = new FormGroup({
