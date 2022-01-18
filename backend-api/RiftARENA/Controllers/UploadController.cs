@@ -10,6 +10,10 @@ namespace RiftArena.Controllers
     [ApiController]
     public class UploadController : ControllerBase
     {
+        /// <summary>
+        /// Método que permite fazer o upload de ficheiros para o projeto
+        /// </summary>
+        /// <returns>Nome do ficheiro que levou upload</returns>
         [HttpPost, DisableRequestSizeLimit]
         public IActionResult Upload()
         {
