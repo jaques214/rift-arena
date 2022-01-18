@@ -27,4 +27,11 @@ export class TourneyRestService {
       httpOptions
     );
   }
+
+  getUserTourneys(): Observable<Tournament[]> {
+    return this.http.get<Tournament[]>(
+      endpoint + 'getUserTournaments',
+      httpOptions
+    );
+  }
 }

@@ -13,15 +13,15 @@ import { first, take } from 'rxjs/operators';
 export class CreateTourneyComponent implements OnInit {
   form!: FormGroup;
   ranks: string[] = [
-    'Iron', 
-    'Bronze',
-    'Silver',
-    'Gold',
-    'Platinum',
-    'Diamond',
-    'Grandmaster',
-    'Master',
-    'Challenger',
+    'IRON', 
+    'BRONZE',
+    'SILVER',
+    'GOLD',
+    'PLATINUM',
+    'DIAMOND',
+    'GRANDMASTER',
+    'MASTER',
+    'CHALLENGER',
   ];
 
   regions: string[] = [
