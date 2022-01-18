@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RiftArena.Models.Contexts;
 
 namespace RiftARENA.Migrations
 {
     [DbContext(typeof(RiftArenaContext))]
-    partial class RiftArenaContextModelSnapshot : ModelSnapshot
+    [Migration("20220116190930_UpdateCreatev5")]
+    partial class UpdateCreatev5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -142,16 +144,21 @@ namespace RiftARENA.Migrations
 
             modelBuilder.Entity("RiftArena.Models.TeamTournament", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
+
                     b.Property<int>("TeamId")
                         .HasColumnType("int");
 
                     b.Property<int>("TournamentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Position")
-                        .HasColumnType("int");
-
-                    b.HasKey("TeamId", "TournamentId");
+                    b.HasKey("Id");
 
                     b.ToTable("TeamTournaments");
                 });
