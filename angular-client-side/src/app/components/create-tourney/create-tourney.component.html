@@ -97,7 +97,7 @@
     </div>
 
     <div [ngClass]="'tourney-container'">
-      <app-upload [title]="changeTitle()" [getObj]="getTourney(tourney?.tournamentId!)" (onUploadFinished)="uploadFinished($event)"></app-upload>
+      <app-upload [title]="'Upload Tourney Poster'" (onUploadFinished)="uploadFinished($event)"></app-upload>
       <div>
         <p>{{ getFileName() }}</p>
       </div>

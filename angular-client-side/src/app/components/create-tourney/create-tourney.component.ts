@@ -56,15 +56,12 @@ export class CreateTourneyComponent implements OnInit {
     });
   }
 
-  changeTitle() {
-    return (this.tourney?.poster) ? 'Change Tourney Poster' : 'Upload Tourney Poster';
-  }
-
   public uploadFinished = (event: any) => {
     this.response = event;
     console.log(this.response);
-    (this.tourney!.poster as any) = this.response.dbPath;
-    this.filename = this.tourney?.poster!;
+    this.filename = this.response.dbPath;
+    // (this.tourney!.poster as any) = this.response.dbPath;
+    // this.filename = this.tourney?.poster!;
     console.log(this.filename);
   }
 
@@ -83,7 +80,8 @@ export class CreateTourneyComponent implements OnInit {
       this.form.get('description')?.value == null ||
       this.form.get('rank')?.value == null ||
       this.form.get('region')?.value == null ||
-      !this.form.get('dateTourney')?.valid
+      !this.form.get('dateTourney')?.valid ||
+      this.filename == undefined
     ) {
       return false;
     } else {
@@ -109,6 +107,7 @@ export class CreateTourneyComponent implements OnInit {
           Rank: rank,
           Region: region,
           date: date,
+          Poster: this.filename
         })
         .pipe(first())
         .subscribe((tourney) => {

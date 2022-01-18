@@ -10,7 +10,7 @@
     <div id="box" *ngIf="tournaments != undefined">
         <div class="tournament-container" *ngFor="let tourney of tournaments">
             <div class="content">
-                <img src="{{tourney?.poster}}" class="poster" alt="poster">
+                <img src="{{createImgPath(tourney?.poster)}}" class="poster" alt="poster">
             </div>
             <div class="content">
                 <div>

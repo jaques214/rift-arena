@@ -25,6 +25,10 @@ export class ViewAllTourneysComponent implements OnInit {
     return (state == 1) ? "Online" : "Offline";
   }
 
+  public createImgPath = (serverPath: string) => {
+    return `https://localhost:5001/Resources/Images/${serverPath}`;
+  }
+
   getTournaments() {
     return this.tourneyRestService.getTourneys();
   }

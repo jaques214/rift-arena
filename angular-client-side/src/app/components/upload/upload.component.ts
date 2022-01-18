@@ -1,3 +1,4 @@
+import { TourneyRestService } from '@src/app/services/tourney-rest/tourney-rest.service';
 import { Router } from '@angular/router';
 import { UserRestService } from '@services/user-rest/user-rest.service';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
@@ -21,6 +22,7 @@ export class UploadComponent implements OnInit {
 
   constructor(private http: HttpClient, 
     private router: Router,
+    private tourneyRestService: TourneyRestService,
     private teamRestService: TeamRestService,
     private userRestService: UserRestService) { }
 
