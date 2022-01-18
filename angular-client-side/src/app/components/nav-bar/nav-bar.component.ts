@@ -14,6 +14,7 @@ export class NavBarComponent implements OnInit {
   profile?: string;
   numberOfRequests: number = 0;
   hasTeam: boolean = false;
+  hasLinkedAccount: boolean = false;
 
   constructor(
     private userService: UserRestService,
@@ -27,6 +28,8 @@ export class NavBarComponent implements OnInit {
           this.user = user;
           if (this.user.teamTag != null) {
             this.hasTeam = true;
+          }if(this.user.linkedAccount !=null){
+            this.hasLinkedAccount = true;
           }
           this.userService.getRequests().subscribe((requests: any) => {
             this.numberOfRequests = requests.length;

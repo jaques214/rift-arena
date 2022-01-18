@@ -54,7 +54,7 @@
               <a class="dropdown-item" href="/view-all-teams">Visualize</a>
             </li>
             <li *ngIf="hasTeam == false">
-              <a class="dropdown-item" href="/create-team">Create</a>
+              <a class="dropdown-item" href="/create-team" *ngIf="hasLinkedAccount==true">Create</a>
             </li>
           </ul>
         </div>
@@ -78,7 +78,7 @@
           *ngIf="hasTeam == true"
           class="nav-item d-xs-block d-lg-none d-xxl-none"
         >
-          <a class="nav-link" href="/view-team">My Team</a>
+          <a class="nav-link" href="/view-team" *ngIf="hasLinkedAccount==true">My Team</a>
         </li>
         <li><hr class="dropdown-divider" /></li>
         <li class="nav-item d-xs-block d-lg-none d-xxl-none">
@@ -107,7 +107,7 @@
           <li><a class="dropdown-item" href="/profile">My Profile</a></li>
           <li><a class="dropdown-item" href="/view-my-tourneys">My Tournaments</a></li>
           <li *ngIf="hasTeam == true">
-            <a class="dropdown-item" href="/view-team">My Team</a>
+            <a class="dropdown-item" href="/view-team" *ngIf="hasLinkedAccount==true">My Team</a>
           </li>
           <li>
             <a class="dropdown-item" (click)="logout()" href="">Logout</a>
