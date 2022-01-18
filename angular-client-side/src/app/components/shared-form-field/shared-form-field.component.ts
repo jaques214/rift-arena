@@ -1,13 +1,11 @@
-import { UserRestService } from '@services/user-rest/user-rest.service';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Component, OnInit, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from '@models/user';
 import { Observable } from 'rxjs';
+import { User } from '@models/user';
 import { Team } from '@models/team';
+import { UserRestService } from '@services/user-rest/user-rest.service';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
-import ConfirmedValidator from '@src/app/confirmed.validator';
-//import ConfirmedValidator from '@src/app/confirmed.validator';
 
 @Component({
   selector: 'app-shared-form-field',
@@ -19,51 +17,17 @@ export class SharedFormFieldComponent implements OnInit {
   @Input() input!:any;
   @Input() value!:string;
   @Input() flag!:any;
-  // @Input() formFields!:any;
-  @Input() submitMethod: any;
   @Input() obj!:any;
-  hide = true;
   @Input() authForm!: FormGroup;
-  // = new FormGroup({
-    //email: new FormControl(''),
-    // pass: new FormGroup({
-    //   password: new FormControl(''),
-    //   new_password: new FormControl(''),
-    // })
-  //});
+  hide = true;
   message!: string;
 
   constructor(public router: Router, 
     private restService: UserRestService, 
-    private teamRestService: TeamRestService, 
-    private formBuilder: FormBuilder) {
+    private teamRestService: TeamRestService) {
   }
   
   ngOnInit(): void {
-    // console.log(this.formFields);
-    // this.authForm = new FormGroup({
-    //   email: new FormControl('', [Validators.required, Validators.email]),
-    //   pass: new FormGroup({
-    //     password: new FormControl('', [Validators.required]),
-    //     new_password: new FormControl('', [Validators.required]),
-    //   },
-    //     {
-    //       validators: [ConfirmedValidator.match('password', 'new_password')]
-    //     }
-    //   )
-    // });
-    // this.authForm = this.formBuilder.group({
-    //   email: ['', Validators.required, Validators.email],
-      // pass: this.formBuilder.group({
-      //   password: ['', Validators.required],
-      //   new_password: ['', Validators.required],
-      // }
-      // {
-      //   validators: [ConfirmedValidator.match('password', 'new_password')]
-      // }
-      //)
-    //});
-
     this.populateForm();
   }
 
@@ -100,7 +64,11 @@ export class SharedFormFieldComponent implements OnInit {
   }
 
   editUser(user: User): void {
-    this.restService.updateUser(user.password!, user.email!).subscribe({
+    const editValues = {
+      Password: user.password,
+      Email: user.email,
+    }
+    this.restService.updateUser(editValues).subscribe({
       next: () => {
         this.getUser().subscribe((user) => {
           this.obj = user;
@@ -126,6 +94,7 @@ export class SharedFormFieldComponent implements OnInit {
         this.getTeam().subscribe((team) => {
           this.obj = team;
           this.populateForm();
+          window.location.reload();
         });
       },
       error: (err) => console.log(err)
@@ -145,7 +114,11 @@ export class SharedFormFieldComponent implements OnInit {
     }
     this.flag = "view";
     console.log(this.flag);
-    this.editUser(data);
+    this.editObj(data);
+  }
+
+  editObj(data: any) {
+    (this.router.url == "/view-team") ? this.editTeam(data) : this.editUser(data);
   }
 
   getErrorMessage(name: string) {

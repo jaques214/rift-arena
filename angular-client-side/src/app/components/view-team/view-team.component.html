@@ -21,7 +21,7 @@
           </div>
         </div>
         <div class="rank">
-          <img src="{{ getRankIcon(team?.rank) }}" class="icon" alt="icon" [matTooltipPosition]="'below'" matTooltip="{{ team?.rank + ' RANK' }}">
+          <img src="{{ getRank(team?.rank) }}" class="icon" alt="icon" [matTooltipPosition]="'below'" matTooltip="{{ team?.rank + ' RANK' }}">
         </div>
       </div>
       <div class="staricon">
@@ -54,9 +54,11 @@
 </section>
 
 <section class="details">
-  <div [ngClass]="'profile-container'">
-    <app-upload [title]="changeTitle()" [getObj]="getTeam(team?.tag!)" [updateObj]="editTeam()" (onUploadFinished)="uploadFinished($event)"></app-upload>
-    <p>{{ getFileName() }}</p>
+  <div [ngClass]="'profile-container'" *ngIf="team?.teamLeader == nickname">
+    <app-upload [title]="changeTitle()" [getObj]="getTeam(team?.tag!)" [obj]="team" (onUploadFinished)="uploadFinished($event)"></app-upload>
+    <div>
+      <p>{{ getFileName() }}</p>
+    </div>
   </div>
 
     <p class="subtitle">Main Team Members:</p>
@@ -64,31 +66,32 @@
         <table *ngFor="let member of team?.members">
           <tbody height="40px">
           <tr>
-            <td class="rank-icon"><img src="{{ getRankIcon(member.linkedAccount?.rank!) }}" class="icon" alt="icon"></td>
+            <td class="rank-icon"><img src="{{ getRank(member.linkedAccount?.rank!) }}" class="icon" alt="icon"></td>
             <td>
                 {{member.nickname}}
                 
             </td>
+            <td>
+              <div>
+                <button *ngIf="member.nickname == nickname" mat-flat-button class="btn-blue" type="button" [routerLink]="'/profile'">View Profile</button>
+              </div>
+              <div>
+                <button *ngIf="team?.teamLeader != member.nickname" mat-flat-button class="btn-red" type="button" (click)="removeMember(member.userID!)">Delete member</button>
+              </div>
+            </td>
           </tr>
           </tbody>
-          <!-- <ng-container matColumnDef="nickname">
-            <th mat-header-cell *matHeaderCellDef> Nickname </th>
-            <td mat-cell *matCellDef="let element"> {{element.nickname}} </td>
-          </ng-container> -->
-      
-          <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
         </table>
       </div>
 
       <div *ngIf="team?.teamLeader == nickname" class="request">
-        <button mat-flat-button class="btn-blue" type="submit" (click)="toggleDisplay()">Create Request</button>
+        <button mat-flat-button class="btn-blue" type="submit" (click)="toggleDisplay()">Add new member</button>
         <div [hidden] = "isShow">
           <form [formGroup]="form">
 
             <mat-form-field appearance="standard" ngClass="form-field">
               <mat-label>Users</mat-label>
-              <input matInput type="text" placeholder="Select user" name="user" 
+              <input matInput type="text" placeholder="Select user" name="users" 
                 formControlName="users" required/>
               <mat-icon aria-hidden="false" aria-label="" matSuffix>account_circle</mat-icon>
               <mat-error *ngIf="form.get('users')?.invalid">{{getErrorMessage()}}</mat-error>
@@ -103,7 +106,7 @@
 
           </mat-form-field>
           <div>
-            <button mat-flat-button class="btn-blue" type="submit" [disabled]="form.invalid" (click)="addRequest()">Send Request</button>
+            <button mat-flat-button class="btn-blue" type="submit" [disabled]="form.invalid" (click)="addRequest(form.get('users')?.value)">Send Request</button>
           </div>
           </form>
         </div>
@@ -115,21 +118,15 @@
           <tbody height="40px">
           <tr>
             <td class="rank-icon">
-              <img src="{{ getRankIcon(member.linkedAccount?.rank!) }}" class="icon" alt="icon">
+              <img src="{{ getRank(member.linkedAccount?.rank!) }}" class="icon" alt="icon">
             </td>
             <td>
                 {{member.nickname}}
             </td>
           </tr>
           </tbody>
-          <!-- <ng-container matColumnDef="nickname">
-            <th mat-header-cell *matHeaderCellDef> Nickname </th>
-            <td mat-cell *matCellDef="let element"> {{element.nickname}} </td>
-          </ng-container> -->
-      
-          <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
         </table>
       </div>
+      <button *ngIf="team?.teamLeader == nickname" mat-flat-button class="btn-red deleteButton" type="button" (click)="removeTeam()">Delete Team</button>
 </section>
 </ng-container>

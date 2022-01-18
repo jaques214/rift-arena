@@ -56,6 +56,7 @@ export class ViewProfileComponent implements OnInit {
         this.icon = "add_circle_outline";
       }
       else {
+        this.icon = "edit";
         this.info = {
           username: this.account.username,
           region: this.account.region,
@@ -66,9 +67,9 @@ export class ViewProfileComponent implements OnInit {
     });
   }
 
-  editUser() {
-    return this.restService.updateUser(this.file);
-  }
+  // editUser() {
+  //   return this.restService.updateUser(this.file);
+  // }
 
   unlinkRiotAccount(): void {
     this.restService.unlinkAccount().subscribe({
@@ -96,32 +97,8 @@ export class ViewProfileComponent implements OnInit {
 
   public createImgPath = (serverPath: string) => {
     console.log(serverPath);
-    return `https://localhost:5001/${serverPath}`;
+    return `https://localhost:5001/Resources/Images/${serverPath}`;
   }
-
-  // getErrorMessage(name: string) {
-  //   if (this.authForm.get(name)?.hasError('required')) {
-  //     return 'You must enter a value';
-  //   }
-
-  //   // console.log(name);
-  //   switch (name) {
-  //     case 'nickname':
-  //       this.message = "The nickname can't have any accents";
-  //     break;
-  //     case 'email':
-  //       this.message = 'Not a valid email';
-  //     break;
-  //     case 'password':
-  //       this.message = 'Not a valid password';
-  //     break;
-  //     case 'new_password':
-  //       this.message = 'The password does not match';
-  //     break;
-  //   }
-
-  //   return this.authForm.get(name)?.hasError(name) ? this.message : '';
-  // }
 
   changeFlag(name: string): string {
     switch(name) {
@@ -145,7 +122,7 @@ export class ViewProfileComponent implements OnInit {
     this.accountFlag = (this.accountFlag == "view") ? "edit" : "view";
   }
 
-  getUser(): Observable<any> {
+  getUser(): Observable<User> {
     return this.restService.getUser();
   }
 
@@ -193,9 +170,12 @@ export class ViewProfileComponent implements OnInit {
     return convert;
   }
 
-  // getTeam(): Observable<any> {
-  //   return this.teamRestService.getTeam();
-  // }
+  removeUser() {
+    this.restService.removeProfile().subscribe({
+      next: () => window.location.reload(),
+      error: (err) => console.log(err)
+    });
+  }
 
   getTeamName() {
     return (this.user?.teamTag) ? this.user?.teamTag : "No Team";

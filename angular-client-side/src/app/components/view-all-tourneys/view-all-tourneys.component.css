@@ -3,6 +3,10 @@ section {
     width: 100%;
 }
 
+.message {
+    text-align: center;
+}
+
 #box {
     display: flex;
     flex-direction: column;
@@ -15,6 +19,31 @@ section {
 .poster {
     width: 100%;
     height: auto;
+}
+
+.round-icon {
+    margin-right: 10px;
+    border-radius: 100%;
+    width: 12px;
+    height: 12px;
+}
+
+.green {
+    background-color: rgb(134, 207, 24);
+}
+
+.red {
+    background-color: red;
+}
+
+.status {
+    align-items: center;
+    display: flex;
+    margin: 10px 0;
+}
+
+.status p {
+    margin-bottom: 0;
 }
 
 section div.content:first-child {

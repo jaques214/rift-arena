@@ -29,11 +29,28 @@ export class UserRestService {
     return this.http.get<LinkedList<User>>(endpoint, httpOptions);
   }
 
+  removeProfile() {
+    return this.http.delete<any>(
+      endpoint,
+      httpOptions
+    );
+  }
+
   addAccount(username: string, region: string): Observable<any> {
     const url = `${endpoint}/vincularConta`;
     return this.http.post(url, 
       JSON.stringify({ Username: username, Region: region }),
       httpOptions);
+  }
+
+  updateRiotAccount(username: string, region: string): Observable<any> {
+    const url = `${endpoint}/updateRiot`;
+    return this.http.put<any>(
+      url,
+      JSON.stringify({ Username: username, Region: region }),
+      //JSON.stringify({ Password: password, Email: email, Poster: poster }),
+      httpOptions
+    );
   }
 
   unlinkAccount(): Observable<any> {
@@ -44,10 +61,11 @@ export class UserRestService {
   }
 
   // envia um user e retorna o mesmo user com a informação atualizada no servidor
-  updateUser(password?: string, email?: string, poster?: string): Observable<User> {
+  updateUser(obj: object): Observable<User> {
     return this.http.put<User>(
       endpoint,
-      JSON.stringify({ Password: password, Email: email, Poster: poster }),
+      JSON.stringify(obj),
+      //JSON.stringify({ Password: password, Email: email, Poster: poster }),
       httpOptions
     );
   }

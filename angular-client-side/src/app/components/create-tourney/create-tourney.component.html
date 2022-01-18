@@ -14,9 +14,9 @@
         (form.get('tourneyName')!.dirty && form.get('tourneyName')!.invalid) ||
         (form.get('rank')!.hasError('required') && form.get('rank')!.touched) ||
         (form.get('rank')!.dirty && form.get('rank')!.invalid) ||
-        (form.get('numberTeams')!.hasError('required') &&
-          form.get('numberTeams')!.touched) ||
-        (form.get('numberTeams')!.dirty && form.get('numberTeams')!.invalid) ||
+        (form.get('maxTeams')!.hasError('required') &&
+          form.get('maxTeams')!.touched) ||
+        (form.get('maxTeams')!.dirty && form.get('maxTeams')!.invalid) ||
         (form.get('dateTourney')!.hasError('required') &&
           form.get('dateTourney')!.touched) ||
         (form.get('dateTourney')!.dirty && form.get('dateTourney')!.invalid)
@@ -52,11 +52,11 @@
     </div>
     <div class="mb-3">
       <label for="formGroupNumberTeams" class="form-group"
-        >Number of Teams</label
+        >Max Number of Teams</label
       >
       <select
         class="form-select"
-        formControlName="numberTeams"
+        formControlName="maxTeams"
         id="formGroupExampleInput"
       >
         <option value="4">4</option>
@@ -95,6 +95,14 @@
         id="formGroupExampleInput"
       />
     </div>
+
+    <div [ngClass]="'tourney-container'">
+      <app-upload [title]="changeTitle()" [getObj]="getTourney(tourney?.tournamentId!)" (onUploadFinished)="uploadFinished($event)"></app-upload>
+      <div>
+        <p>{{ getFileName() }}</p>
+      </div>
+    </div>
+
     <div class="d-flex justify-content-between">
       <button
         type="submit"

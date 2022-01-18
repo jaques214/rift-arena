@@ -25,7 +25,6 @@ export class Tournament {
         public finalWinner: string,
         public description: string,
         public prize: number,
-        public minimumTier: string,
         public poster: string,
         public chat: Message[],
     ) {}

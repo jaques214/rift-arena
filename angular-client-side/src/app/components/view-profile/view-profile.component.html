@@ -1,6 +1,7 @@
 <app-nav-bar></app-nav-bar>
 <section>
-  <h3>Profile Image</h3>
+  <h3>User Profile</h3>
+  <button mat-flat-button class="btn-red" type="button" (click)="removeUser()">Delete Profile</button>
   <div [ngClass]="'container'">
     <div>
       <img *ngIf="user?.poster != undefined"
@@ -11,7 +12,7 @@
       </div>
       
     <div>
-      <app-upload [title]="changeTitle()" [getObj]="getUser()" [updateObj]="editUser()" (onUploadFinished)="uploadFinished($event)"></app-upload>
+      <app-upload [title]="changeTitle()" [getObj]="getUser()" [obj]="user" (onUploadFinished)="uploadFinished($event)"></app-upload>
       <p>
         {{ getFileName() }}
       </p>
@@ -32,7 +33,7 @@
       </div>
     <ng-container [ngSwitch]="flag">
       <div *ngSwitchCase="'edit-' + input.name" [ngClass]="'form-size'">
-        <app-shared-form-field [input]="input" [value]="'Submit'" [obj]="user" [authForm]="form"></app-shared-form-field>
+        <app-shared-form-field [input]="input" [value]="'Submit'" [obj]="user" [authForm]="form" [flag]="flag"></app-shared-form-field>
       </div>
 
       <ng-template [ngSwitchDefault]>
@@ -43,7 +44,7 @@
 
   <div [ngClass]="'item'">
     <p [ngClass]="'subtitle'">Linked Account</p>
-    <mat-icon *ngIf="account == undefined" (click)="clickAccount()" aria-hidden="false" matSuffix>{{ icon }}</mat-icon>
+    <mat-icon (click)="clickAccount()" aria-hidden="false" matSuffix>{{ icon }}</mat-icon>
   </div>
 
   <ng-container [ngSwitch]="accountFlag">

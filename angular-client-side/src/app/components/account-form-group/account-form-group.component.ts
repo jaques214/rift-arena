@@ -42,13 +42,27 @@ export class AccountFormGroupComponent implements OnInit {
       }
     });
     this.accountFlag = "view";
-    this.addAccount(data);
+    if(data == undefined) {
+      this.addAccount(data);
+    }
+    else {
+      this.editAccount(data);
+    }
   }
 
   addAccount(account: LinkedAccount): void {
     this.username = account.username!;
 
     this.restService.addAccount(this.username, this.region).subscribe({
+      next: () => window.location.reload(),
+      error: (err) => console.log(err)
+    });
+  }
+
+  editAccount(account: LinkedAccount): void {
+    this.username = account.username!;
+
+    this.restService.updateRiotAccount(this.username, this.region).subscribe({
       next: () => window.location.reload(),
       error: (err) => console.log(err)
     });

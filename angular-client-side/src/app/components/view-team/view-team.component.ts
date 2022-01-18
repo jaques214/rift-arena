@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { LinkedList } from 'linked-list-typescript';
 import ConfirmedValidator from '@src/app/confirmed.validator';
 import { ViewportScroller } from '@angular/common';
+import { getRankIcon } from '@src/app/shared/utils';
 
 @Component({
   selector: 'app-view-team',
@@ -20,18 +21,13 @@ export class ViewTeamComponent implements OnInit {
   nicknameList: any = [];
   teamTag!: string;
   team!: Team;
-  rankIcon!: string;
-  displayedColumns = ['icon', 'nickname'];
-  ELEMENT_DATA: PeriodicElement[] = [];
   dataSource: any;
   users: any = [];
   isShow = true;
   bool = true;
-  selectedValue!: string;
   flag!:string;
   formFields: any = Team.fields();
-  filename!: string[];
-  file: string = "";
+  filename!: string;
   response!: {dbPath: ''};
   editForm!:FormGroup;
   form: FormGroup = new FormGroup({
@@ -73,6 +69,10 @@ export class ViewTeamComponent implements OnInit {
     });
   }
 
+  getRank(key: any) {
+    return getRankIcon(key);
+  }
+
   populateUsers() {
     this.users.forEach((element:any) => {
       this.nicknameList.push(element.nickname);
@@ -82,20 +82,6 @@ export class ViewTeamComponent implements OnInit {
   toggleDisplay() {
     this.isShow = !this.isShow;
   }
-
-  // changeFlag(name: string): boolean {
-  //   let bool!: boolean
-  //   switch(this.flag) {
-  //     case 'name':
-  //       bool = true;
-  //       break;
-  //     case 'tag':
-  //       bool = true;
-  //       break;
-  //   }
-  //   //console.log(this.flag);
-  //   return bool;
-  // }
 
   clickEvent(name: string) {
     this.flag = name;
@@ -125,8 +111,8 @@ export class ViewTeamComponent implements OnInit {
     return convert;
   }
   
-addRequest(): void {
-  this.restService.createRequest(this.selectedValue).subscribe({
+addRequest(nickname: string): void {
+  this.restService.createRequest(nickname).subscribe({
     next: () => this.router.navigate(['/']),
     error: (err) => console.log(err)
   });
@@ -142,52 +128,6 @@ addRequest(): void {
 
   getUsers(): Observable<LinkedList<User>> {
     return this.restService.getUsers();
-  }
-
-  getRankIcon(key: any) {
-    switch (key) {
-      case 'IRON':
-        this.rankIcon = './assets/images/ranked-emblems/Emblem_Iron.png';
-        break;
-      case 'BRONZE':
-        this.rankIcon = './assets/images/ranked-emblems/Emblem_Bronze.png';
-        break;
-      case 'SILVER':
-        this.rankIcon = './assets/images/ranked-emblems/Emblem_Silver.png';
-        break;
-      case 'GOLD':
-        this.rankIcon = './assets/images/ranked-emblems/Emblem_Gold.png';
-        break;
-      case 'PLATINUM':
-        this.rankIcon = './assets/images/ranked-emblems/Emblem_Platinum.png';
-        break;
-      case 'DIAMOND':
-        this.rankIcon = './assets/images/ranked-emblems/Emblem_Diamond.png';
-        break;
-      case 'GRANDMASTER':
-        this.rankIcon = './assets/images/ranked-emblems/Emblem_Grandmaster.png';
-        break;
-      case 'MASTER':
-        this.rankIcon = './assets/images/ranked-emblems/Emblem_Master.png';
-        break;
-      case 'CHALLENGER':
-        this.rankIcon = './assets/images/ranked-emblems/Emblem_Challenger.png';
-        break;
-      default:
-        this.rankIcon = './assets/images/ranked-emblems/Emblem_Bronze.png';
-        break;
-    }
-    return this.rankIcon;
-  }
-
-  populateTable() {
-    const tam = this.team?.numberMembers;
-    for (let index = 0; index < tam!; index++) {
-      this.ELEMENT_DATA[index] = {
-        icon: '', 
-        nickname: this.team?.members![index].nickname!
-      };
-    }
   }
 
   getClass() {
@@ -207,29 +147,28 @@ addRequest(): void {
     this.response = event;
     console.log(this.response);
     (this.team!.poster as any) = this.response.dbPath;
-    this.filename = (this.team?.poster! as string).split('\\');
+    this.filename = this.team?.poster!;
     console.log(this.filename);
-    this.file = this.filename[2];
   }
 
   getFileName(): string {
-    return (this.filename != undefined) ? this.filename[2] : "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB"; 
+    return (this.filename != undefined) ? this.filename : "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB"; 
   }
 
   public createImgPath = (serverPath: string) => {
     console.log(serverPath);
-    return `https://localhost:5001/${serverPath}`;
+    return `https://localhost:5001/Resources/Images/${serverPath}`;
   }
 
-  editTeam(): Observable<Team> {
-    console.log(this.file);
-    const editValues = {
-      Name: this.team.name,
-      Tag: this.team.tag,
-      Poster: this.file,
-    } 
-    return this.teamService.updateTeam(editValues);
-  }
+  // editTeam(file: string): Observable<Team> {
+  //   console.log(file);
+  //   const editValues = {
+  //     Name: this.team.name,
+  //     Tag: this.team.tag,
+  //     Poster: file,
+  //   } 
+  //   return this.teamService.updateTeam(editValues);
+  // }
 
   getErrorMessage() {
     if (this.form.get('users')?.hasError('required')) {
@@ -238,8 +177,18 @@ addRequest(): void {
 
     return (this.form.get('users')?.hasError('users') || this.form.get('users')?.errors?.['matching']) ? "This user doesn't exist." : "";
   }
-}
-export interface PeriodicElement {
-  icon: string;
-  nickname: string;
+
+  removeMember(id: number) {
+    this.teamService.removeMember(id).subscribe({
+      next: () => window.location.reload(),
+      error: (err) => console.log(err)
+    });
+  }
+
+  removeTeam() {
+    this.teamService.deleteTeam().subscribe({
+      next: () => window.location.reload(),
+      error: (err) => console.log(err)
+    });
+  }
 }

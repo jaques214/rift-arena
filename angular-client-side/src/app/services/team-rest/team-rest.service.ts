@@ -34,13 +34,26 @@ export class TeamRestService {
     );
   }
 
+  removeMember(id: number): Observable<any> {
+    return this.http.delete<any>(
+      endpoint + 'removeMember/' + id,
+      httpOptions
+    );
+  }
+
+  deleteTeam(): Observable<any> {
+    return this.http.delete<any>(
+      endpoint,
+      httpOptions
+    );
+  }
+
   createTeam(tag: string, nameTeam: string): Observable<any> {
     return this.http.post<any>(
       endpoint + 'createTeam',
       JSON.stringify({
         Name: nameTeam,
         Tag: tag,
-        Rank: 'Gold',
       }),
       httpOptions
     );

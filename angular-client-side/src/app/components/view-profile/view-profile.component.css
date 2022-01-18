@@ -75,6 +75,11 @@ section h3 {
     color: #24499A;
 }
 
+.btn-red {
+    color: #fff;
+    background-color: red;
+}
+
 @media screen and (min-width: 1000px) {
     .container {
         display: flex;
