@@ -33,7 +33,6 @@ export class NavBarComponent implements OnInit {
           }
           this.userService.getRequests().subscribe((requests: any) => {
             this.numberOfRequests = requests.length;
-            console.log(this.numberOfRequests);
           });
         },
         error: () => localStorage.removeItem('currentUser')
@@ -43,12 +42,6 @@ export class NavBarComponent implements OnInit {
 
   createImgPath = (serverPath: string) => {
     return `https://localhost:5001/Resources/Images/${serverPath}`;
-  }
-
-  public uploadFinished = (event: any) => {
-    this.response = event;
-    (this.user!.poster as any) = this.response.dbPath;
-    console.log(this.user!.poster)
   }
 
   toogleProfileIcon() {

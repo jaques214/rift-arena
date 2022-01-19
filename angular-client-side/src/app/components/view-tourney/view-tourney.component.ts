@@ -17,7 +17,6 @@ export class ViewTourneyComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private tourneyRestService: TourneyRestService) { 
     this.tourneyId = this.route.snapshot.params['id'];
-    console.log(this.tourneyId);
   }
 
   ngOnInit(): void {

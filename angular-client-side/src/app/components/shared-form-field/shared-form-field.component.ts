@@ -34,11 +34,9 @@ export class SharedFormFieldComponent implements OnInit {
   populateForm() {
     //if a user already exists populates the formFields inputs.
     let values = Object.entries(this.obj);
-    console.log(values);
 
     if(this.input.type == 'password') {
       let teste = this.authForm.get('pass');
-      console.log(teste);
       values.forEach((val:any) => {
         if(val[0] == this.input.name) {
           teste?.get(this.input.name)?.setValue(val[1]);
@@ -46,13 +44,10 @@ export class SharedFormFieldComponent implements OnInit {
       });
     }
     else {
-      console.log(this.input.name);
       let teste = this.authForm.get(this.input.name);
-      console.log(teste);
+
       values.forEach((val:any) => {
         if(val[0] == this.input.name) {
-          console.log(val[0])
-          console.log(val[1]);
           teste?.setValue(val[1]);
         }
       });
@@ -113,7 +108,6 @@ export class SharedFormFieldComponent implements OnInit {
       (data as any)[this.input.name!] = this.authForm.get(this.input.name)?.value
     }
     this.flag = "view";
-    console.log(this.flag);
     this.editObj(data);
   }
 
@@ -126,7 +120,6 @@ export class SharedFormFieldComponent implements OnInit {
       return 'You must enter a value';
     }
 
-    // console.log(name);
     switch (name) {
       case 'email':
         this.message = 'Not a valid email';
@@ -139,7 +132,6 @@ export class SharedFormFieldComponent implements OnInit {
       break;
     }
 
-    //console.log(this.authForm.get(name)?.errors);
     return (this.authForm.get(name)?.hasError(name) || this.authForm.get(name)?.errors?.['matching']) ? this.message : '';
   }
 }

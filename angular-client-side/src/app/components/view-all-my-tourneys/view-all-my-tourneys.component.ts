@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TourneyRestService } from '@src/app/services/tourney-rest/tourney-rest.service';
+import { TourneyRestService } from '@services/tourney-rest/tourney-rest.service';
 
 @Component({
   selector: 'app-view-all-my-tourneys',
@@ -12,14 +12,10 @@ export class ViewAllMyTourneysComponent implements OnInit {
   constructor(private tourneyService: TourneyRestService) {}
 
   ngOnInit(): void {
-    this.tourneyService.getUserTourneys().subscribe(
-      (data) => {
-        this.userTourneys = data;
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
+    this.tourneyService.getUserTourneys().subscribe({
+      next: (data: {}) => this.userTourneys = data,
+      error: (err: any) => console.log(err)
+    });
   }
 
   clickEvent(id: number) {

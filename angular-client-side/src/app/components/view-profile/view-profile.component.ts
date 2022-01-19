@@ -22,9 +22,7 @@ export class ViewProfileComponent implements OnInit {
   flag : string = "view";
   accountFlag: string = "view";
   formFields: any = User.fields();
-  passwordFields: any = User.paswordfields();
   accountFields: any = LinkedAccount.fields();
-  hide = true;
   message!: string;
   filename!: string[];
   file: string = "";
@@ -46,7 +44,6 @@ export class ViewProfileComponent implements OnInit {
         }
       )
     }); 
-    console.log(this.formFields); 
     this.getUser().subscribe((user) => {
       this.user = user;      
       this.account = this.user?.linkedAccount;
@@ -67,10 +64,6 @@ export class ViewProfileComponent implements OnInit {
     });
   }
 
-  // editUser() {
-  //   return this.restService.updateUser(this.file);
-  // }
-
   unlinkRiotAccount(): void {
     this.restService.unlinkAccount().subscribe({
       next: () => window.location.reload(),
@@ -84,11 +77,8 @@ export class ViewProfileComponent implements OnInit {
 
   public uploadFinished = (event: any) => {
     this.response = event;
-    //console.log(this.response);
     (this.user!.poster as any) = this.response.dbPath;
-    this.filename = (this.user?.poster! as string).split('\\');
-    //console.log(this.filename);
-    this.file = this.filename[2];
+    this.file = this.user?.poster!;
   }
 
   getFileName(): string {
@@ -96,7 +86,6 @@ export class ViewProfileComponent implements OnInit {
   }
 
   public createImgPath = (serverPath: string) => {
-    console.log(serverPath);
     return `https://localhost:5001/Resources/Images/${serverPath}`;
   }
 
@@ -109,13 +98,11 @@ export class ViewProfileComponent implements OnInit {
         this.flag = 'edit-' + name;
         break;
     }
-    //console.log(this.flag);
     return this.flag;
   }
 
   clickEvent(name: string) {
     this.flag = (this.flag == "view") ? this.changeFlag(name) : "view";
-    //console.log(this.flag);
   }
 
   clickAccount() {
@@ -160,7 +147,7 @@ export class ViewProfileComponent implements OnInit {
     
     if(this.user != null) {
       let values = Object.entries(this.user!);
-      //console.log(values);
+
       values.forEach(val => {
         if(val[0] == value) {
           convert = this.selectValue(value, val[1]);         

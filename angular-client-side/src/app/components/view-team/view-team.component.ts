@@ -52,9 +52,7 @@ export class ViewTeamComponent implements OnInit {
 
     this.getUsers().subscribe((data: {}) => {
       this.users = data;
-      console.log(this.users);
       this.populateUsers();
-      console.log(this.nicknameList);
 
       this.form = this.formBuilder.group({
         users: ['', Validators.required],
@@ -67,7 +65,6 @@ export class ViewTeamComponent implements OnInit {
       this.nickname = user.nickname!;
       this.getTeam(this.teamTag).subscribe((team) => {
         this.team = team;
-        console.log(this.team);
       });
     });
   }
@@ -88,7 +85,6 @@ export class ViewTeamComponent implements OnInit {
 
   clickEvent(name: string) {
     this.flag = name;
-    console.log(this.flag);
     if(!this.bool) {
       this.bool = true;
     }
@@ -96,8 +92,6 @@ export class ViewTeamComponent implements OnInit {
       this.scroller.scrollToAnchor("name");
       this.bool = false;
     }
-    
-    console.log(this.bool);
   }
 
   getTeamValue(value: any): string {
@@ -148,10 +142,8 @@ addRequest(nickname: string): void {
 
   public uploadFinished = (event: any) => {
     this.response = event;
-    console.log(this.response);
     (this.team!.poster as any) = this.response.dbPath;
     this.filename = this.team?.poster!;
-    console.log(this.filename);
   }
 
   getFileName(): string {
@@ -159,19 +151,8 @@ addRequest(nickname: string): void {
   }
 
   public createImgPath = (serverPath: string) => {
-    console.log(serverPath);
     return `https://localhost:5001/Resources/Images/${serverPath}`;
   }
-
-  // editTeam(file: string): Observable<Team> {
-  //   console.log(file);
-  //   const editValues = {
-  //     Name: this.team.name,
-  //     Tag: this.team.tag,
-  //     Poster: file,
-  //   } 
-  //   return this.teamService.updateTeam(editValues);
-  // }
 
   getErrorMessage() {
     if (this.form.get('users')?.hasError('required')) {
@@ -182,7 +163,6 @@ addRequest(nickname: string): void {
   }
 
   removeMember(nickname: string) {
-    console.log(nickname);
     this.teamService.removeMember(nickname).subscribe({
       next: () => window.location.reload(),
       error: (err) => console.log(err)

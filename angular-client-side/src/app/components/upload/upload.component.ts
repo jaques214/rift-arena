@@ -35,7 +35,6 @@ export class UploadComponent implements OnInit {
     }
 
     let fileToUpload = <File>files[0];
-    console.log(fileToUpload);
     const formData = new FormData();
     formData.append('file', fileToUpload, fileToUpload.name);
 
@@ -49,19 +48,16 @@ export class UploadComponent implements OnInit {
         }
       });
 
-    //console.log(this.filename);
     if(this.router.url == '/view-my-team') {
       this.editValues = {
         Name: this.obj.name,
         Tag: this.obj.tag,
         Poster: fileToUpload.name,
       } 
-      console.log(this.editValues);
       this.teamRestService.updateTeam(this.editValues).subscribe({
         next: () => {
           this.getObj.subscribe((obj) => {
             this.obj = obj;
-            console.log(this.obj);
           });
         },
         error: (err) => console.log(err)
@@ -77,7 +73,6 @@ export class UploadComponent implements OnInit {
         next: () => {
           this.getObj.subscribe((obj) => {
             this.obj = obj;
-            console.log(this.obj);
           });
         },
         error: (err) => console.log(err)

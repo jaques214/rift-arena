@@ -49,12 +49,7 @@
 
   <ng-container [ngSwitch]="accountFlag">
     <ng-template [ngSwitchCase]="'edit'">
-      <!-- <form (ngSubmit)="onSubmitAccount()">
-        <div *ngFor="let input of accountFields.inputs"> -->
-          <app-account-form-group [formFields]="accountFields.inputs" [value]="'Submit'" [accountFlag]="accountFlag"></app-account-form-group>
-        <!-- </div>
-        <button mat-raised-button color="primary" type="submit">Submit</button>
-      </form> -->
+      <app-account-form-group [formFields]="accountFields.inputs" [value]="'Submit'" [accountFlag]="accountFlag"></app-account-form-group>
     </ng-template>
 
     <ng-template [ngSwitchDefault]>
@@ -69,7 +64,7 @@
           <p><strong>Region:</strong> {{ info?.region }}</p>
           <p><strong>Rank:</strong> {{ info?.rank }}</p>
           <p><strong>Summoner Level:</strong> {{ info?.summonerLevel }}</p>
-          <button mat-raised-button color="primary" type="submit" (click)="unlinkRiotAccount()">Unlink account</button>
+          <button *ngIf="team == undefined" mat-raised-button color="primary" type="submit" (click)="unlinkRiotAccount()">Unlink account</button>
         </ng-template>
       </ng-container>
 

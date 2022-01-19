@@ -26,29 +26,9 @@ export class SharedFormGroupComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    // if(this.router.url == '/register') {
-    //   this.authForm = this.formBuilder.group({
-    //     nickname: ['', Validators.required],
-    //     email: ['', [Validators.required, Validators.email]],
-    //     password: ['', Validators.required],
-    //     new_password: ['', Validators.required],
-    //   },
-    //   {
-    //     validators: [ConfirmedValidator.match('password', 'new_password')]
-    //   });
-    // }
-    // else if(this.router.url == '/login') {
-    //   this.authForm = this.formBuilder.group({
-    //     nickname: ['', Validators.required],
-    //     email: ['', [Validators.required, Validators.email]],
-    //     password: ['', Validators.required],
-    //   });
-    // }
-    //console.log(this.formFields);
   }
 
   submit() {
-    //console.log(this.router.url);
     switch (this.router.url) {
       case '/login':
         this.login();
@@ -97,7 +77,6 @@ export class SharedFormGroupComponent implements OnInit {
       return 'You must enter a value';
     }
 
-    // console.log(name);
     switch (name) {
       case 'nickname':
         this.message = "The nickname can't have any accents";
@@ -113,7 +92,6 @@ export class SharedFormGroupComponent implements OnInit {
       break;
     }
 
-    //console.log(this.authForm.get(name)?.errors);
     return (this.authForm.get(name)?.hasError(name) || this.authForm.get(name)?.errors?.['matching']) ? this.message : '';
   }
 }

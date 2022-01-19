@@ -21,15 +21,12 @@ export class ViewAllTeamsComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getUser().subscribe((user) => {
       this.nickname = user.teamTag!;
-      //console.log(this.user);
       this.getTeams().subscribe((data: {}) => {
         this.teams = data;
       
       this.getTeam(this.nickname).subscribe(team => {
         this.team = team;
-        console.log(this.team);
         this.teams = this.removeItemOnce(this.team);
-        console.log(this.teams);
       });
     });
     });
@@ -44,7 +41,6 @@ export class ViewAllTeamsComponent implements OnInit {
   }
 
   public createImgPath = (serverPath: string) => {
-    console.log(serverPath);
     return (serverPath != undefined) ? `https://localhost:5001/Resources/Images/${serverPath}` : "assets/images/image_placeholder.png";
   }
 

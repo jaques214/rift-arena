@@ -50,17 +50,13 @@ export class JoinTournamentComponent implements OnInit {
 
     this.getTeams().subscribe((data: {}) => {
         this.teams = data;
-        console.log(this.teams);
         this.populateTable();
-        console.log(this.ELEMENT_DATA);
         this.dataSource = new MatTableDataSource<PeriodicElement>(this.ELEMENT_DATA);
     });
 
     this.getTournaments().subscribe((data: {}) => {
       this.tournaments = data;
       this.populateTourneys();
-      console.log(this.tourneysList);
-      console.log(this.idList);
 
       this.form = this.formBuilder.group({
         tourneys: ['', Validators.required],
@@ -74,13 +70,11 @@ export class JoinTournamentComponent implements OnInit {
 
   populateTable() {
     const tam = this.teams.length;
-    console.log(tam);
     for (let index = 0; index < tam; index++) {
       this.ELEMENT_DATA[index] = {
         name: this.teams[index].name, 
       };
     }
-    console.log(this.ELEMENT_DATA);
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

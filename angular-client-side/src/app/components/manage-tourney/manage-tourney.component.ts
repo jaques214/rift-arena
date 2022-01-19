@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatRadioChange } from '@angular/material/radio';
 
 interface Stage {
@@ -35,9 +35,9 @@ export class ManageTourneyComponent implements OnInit {
 
   // array n radio_group
 
-  getValue(event: MatRadioChange) {
-    console.log(event.value);
-  }
+  // getValue(event: MatRadioChange) {
+  //   console.log(event.value);
+  // }
 
   getAllValues() {
     let results: string[] = [];
@@ -45,8 +45,6 @@ export class ManageTourneyComponent implements OnInit {
     this.radioGroup.forEach((result: any) => {
       results.push(result.v);
     });
-
-    console.log(results);
   }
   
 }

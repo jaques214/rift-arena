@@ -58,11 +58,7 @@ export class CreateTourneyComponent implements OnInit {
 
   public uploadFinished = (event: any) => {
     this.response = event;
-    console.log(this.response);
     this.filename = this.response.dbPath;
-    // (this.tourney!.poster as any) = this.response.dbPath;
-    // this.filename = this.tourney?.poster!;
-    console.log(this.filename);
   }
 
   getFileName(): string {
@@ -92,7 +88,6 @@ export class CreateTourneyComponent implements OnInit {
   save() {
     if (this.isEnable()) {
       var y: number = this.form.get('maxTeams')?.value;
-      console.log(y);
       var name: String = this.form.get('tourneyName')?.value;
       var description: String = this.form.get('description')?.value;
       var rank: String = this.form.get('rank')?.value;

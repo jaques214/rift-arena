@@ -32,6 +32,7 @@ export class AccountFormGroupComponent implements OnInit {
 
   onSubmitAccount(): void {
     const data = new LinkedAccount();
+
     this.formFields.forEach((input:any) => {
       if(input.type != 'select') {
         // (data as any)[input.name!] = input.model;
@@ -42,13 +43,10 @@ export class AccountFormGroupComponent implements OnInit {
       }
     });
     this.accountFlag = "view";
-    this.addAccount(data);
-    // if(data == undefined) {
-    //   this.addAccount(data);
-    // }
-    // else {
-    //   this.editAccount(data);
-    // }
+
+    const values = Object.values(data);
+
+    (values.includes(undefined)) ? this.addAccount(data) : this.editAccount(data);
   }
 
   addAccount(account: LinkedAccount): void {

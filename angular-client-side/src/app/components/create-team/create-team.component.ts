@@ -57,14 +57,10 @@ export class CreateTeamComponent implements OnInit {
       let tag: string = this.form.get('tagName')?.value;
       let teamName: string = this.form.get('teamName')?.value;
 
-      this.teamService.createTeam(tag, teamName).subscribe(
-        () => {
-          this.router.navigate(['']);
-        },
-        (err: any) => {
-          console.log(err);
-        }
-      );
+      this.teamService.createTeam(tag, teamName).subscribe({
+        next: () => this.router.navigate(['']),
+        error: (err: any) => console.log(err)
+      });
     }
   }
 }
