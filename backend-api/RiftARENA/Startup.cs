@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Http.Features;
 using System.IO;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Http;
+using Microsoft.OpenApi.Models;
 
 namespace RiftArena
 {
@@ -38,12 +39,7 @@ namespace RiftArena
             .UseLazyLoadingProxies());
             services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-            /*services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
-            {
-                builder.WithOrigins("http://localhost:4200")
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
-            }));*/
+            
             services.AddCors();
 
 
@@ -54,10 +50,10 @@ namespace RiftArena
                 o.MemoryBufferThreshold = int.MaxValue;
             });
 
-            /*services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RiftARENA", Version = "v1" });
-            });*/
+            });
 
             /*services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, Options =>
             {
@@ -107,8 +103,8 @@ namespace RiftArena
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                /*app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RiftARENA v1"));*/
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RiftARENA v1"));
             }
 
             app.UseHttpsRedirection();
