@@ -262,40 +262,10 @@ namespace RiftArena.Controllers
         [HttpPut, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult Update([FromBody] User user)
         {
-            var userUp = _userService.GetByUsername(User.Identity.Name);
-            if (userUp == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                try
-                {
-                    if (user.Password == null)
-                    {
-                        userUp.Email = user.Email;
-                    }
-                    if (user.Email == null)
-                    {
-                        userUp.Password = user.Password;
-                    }
-                    else if (user.Email != null && user.Password != null)
-                    {
-                        userUp.Password = user.Password;
-                        userUp.Email = user.Email;
-                        _userService.Update(userUp);
-                        _context.SaveChanges();
-                    }
-                    return Ok();
+            _userService.Update(user, User.Identity.Name);
+            _context.SaveChanges();
 
-                }
-                catch (AppException ex)
-                {
-                    // return error message if there was an exception
-                    return BadRequest(new { message = ex.Message });
-                }
-
-            }
+            return Ok();
 
         }
 
