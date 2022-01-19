@@ -95,6 +95,7 @@
   </div>
   <div *ngIf="firstTourney != undefined">
     <p class="fs-4 text-center mt-5">Top Tournaments</p>
+
     <div class="row d-flex justify-content-center">
       <div
         class="container d-flex justify-content-center row gap-3"
@@ -134,30 +135,32 @@
           style="width: 18rem"
           *ngFor="let tourney of tourneys | slice: 0:2; let i = index"
         >
-          <div class="card-body">
-            <p class="card-text">
-              {{ tourney.name }}
-            </p>
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item" style="font-weight: bold">
-              Teams:
+          <div *ngIf="tourney.state == 5 || 4">
+            <div class="card-body">
+              <p class="card-text">
+                {{ tourney.name }}
+              </p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item" style="font-weight: bold">
+                Teams:
 
-              <a style="font-weight: normal">{{ tourney.numberOfTeams }}</a>
-            </li>
-            <li class="list-group-item" style="font-weight: bold">
-              Rank:
+                <a style="font-weight: normal">{{ tourney.numberOfTeams }}</a>
+              </li>
+              <li class="list-group-item" style="font-weight: bold">
+                Rank:
 
-              <a style="font-weight: normal">{{ tourney.rank }}</a>
-            </li>
-            <li class="list-group-item" style="font-weight: bold">
-              Date:
+                <a style="font-weight: normal">{{ tourney.rank }}</a>
+              </li>
+              <li class="list-group-item" style="font-weight: bold">
+                Date:
 
-              <a style="font-weight: normal">{{ tourney.date }}</a>
-            </li>
-          </ul>
-          <div class="card-body">
-            <a href="#" class="card-link">View More</a>
+                <a style="font-weight: normal">{{ tourney.date }}</a>
+              </li>
+            </ul>
+            <div class="card-body">
+              <a href="#" class="card-link">View More</a>
+            </div>
           </div>
         </div>
       </div>

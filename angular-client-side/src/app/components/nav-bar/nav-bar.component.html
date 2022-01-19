@@ -57,7 +57,7 @@
           </ul>
         </div>
         <li class="nav-item">
-          <a type="button" class="btn nav-link a-btn" href="#">About Us</a>
+          <a type="button" class="btn nav-link a-btn" href="/about">About Us</a>
         </li>
         <li class="nav-item">
           <a type="button" class="btn nav-link a-btn" href="/requests">
@@ -86,32 +86,13 @@
       <div
         class="dropdown nav-item d-none d-sm-block d-sm-none d-md-block d-md-none d-lg-block"
       >
-<<<<<<< HEAD
+
         <div
           id="usernameButton"
           data-bs-toggle="dropdown"
           aria-expanded="false"
           class="col-xs-3 d-none d-sm-block d-sm-none d-md-block d-md-none d-lg-block btn dropdown-toggle username-btn"
         >
-          {{ user?.nickname }}
-          <img
-            src="{{ toogleProfileIcon() }}"
-            alt="Profile Picture"
-            class="img-responsive img-rounded"
-            style="max-height: 50px; max-width: 50px"
-          />
-        </div>
-
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-          <li><a class="dropdown-item" href="/profile">My Profile</a></li>
-          <li><a class="dropdown-item" href="/view-my-tourneys">My Tournaments</a></li>
-          <li *ngIf="hasTeam == true">
-            <a class="dropdown-item" href="/view-team" *ngIf="hasLinkedAccount==true">My Team</a>
-          </li>
-          <li>
-            <a class="dropdown-item" (click)="logout()" href="">Logout</a>
-          </li>
-=======
         {{user?.nickname}}
         <img
           src="{{toogleProfileIcon()}}"
@@ -126,7 +107,6 @@
           <li><a class="dropdown-item" href="/view-tourney">My Tournaments</a></li>
           <li *ngIf="hasTeam == true"><a class="dropdown-item" href="/view-team">My Team</a></li>
           <li><a class="dropdown-item" (click)="logout()" href="">Logout</a></li>
->>>>>>> 7f8825508a93c3861536795244533d50ae15e8c8
         </ul>
       </div>
     </div>
@@ -148,13 +128,7 @@
             Tournaments
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-<<<<<<< HEAD
-            <li>
-              <a class="dropdown-item" href="/view-tournaments">Visualize</a>
-            </li>
-=======
             <li><a class="dropdown-item" href="/view-all-tourneys">Visualize</a></li>
->>>>>>> 7f8825508a93c3861536795244533d50ae15e8c8
           </ul>
         </div>
         <div class="dropdown nav-item">
@@ -174,7 +148,7 @@
           </ul>
         </div>
         <li class="nav-item">
-          <a type="button" class="btn nav-link a-btn" href="#">About Us</a>
+          <a type="button" class="btn nav-link a-btn" href="/about">About Us</a>
         </li>
 
         <li><hr class="dropdown-divider" /></li>
