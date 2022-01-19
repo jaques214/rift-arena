@@ -1,3 +1,6 @@
+import { JoinTournamentComponent } from './components/join-tournament/join-tournament.component';
+import { ViewTourneyComponent } from './components/view-tourney/view-tourney.component';
+import { ViewAllTourneysComponent } from './components/view-all-tourneys/view-all-tourneys.component';
 import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ViewTeamComponent } from '@components/view-team/view-team.component';
@@ -12,6 +15,8 @@ import { RequestsComponent } from '@components/requests/requests.component';
 import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
 import { AuthGuard } from './guard/auth-guard.guard';
 import { ManageTourneyComponent } from './components/manage-tourney/manage-tourney.component';
+import { ViewAllMyTourneysComponent } from './components/view-all-my-tourneys/view-all-my-tourneys.component';
+import { AboutComponent } from './components/about/about.component';
 
 const routes: Routes = [
   {
@@ -54,11 +59,25 @@ const routes: Routes = [
     component: ViewAllTeamsComponent,
   },
   {
+    path: 'view-all-tourneys',
+    component: ViewAllTourneysComponent,
+  },
+  {
+    path: 'view-tourney',
+    component: ViewTourneyComponent,
+  },
+  {
+    path: 'join-tournament',
+    component: JoinTournamentComponent,
+  },
+  {
     path: 'requests',
     component: RequestsComponent,
     canActivate: [AuthGuard],
   },
   { path: 'manage-tourney', component: ManageTourneyComponent },
+  { path: 'view-my-tourneys', component: ViewAllMyTourneysComponent },
+  { path: 'about', component: AboutComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 

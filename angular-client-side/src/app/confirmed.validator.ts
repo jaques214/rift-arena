@@ -1,18 +1,43 @@
 import { AbstractControl, ValidatorFn } from '@angular/forms';
+import { User } from './models/user';
 
-export function ConfirmedValidator(controlName: string, matchingControlName: string): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-        const originalcontrol = control.get(controlName)?.value;
-        //console.log(controlName);
-        const matchingControl = control.value;
-        //console.log(matchingControl);
+export default class ConfirmedValidator {
+    static match(controlName: string, matchingControlName: string): ValidatorFn {
+        return (control: AbstractControl) => {
+            const originalcontrol = control.get(controlName);
+            //console.log(originalcontrol?.value);
+            const matchingControl = control.get(matchingControlName);
+            //console.log(matchingControl?.value);
 
-        if (control.get(controlName)?.errors && !control.get(matchingControlName)?.errors?.['confirmedValidator']) {
-            return null;
-        }
+            if (matchingControl?.errors && !matchingControl.errors['matching']) {
+                return null;
+            }
 
-        return (originalcontrol !== matchingControl)
-      ? { confirmedValidator: true }
-      : null;
+            if (originalcontrol?.value !== matchingControl?.value) {
+                control.get(matchingControlName)?.setErrors({ matching: true });
+                return { matching: true };
+            }
+            else { 
+                return null;
+            }
+        };
+    }
+
+    static matchUser(controlName: string, users: User[]): ValidatorFn {
+        return (control: AbstractControl) => {
+            const originalcontrol = control.get(controlName);
+
+            console.log(users);
+
+            if(users.includes(originalcontrol?.value)) {
+                console.log(users.includes(originalcontrol?.value));
+                return null;
+            }
+            else {
+                console.log(originalcontrol?.value);
+                control.get(controlName)?.setErrors({ matching: true });
+                return { matching: true };
+            }
+        };
     }
 }

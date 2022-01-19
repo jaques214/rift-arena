@@ -9,11 +9,8 @@
               name="{{ input.name }}" formControlName="{{ input.name }}" autocomplete="{{getAutoCompleteValue(input.name)}}" required>
             <mat-icon matSuffix id="password" (click)="hide = !hide" [attr.aria-label]="'Hide password'" 
               [attr.aria-pressed]="hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-            <mat-error *ngIf="authForm.get(input.name)?.invalid">{{getErrorMessage(input.name)}}</mat-error>
-            <!-- <div *ngIf="authForm.get('new_password')?.touched && authForm.get('new_password')?.invalid" class="alert alert-danger">
-              <div *ngIf="authForm.get('new_password')?.errors?.['confirmedValidator']">Password and Confirm Password must be match.</div>
-            </div> -->
-          </mat-form-field>
+              <mat-error *ngIf="authForm.get(input.name)?.invalid">{{getErrorMessage(input.name)}}</mat-error>
+            </mat-form-field>
         </ng-template>
   
         <ng-template [ngSwitchDefault]>
@@ -28,7 +25,7 @@
   
       </ng-container>
     </ng-container>
-    <div>
-      <button mat-flat-button class="btn-blue" type="submit">{{value}}</button>
+    <div class="submit-action">
+      <button mat-flat-button class="btn-blue" type="submit" [disabled]="getValidationResult()">{{value}}</button>
     </div>
   </form>

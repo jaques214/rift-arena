@@ -29,26 +29,25 @@ export class FrontPageComponent implements OnInit {
 
     this.teamService.getTeams().subscribe((data) => {
       this.teams = data;
-      console.log(this.teams);
       this.firstTeam = this.teams.splice(0, 1)[0];
-    
     });
 
     this.tourneyService.getTourneys().subscribe((data) => {
       this.tourneys = data;
       this.firstTourney = this.tourneys.splice(0, 1)[0];
-      console.log(this.firstTourney);
-      this.loader.hide();
-      if (this.firstTeam != null || this.firstTourney != null) {
+      
+      if (this.firstTeam != undefined ||  this.firstTourney != undefined) {
         this.noInfo = false;
       }
     });
+
+    
   }
 
   getWinrate(team: Team): Number {
     team.wins = 10;
     team.gamesPlayed = 19;
 
-    return Math.round((team.wins / team.gamesPlayed) * 10 * 100) / 10;
+    return Math.round((team.wins / team.gamesPlayed) * 100);
   }
 }

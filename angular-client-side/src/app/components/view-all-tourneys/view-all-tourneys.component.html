@@ -1,0 +1,34 @@
+<app-nav-bar></app-nav-bar>
+<header>
+    <a href="#">Subscribed Tournaments</a>
+    <a href="#">Created Tournaments</a>
+</header>
+<section>
+    <div class="message" *ngIf="tournaments == undefined">
+        <h3>There are no available Tournaments</h3>
+    </div>
+    <div id="box" *ngIf="tournaments != undefined">
+        <div class="tournament-container" *ngFor="let tourney of tournaments">
+            <div class="content">
+                <img src="{{createImgPath(tourney?.poster)}}" class="poster" alt="poster">
+            </div>
+            <div class="content">
+                <div>
+    
+                    <h3>{{tourney?.name}}</h3>
+                    <p>{{tourney?.description}}</p>
+                    <div class="status">
+                        <div class="round-icon {{getColor(tourney?.state)}}"></div>
+                        <p>{{getState(tourney?.state)}}</p>
+                    </div>
+                    <p>{{'- Date: ' + tourney?.date}}</p>
+                    <p>{{'- Max Teams: ' + tourney?.maxTeams}}</p>
+                    <p>{{'- Minimum Tier: ' + tourney?.rank}}</p>
+                    <p>{{'- Prize: ' + tourney?.prize}}</p>
+                    <button mat-flat-button color="primary" type="button" [routerLink]="'/view-tourney'">View more</button>
+                </div>
+    
+            </div>
+        </div>
+    </div>
+</section>
