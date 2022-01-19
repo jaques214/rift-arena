@@ -21,6 +21,7 @@ namespace RiftArena.Models.Services
         void AddMember(string nickname, int id);
         void RemoveMember(string nickname, string userID);
         Team GetByTag(string Tag);
+        double getTeamWinRate(string tag);
 
     }
     public class TeamServices : ITeamService
@@ -41,6 +42,19 @@ namespace RiftArena.Models.Services
         public IEnumerable<Team> GetAll()
         {
             return _context.Teams.ToList();
+        }
+
+        /// <summary>
+        /// Método que retorna o WinRate de uma dada equipa
+        /// </summary>
+        /// <returns>Winrate da equipa</returns>
+        public double getTeamWinRate(string tag)
+        {
+            var team = GetByTag(tag);
+
+            double winRate = team.Wins / team.Defeats;
+
+            return winRate;
         }
 
         /// <summary>

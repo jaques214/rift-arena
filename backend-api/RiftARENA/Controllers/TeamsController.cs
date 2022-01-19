@@ -51,6 +51,18 @@ namespace RiftArena.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+        /// <summary>
+        /// Método que retorna um winRate da equipa
+        /// </summary>
+        /// <param name="tag">tag da equipa a retornar</param>
+        /// <returns>WinRate da equipa indicada</returns>
+        [HttpPost("CalculateWinRate"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public ActionResult GetWinRate([FromBody]Team team)
+        {
+            var winRate = _service.getTeamWinRate(team.Tag);
+
+            return Ok(winRate);
+        }
 
         /// <summary>
         /// Método que retorna uma equipa através de um ID, chamando o método GetByID implementado no teamService
