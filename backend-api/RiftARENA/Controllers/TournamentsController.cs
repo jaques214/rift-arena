@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.IO;
 using System.Net.Http.Headers;
+using System.Collections.Generic;
 
 namespace RiftArena.Controllers 
 {
@@ -33,6 +34,48 @@ namespace RiftArena.Controllers
             _context.SaveChanges();
             return CreatedAtRoute("GetTournament", new { id = tournament.TournamentId }, tournament);
         }
+
+        //POST: api/Tournaments/startTournament
+        /// <summary>
+        /// Método que permite ao utilizador logado iniciar um torneio.
+        /// </summary>
+        /// <param name="tournament">Dados do torneio a ser iniciado.</param>
+        /// <returns>Dados do torneio iniciado.</returns>
+        [HttpPost("startTournament"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult startTournament([FromBody] Tournament tournament)
+        {
+            _service.startTournament(tournament);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        //POST: api/Tournaments/startTournament
+        /// <summary>
+        /// Método que permite ao utilizador logado iniciar um torneio.
+        /// </summary>
+        /// <param name="tournament">Dados do torneio a ser iniciado.</param>
+        /// <returns>Dados do torneio iniciado.</returns>
+        [HttpPost("{id:int}/nextStage"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult nextStage([FromBody] List<string> nextTeams,int id)
+        {
+            _service.nextStage(nextTeams,id);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+       
+        /// <summary>
+        /// Método que permite ver as teams todas de um torneio e o seu stage.
+        /// </summary>
+        /// <param name="id">Id do torneio.</param>
+        /// <returns>Equipas e posição no torneio.</returns>
+        [HttpGet("{id:int}/getTeamsInTournament", Name = "GetTeamsAndStagesInTournament")]
+        public IActionResult GetTeamsAndStagesInTournament(int id)
+        {
+            return Ok(_service.GetTeamsAndStageByTournament(id));
+        }
+
+
 
         //GET: api/Tournaments/{id:int}
         /// <summary>

@@ -142,16 +142,21 @@ namespace RiftARENA.Migrations
 
             modelBuilder.Entity("RiftArena.Models.TeamTournament", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
+
                     b.Property<int>("TeamId")
                         .HasColumnType("int");
 
                     b.Property<int>("TournamentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Position")
-                        .HasColumnType("int");
-
-                    b.HasKey("TeamId", "TournamentId");
+                    b.HasKey("Id");
 
                     b.ToTable("TeamTournaments");
                 });
