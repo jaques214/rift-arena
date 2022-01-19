@@ -16,6 +16,7 @@ import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
 import { AuthGuard } from './guard/auth-guard.guard';
 import { ManageTourneyComponent } from './components/manage-tourney/manage-tourney.component';
 import { ViewAllMyTourneysComponent } from './components/view-all-my-tourneys/view-all-my-tourneys.component';
+import { AboutComponent } from './components/about/about.component';
 
 const routes: Routes = [
   {
@@ -76,6 +77,7 @@ const routes: Routes = [
   },
   { path: 'manage-tourney', component: ManageTourneyComponent },
   { path: 'view-my-tourneys', component: ViewAllMyTourneysComponent },
+  { path: 'about', component: AboutComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
