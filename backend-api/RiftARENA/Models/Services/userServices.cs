@@ -237,11 +237,7 @@ namespace RiftArena.Models.Services
         /// <param name="userNickname">Utilizador a alterar.</param>
         /// <param name="password">Password do utilizador.</param>
         /// 
-<<<<<<< HEAD
-        public void Update(User userParam, string userNickname, string password = null)
-=======
         public void Update(User userParam,string userNickname ,string password = null)
->>>>>>> 0b1e23835a331702135b662844f03f7e22216763
         {
             var user = GetByUsername(userNickname);
 
