@@ -47,6 +47,8 @@ import { ViewAllTourneysComponent } from './components/view-all-tourneys/view-al
 import { ViewTourneyComponent } from './components/view-tourney/view-tourney.component';
 import { JoinTournamentComponent } from './components/join-tournament/join-tournament.component';
 import { AboutComponent } from './components/about/about.component';
+import { EditTournamentComponent } from './components/edit-tournament/edit-tournament.component';
+import { ViewMyTeamComponent } from './components/view-my-team/view-my-team.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -70,6 +72,8 @@ import { AboutComponent } from './components/about/about.component';
     ViewTourneyComponent,
     JoinTournamentComponent,
     AboutComponent,
+    EditTournamentComponent,
+    ViewMyTeamComponent,
   ],
   imports: [
     FormsModule,

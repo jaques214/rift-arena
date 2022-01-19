@@ -1,7 +1,6 @@
 <app-nav-bar></app-nav-bar>
 <header>
-    <a href="#">Subscribed Tournaments</a>
-    <a href="#">Created Tournaments</a>
+    <a href="/view-my-tourneys">Created Tournaments</a>
 </header>
 <section>
     <div class="message" *ngIf="tournaments == undefined">
@@ -25,7 +24,7 @@
                     <p>{{'- Max Teams: ' + tourney?.maxTeams}}</p>
                     <p>{{'- Minimum Tier: ' + tourney?.rank}}</p>
                     <p>{{'- Prize: ' + tourney?.prize}}</p>
-                    <button mat-flat-button color="primary" type="button" [routerLink]="'/view-tourney'">View more</button>
+                    <button mat-flat-button color="primary" type="button" [routerLink]="clickEvent(tourney?.tournamentId)">View more</button>
                 </div>
     
             </div>

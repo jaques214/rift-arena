@@ -118,7 +118,7 @@ export class SharedFormFieldComponent implements OnInit {
   }
 
   editObj(data: any) {
-    (this.router.url == "/view-team") ? this.editTeam(data) : this.editUser(data);
+    (this.router.url == "/view-my-team") ? this.editTeam(data) : this.editUser(data);
   }
 
   getErrorMessage(name: string) {
