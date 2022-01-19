@@ -42,12 +42,13 @@ export class AccountFormGroupComponent implements OnInit {
       }
     });
     this.accountFlag = "view";
-    if(data == undefined) {
-      this.addAccount(data);
-    }
-    else {
-      this.editAccount(data);
-    }
+    this.addAccount(data);
+    // if(data == undefined) {
+    //   this.addAccount(data);
+    // }
+    // else {
+    //   this.editAccount(data);
+    // }
   }
 
   addAccount(account: LinkedAccount): void {
