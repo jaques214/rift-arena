@@ -25,7 +25,7 @@
                     <p>{{'- Max Teams: ' + tourney?.maxTeams}}</p>
                     <p>{{'- Minimum Tier: ' + tourney?.rank}}</p>
                     <p>{{'- Prize: ' + tourney?.prize}}</p>
-                    <button mat-flat-button color="primary" type="button" [routerLink]="'/view-tourney'">View more</button>
+                    <button mat-flat-button color="primary" type="button" [routerLink]="clickEvent(tourney?.tournamentId)">View more</button>
                 </div>
     
             </div>

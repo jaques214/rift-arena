@@ -88,4 +88,8 @@ export class ViewAllMyTourneysComponent implements OnInit {
       }
     );
   }
+
+  clickEvent(id: number) {
+    return '/view-tourney/' + id; 
+  }
 }

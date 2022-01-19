@@ -23,7 +23,7 @@ namespace RiftArena.Models.Services
         IEnumerable<User> GetAll();
         User GetByUsername(string nickname);
         User Create(User user, string password);
-        void Update(User user, string password = null);
+        void Update(User user, string userNickname, string password = null);
         void Delete(string username);
         User LinkRiot(string userID, string nickname, string region);
         void ValidateRiot(LinkedAccount linked);
@@ -234,16 +234,18 @@ namespace RiftArena.Models.Services
         /// Método responsável por modificar informações de um utilizador.
         /// </summary>
         /// <param name="userParam">Dados alterados do utilizador.</param>
+        /// <param name="userNickname">Utilizador a alterar.</param>
         /// <param name="password">Password do utilizador.</param>
-        public void Update(User userParam, string password = null)
+        /// 
+        public void Update(User userParam, string userNickname, string password = null)
         {
-            var user = GetByUsername(userParam.Nickname);
+            var user = GetByUsername(userNickname);
 
             if (user == null)
                 throw new AppException("User not found");
 
-            
-            if(userParam.Poster != user.Poster && userParam != null)
+
+            if (userParam.Poster != user.Poster && userParam != null)
             {
                 if (File.Exists(user.Poster))
                 {

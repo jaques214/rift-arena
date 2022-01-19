@@ -62,7 +62,7 @@ const routes: Routes = [
     component: ViewAllTourneysComponent,
   },
   {
-    path: 'view-tourney',
+    path: 'view-tourney/:id',
     component: ViewTourneyComponent,
   },
   {

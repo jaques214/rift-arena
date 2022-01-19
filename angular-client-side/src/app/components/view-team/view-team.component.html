@@ -76,7 +76,7 @@
                 <button *ngIf="member.nickname == nickname" mat-flat-button class="btn-blue" type="button" [routerLink]="'/profile'">View Profile</button>
               </div>
               <div>
-                <button *ngIf="team?.teamLeader != member.nickname" mat-flat-button class="btn-red" type="button" (click)="removeMember(member?.nickname!)">Delete member</button>
+                <button *ngIf="team?.teamLeader == member.nickname " mat-flat-button class="btn-red" type="button" (click)="removeMember(member?.nickname!)">Delete member</button>
               </div>
             </td>
           </tr>

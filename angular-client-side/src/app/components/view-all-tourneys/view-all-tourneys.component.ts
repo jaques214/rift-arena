@@ -1,5 +1,6 @@
 import { TourneyRestService } from '@services/tourney-rest/tourney-rest.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-all-tourneys',
@@ -9,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 export class ViewAllTourneysComponent implements OnInit {
   tournaments: any = [];
 
-  constructor(private tourneyRestService: TourneyRestService) { }
+  constructor(private router: Router, private tourneyRestService: TourneyRestService) { }
 
   ngOnInit(): void {
     this.getTournaments().subscribe((data: {}) => {
@@ -19,6 +20,10 @@ export class ViewAllTourneysComponent implements OnInit {
 
   getColor(state: number): string {
     return (this.getState(state) == "Online") ? "green" : "red";
+  }
+
+  clickEvent(id: number) {
+    return '/view-tourney/' + id; 
   }
 
   getState(state: number): string {
