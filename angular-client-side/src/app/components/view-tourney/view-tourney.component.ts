@@ -9,7 +9,6 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./view-tourney.component.css']
 })
 export class ViewTourneyComponent implements OnInit {
-  @Input() id!:number;
   tourneyId!: number;
   tourney!:Tournament
   tournaments: any = [];

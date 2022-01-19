@@ -5,18 +5,18 @@ import { Component, OnInit } from '@angular/core';
 import { Team } from '@models/team';
 import { User } from '@models/user';
 import { Observable } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { LinkedList } from 'linked-list-typescript';
 import ConfirmedValidator from '@src/app/confirmed.validator';
 import { ViewportScroller } from '@angular/common';
 import { getRankIcon } from '@src/app/shared/utils';
 
 @Component({
-  selector: 'app-view-team',
-  templateUrl: './view-team.component.html',
-  styleUrls: ['./view-team.component.css']
+  selector: 'app-view-my-team',
+  templateUrl: './view-my-team.component.html',
+  styleUrls: ['./view-my-team.component.css']
 })
-export class ViewTeamComponent implements OnInit {
+export class ViewMyTeamComponent implements OnInit {
   nickname!: string;
   nicknameList: any = [];
   teamTag!: string;
@@ -36,13 +36,10 @@ export class ViewTeamComponent implements OnInit {
   route: string = this.router.url;
 
   constructor(private router: Router, 
-    private r: ActivatedRoute,
     private teamService: TeamRestService, 
     private restService: UserRestService, 
     private formBuilder: FormBuilder,
-    private scroller: ViewportScroller) { 
-      this.teamTag = this.r.snapshot.params['id'];
-    }
+    private scroller: ViewportScroller) { }
 
   ngOnInit(): void {
     this.editForm = new FormGroup({
@@ -65,7 +62,9 @@ export class ViewTeamComponent implements OnInit {
     });
     this.getUser().subscribe((user) => {
       this.nickname = user.nickname!;
-      this.getTeam(this.teamTag).subscribe((team) => {
+      console.log("Olá")
+      console.log(user.teamTag);
+      this.getTeam(user.teamTag!).subscribe((team) => {
         this.team = team;
         console.log(this.team);
       });

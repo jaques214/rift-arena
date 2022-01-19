@@ -32,9 +32,9 @@ export class TourneyRestService {
       );
   }
 
-  updateTourney(obj: object): Observable<Tournament> {
+  updateTourney(obj: object, id: number): Observable<Tournament> {
     return this.http.put<Tournament>(
-      endpoint,
+      endpoint + id,
       // { Name: name, Tag: tag, Poster: poster }
       JSON.stringify(obj),
       httpOptions

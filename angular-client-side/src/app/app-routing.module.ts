@@ -1,3 +1,4 @@
+import { ViewMyTeamComponent } from './components/view-my-team/view-my-team.component';
 import { JoinTournamentComponent } from './components/join-tournament/join-tournament.component';
 import { ViewTourneyComponent } from './components/view-tourney/view-tourney.component';
 import { ViewAllTourneysComponent } from './components/view-all-tourneys/view-all-tourneys.component';
@@ -17,6 +18,7 @@ import { AuthGuard } from './guard/auth-guard.guard';
 import { ManageTourneyComponent } from './components/manage-tourney/manage-tourney.component';
 import { ViewAllMyTourneysComponent } from './components/view-all-my-tourneys/view-all-my-tourneys.component';
 import { AboutComponent } from './components/about/about.component';
+import { EditTournamentComponent } from '@components/edit-tournament/edit-tournament.component';
 
 const routes: Routes = [
   {
@@ -49,7 +51,13 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'view-team',
+    path: 'view-my-team',
+    component: ViewMyTeamComponent,
+    canActivate: [AuthGuard],
+    canActivateChild: [LoggedInAuthGuard],
+  },
+  {
+    path: 'view-team/:id',
     component: ViewTeamComponent,
     canActivate: [AuthGuard],
     canActivateChild: [LoggedInAuthGuard],
@@ -77,6 +85,7 @@ const routes: Routes = [
   },
   { path: 'manage-tourney', component: ManageTourneyComponent },
   { path: 'view-my-tourneys', component: ViewAllMyTourneysComponent },
+  { path: 'update-tourney/:id', component: EditTournamentComponent },
   { path: 'about', component: AboutComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
