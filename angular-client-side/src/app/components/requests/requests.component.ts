@@ -141,7 +141,7 @@ export class RequestsComponent implements OnInit {
     this.requestID = this.getRequestID();
     this.restService.acceptRequest(this.requestID).subscribe({
        next: () => {
-         this.router.navigate(['/view-team']);
+         this.router.navigate(['/view-my-team']);
        },
        error: (err: any) => console.log(err)
      });

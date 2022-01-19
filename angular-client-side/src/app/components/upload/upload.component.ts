@@ -50,7 +50,7 @@ export class UploadComponent implements OnInit {
       });
 
     //console.log(this.filename);
-    if(this.router.url == '/view-team') {
+    if(this.router.url == '/view-my-team') {
       this.editValues = {
         Name: this.obj.name,
         Tag: this.obj.tag,

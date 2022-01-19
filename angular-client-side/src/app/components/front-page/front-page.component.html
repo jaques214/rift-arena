@@ -46,7 +46,7 @@
             </li>
           </ul>
           <div class="card-body">
-            <a href="#" class="card-link">View More</a>
+            <a href="{{ '/view-team/' + firstTeam?.tag }}" class="card-link">View More</a>
           </div>
         </div>
         <div
@@ -82,13 +82,13 @@
             </li>
           </ul>
           <div class="card-body">
-            <a href="#" class="card-link">View More</a>
+            <a href="{{ '/view-team/' + team?.tag }}" class="card-link">View More</a>
           </div>
         </div>
       </div>
     </div>
     <div class="col-sd-2 d-flex justify-content-center mb-4">
-      <button class="btn btn-blue btn-block inline" type="button">
+      <button class="btn btn-blue btn-block inline" type="button" [routerLink]="'/view-all-teams'">
         View All
       </button>
     </div>
@@ -127,7 +127,7 @@
             </li>
           </ul>
           <div class="card-body">
-            <a href="#" class="card-link">View More</a>
+            <a href="{{ '/view-tourney/' + firstTourney?.tournamentId }}" class="card-link">View More</a>
           </div>
         </div>
         <div
@@ -159,14 +159,14 @@
               </li>
             </ul>
             <div class="card-body">
-              <a href="#" class="card-link">View More</a>
+              <a href="{{ '/view-tourney/' + tourney?.tournamentId }}" class="card-link">View More</a>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="col-sd-2 d-flex justify-content-center mb-4">
-      <button class="btn btn-blue btn-block inline mt-1" type="button">
+      <button class="btn btn-blue btn-block inline mt-1" type="button" [routerLink]="'/view-all-tourneys'">
         View All
       </button>
     </div>

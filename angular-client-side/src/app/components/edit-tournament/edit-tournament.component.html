@@ -1,0 +1,108 @@
+<app-nav-bar></app-nav-bar>
+<div class="container shadow-lg p-3 mb-5 bg-body rounded-1">
+    <h1 class="header-font">Update The Tourney</h1>
+    <form
+      class="position-relative"
+      [formGroup]="form"
+      *ngIf="form"
+      (submit)="save()"
+    >
+      <div
+        *ngIf="
+          (form.get('tourneyName')!.hasError('required') &&
+            form.get('tourneyName')!.touched) ||
+          (form.get('tourneyName')!.dirty && form.get('tourneyName')!.invalid) ||
+          (form.get('rank')!.hasError('required') && form.get('rank')!.touched) ||
+          (form.get('rank')!.dirty && form.get('rank')!.invalid) ||
+          (form.get('maxTeams')!.hasError('required') &&
+            form.get('maxTeams')!.touched) ||
+          (form.get('maxTeams')!.dirty && form.get('maxTeams')!.invalid) ||
+          (form.get('dateTourney')!.hasError('required') &&
+            form.get('dateTourney')!.touched) ||
+          (form.get('dateTourney')!.dirty && form.get('dateTourney')!.invalid)
+        "
+        class="alert alert-danger"
+        role="alert"
+      >
+        Campo obrigatório/inválido
+      </div>
+      <div class="mb-3">
+        <label for="formGroupTourneyName" class="form-group"
+          >Insert Tourney Name</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          formControlName="tourneyName"
+          id="formGroupExampleInput"
+          placeholder="Example: Torneio Exemplo"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="formGroupDescription" class="form-group"
+          >Insert Tourney Description</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          formControlName="description"
+          id="formGroupExampleInput"
+          placeholder="Example: Este torneio ..."
+        />
+      </div>
+      <div class="mb-3">
+        <label for="formGroupNumberTeams" class="form-group"
+          >Max Number of Teams</label
+        >
+        <select
+          class="form-select"
+          formControlName="maxTeams"
+          id="formGroupExampleInput"
+        >
+          <option value="4">4</option>
+          <option value="8">8</option>
+          <option value="16">16</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="formGroupRank" class="form-group">Rank</label>
+        <select
+          class="form-select"
+          formControlName="rank"
+          id="formGroupExampleInput"
+        >
+          <option *ngFor="let r of ranks" [value]="r">{{ r }}</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="formGroupTourneyName" class="form-group">Insert Date</label>
+        <input
+          type="datetime-local"
+          class="form-control"
+          formControlName="dateTourney"
+          id="formGroupExampleInput"
+        />
+      </div>
+  
+      <div [ngClass]="'tourney-container'">
+        <app-upload [title]="'Upload Tourney Poster'" (onUploadFinished)="uploadFinished($event)"></app-upload>
+        <div>
+          <p>{{ getFileName() }}</p>
+        </div>
+      </div>
+  
+      <div class="d-flex justify-content-between">
+        <button
+          type="submit"
+          onclick="window.location.href='/'"
+          class="btn btn-blue"
+        >
+          Go Back
+        </button>
+        <button [ngClass]="{ disabled: !isEnable() }" (submit)="save()" class="btn btn-blue">
+          Create
+        </button>
+      </div>
+    </form>
+  </div>  

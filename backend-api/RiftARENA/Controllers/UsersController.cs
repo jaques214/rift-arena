@@ -261,12 +261,10 @@ namespace RiftArena.Controllers
 
         }
 
-        //PUT: api/Users
+        //PUT: api/Users
         /// <summary>
-        /// Método que permite atualizar os dados do utilizador logado.
+        /// Método que permite a
         /// </summary>
-        /// <param name="user">Dados do utilizador a serem atualizados</param>
-        /// <returns>OK 200</returns>
         [HttpPut, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult Update([FromBody] User user)
         {

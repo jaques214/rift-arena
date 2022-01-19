@@ -244,8 +244,8 @@ namespace RiftArena.Models.Services
             if (user == null)
                 throw new AppException("User not found");
 
-            
-            if(userParam.Poster != user.Poster && userParam != null)
+
+            if (userParam.Poster != user.Poster && userParam != null)
             {
                 if (File.Exists(user.Poster))
                 {

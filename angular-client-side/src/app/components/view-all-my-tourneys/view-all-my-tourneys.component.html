@@ -1,6 +1,6 @@
 <app-nav-bar></app-nav-bar>
 <div>
-  <h1 style="text-align: center">My Tourneys ({{ tourneys.length }})</h1>
+  <h1 style="text-align: center">My Tourneys ({{ userTourneys.length }})</h1>
   <div class="row d-flex justify-content-center">
     <div
       class="container d-flex justify-content-center row gap-3"
@@ -35,7 +35,7 @@
             </li>
           </ul>
           <div class="card-body">
-            <a href="#" class="card-link" *ngIf="tourney.state == 5"
+            <a href="{{clickEvent(tourney.tournamentId)}}" class="card-link" *ngIf="tourney.state == 5"
               >View More</a
             >
             <a
@@ -44,7 +44,7 @@
               *ngIf="tourney.state == 4"
               >Manage Brackets</a
             >
-            <a href="" class="card-link" *ngIf="tourney.state == 1">Edit</a>
+            <a href="{{clickEditEvent(tourney.tournamentId)}}" class="card-link" *ngIf="tourney.state == 1">Edit</a>
           </div>
         
       </div>

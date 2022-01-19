@@ -1,0 +1,71 @@
+section {
+    padding: 0 35px;
+    width: 100%;
+}
+
+.message {
+    text-align: center;
+}
+
+#box {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+    padding: 15px;
+    border: 1px solid #000;
+}
+
+.poster {
+    width: 100%;
+    height: auto;
+}
+
+.round-icon {
+    margin-right: 10px;
+    border-radius: 100%;
+    width: 12px;
+    height: 12px;
+}
+
+.green {
+    background-color: rgb(134, 207, 24);
+}
+
+.red {
+    background-color: red;
+}
+
+.status {
+    align-items: center;
+    display: flex;
+    margin: 10px 0;
+}
+
+.status p {
+    margin-bottom: 0;
+}
+
+section div.content {
+    display: flex;
+}
+
+section div.content:first-child {
+    width: 40%;
+}
+
+section div.content:last-child {
+    width: 60%;
+}
+
+
+@media only screen and (max-width: 700px) {
+    section div.content:first-child,
+    section div.content:last-child {
+        width: 100%;
+    }
+
+    #box {
+        flex-direction: column;
+    }
+}
