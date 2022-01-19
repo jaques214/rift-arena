@@ -23,7 +23,7 @@ namespace RiftArena.Models.Services
         IEnumerable<User> GetAll();
         User GetByUsername(string nickname);
         User Create(User user, string password);
-        void Update(User user, string userNickname, string password = null);
+        void Update(User user,string userNickname, string password = null);
         void Delete(string username);
         User LinkRiot(string userID, string nickname, string region);
         void ValidateRiot(LinkedAccount linked);
@@ -237,7 +237,11 @@ namespace RiftArena.Models.Services
         /// <param name="userNickname">Utilizador a alterar.</param>
         /// <param name="password">Password do utilizador.</param>
         /// 
+<<<<<<< HEAD
         public void Update(User userParam, string userNickname, string password = null)
+=======
+        public void Update(User userParam,string userNickname ,string password = null)
+>>>>>>> 0b1e23835a331702135b662844f03f7e22216763
         {
             var user = GetByUsername(userNickname);
 

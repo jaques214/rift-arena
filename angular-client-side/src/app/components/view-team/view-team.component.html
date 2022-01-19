@@ -111,22 +111,6 @@
           </form>
         </div>
       </div>
-
-      <p class="subtitle">Substitute Team Members:</p>
-    <div class="example-container">
-        <table *ngFor="let member of team?.members">
-          <tbody height="40px">
-          <tr>
-            <td class="rank-icon">
-              <img src="{{ getRank(member.linkedAccount?.rank!) }}" class="icon" alt="icon">
-            </td>
-            <td>
-                {{member.nickname}}
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
       <button *ngIf="team?.teamLeader == nickname" mat-flat-button class="btn-red deleteButton" type="button" (click)="removeTeam()">Delete Team</button>
 </section>
 </ng-container>

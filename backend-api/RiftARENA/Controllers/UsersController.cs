@@ -258,10 +258,13 @@ namespace RiftArena.Controllers
         /// Método que permite a
         /// </summary>
         [HttpPut, Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult Update([FromBody] User user) {
+        public IActionResult Update([FromBody] User user)
+        {
             _userService.Update(user, User.Identity.Name);
             _context.SaveChanges();
+
             return Ok();
+
         }
 
         //POST: api/Users/login
