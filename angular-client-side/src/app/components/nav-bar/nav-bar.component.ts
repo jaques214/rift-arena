@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '@models/user';
 import { AuthService } from '@services/auth/auth.service';
 import { UserRestService } from '@services/user-rest/user-rest.service';
+import { environment } from '@src/environments/environment';
 
 @Component({
   selector: 'app-nav-bar',
@@ -9,7 +10,7 @@ import { UserRestService } from '@services/user-rest/user-rest.service';
   styleUrls: ['./nav-bar.component.css'],
 })
 export class NavBarComponent implements OnInit {
-  response!: {dbPath: ''};
+  response!: { dbPath: '' };
   user?: User;
   profile?: string;
   numberOfRequests: number = 0;
@@ -19,7 +20,7 @@ export class NavBarComponent implements OnInit {
   constructor(
     private userService: UserRestService,
     private authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (localStorage.getItem('currentUser') !== null) {
@@ -28,7 +29,7 @@ export class NavBarComponent implements OnInit {
           this.user = user;
           if (this.user.teamTag != null) {
             this.hasTeam = true;
-          }if(this.user.linkedAccount !=null){
+          } if (this.user.linkedAccount != null) {
             this.hasLinkedAccount = true;
           }
           this.userService.getRequests().subscribe((requests: any) => {
@@ -41,7 +42,7 @@ export class NavBarComponent implements OnInit {
   }
 
   createImgPath = (serverPath: string) => {
-    return `https://localhost:5001/Resources/Images/${serverPath}`;
+    return `${environment.apiUrl}/Resources/Images/${serverPath}`;
   }
 
   toogleProfileIcon() {

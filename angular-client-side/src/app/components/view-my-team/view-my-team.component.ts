@@ -10,6 +10,7 @@ import { LinkedList } from 'linked-list-typescript';
 import ConfirmedValidator from '@src/app/confirmed.validator';
 import { ViewportScroller } from '@angular/common';
 import { getRankIcon } from '@src/app/shared/utils';
+import { environment } from '@src/environments/environment';
 
 @Component({
   selector: 'app-view-my-team',
@@ -25,19 +26,19 @@ export class ViewMyTeamComponent implements OnInit {
   users: any = [];
   isShow = true;
   bool = true;
-  flag!:string;
+  flag!: string;
   formFields: any = Team.fields();
   filename!: string;
-  response!: {dbPath: ''};
-  editForm!:FormGroup;
+  response!: { dbPath: '' };
+  editForm!: FormGroup;
   form: FormGroup = new FormGroup({
     users: new FormControl(''),
   });
   route: string = this.router.url;
 
-  constructor(private router: Router, 
-    private teamService: TeamRestService, 
-    private restService: UserRestService, 
+  constructor(private router: Router,
+    private teamService: TeamRestService,
+    private restService: UserRestService,
     private formBuilder: FormBuilder,
     private scroller: ViewportScroller) { }
 
@@ -45,7 +46,7 @@ export class ViewMyTeamComponent implements OnInit {
     this.editForm = new FormGroup({
       name: new FormControl('', [Validators.required]),
       tag: new FormControl('', [Validators.required]),
-    }); 
+    });
 
     this.getUsers().subscribe((data: {}) => {
       this.users = data;
@@ -54,9 +55,9 @@ export class ViewMyTeamComponent implements OnInit {
       this.form = this.formBuilder.group({
         users: ['', Validators.required],
       },
-      {
-        validators: [ConfirmedValidator.matchUser('users', this.nicknameList)]
-      });
+        {
+          validators: [ConfirmedValidator.matchUser('users', this.nicknameList)]
+        });
     });
     this.getUser().subscribe((user) => {
       this.nickname = user.nickname!;
@@ -71,7 +72,7 @@ export class ViewMyTeamComponent implements OnInit {
   }
 
   populateUsers() {
-    this.users.forEach((element:any) => {
+    this.users.forEach((element: any) => {
       this.nicknameList.push(element.nickname);
     });
   }
@@ -82,7 +83,7 @@ export class ViewMyTeamComponent implements OnInit {
 
   clickEvent(name: string) {
     this.flag = name;
-    if(!this.bool) {
+    if (!this.bool) {
       this.bool = true;
     }
     else {
@@ -93,24 +94,24 @@ export class ViewMyTeamComponent implements OnInit {
 
   getTeamValue(value: any): string {
     let convert: string = "";
-    
-    if(this.team != null) {
+
+    if (this.team != null) {
       let values = Object.entries(this.team!);
       values.forEach(val => {
-        if(val[0] == value) {
-          convert = val[1];         
+        if (val[0] == value) {
+          convert = val[1];
         }
       });
     }
     return convert;
   }
-  
-addRequest(nickname: string): void {
-  this.restService.createRequest(nickname).subscribe({
-    next: () => this.router.navigate(['/']),
-    error: (err) => console.log(err)
-  });
-}
+
+  addRequest(nickname: string): void {
+    this.restService.createRequest(nickname).subscribe({
+      next: () => this.router.navigate(['/']),
+      error: (err) => console.log(err)
+    });
+  }
 
   getTeam(tag: string): Observable<Team> {
     return this.teamService.getTeam(tag);
@@ -125,11 +126,11 @@ addRequest(nickname: string): void {
   }
 
   getClass() {
-    return (this.team?.poster == undefined) ? "none" : "caption"; 
+    return (this.team?.poster == undefined) ? "none" : "caption";
   }
 
   getCompletePercentage(numberMembers: number) {
-    let percentage = (numberMembers * 100)/5;
+    let percentage = (numberMembers * 100) / 5;
     return percentage;
   }
 
@@ -144,11 +145,11 @@ addRequest(nickname: string): void {
   }
 
   getFileName(): string {
-    return (this.filename != undefined) ? this.filename : "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB"; 
+    return (this.filename != undefined) ? this.filename : "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB";
   }
 
   public createImgPath = (serverPath: string) => {
-    return `https://localhost:5001/Resources/Images/${serverPath}`;
+    return `${environment.apiUrl}/Resources/Images/${serverPath}`;
   }
 
   getErrorMessage() {

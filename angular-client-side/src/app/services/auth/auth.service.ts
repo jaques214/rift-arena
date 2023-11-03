@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 import { User } from '@models/user';
+import { environment } from '@src/environments/environment';
 
-const endpoint = 'https://localhost:5001/api';
+const endpoint = `${environment.apiUrl}/api`;
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
@@ -15,7 +16,7 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // retorna o user com o username e password correspondente caso exista no servidor
   login(username: string, password: string): Observable<any> {

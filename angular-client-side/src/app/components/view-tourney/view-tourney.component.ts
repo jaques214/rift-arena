@@ -2,6 +2,7 @@ import { TourneyRestService } from '@services/tourney-rest/tourney-rest.service'
 import { Component, Input, OnInit } from '@angular/core';
 import { Tournament } from '@src/app/models/tournament';
 import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from '@src/environments/environment';
 
 @Component({
   selector: 'app-view-tourney',
@@ -10,12 +11,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ViewTourneyComponent implements OnInit {
   tourneyId!: number;
-  tourney!:Tournament
+  tourney!: Tournament
   tournaments: any = [];
   tourneysList: any = [];
   idList: any = [];
 
-  constructor(private route: ActivatedRoute, private tourneyRestService: TourneyRestService) { 
+  constructor(private route: ActivatedRoute, private tourneyRestService: TourneyRestService) {
     this.tourneyId = this.route.snapshot.params['id'];
   }
 
@@ -57,7 +58,7 @@ export class ViewTourneyComponent implements OnInit {
   }
 
   public createImgPath = (serverPath: string) => {
-    return `https://localhost:5001/Resources/Images/${serverPath}`;
+    return `${environment.apiUrl}/Resources/Images/${serverPath}`;
   }
 
   getTournament(id: number) {
@@ -69,7 +70,7 @@ export class ViewTourneyComponent implements OnInit {
   }
 
   populateTourneys() {
-    this.tournaments.forEach((element:any) => {
+    this.tournaments.forEach((element: any) => {
       this.tourneysList.push(element.name);
       this.idList.push(element.tournamentId);
     });

@@ -180,4 +180,8 @@ dist
 # Support for Project snippet scope
 !.vscode/*.code-snippets
 
+package-lock.json
+
+src/app/environments/
+
 # End of https://www.toptal.com/developers/gitignore/api/node,angular,visualstudiocode

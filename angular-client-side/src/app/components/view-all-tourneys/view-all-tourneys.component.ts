@@ -1,6 +1,7 @@
 import { TourneyRestService } from '@services/tourney-rest/tourney-rest.service';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from '@src/environments/environment';
 
 @Component({
   selector: 'app-view-all-tourneys',
@@ -23,7 +24,7 @@ export class ViewAllTourneysComponent implements OnInit {
   }
 
   clickEvent(id: number) {
-    return '/view-tourney/' + id; 
+    return '/view-tourney/' + id;
   }
 
   getState(state: number): string {
@@ -31,7 +32,7 @@ export class ViewAllTourneysComponent implements OnInit {
   }
 
   public createImgPath = (serverPath: string) => {
-    return `https://localhost:5001/Resources/Images/${serverPath}`;
+    return `${environment.apiUrl}/Resources/Images/${serverPath}`;
   }
 
   getTournaments() {

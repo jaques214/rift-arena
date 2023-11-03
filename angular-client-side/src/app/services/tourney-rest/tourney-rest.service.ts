@@ -1,9 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Tournament } from '@src/app/models/tournament';
+import { environment } from '@src/environments/environment';
 import { Observable } from 'rxjs';
 
-const endpoint = 'https://localhost:5001/api/Tournaments/';
+const endpoint = `${environment.apiUrl}/api/Tournaments/`;
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
@@ -14,7 +15,7 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class TourneyRestService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getTourneys(): Observable<Tournament[]> {
     return this.http.get<Tournament[]>(endpoint, httpOptions);
@@ -24,12 +25,12 @@ export class TourneyRestService {
     return this.http.get<Tournament>(endpoint + id, httpOptions);
   }
 
-  addTeam(id: number, nickname: string) : Observable<Tournament> {
-      return this.http.put<Tournament>(
-        endpoint + id + '/addMyTeam',
-        JSON.stringify({ Nickname: nickname }),
-        httpOptions
-      );
+  addTeam(id: number, nickname: string): Observable<Tournament> {
+    return this.http.put<Tournament>(
+      endpoint + id + '/addMyTeam',
+      JSON.stringify({ Nickname: nickname }),
+      httpOptions
+    );
   }
 
   updateTourney(obj: object, id: number): Observable<Tournament> {

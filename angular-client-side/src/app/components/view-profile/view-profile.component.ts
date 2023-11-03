@@ -6,6 +6,7 @@ import { LinkedAccount } from '@models/linked_acount';
 import { Team } from '@models/team';
 import { UserRestService } from '@services/user-rest/user-rest.service';
 import ConfirmedValidator from '@src/app/confirmed.validator';
+import { environment } from '@src/environments/environment';
 
 @Component({
   selector: 'app-view-profile',
@@ -13,13 +14,13 @@ import ConfirmedValidator from '@src/app/confirmed.validator';
   styleUrls: ['./view-profile.component.css']
 })
 export class ViewProfileComponent implements OnInit {
-  response!: {dbPath: ''};
+  response!: { dbPath: '' };
   user?: User;
   team?: Team;
   account?: LinkedAccount;
   info: any;
   icon?: string;
-  flag : string = "view";
+  flag: string = "view";
   accountFlag: string = "view";
   formFields: any = User.fields();
   accountFields: any = LinkedAccount.fields();
@@ -29,10 +30,10 @@ export class ViewProfileComponent implements OnInit {
   title!: string;
   form!: FormGroup;
 
-  constructor(private restService : UserRestService) {
+  constructor(private restService: UserRestService) {
   }
-   
-  ngOnInit(): void { 
+
+  ngOnInit(): void {
     this.form = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       pass: new FormGroup({
@@ -43,12 +44,12 @@ export class ViewProfileComponent implements OnInit {
           validators: [ConfirmedValidator.match('password', 'new_password')]
         }
       )
-    }); 
+    });
     this.getUser().subscribe((user) => {
-      this.user = user;      
+      this.user = user;
       this.account = this.user?.linkedAccount;
 
-      if(this.account == undefined) {
+      if (this.account == undefined) {
         this.info = "No Linked Account";
         this.icon = "add_circle_outline";
       }
@@ -82,15 +83,15 @@ export class ViewProfileComponent implements OnInit {
   }
 
   getFileName(): string {
-    return (this.filename != undefined) ? this.filename[2] : "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB"; 
+    return (this.filename != undefined) ? this.filename[2] : "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB";
   }
 
   public createImgPath = (serverPath: string) => {
-    return `https://localhost:5001/Resources/Images/${serverPath}`;
+    return `${environment.apiUrl}/Resources/Images/${serverPath}`;
   }
 
   changeFlag(name: string): string {
-    switch(name) {
+    switch (name) {
       case 'email':
         this.flag = 'edit-' + name;
         break;
@@ -116,7 +117,7 @@ export class ViewProfileComponent implements OnInit {
   hideText(index: number, str: string): string {
     let convert: string = "";
     const tam = str.length;
-    while(index < tam) {
+    while (index < tam) {
       convert += '*';
       index++;
     }
@@ -126,15 +127,15 @@ export class ViewProfileComponent implements OnInit {
   selectValue(key: string, value: string): string {
     let convert: string;
     let i = 0;
-    switch(key) {
+    switch (key) {
       case "email":
         let part = value.split('@');
         let teste = part[0].slice(1, part[0].length - 2);
         convert = part[0].slice(0, 1) + this.hideText(i, teste) + part[0].slice(part[0].length - 1) + '@' + part[1];
-      break;
+        break;
       case "password":
         convert = this.hideText(i, value);
-      break;
+        break;
       default:
         convert = value;
         break;
@@ -144,13 +145,13 @@ export class ViewProfileComponent implements OnInit {
 
   getUserValue(value: any): string {
     let convert: string = "";
-    
-    if(this.user != null) {
+
+    if (this.user != null) {
       let values = Object.entries(this.user!);
 
       values.forEach(val => {
-        if(val[0] == value) {
-          convert = this.selectValue(value, val[1]);         
+        if (val[0] == value) {
+          convert = this.selectValue(value, val[1]);
         }
       });
     }

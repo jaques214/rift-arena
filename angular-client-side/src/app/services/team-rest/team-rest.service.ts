@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Team } from '@models/team';
+import { environment } from '@src/environments/environment';
 
-const endpoint = 'https://localhost:5001/api/Teams/';
+const endpoint = `${environment.apiUrl}/api/Teams/`;
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
@@ -15,7 +16,7 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class TeamRestService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // por enquanto está ID mas com a alteraçao vai ser pela TAG
   getTeam(tag: String): Observable<Team> {

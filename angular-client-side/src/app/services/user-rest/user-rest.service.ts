@@ -1,3 +1,4 @@
+import { environment } from './../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
@@ -5,7 +6,7 @@ import { User } from '@models/user';
 import { Request } from '@models/request';
 import { LinkedList } from 'linked-list-typescript';
 
-const endpoint = 'https://localhost:5001/api/Users';
+const endpoint = `${environment.apiUrl}/api/Users`;
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
@@ -17,7 +18,7 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class UserRestService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // retorna um user com o mesmo id inserido, caso contrário nada retorna
   getUser(): Observable<User> {
@@ -38,7 +39,7 @@ export class UserRestService {
 
   addAccount(username: string, region: string): Observable<any> {
     const url = `${endpoint}/vincularConta`;
-    return this.http.post(url, 
+    return this.http.post(url,
       JSON.stringify({ Username: username, Region: region }),
       httpOptions);
   }
@@ -55,7 +56,7 @@ export class UserRestService {
 
   unlinkAccount(): Observable<any> {
     const url = `${endpoint}/desvincularConta`;
-    return this.http.post(url, 
+    return this.http.post(url,
       JSON.stringify({}),
       httpOptions);
   }
@@ -72,21 +73,21 @@ export class UserRestService {
 
   createRequest(nickname: string): Observable<any> {
     const url = `${endpoint}/createRequest`;
-    return this.http.post(url, 
+    return this.http.post(url,
       JSON.stringify({ Nickname: nickname }),
       httpOptions);
   }
 
   acceptRequest(requestID: number): Observable<any> {
     const url = `${endpoint}/acceptRequest`;
-    return this.http.post(url, 
+    return this.http.post(url,
       JSON.stringify({ RequestId: requestID }),
       httpOptions);
   }
 
   refuseRequest(requestID: number): Observable<any> {
     const url = `${endpoint}/refuseRequest`;
-    return this.http.post(url, 
+    return this.http.post(url,
       JSON.stringify({ RequestId: requestID }),
       httpOptions);
   }

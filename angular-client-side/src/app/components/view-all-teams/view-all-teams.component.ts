@@ -4,6 +4,7 @@ import { Team } from '@models/team';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { Observable } from 'rxjs';
 import { getRankIcon } from '@src/app/shared/utils';
+import { environment } from '@src/environments/environment';
 
 @Component({
   selector: 'app-view-all-teams',
@@ -12,10 +13,10 @@ import { getRankIcon } from '@src/app/shared/utils';
 })
 export class ViewAllTeamsComponent implements OnInit {
   team!: Team;
-  nickname!:string;
+  nickname!: string;
   searchText!: string;
   teams: any = [];
-  
+
   constructor(private userService: UserRestService, private teamService: TeamRestService) { }
 
   ngOnInit(): void {
@@ -23,12 +24,12 @@ export class ViewAllTeamsComponent implements OnInit {
       this.nickname = user.teamTag!;
       this.getTeams().subscribe((data: {}) => {
         this.teams = data;
-      
-      this.getTeam(this.nickname).subscribe(team => {
-        this.team = team;
-        this.teams = this.removeItemOnce(this.team);
+
+        this.getTeam(this.nickname).subscribe(team => {
+          this.team = team;
+          this.teams = this.removeItemOnce(this.team);
+        });
       });
-    });
     });
   }
 
@@ -37,11 +38,11 @@ export class ViewAllTeamsComponent implements OnInit {
   }
 
   getClass() {
-    return (this.team?.poster == undefined) ? "none" : "caption"; 
+    return (this.team?.poster == undefined) ? "none" : "caption";
   }
 
   public createImgPath = (serverPath: string) => {
-    return (serverPath != undefined) ? `https://localhost:5001/Resources/Images/${serverPath}` : "assets/images/image_placeholder.png";
+    return (serverPath != undefined) ? `${environment.apiUrl}/Resources/Images/${serverPath}` : "assets/images/image_placeholder.png";
   }
 
   removeItemOnce(team: Team) {

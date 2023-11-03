@@ -5,6 +5,7 @@ import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { HttpEventType, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '@src/environments/environment';
 
 @Component({
   selector: 'app-upload',
@@ -17,10 +18,10 @@ export class UploadComponent implements OnInit {
   @Input() title!: string;
   @Output() onUploadFinished = new EventEmitter();
   @Input() getObj!: Observable<any>;
-  @Input() obj!:any;  
-  editValues!:any;
+  @Input() obj!: any;
+  editValues!: any;
 
-  constructor(private http: HttpClient, 
+  constructor(private http: HttpClient,
     private router: Router,
     private tourneyRestService: TourneyRestService,
     private teamRestService: TeamRestService,
@@ -38,7 +39,7 @@ export class UploadComponent implements OnInit {
     const formData = new FormData();
     formData.append('file', fileToUpload, fileToUpload.name);
 
-    this.http.post('https://localhost:5001/api/upload', formData, {reportProgress: true, observe: 'events'})
+    this.http.post(`${environment.apiUrl}/api/upload`, formData, { reportProgress: true, observe: 'events' })
       .subscribe(event => {
         if (event.type === HttpEventType.UploadProgress)
           this.progress = Math.round(100 * event.loaded / event.total!);
@@ -48,12 +49,12 @@ export class UploadComponent implements OnInit {
         }
       });
 
-    if(this.router.url == '/view-my-team') {
+    if (this.router.url == '/view-my-team') {
       this.editValues = {
         Name: this.obj.name,
         Tag: this.obj.tag,
         Poster: fileToUpload.name,
-      } 
+      }
       this.teamRestService.updateTeam(this.editValues).subscribe({
         next: () => {
           this.getObj.subscribe((obj) => {
@@ -63,12 +64,12 @@ export class UploadComponent implements OnInit {
         error: (err) => console.log(err)
       });
     }
-    else if(this.router.url == '/profile') {
+    else if (this.router.url == '/profile') {
       this.editValues = {
         Password: this.obj.password,
         Email: this.obj.email,
         Poster: fileToUpload.name,
-      } 
+      }
       this.userRestService.updateUser(this.editValues).subscribe({
         next: () => {
           this.getObj.subscribe((obj) => {
