@@ -1,21 +1,31 @@
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { UserRestService } from '@services/user-rest/user-rest.service';
 import { Component, OnInit } from '@angular/core';
 import { Team } from '@models/team';
 import { User } from '@models/user';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { LinkedList } from 'linked-list-typescript';
 import ConfirmedValidator from '@src/app/confirmed.validator';
-import { ViewportScroller } from '@angular/common';
+import { ViewportScroller, NgIf, NgFor, NgClass } from '@angular/common';
 import { getRankIcon } from '@src/app/shared/utils';
 import { environment } from '@src/environments/environment';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { UploadComponent } from '../upload/upload.component';
+import { SharedFormFieldComponent } from '../shared-form-field/shared-form-field.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
-  selector: 'app-view-my-team',
-  templateUrl: './view-my-team.component.html',
-  styleUrls: ['./view-my-team.component.css']
+    selector: 'app-view-my-team',
+    templateUrl: './view-my-team.component.html',
+    styleUrls: ['./view-my-team.component.css'],
+    standalone: true,
+    imports: [NavBarComponent, NgIf, MatIconModule, MatFormFieldModule, MatTooltipModule, NgFor, NgClass, SharedFormFieldComponent, UploadComponent, MatButtonModule, RouterLink, FormsModule, ReactiveFormsModule, MatInputModule]
 })
 export class ViewMyTeamComponent implements OnInit {
   nickname!: string;
@@ -34,7 +44,7 @@ export class ViewMyTeamComponent implements OnInit {
   form: FormGroup = new FormGroup({
     users: new FormControl(''),
   });
-  route: string = this.router.url;
+  //route: string = this.router.url;
 
   constructor(private router: Router,
     private teamService: TeamRestService,
@@ -130,8 +140,7 @@ export class ViewMyTeamComponent implements OnInit {
   }
 
   getCompletePercentage(numberMembers: number) {
-    let percentage = (numberMembers * 100) / 5;
-    return percentage;
+    return (numberMembers * 100) / 5;
   }
 
   changeTitle() {

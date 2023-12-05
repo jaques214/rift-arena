@@ -1,100 +1,174 @@
 <app-nav-bar></app-nav-bar>
 <ng-container *ngIf="team != undefined">
-<header class="parallax-team">
-    <img *ngIf="team?.poster != undefined" src="{{createImgPath(team?.poster!)}}" alt="poster" class="bg-image">
-    <section class="{{getClass()}}">
+  <header class="parallax-team">
+    <img
+      *ngIf="team?.poster != undefined"
+      src="{{ createImgPath(team.poster!) }}"
+      alt="poster"
+      class="bg-image"
+    />
+    <section class="{{ getClass() }}">
       <div class="head">
-      <div class="content">
-        <div>
-          <div class="item">
-            <h1>{{ team?.name }}</h1>
-            <mat-icon (click)="clickEvent('name')" aria-hidden="false" aria-label="edit icon" matSuffix>
-              edit
-            </mat-icon>
-          </div>  
-    
-          <div class="item">
-            <p><i>{{ '#' + team?.tag }}</i></p>
-            <mat-icon (click)="clickEvent('tag')" aria-hidden="false" aria-label="edit icon" matSuffix>
-              edit
-            </mat-icon>
+        <div class="content">
+          <div>
+            <div class="item">
+              <h1>{{ team.name }}</h1>
+              <mat-icon
+                (click)="clickEvent('name')"
+                aria-hidden="false"
+                aria-label="edit icon"
+                matSuffix
+              >
+                edit
+              </mat-icon>
+            </div>
+
+            <div class="item">
+              <p>
+                <i>{{ "#" + team.tag }}</i>
+              </p>
+              <mat-icon
+                (click)="clickEvent('tag')"
+                aria-hidden="false"
+                aria-label="edit icon"
+                matSuffix
+              >
+                edit
+              </mat-icon>
+            </div>
+          </div>
+          <div class="rank">
+            <img
+              src="{{ getRank(team.rank) }}"
+              class="icon"
+              alt="icon"
+              [matTooltipPosition]="'below'"
+              matTooltip="{{ team.rank + ' RANK' }}"
+            />
           </div>
         </div>
-        <div class="rank">
-          <img src="{{ getRank(team?.rank) }}" class="icon" alt="icon" [matTooltipPosition]="'below'" matTooltip="{{ team?.rank + ' RANK' }}">
+        <div class="staricon">
+          <p>
+            {{
+              getCompletePercentage(team.numberMembers!) + "% of total members"
+            }}
+          </p>
+          <p>{{ team.numberMembers }} member(s) + 2 substitute members</p>
+          <!-- <p><strong>Rank:</strong> {{team?.rank}}</p> -->
         </div>
       </div>
-      <div class="staricon">
-        <p>{{getCompletePercentage(team?.numberMembers!) + "% of total members"}}</p>
-        <p>{{team?.numberMembers}} member(s) + 2 substitute members</p>
-        <!-- <p><strong>Rank:</strong> {{team?.rank}}</p> -->
+      <div class="container">
+        <div>
+          <p>{{ "Wins: " + team.wins }}</p>
+        </div>
+        <div>
+          <p>{{ "Defeats: " + team.defeats }}</p>
+        </div>
+        <div>
+          <p>{{ "Games Played: " + team.gamesPlayed }}</p>
+        </div>
       </div>
-    </div>
-    <div class="container">
-      <div>
-        <p>{{ 'Wins: ' + team?.wins }}</p>
-      </div>
-      <div>
-        <p>{{ 'Defeats: ' + team?.defeats }}</p>
-      </div>
-      <div>
-        <p>{{ 'Games Played: ' + team?.gamesPlayed }}</p>
-      </div>
-    </div>
-    </section> 
-</header>
+    </section>
+  </header>
 
-<div id="name"></div>
-<section [hidden] = "bool">
-  <div *ngFor="let input of formFields.inputs">
-    <div *ngIf="input.name == this.flag" [ngClass]="'form-size'">
-      <app-shared-form-field [input]="input" [value]="'Submit'" [obj]="team" [authForm]="editForm"></app-shared-form-field>
+  <div id="name"></div>
+  <section [hidden]="bool">
+    <div *ngFor="let input of formFields.inputs">
+      <div *ngIf="input.name == this.flag" [ngClass]="'form-size'">
+        <app-shared-form-field
+          [input]="input"
+          [value]="'Submit'"
+          [obj]="team"
+          [authForm]="editForm"
+        ></app-shared-form-field>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="details">
-  <div [ngClass]="'profile-container'" *ngIf="team?.teamLeader == nickname">
-    <app-upload [title]="changeTitle()" [getObj]="getTeam(team?.tag!)" [obj]="team" (onUploadFinished)="uploadFinished($event)"></app-upload>
-    <div>
-      <p>{{ getFileName() }}</p>
+  <section class="details">
+    <div [ngClass]="'profile-container'" *ngIf="team?.teamLeader == nickname">
+      <app-upload
+        [title]="changeTitle()"
+        [getObj]="getTeam(team.tag!)"
+        [obj]="team"
+        (onUploadFinished)="uploadFinished($event)"
+      ></app-upload>
+      <div>
+        <p>{{ getFileName() }}</p>
+      </div>
     </div>
-  </div>
 
     <p class="subtitle">Main Team Members:</p>
     <div class="example-container">
-        <table *ngFor="let member of team?.members">
-          <tbody height="40px">
+      <table *ngFor="let member of team?.members">
+        <tbody height="40px">
           <tr>
-            <td class="rank-icon"><img src="{{ getRank(member.linkedAccount?.rank!) }}" class="icon" alt="icon"></td>
+            <td class="rank-icon">
+              <img
+                src="{{ getRank(member.linkedAccount?.rank!) }}"
+                class="icon"
+                alt="icon"
+              />
+            </td>
             <td>
-                {{member.nickname}}
-                
+              {{ member.nickname }}
             </td>
             <td>
               <div>
-                <button *ngIf="member.nickname == nickname" mat-flat-button class="btn-blue" type="button" [routerLink]="'/profile'">View Profile</button>
+                <button
+                  *ngIf="member.nickname == nickname"
+                  mat-flat-button
+                  class="btn-blue"
+                  type="button"
+                  [routerLink]="'/profile'"
+                >
+                  View Profile
+                </button>
               </div>
               <div>
-                <button *ngIf="team?.teamLeader == nickname " mat-flat-button class="btn-red" type="button" (click)="removeMember(member?.nickname!)">Delete member</button>
+                <button
+                  *ngIf="team?.teamLeader == nickname"
+                  mat-flat-button
+                  class="btn-red"
+                  type="button"
+                  (click)="removeMember(member?.nickname!)"
+                >
+                  Delete member
+                </button>
               </div>
             </td>
           </tr>
-          </tbody>
-        </table>
-      </div>
+        </tbody>
+      </table>
+    </div>
 
-      <div *ngIf="team?.teamLeader == nickname" class="request">
-        <button mat-flat-button class="btn-blue" type="submit" (click)="toggleDisplay()">Add new member</button>
-        <div [hidden] = "isShow">
-          <form [formGroup]="form">
-
-            <mat-form-field appearance="standard" ngClass="form-field">
-              <mat-label>Users</mat-label>
-              <input matInput type="text" placeholder="Select user" name="users" 
-                formControlName="users" required/>
-              <mat-icon aria-hidden="false" aria-label="" matSuffix>account_circle</mat-icon>
-              <mat-error *ngIf="form.get('users')?.invalid">{{getErrorMessage()}}</mat-error>
+    <div *ngIf="team?.teamLeader == nickname" class="request">
+      <button
+        mat-flat-button
+        class="btn-blue"
+        type="submit"
+        (click)="toggleDisplay()"
+      >
+        Add new member
+      </button>
+      <div [hidden]="isShow">
+        <form [formGroup]="form">
+          <mat-form-field appearance="fill" ngClass="form-field">
+            <mat-label>Users</mat-label>
+            <input
+              matInput
+              type="text"
+              placeholder="Select user"
+              name="users"
+              formControlName="users"
+              required
+            />
+            <mat-icon aria-hidden="false" aria-label="" matSuffix
+              >account_circle</mat-icon
+            >
+            <mat-error *ngIf="form.get('users')?.invalid">{{
+              getErrorMessage()
+            }}</mat-error>
             <!-- <mat-select [(ngModel)]="selectedValue" name="users" required>
               <ng-container *ngFor="let user of users" >
                 <mat-option *ngIf="user.nickname != nickname" [value]="user.nickname">{{user.nickname}}</mat-option>
@@ -103,14 +177,29 @@
           <mat-label><mat-icon aria-hidden="false" aria-label="" matSuffix>
             account_circle
             </mat-icon> Users</mat-label> -->
-
           </mat-form-field>
           <div>
-            <button mat-flat-button class="btn-blue" type="submit" [disabled]="form.invalid" (click)="addRequest(form.get('users')?.value)">Send Request</button>
+            <button
+              mat-flat-button
+              class="btn-blue"
+              type="submit"
+              [disabled]="form.invalid"
+              (click)="addRequest(form.get('users')?.value)"
+            >
+              Send Request
+            </button>
           </div>
-          </form>
-        </div>
+        </form>
       </div>
-      <button *ngIf="team?.teamLeader == nickname" mat-flat-button class="btn-red deleteButton" type="button" (click)="removeTeam()">Delete Team</button>
-</section>
+    </div>
+    <button
+      *ngIf="team?.teamLeader == nickname"
+      mat-flat-button
+      class="btn-red deleteButton"
+      type="button"
+      (click)="removeTeam()"
+    >
+      Delete Team
+    </button>
+  </section>
 </ng-container>

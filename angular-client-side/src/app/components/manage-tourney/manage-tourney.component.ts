@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MatRadioChange } from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
+import { FormsModule } from '@angular/forms';
+import { NgFor } from '@angular/common';
+import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 interface Stage {
   value: string;
@@ -7,9 +10,16 @@ interface Stage {
 }
 
 @Component({
-  selector: 'app-manage-tourney',
-  templateUrl: './manage-tourney.component.html',
-  styleUrls: ['./manage-tourney.component.css'],
+    selector: 'app-manage-tourney',
+    templateUrl: './manage-tourney.component.html',
+    styleUrls: ['./manage-tourney.component.css'],
+    standalone: true,
+    imports: [
+        NavBarComponent,
+        NgFor,
+        MatRadioModule,
+        FormsModule,
+    ],
 })
 export class ManageTourneyComponent implements OnInit {
   stages: Stage[] = [
@@ -46,5 +56,5 @@ export class ManageTourneyComponent implements OnInit {
       results.push(result.v);
     });
   }
-  
+
 }

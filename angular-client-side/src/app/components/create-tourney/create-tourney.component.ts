@@ -1,17 +1,30 @@
 import { Tournament } from '@models/tournament';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { dateValidator } from '@app/CustomValidator';
 import { TourneyRestService } from '@services/tourney-rest/tourney-rest.service';
 import { first } from 'rxjs/operators';
 import {RANK_LIST} from '@app/shared/utils';
 import { Observable } from 'rxjs';
+import { UploadComponent } from '../upload/upload.component';
+import { NgIf, NgFor, NgClass } from '@angular/common';
+import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
-  selector: 'app-create-tourney',
-  templateUrl: './create-tourney.component.html',
-  styleUrls: ['./create-tourney.component.css'],
+    selector: 'app-create-tourney',
+    templateUrl: './create-tourney.component.html',
+    styleUrls: ['./create-tourney.component.css'],
+    standalone: true,
+    imports: [
+        NavBarComponent,
+        NgIf,
+        FormsModule,
+        ReactiveFormsModule,
+        NgFor,
+        NgClass,
+        UploadComponent,
+    ],
 })
 export class CreateTourneyComponent implements OnInit {
   form!: FormGroup;
@@ -52,7 +65,7 @@ export class CreateTourneyComponent implements OnInit {
       dateTourney: new FormControl(null, [
         Validators.required,
         dateValidator(),
-      ]), 
+      ]),
     });
   }
 
@@ -62,7 +75,7 @@ export class CreateTourneyComponent implements OnInit {
   }
 
   getFileName(): string {
-    return (this.filename != undefined) ? this.filename : "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB"; 
+    return (this.filename != undefined) ? this.filename : "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB";
   }
 
   getTourney(id: number): Observable<Tournament> {
@@ -70,29 +83,23 @@ export class CreateTourneyComponent implements OnInit {
   }
 
   isEnable(): boolean {
-    if (
-      !this.form.get('tourneyName')?.valid ||
+    return !(!this.form.get('tourneyName')?.valid ||
       this.form.get('maxTeams')?.value == null ||
       this.form.get('description')?.value == null ||
       this.form.get('rank')?.value == null ||
       this.form.get('region')?.value == null ||
       !this.form.get('dateTourney')?.valid ||
-      this.filename == undefined
-    ) {
-      return false;
-    } else {
-      return true;
-    }
+      this.filename == undefined);
   }
 
   save() {
     if (this.isEnable()) {
-      var y: number = this.form.get('maxTeams')?.value;
-      var name: String = this.form.get('tourneyName')?.value;
-      var description: String = this.form.get('description')?.value;
-      var rank: String = this.form.get('rank')?.value;
-      var region: String = this.form.get('region')?.value;
-      var date: String = this.form.get('dateTourney')?.value;
+      const y: number = this.form.get('maxTeams')?.value;
+      const name: String = this.form.get('tourneyName')?.value;
+      const description: String = this.form.get('description')?.value;
+      const rank: String = this.form.get('rank')?.value;
+      const region: String = this.form.get('region')?.value;
+      const date: String = this.form.get('dateTourney')?.value;
 
       this.tourneyRest
         .createTourney({
@@ -105,7 +112,7 @@ export class CreateTourneyComponent implements OnInit {
           Poster: this.filename
         })
         .pipe(first())
-        .subscribe((tourney) => {
+        .subscribe(() => {
           alert('Criado com sucesso.');
           window.location.href = '/';
         });

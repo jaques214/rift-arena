@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
-import { User } from '@models/user';
+import { Observable } from 'rxjs';
 import { environment } from '@src/environments/environment';
+import {Router} from "@angular/router";
 
 const endpoint = `${environment.apiUrl}/api`;
 const httpOptions = {
@@ -17,6 +17,15 @@ const httpOptions = {
 })
 export class AuthService {
   constructor(private http: HttpClient) { }
+
+  async canActivate(): Promise<boolean> {
+    const router = inject(Router)
+    if (localStorage.getItem('currentUser') && localStorage.getItem('currentUser') != null) {
+      return true;
+    }
+    //router.navigate(['/login']);
+    return await router.navigate(['/login']);
+  }
 
   // retorna o user com o username e password correspondente caso exista no servidor
   login(username: string, password: string): Observable<any> {

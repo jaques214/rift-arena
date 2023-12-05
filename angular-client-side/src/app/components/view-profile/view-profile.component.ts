@@ -7,22 +7,52 @@ import { Team } from '@models/team';
 import { UserRestService } from '@services/user-rest/user-rest.service';
 import ConfirmedValidator from '@src/app/confirmed.validator';
 import { environment } from '@src/environments/environment';
+import { MatButtonModule } from '@angular/material/button';
+import { AccountFormGroupComponent } from '../account-form-group/account-form-group.component';
+import { SharedFormFieldComponent } from '../shared-form-field/shared-form-field.component';
+import { UploadComponent } from '../upload/upload.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { NgClass, NgIf, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
+import { NavBarComponent } from '../nav-bar/nav-bar.component';
+
+type FieldInput = {
+      name: string,
+      type: string,
+      label: string,
+      placeholder: string,
+      iconlabel: string,
+      icon: string,
+}
+
+type Field = {
+  inputs: FieldInput[]
+}
+
+type Info = {
+  username?: string,
+  region?: string,
+  rank?: string,
+  summonerLevel?: number,
+};
 
 @Component({
-  selector: 'app-view-profile',
-  templateUrl: './view-profile.component.html',
-  styleUrls: ['./view-profile.component.css']
+    selector: 'app-view-profile',
+    templateUrl: './view-profile.component.html',
+    styleUrls: ['./view-profile.component.css'],
+    standalone: true,
+    imports: [NavBarComponent, NgClass, NgIf, MatIconModule, MatFormFieldModule, UploadComponent, NgFor, NgSwitch, NgSwitchCase, SharedFormFieldComponent, NgSwitchDefault, AccountFormGroupComponent, MatButtonModule]
 })
 export class ViewProfileComponent implements OnInit {
   response!: { dbPath: '' };
   user?: User;
   team?: Team;
   account?: LinkedAccount;
-  info: any;
+  //info!: Info | string = "No Linked Account";
   icon?: string;
   flag: string = "view";
   accountFlag: string = "view";
-  formFields: any = User.fields();
+  formFields: Field = User.fields();
   accountFields: any = LinkedAccount.fields();
   message!: string;
   filename!: string[];
@@ -48,21 +78,20 @@ export class ViewProfileComponent implements OnInit {
     this.getUser().subscribe((user) => {
       this.user = user;
       this.account = this.user?.linkedAccount;
+      console.log(this.user)
+      console.log(this.account)
 
       if (this.account == undefined) {
-        this.info = "No Linked Account";
+        //this.info = "No Linked Account";
         this.icon = "add_circle_outline";
       }
       else {
         this.icon = "edit";
-        this.info = {
-          username: this.account.username,
-          region: this.account.region,
-          rank: this.account.rank,
-          summonerLevel: this.account.summonerLevel,
-        };
+          //this.typeOf(this.info)
       }
+      //console.log(this.info)
     });
+    console.log(this.accountFlag)
   }
 
   unlinkRiotAccount(): void {
@@ -75,6 +104,22 @@ export class ViewProfileComponent implements OnInit {
   changeTitle() {
     return (this.user?.poster) ? 'Change profile image' : 'Insert profile image';
   }
+
+  typeOf(info: string | Info) {
+    if (typeof info === "string") {
+      return "No Linked Account"
+    }
+      return {
+        username: this.account?.username,
+        region: this.account?.region,
+        rank: this.account?.rank,
+        summonerLevel: this.account?.summonerLevel,
+      }
+  }
+
+  /*typeOfInfo(value: any) {
+    return (typeof value === "Info");
+  }*/
 
   public uploadFinished = (event: any) => {
     this.response = event;

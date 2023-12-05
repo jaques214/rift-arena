@@ -3,15 +3,18 @@ import { User } from '@models/user';
 import { AuthService } from '@services/auth/auth.service';
 import { UserRestService } from '@services/user-rest/user-rest.service';
 import { environment } from '@src/environments/environment';
+import {NgIf, NgOptimizedImage} from '@angular/common';
 
 @Component({
-  selector: 'app-nav-bar',
-  templateUrl: './nav-bar.component.html',
-  styleUrls: ['./nav-bar.component.css'],
+    selector: 'app-nav-bar',
+    templateUrl: './nav-bar.component.html',
+    styleUrls: ['./nav-bar.component.css'],
+    standalone: true,
+  imports: [NgIf, NgOptimizedImage],
 })
 export class NavBarComponent implements OnInit {
   response!: { dbPath: '' };
-  user?: User;
+  user: User = new User();
   profile?: string;
   numberOfRequests: number = 0;
   hasTeam: boolean = false;

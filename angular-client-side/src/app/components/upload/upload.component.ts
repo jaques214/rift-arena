@@ -6,11 +6,15 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { HttpEventType, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '@src/environments/environment';
+import { NgIf } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-upload',
-  templateUrl: './upload.component.html',
-  styleUrls: ['./upload.component.css']
+    selector: 'app-upload',
+    templateUrl: './upload.component.html',
+    styleUrls: ['./upload.component.css'],
+    standalone: true,
+    imports: [MatButtonModule, NgIf]
 })
 export class UploadComponent implements OnInit {
   progress!: number;

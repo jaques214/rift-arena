@@ -1,12 +1,23 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '@models/user';
 import ConfirmedValidator from '@src/app/confirmed.validator';
+import { RouterLink } from '@angular/router';
+import { SharedFormGroupComponent } from '../shared-form-group/shared-form-group.component';
+import { NgClass } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css'],
+    selector: 'app-register',
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.css'],
+    standalone: true,
+    imports: [
+        MatCardModule,
+        NgClass,
+        SharedFormGroupComponent,
+        RouterLink,
+    ],
 })
 export class RegisterComponent implements OnInit {
   title: string = 'Register your account';

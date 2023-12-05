@@ -1,17 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormGroup,
-  FormControl,
-  Validators,
-} from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TeamRestService } from '@src/app/services/team-rest/team-rest.service';
 import { UserRestService } from '@src/app/services/user-rest/user-rest.service';
+import { NgIf, NgClass } from '@angular/common';
+import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
-  selector: 'app-create-team',
-  templateUrl: './create-team.component.html',
-  styleUrls: ['./create-team.component.css'],
+    selector: 'app-create-team',
+    templateUrl: './create-team.component.html',
+    styleUrls: ['./create-team.component.css'],
+    standalone: true,
+    imports: [
+        NavBarComponent,
+        NgIf,
+        FormsModule,
+        ReactiveFormsModule,
+        NgClass,
+    ],
 })
 export class CreateTeamComponent implements OnInit {
   form!: FormGroup;
@@ -45,11 +51,7 @@ export class CreateTeamComponent implements OnInit {
   }
 
   isEnable(): boolean {
-    if (!this.form.get('teamName')?.valid || !this.form.get('tagName')?.valid) {
-      return false;
-    } else {
-      return true;
-    }
+    return !(!this.form.get('teamName')?.valid || !this.form.get('tagName')?.valid);
   }
 
   save() {

@@ -1,9 +1,18 @@
 import { UserRestService } from '@services/user-rest/user-rest.service';
 import { Component, OnInit } from '@angular/core';
-import {MatTableDataSource} from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatIconModule } from '@angular/material/icon';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { NgClass, NgFor, NgIf } from '@angular/common';
+import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 export interface PeriodicElement {
   requestId: number,
@@ -14,9 +23,11 @@ export interface PeriodicElement {
 }
 
 @Component({
-  selector: 'app-requests',
-  templateUrl: './requests.component.html',
-  styleUrls: ['./requests.component.css']
+    selector: 'app-requests',
+    templateUrl: './requests.component.html',
+    styleUrls: ['./requests.component.css'],
+    standalone: true,
+    imports: [NavBarComponent, NgClass, MatFormFieldModule, MatInputModule, MatTableModule, NgFor, NgIf, MatCheckboxModule, MatExpansionModule, MatIconModule, MatRadioModule, FormsModule, MatButtonModule]
 })
 export class RequestsComponent implements OnInit {
   selectedValue!: string;
@@ -26,9 +37,9 @@ export class RequestsComponent implements OnInit {
   //titles: any[] = ['Tag', 'Team Leader', 'Team Name', 'Current Total of Members'];
 
   columns = [
-    {
+    /*{
       columnDef: 'select',
-    },
+    },*/
     {
       columnDef: 'tag',
       header: 'Tag',
@@ -66,7 +77,8 @@ export class RequestsComponent implements OnInit {
     },
   ];
   dataSource: any;
-  displayedColumns = this.columns.map(c => c.columnDef);
+  displayedPartialColumns = this.columns.map(c => c.columnDef);
+  displayedColumns = ['select', ...this.displayedPartialColumns];
   displayedMobileColumns = this.columnsMobile.map(c => c.columnDef);
   panelOpenState = false;
   selection = new SelectionModel<PeriodicElement>(true, []);
@@ -74,6 +86,7 @@ export class RequestsComponent implements OnInit {
   constructor(private router: Router, private restService: UserRestService) { }
 
   ngOnInit(): void {
+    console.log(this.displayedColumns)
     this.getRequests().subscribe((data: {}) => {
       this.requests = data;
       this.populateTable();
@@ -85,9 +98,9 @@ export class RequestsComponent implements OnInit {
     for (let index = 0; index < this.getRequestSize(); index++) {
       this.ELEMENT_DATA[index] = {
         requestId: this.requests[index].requestId,
-        tag: this.requests[index].team.tag, 
-        teamLeader: this.requests[index].team.teamLeader, 
-        teamName: this.requests[index].team.name, 
+        tag: this.requests[index].team.tag,
+        teamLeader: this.requests[index].team.teamLeader,
+        teamName: this.requests[index].team.name,
         members: this.requests[index].team.numberMembers
       };
     }
@@ -132,9 +145,9 @@ export class RequestsComponent implements OnInit {
   }
 
   getRequestID(): number {
-    return (this.selection.selected[0]?.requestId == undefined) ? 
-      this.requestID = (this.selectedValue.slice(0,1) as any) : 
-      this.requestID = this.selection.selected[0]?.requestId;
+    return (this.selection.selected[0]?.requestId == undefined) ?
+      this.requestID = (this.selectedValue.slice(0,1) as any) :
+      this.requestID = this.selection.selected[0]!.requestId;
   }
 
   acceptRequest() {

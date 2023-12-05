@@ -5,16 +5,22 @@ import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { Observable } from 'rxjs';
 import { getRankIcon } from '@src/app/shared/utils';
 import { environment } from '@src/environments/environment';
+import { RouterLink } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { NgIf, NgFor } from '@angular/common';
+import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
-  selector: 'app-view-all-teams',
-  templateUrl: './view-all-teams.component.html',
-  styleUrls: ['./view-all-teams.component.css']
+    selector: 'app-view-all-teams',
+    templateUrl: './view-all-teams.component.html',
+    styleUrls: ['./view-all-teams.component.css'],
+    standalone: true,
+    imports: [NavBarComponent, NgIf, MatButtonModule, RouterLink, NgFor]
 })
 export class ViewAllTeamsComponent implements OnInit {
   team!: Team;
   nickname!: string;
-  searchText!: string;
+  //searchText!: string;
   teams: any = [];
 
   constructor(private userService: UserRestService, private teamService: TeamRestService) { }
@@ -46,7 +52,7 @@ export class ViewAllTeamsComponent implements OnInit {
   }
 
   removeItemOnce(team: Team) {
-    var index = this.teams.indexOf(team);
+    const index = this.teams.indexOf(team);
     if (index > -1) {
       this.teams.splice(index, 1);
     }

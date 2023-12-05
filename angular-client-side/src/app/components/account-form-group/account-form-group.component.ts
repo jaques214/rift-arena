@@ -1,13 +1,22 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LinkedAccount } from '@models/linked_acount';
 import { UserRestService } from '@services/user-rest/user-rest.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { NgFor, NgSwitch, NgSwitchCase, NgClass, NgSwitchDefault, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-account-form-group',
-  templateUrl: './account-form-group.component.html',
-  styleUrls: ['./account-form-group.component.css']
+    selector: 'app-account-form-group',
+    templateUrl: './account-form-group.component.html',
+    styleUrls: ['./account-form-group.component.css'],
+    standalone: true,
+    imports: [FormsModule, ReactiveFormsModule, NgFor, NgSwitch, NgSwitchCase, MatFormFieldModule, NgClass, MatSelectModule, MatOptionModule, MatIconModule, NgSwitchDefault, MatInputModule, NgIf, MatButtonModule]
 })
 export class AccountFormGroupComponent implements OnInit {
   @Input() value!:string;
@@ -16,13 +25,12 @@ export class AccountFormGroupComponent implements OnInit {
   username = '';
   rank = '';
   region = '';
-  listValues: string[] = [];
   form!: FormGroup;
   message!: string;
-  
+
   constructor(public router: Router, private restService : UserRestService) {
   }
-  
+
   ngOnInit(): void {
     this.form = new FormGroup({
       username: new FormControl('', [Validators.required]),
@@ -71,7 +79,7 @@ export class AccountFormGroupComponent implements OnInit {
     if (this.form.get(name)?.hasError('required')) {
       return 'You must enter a value';
     }
-    
+
     switch (name) {
       case 'username':
         this.message = "Not a valid username";

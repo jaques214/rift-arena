@@ -1,13 +1,17 @@
 import { TourneyRestService } from '@services/tourney-rest/tourney-rest.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Tournament } from '@src/app/models/tournament';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { environment } from '@src/environments/environment';
+import { MatButtonModule } from '@angular/material/button';
+import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
-  selector: 'app-view-tourney',
-  templateUrl: './view-tourney.component.html',
-  styleUrls: ['./view-tourney.component.css']
+    selector: 'app-view-tourney',
+    templateUrl: './view-tourney.component.html',
+    styleUrls: ['./view-tourney.component.css'],
+    standalone: true,
+    imports: [NavBarComponent, MatButtonModule, RouterLink]
 })
 export class ViewTourneyComponent implements OnInit {
   tourneyId!: number;

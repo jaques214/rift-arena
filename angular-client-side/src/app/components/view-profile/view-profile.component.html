@@ -7,10 +7,11 @@
       <img *ngIf="user?.poster != undefined"
         src="{{ createImgPath(user?.poster!) }}"
         class="profileImg"
-        alt="account circle icon"/>
+        alt="account circle icon"
+      />
         <mat-icon *ngIf="user?.poster == undefined" aria-hidden="false" aria-label="account circle icon" matSuffix>account_circle</mat-icon>
       </div>
-      
+
     <div>
       <app-upload [title]="changeTitle()" [getObj]="getUser()" [obj]="user" (onUploadFinished)="uploadFinished($event)"></app-upload>
       <p>
@@ -27,7 +28,7 @@
   <div *ngFor="let input of formFields.inputs">
       <div [ngClass]="'item'">
         <p [ngClass]="'subtitle'">{{ input.name }}</p>
-        <mat-icon (click)="clickEvent(input.name)" aria-hidden="false" aria-label="edit icon" matSuffix>
+        <mat-icon (click)="clickEvent(input.name)" aria-hidden="false" aria-label="edit icon" matSuffix style="width: auto; height: auto; font-size: 24px">
           edit
         </mat-icon>
       </div>
@@ -36,39 +37,34 @@
         <app-shared-form-field [input]="input" [value]="'Submit'" [obj]="user" [authForm]="form" [flag]="flag"></app-shared-form-field>
       </div>
 
-      <ng-template [ngSwitchDefault]>
+      <ng-container *ngSwitchDefault>
         <p>{{ getUserValue(input.name) }}</p>
-      </ng-template>
+      </ng-container>
     </ng-container>
   </div>
 
   <div [ngClass]="'item'">
     <p [ngClass]="'subtitle'">Linked Account</p>
-    <mat-icon (click)="clickAccount()" aria-hidden="false" matSuffix>{{ icon }}</mat-icon>
+    <mat-icon (click)="clickAccount()" aria-hidden="false" matSuffix style="width: auto; height: auto; font-size: 24px">{{ icon }}</mat-icon>
   </div>
 
   <ng-container [ngSwitch]="accountFlag">
-    <ng-template [ngSwitchCase]="'edit'">
+    <ng-container *ngSwitchCase="'edit'">
       <app-account-form-group [formFields]="accountFields.inputs" [value]="'Submit'" [accountFlag]="accountFlag"></app-account-form-group>
-    </ng-template>
+    </ng-container>
 
-    <ng-template [ngSwitchDefault]>
+    <ng-container *ngSwitchDefault>
+      <p *ngIf="account === undefined; else elseBlock">No Linked Account</p>
 
-      <ng-container [ngSwitch]="account">
-        <ng-template [ngSwitchCase]="undefined">
-          <p>{{ info }}</p>
-        </ng-template>
+      <ng-template #elseBlock>
+        <p><strong>Username:</strong> {{ account?.username }}</p>
+        <p><strong>Region:</strong> {{ account?.region }}</p>
+        <p><strong>Rank:</strong> {{ account?.rank }}</p>
+        <p><strong>Summoner Level:</strong> {{ account?.summonerLevel }}</p>
+        <button *ngIf="team == undefined" mat-raised-button color="primary" type="submit" (click)="unlinkRiotAccount()">Unlink account</button>
+      </ng-template>
 
-        <ng-template [ngSwitchDefault]>
-          <p><strong>Username:</strong> {{ info?.username }}</p>
-          <p><strong>Region:</strong> {{ info?.region }}</p>
-          <p><strong>Rank:</strong> {{ info?.rank }}</p>
-          <p><strong>Summoner Level:</strong> {{ info?.summonerLevel }}</p>
-          <button *ngIf="team == undefined" mat-raised-button color="primary" type="submit" (click)="unlinkRiotAccount()">Unlink account</button>
-        </ng-template>
-      </ng-container>
-
-    </ng-template>
+    </ng-container>
   </ng-container>
 
   <div [ngClass]="'item'">

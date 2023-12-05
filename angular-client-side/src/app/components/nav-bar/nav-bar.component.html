@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light justify-content-center mb-4">
   <div class="container-fluid">
     <a class="navbar-brand" href="">
-      <img src="assets/images/logo.png" alt="" />
+      <img [ngSrc]="'assets/images/logo.png'" alt="riftarena_logo" width="104.77" height="50"/>
     </a>
     <button
       class="navbar-toggler"
@@ -32,9 +32,13 @@
             Tournaments
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="/view-all-tourneys">Visualize</a></li>
+            <li>
+              <a class="dropdown-item" href="/view-all-tourneys">Visualize</a>
+            </li>
             <li><a class="dropdown-item" href="/create-tourney">Create</a></li>
-            <li *ngIf="hasTeam == true"><a class="dropdown-item" href="/join-tournament">Join</a></li>
+            <li *ngIf="hasTeam">
+              <a class="dropdown-item" href="/join-tournament">Join</a>
+            </li>
           </ul>
         </div>
         <div class="dropdown nav-item">
@@ -48,8 +52,12 @@
             Teams
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="/view-all-teams">Visualize</a></li>
-            <li *ngIf="hasTeam == false"><a class="dropdown-item" href="/create-team">Create</a></li>
+            <li>
+              <a class="dropdown-item" href="/view-all-teams">Visualize</a>
+            </li>
+            <li *ngIf="!hasTeam">
+              <a class="dropdown-item" href="/create-team">Create</a>
+            </li>
           </ul>
         </div>
         <li class="nav-item">
@@ -57,7 +65,8 @@
         </li>
         <li class="nav-item">
           <a type="button" class="btn nav-link a-btn" href="/requests">
-            Requests <span class="badge badge-secondary">{{numberOfRequests}}</span>
+            Requests
+            <span class="badge badge-secondary">{{ numberOfRequests }}</span>
           </a>
         </li>
         <li><hr class="dropdown-divider" /></li>
@@ -67,7 +76,10 @@
         <li class="nav-item d-xs-block d-lg-none d-xxl-none">
           <a class="nav-link" href="#">My Tournaments</a>
         </li>
-        <li *ngIf="hasTeam == true" class="nav-item d-xs-block d-lg-none d-xxl-none">
+        <li
+          *ngIf="hasTeam"
+          class="nav-item d-xs-block d-lg-none d-xxl-none"
+        >
           <a class="nav-link" href="/view-my-team">My Team</a>
         </li>
         <li><hr class="dropdown-divider" /></li>
@@ -76,35 +88,36 @@
         </li>
       </ul>
       <div
-        class="
-          dropdown
-          nav-item
-          d-none d-sm-block d-sm-none d-md-block d-md-none d-lg-block
-        "
+        class="dropdown nav-item d-none d-sm-block d-sm-none d-md-block d-md-none d-lg-block"
       >
-
-      <div id="usernameButton"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-        class="
-          col-xs-3
-          d-none d-sm-block d-sm-none d-md-block d-md-none d-lg-block btn dropdown-toggle username-btn
-        "
-      >
-        {{user?.nickname}}
-        <img
-          src="{{toogleProfileIcon()}}"
-          alt="Profile Picture"
-          class="img-responsive"
-          style="max-height: 50px; max-width: 50px"
-        />
-      </div>
+        <div
+          id="usernameButton"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+          class="col-xs-3 d-none d-sm-block d-sm-none d-md-block d-md-none d-lg-block btn dropdown-toggle username-btn"
+        >
+          {{ user.nickname }}
+          <img
+            ngSrc="{{ toogleProfileIcon() }}"
+            alt="Profile Picture"
+            class="img-responsive"
+            width="45"
+            height="45"
+            style="max-height: 45px; max-width: 45px"
+          />
+        </div>
 
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
           <li><a class="dropdown-item" href="/profile">My Profile</a></li>
-          <li><a class="dropdown-item" href="/view-my-tourneys">My Tournaments</a></li>
-          <li *ngIf="hasTeam == true"><a class="dropdown-item" href="/view-my-team">My Team</a></li>
-          <li><a class="dropdown-item" (click)="logout()" href="">Logout</a></li>
+          <li>
+            <a class="dropdown-item" href="/view-my-tourneys">My Tournaments</a>
+          </li>
+          <li *ngIf="hasTeam">
+            <a class="dropdown-item" href="/view-my-team">My Team</a>
+          </li>
+          <li>
+            <a class="dropdown-item" (click)="logout()" href="">Logout</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -126,7 +139,9 @@
             Tournaments
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="/view-all-tourneys">Visualize</a></li>
+            <li>
+              <a class="dropdown-item" href="/view-all-tourneys">Visualize</a>
+            </li>
           </ul>
         </div>
         <div class="dropdown nav-item">
@@ -140,13 +155,15 @@
             Teams
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="/view-all-teams">Visualize</a></li>
+            <li>
+              <a class="dropdown-item" href="/view-all-teams">Visualize</a>
+            </li>
           </ul>
         </div>
         <li class="nav-item">
           <a type="button" class="btn nav-link a-btn" href="/about">About Us</a>
         </li>
-      
+
         <li><hr class="dropdown-divider" /></li>
         <li class="nav-item d-xs-block d-lg-none d-xxl-none">
           <a class="nav-link" href="/login">Login</a>
@@ -156,11 +173,7 @@
         </li>
       </ul>
       <div
-        class="
-          dropdown
-          nav-item
-          d-none d-sm-block d-sm-none d-md-block d-md-none d-lg-block
-        "
+        class="dropdown nav-item d-none d-sm-block d-sm-none d-md-block d-md-none d-lg-block"
       >
         <button
           class="btn dropdown-toggle username-btn"
@@ -173,11 +186,7 @@
         </button>
       </div>
       <div
-        class="
-          dropdown
-          nav-item
-          d-none d-sm-block d-sm-none d-md-block d-md-none d-lg-block
-        "
+        class="dropdown nav-item d-none d-sm-block d-sm-none d-md-block d-md-none d-lg-block"
       >
         <button
           class="btn dropdown-toggle username-btn"

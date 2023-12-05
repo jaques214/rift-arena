@@ -1,10 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { TourneyRestService } from '@services/tourney-rest/tourney-rest.service';
+import { NgFor, NgIf } from '@angular/common';
+import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
-  selector: 'app-view-all-my-tourneys',
-  templateUrl: './view-all-my-tourneys.component.html',
-  styleUrls: ['./view-all-my-tourneys.component.css'],
+    selector: 'app-view-all-my-tourneys',
+    templateUrl: './view-all-my-tourneys.component.html',
+    styleUrls: ['./view-all-my-tourneys.component.css'],
+    standalone: true,
+    imports: [
+        NavBarComponent,
+        NgFor,
+        NgIf,
+    ],
 })
 export class ViewAllMyTourneysComponent implements OnInit {
   userTourneys: any = [];

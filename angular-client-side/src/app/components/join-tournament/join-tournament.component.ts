@@ -6,19 +6,27 @@ import { Tournament } from '@models/tournament';
 import { UserRestService } from '@services/user-rest/user-rest.service';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { TourneyRestService } from '@services/tourney-rest/tourney-rest.service';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import ConfirmedValidator from '@src/app/confirmed.validator';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { NgClass, NgIf } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 export interface PeriodicElement {
   name: string;
 }
 
 @Component({
-  selector: 'app-join-tournament',
-  templateUrl: './join-tournament.component.html',
-  styleUrls: ['./join-tournament.component.css']
+    selector: 'app-join-tournament',
+    templateUrl: './join-tournament.component.html',
+    styleUrls: ['./join-tournament.component.css'],
+    standalone: true,
+    imports: [NavBarComponent, FormsModule, ReactiveFormsModule, MatFormFieldModule, NgClass, MatInputModule, NgIf, MatButtonModule, MatTableModule, MatCheckboxModule]
 })
 export class JoinTournamentComponent implements OnInit {
   tourney!: Tournament;
