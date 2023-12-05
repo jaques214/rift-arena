@@ -1,11 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '@models/user';
+import { RouterLink } from '@angular/router';
+import { SharedFormGroupComponent } from '../shared-form-group/shared-form-group.component';
+import {NgClass, NgOptimizedImage} from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css'],
+    standalone: true,
+  imports: [
+    MatCardModule,
+    NgClass,
+    SharedFormGroupComponent,
+    RouterLink,
+    NgOptimizedImage,
+  ],
 })
 export class LoginComponent implements OnInit {
   formFields: any = User.loginFields();

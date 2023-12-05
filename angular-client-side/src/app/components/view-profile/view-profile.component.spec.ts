@@ -8,8 +8,8 @@ describe('ViewProfileComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ViewProfileComponent ]
-    })
+    imports: [ViewProfileComponent]
+})
     .compileComponents();
   });
 

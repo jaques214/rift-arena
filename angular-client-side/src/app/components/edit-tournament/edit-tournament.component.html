@@ -34,7 +34,7 @@
           type="text"
           class="form-control"
           formControlName="tourneyName"
-          id="formGroupExampleInput"
+          id="formGroupTourneyName"
           placeholder="Example: Torneio Exemplo"
         />
       </div>
@@ -46,7 +46,7 @@
           type="text"
           class="form-control"
           formControlName="description"
-          id="formGroupExampleInput"
+          id="formGroupDescription"
           placeholder="Example: Este torneio ..."
         />
       </div>
@@ -57,7 +57,7 @@
         <select
           class="form-select"
           formControlName="maxTeams"
-          id="formGroupExampleInput"
+          id="formGroupNumberTeams"
         >
           <option value="4">4</option>
           <option value="8">8</option>
@@ -69,7 +69,7 @@
         <select
           class="form-select"
           formControlName="rank"
-          id="formGroupExampleInput"
+          id="formGroupRank"
         >
           <option *ngFor="let r of ranks" [value]="r">{{ r }}</option>
         </select>
@@ -84,14 +84,14 @@
           id="formGroupExampleInput"
         />
       </div>
-  
+
       <div [ngClass]="'tourney-container'">
         <app-upload [title]="'Upload Tourney Poster'" (onUploadFinished)="uploadFinished($event)"></app-upload>
         <div>
           <p>{{ getFileName() }}</p>
         </div>
       </div>
-  
+
       <div class="d-flex justify-content-between">
         <button
           type="submit"
@@ -105,4 +105,4 @@
         </button>
       </div>
     </form>
-  </div>  
+  </div>

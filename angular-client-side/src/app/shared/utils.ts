@@ -11,7 +11,7 @@ export const RANK_LIST: string[] = [
   ];
 
 export function getRankIcon(key: any) {
-  let rank = "";
+  let rank: string;
   switch (key) {
     case 'IRON':
       rank = './assets/images/ranked-emblems/Emblem_Iron.png';

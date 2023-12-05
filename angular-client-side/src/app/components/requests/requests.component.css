@@ -8,23 +8,13 @@ table {
     margin-bottom: 15px;
 }
 
-th.mat-header-cell {
-    text-align: center;
-    color: #DF711F;
-    font-weight: bold;
-}
-
 td, td.mat-cell {
     text-align: center;
 }
-  
+
 .mat-form-field {
     font-size: 14px;
     width: 100%;
-}
-
-.mat-header-cell {
-    background-color: #FDCAA4;
 }
 
 .error {
@@ -48,16 +38,6 @@ button {
     border: 2px solid #24499A;
 }
 
-.example-headers-align .mat-expansion-panel-header-title,
-.example-headers-align .mat-expansion-panel-header-description {
-  flex-basis: 0;
-}
-
-.mat-expansion-panel-header-description {
-    flex-grow: 0;
-    margin-right: 0;
-}
-
 .example-headers-align {
   display: none;
 }
@@ -68,11 +48,6 @@ button {
 
 .example-headers-align .mat-form-field + .mat-form-field {
   margin-left: 8px;
-}
-
-.mat-expansion-panel-header-title {
-    margin-right: 0;
-    justify-content: center;
 }
 
 .mat-expansion-panel {
@@ -125,5 +100,5 @@ button {
 
     .request-table {
         display: none;
-    }    
+    }
 }

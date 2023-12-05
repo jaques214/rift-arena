@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { fakeAsync } from '@angular/core/testing';
 import {
   ActivatedRouteSnapshot,
   CanActivate,

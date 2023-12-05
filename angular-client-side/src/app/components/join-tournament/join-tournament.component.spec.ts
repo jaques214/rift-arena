@@ -8,8 +8,8 @@ describe('JoinTournamentComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ JoinTournamentComponent ]
-    })
+    imports: [JoinTournamentComponent]
+})
     .compileComponents();
   });
 

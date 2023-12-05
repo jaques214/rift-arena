@@ -1,15 +1,30 @@
 .mat-icon {
-    color: #24499A;
+  color: #24499a;
 }
 
 #password {
-    cursor: pointer;
-}
-
-.mat-form-field {
-    width: 80%;
+  cursor: pointer;
 }
 
 .submit-action {
-    margin: 15px 0;
+  margin: 15px 0;
+}
+
+.mat-mdc-form-field {
+  margin: 0 auto;
+  width: 80%;
+  display: flex;
+}
+
+.btn-blue,
+.mat-flat-button {
+    background-color: #234a95;
+    color: white;
+}
+
+.btn-blue:hover {
+  background-color: #20458a;
+  color: white;
+  white-space: normal !important;
+  word-wrap: break-word;
 }

@@ -8,8 +8,8 @@ describe('SharedFormGroupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SharedFormGroupComponent ]
-    })
+    imports: [SharedFormGroupComponent]
+})
     .compileComponents();
   });
 

@@ -16,15 +16,6 @@
   height: 100%;
 }
 
-.image {
-  margin: auto;
-  width: 60%;
-}
-
-.card-header {
-  text-align: center;
-}
-
 .container {
   width: 100%;
   display: block;

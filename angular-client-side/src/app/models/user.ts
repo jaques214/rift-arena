@@ -1,4 +1,3 @@
-import { Team } from './team';
 import { LinkedAccount } from './linked_acount';
 
 export class User {

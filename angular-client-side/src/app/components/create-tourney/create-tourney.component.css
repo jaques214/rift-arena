@@ -6,10 +6,9 @@
     justify-content: center;
     padding: 20px 10px;
     flex-wrap: wrap;
-    margin: auto;
+    margin: 0 auto 15px auto;
     border-radius: 10px;
     flex-direction: column;
-    margin-bottom: 15px;
 }
 
 .tourney-container p {
@@ -25,9 +24,8 @@
       justify-content: center;
       padding: 20px 10px;
       flex-wrap: wrap;
-      margin: auto;
+      margin: 0 auto 15px auto;
       border-radius: 10px;
       flex-direction: column;
-      margin-bottom: 15px;
     }
-}  
+}

@@ -8,8 +8,8 @@ describe('FrontPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FrontPageComponent ]
-    })
+    imports: [FrontPageComponent]
+})
     .compileComponents();
   });
 

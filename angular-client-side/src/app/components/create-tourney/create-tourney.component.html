@@ -34,7 +34,7 @@
         type="text"
         class="form-control"
         formControlName="tourneyName"
-        id="formGroupExampleInput"
+        id="formGroupTourneyName"
         placeholder="Example: Torneio Exemplo"
       />
     </div>
@@ -46,7 +46,7 @@
         type="text"
         class="form-control"
         formControlName="description"
-        id="formGroupExampleInput"
+        id="formGroupDescription"
         placeholder="Example: Este torneio ..."
       />
     </div>
@@ -57,7 +57,7 @@
       <select
         class="form-select"
         formControlName="maxTeams"
-        id="formGroupExampleInput"
+        id="formGroupNumberTeams"
       >
         <option value="4">4</option>
         <option value="8">8</option>
@@ -69,7 +69,7 @@
       <select
         class="form-select"
         formControlName="rank"
-        id="formGroupExampleInput"
+        id="formGroupRank"
       >
         <option *ngFor="let r of ranks" [value]="r">{{ r }}</option>
       </select>
@@ -79,7 +79,7 @@
       <select
         class="form-select"
         formControlName="region"
-        id="formGroupExampleInput"
+        id="formGroupRegion"
       >
         <option *ngFor="let region of regions" [value]="region">
           {{ region }}

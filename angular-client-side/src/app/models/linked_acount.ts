@@ -5,7 +5,7 @@ export class LinkedAccount {
         public id?: number,
         public username?: string,
         public profileIconID?: number,
-        public summonerLevel?: string,
+        public summonerLevel?: number,
         public rank?: string,
         public region?: string,
         public validated?: number,

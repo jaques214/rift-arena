@@ -65,7 +65,7 @@ section .tournament-container {
 }
 
 header {
-    padding: 0px 35px 15px 35px;
+    padding: 0 35px 15px 35px;
     text-align: end;
 }
 
