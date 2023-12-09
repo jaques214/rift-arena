@@ -18,7 +18,7 @@ import { ViewAllMyTourneysComponent } from '@components/view-all-my-tourneys/vie
 import { AboutComponent } from '@components/about/about.component';
 import { EditTournamentComponent } from '@components/edit-tournament/edit-tournament.component';
 
-import { LoggedInAuthGuard } from './guard/loggedinauthguard.guard';
+import { loggedInAuthGuard } from './guard/loggedinauthguard.guard';
 import { authGuard } from './guard/auth-guard.guard'
 
 export const routes: Routes = [
@@ -29,12 +29,12 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    canActivate: [LoggedInAuthGuard],
+    canActivate: [loggedInAuthGuard],
   },
   {
     path: 'register',
     component: RegisterComponent,
-    canActivate: [LoggedInAuthGuard],
+    canActivate: [loggedInAuthGuard],
   },
   {
     path: 'profile',
@@ -55,13 +55,13 @@ export const routes: Routes = [
     path: 'view-my-team',
     component: ViewMyTeamComponent,
     canActivate: [authGuard],
-    canActivateChild: [LoggedInAuthGuard],
+    canActivateChild: [loggedInAuthGuard],
   },
   {
     path: 'view-team/:id',
     component: ViewTeamComponent,
     canActivate: [authGuard],
-    canActivateChild: [LoggedInAuthGuard],
+    canActivateChild: [loggedInAuthGuard],
   },
   {
     path: 'view-all-teams',

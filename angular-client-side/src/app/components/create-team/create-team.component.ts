@@ -29,25 +29,27 @@ export class CreateTeamComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userService.getUser().subscribe((user) => {
-      if (user.teamTag != null) {
-        this.router.navigate(['/']);
-      }
-      if(user.linkedAccount == null){
-        this.router.navigate(['/']);
-      }
-    });
+    if (localStorage.getItem("currentUser") != null) {
+      this.userService.getUser().subscribe((user) => {
+        if (user.teamTag != null) {
+          this.router.navigate(['/']);
+        }
+        if (user.linkedAccount == null) {
+          this.router.navigate(['/']);
+        }
+      });
 
-    this.form = new FormGroup({
-      teamName: new FormControl(null, [
-        Validators.required,
-        Validators.pattern('^([A-Z]{1}[A-Za-z]+(([ ]{0,1}[A-Za-z])+[a-z]*)*)$'),
-      ]),
-      tagName: new FormControl(null, [
-        Validators.required,
-        Validators.pattern('^[A-Z]{3}$'),
-      ]),
-    });
+      this.form = new FormGroup({
+        teamName: new FormControl(null, [
+          Validators.required,
+          Validators.pattern('^([A-Z]{1}[A-Za-z]+(([ ]{0,1}[A-Za-z])+[a-z]*)*)$'),
+        ]),
+        tagName: new FormControl(null, [
+          Validators.required,
+          Validators.pattern('^[A-Z]{3}$'),
+        ]),
+      });
+    }
   }
 
   isEnable(): boolean {

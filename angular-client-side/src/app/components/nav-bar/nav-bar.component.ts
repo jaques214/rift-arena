@@ -26,7 +26,7 @@ export class NavBarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (localStorage.getItem('currentUser') !== null) {
+    if (localStorage.getItem('currentUser') != null) {
       this.userService.getUser().subscribe({
         next: (user) => {
           this.user = user;

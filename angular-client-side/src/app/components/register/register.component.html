@@ -1,9 +1,9 @@
 <mat-card class="card">
-  <a id="logo" href="/"><img mat-card-image src="assets/images/logo.png" class="image" alt="logo" /></a>
+  <a id="logo" href="/"><img mat-card-image ngSrc="assets/images/logo.png" width="505" height="241" class="image" alt="logo" priority/></a>
   <mat-card-header ngClass="container content">
     <mat-card-title class="card--title">{{ title }}</mat-card-title>
   </mat-card-header>
-  <mat-card-content class="container">   
+  <mat-card-content class="container">
     <app-shared-form-group [formFields]="formFields.inputs" [value]="'Register'" [authForm]="authForm"></app-shared-form-group>
   </mat-card-content>
   <mat-card-actions ngClass="container">

@@ -42,9 +42,12 @@ export class FrontPageComponent implements OnInit {
   ngOnInit(): void {
     this.loader.show();
 
-    this.teamService.getTeams().subscribe((data) => {
-      this.teams = data;
-      this.firstTeam = this.teams.splice(0, 1)[0];
+    this.teamService.getTeams().subscribe({
+      next: (data) => {
+        this.teams = data;
+        this.firstTeam = this.teams.splice(0, 1)[0];
+      },
+      error: () => console.log("Error fetching teams")
     });
 
     this.tourneyService.getTourneys().subscribe((data) => {

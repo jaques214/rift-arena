@@ -4,7 +4,7 @@ import { User } from '@models/user';
 import ConfirmedValidator from '@src/app/confirmed.validator';
 import { RouterLink } from '@angular/router';
 import { SharedFormGroupComponent } from '../shared-form-group/shared-form-group.component';
-import { NgClass } from '@angular/common';
+import {NgClass, NgOptimizedImage} from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
@@ -17,6 +17,7 @@ import { MatCardModule } from '@angular/material/card';
         NgClass,
         SharedFormGroupComponent,
         RouterLink,
+        NgOptimizedImage
     ],
 })
 export class RegisterComponent implements OnInit {

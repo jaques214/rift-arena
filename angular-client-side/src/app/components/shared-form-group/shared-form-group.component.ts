@@ -51,9 +51,9 @@ export class SharedFormGroupComponent implements OnInit {
     //, e se validou, pode avançar, senao, lançar um alert a dizer que n inseriu))
 
     this.authService.login(this.authForm.get("nickname")?.value, this.authForm.get("password")?.value).subscribe({
-      next: (result: any) => {
+      next: async (result: any) => {
         localStorage.setItem('currentUser', result.token);
-        this.router.navigate(['/']);
+        await this.router.navigate(['/']);
       },
       error: () => console.log("Erro no login")
     });

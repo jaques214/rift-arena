@@ -27,6 +27,17 @@ export class AuthService {
     return await router.navigate(['/login']);
   }
 
+  async loggedIn(): Promise<boolean> {
+    const router = inject(Router)
+    if (
+      localStorage.getItem('currentUser') &&
+      localStorage.getItem('currentUser') != null
+    ) {
+      return await router.navigate(['']);
+    }
+    return true;
+  }
+
   // retorna o user com o username e password correspondente caso exista no servidor
   login(username: string, password: string): Observable<any> {
     return this.http.post<any>(

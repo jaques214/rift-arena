@@ -1,11 +1,12 @@
 <mat-card class="card main-mat-card">
   <a id="logo" href="/">
     <img mat-card-image
-         [ngSrc]="'assets/images/logo.png'"
+         ngSrc="assets/images/logo.png"
          class="image"
          alt="logo"
          height="241"
-         width="505"/>
+         width="505"
+         priority/>
   </a>
   <mat-card-header ngClass="container content">
     <mat-card-title class="card--title">{{ title }}</mat-card-title>
