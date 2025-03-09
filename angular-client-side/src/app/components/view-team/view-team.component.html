@@ -3,9 +3,10 @@
   <header class="parallax-team">
     <img
       *ngIf="team?.poster != undefined"
-      src="{{ createImgPath(team.poster!) }}"
+      ngSrc="{{ createImgPath(team.poster!) }}"
       alt="poster"
       class="bg-image"
+      fill
     />
     <section class="{{ getClass() }}">
       <div class="head">
@@ -17,9 +18,8 @@
                 (click)="clickEvent('name')"
                 aria-hidden="false"
                 aria-label="edit icon"
-                matSuffix
+                fontIcon="edit"
               >
-                edit
               </mat-icon>
             </div>
 
@@ -39,11 +39,13 @@
           </div>
           <div class="rank">
             <img
-              src="{{ getRank(team.rank) }}"
+              ngSrc="{{ getRank(team.rank!) }}"
               class="icon"
               alt="icon"
               [matTooltipPosition]="'below'"
               matTooltip="{{ team.rank + ' RANK' }}"
+              width="512"
+              height="585"
             />
           </div>
         </div>
@@ -78,7 +80,7 @@
         <app-shared-form-field
           [input]="input"
           [value]="'Submit'"
-          [obj]="team"
+          [user]="team"
           [authForm]="editForm"
         ></app-shared-form-field>
       </div>
@@ -101,13 +103,15 @@
     <p class="subtitle">Main Team Members:</p>
     <div class="example-container">
       <table *ngFor="let member of team?.members">
-        <tbody height="40px">
+        <tbody style="height:40px">
           <tr>
             <td class="rank-icon">
               <img
-                src="{{ getRank(member.linkedAccount?.rank!) }}"
+                ngSrc="{{ getRank(member.linkedAccount?.rank!) }}"
                 class="icon"
                 alt="icon"
+                width="512"
+                height="585"
               />
             </td>
             <td>

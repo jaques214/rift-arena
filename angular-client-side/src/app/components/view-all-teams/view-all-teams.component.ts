@@ -7,7 +7,7 @@ import { getRankIcon } from '@src/app/shared/utils';
 import { environment } from '@src/environments/environment';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { NgIf, NgFor } from '@angular/common';
+import {NgIf, NgFor, NgOptimizedImage} from '@angular/common';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
@@ -15,20 +15,20 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
     templateUrl: './view-all-teams.component.html',
     styleUrls: ['./view-all-teams.component.css'],
     standalone: true,
-    imports: [NavBarComponent, NgIf, MatButtonModule, RouterLink, NgFor]
+  imports: [NavBarComponent, NgIf, MatButtonModule, RouterLink, NgFor, NgOptimizedImage]
 })
 export class ViewAllTeamsComponent implements OnInit {
   team!: Team;
   nickname!: string;
   //searchText!: string;
-  teams: any = [];
+  teams: Team[] = [];
 
   constructor(private userService: UserRestService, private teamService: TeamRestService) { }
 
   ngOnInit(): void {
     this.userService.getUser().subscribe((user) => {
       this.nickname = user.teamTag!;
-      this.getTeams().subscribe((data: {}) => {
+      this.getTeams().subscribe((data: Team[]) => {
         this.teams = data;
 
         this.getTeam(this.nickname).subscribe(team => {
@@ -37,6 +37,23 @@ export class ViewAllTeamsComponent implements OnInit {
         });
       });
     });
+  }
+
+  recursiveDivideBy2(n: number): number {
+    if (n == 1) return 1;
+    return this.recursiveDivideBy2(n / 2);
+  }
+
+  calculateStages(): number {
+    //return this.recursiveDivideBy2(this.teams.length);
+    let count= 0;
+    let n = this.teams.length;
+    while (n !== 1) {
+      n = n / 2;
+      count++;
+    }
+    console.log(n)
+    return count;
   }
 
   getTeam(tag: string): Observable<Team> {
@@ -67,7 +84,7 @@ export class ViewAllTeamsComponent implements OnInit {
     return this.teams.length;
   }
 
-  getRank(key: any) {
+  getRank(key: string) {
     return getRankIcon(key);
   }
 

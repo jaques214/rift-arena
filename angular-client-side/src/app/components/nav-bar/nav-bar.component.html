@@ -1,4 +1,84 @@
-<nav class="navbar navbar-expand-lg navbar-light justify-content-center mb-4">
+<mat-toolbar>
+  <a class="navbar-brand" href="">
+    <img ngSrc="assets/images/logo.png" alt="riftarena_logo" width="104.77" height="50"/>
+  </a>
+
+  <span class="example-spacer"></span>
+
+  <!--if user is connected -->
+  @if (user.nickname !== undefined) {
+    <span class="request-badge" routerLink="/requests">{{ numberOfRequests }}</span>
+    <div class="account" [matMenuTriggerFor]="profile">
+      <span class="nickname">{{ user.nickname }}</span>
+      <img
+        ngSrc="{{ toogleProfileIcon() }}"
+        alt="Profile Picture"
+        class="img-responsive"
+        width="35"
+        height="35"
+        style="max-height: 35px; max-width: 35px"
+      />
+    </div>
+
+    <mat-menu #profile="matMenu">
+      <button mat-menu-item routerLink="/profile">My Profile</button>
+      <button mat-menu-item routerLink="/view-my-tourneys">My Tournaments</button>
+      <button *ngIf="hasTeam" mat-menu-item routerLink="/view-my-team">My Team</button>
+      <button mat-menu-item (click)="logout()">Logout</button>
+    </mat-menu>
+
+    <button mat-icon-button class="example-icon menu-icon {{isShow ? '' : 'icon-overlay'}}" aria-label="Example icon-button with menu icon" (click)="openMenu()">
+      <mat-icon>{{isShow ? 'menu' : 'close'}}</mat-icon>
+    </button>
+
+    <div [@openClose]="isShow ? 'closed' : 'open'" class="menu-overlay">
+      <div class="overlay-content">
+        <h1>Tournaments</h1>
+        <div>
+          <a routerLink="/create-tourney">Create</a>
+          <a routerLink="/view-all-tourneys">View All</a>
+          <a *ngIf="hasTeam" routerLink="/join-tournament">Join</a>
+        </div>
+
+        <h1>Teams</h1>
+        <div>
+          <a *ngIf="!hasTeam" routerLink="/create-team">Create</a>
+          <a routerLink="/view-all-teams">View All</a>
+        </div>
+
+        <h1 routerLink="/about">About</h1>
+      </div>
+    </div>
+  }
+  @else {
+  <!--if user isnt logged-->
+    <div class="account">
+      <a routerLink="/login" class="auth">Login</a>
+      <a routerLink="/register" class="auth">Register</a>
+    </div>
+    <button mat-icon-button class="example-icon menu-icon {{isShow ? '' : 'icon-overlay'}}" aria-label="Example icon-button with menu icon" (click)="openMenu()">
+      <mat-icon>{{isShow ? 'menu' : 'close'}}</mat-icon>
+    </button>
+
+    <div [@openClose]="isShow ? 'closed' : 'open'" class="menu-overlay">
+      <div class="overlay-content">
+        <h1>Tournaments</h1>
+        <div>
+          <a routerLink="/view-all-tourneys">View All</a>
+        </div>
+
+        <h1>Teams</h1>
+        <div>
+          <a routerLink="/view-all-teams">View All</a>
+        </div>
+
+        <h1 routerLink="/about">About</h1>
+      </div>
+    </div>
+  }
+</mat-toolbar>
+
+<!--<nav class="navbar navbar-expand-lg navbar-light justify-content-center mb-4">
   <div class="container-fluid">
     <a class="navbar-brand" href="">
       <img [ngSrc]="'assets/images/logo.png'" alt="riftarena_logo" width="104.77" height="50"/>
@@ -6,7 +86,7 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <!--if user is connected -->
+    &lt;!&ndash;if user is connected &ndash;&gt;
     <div
       class="collapse navbar-collapse"
       id="navbarSupportedContent"
@@ -113,7 +193,7 @@
         </ul>
       </div>
     </div>
-    <!--if user isnt logged-->
+    &lt;!&ndash;if user isnt logged&ndash;&gt;
     <div
       class="collapse navbar-collapse"
       id="navbarSupportedContent"
@@ -192,4 +272,4 @@
       </div>
     </div>
   </div>
-</nav>
+</nav>-->

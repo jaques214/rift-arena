@@ -38,7 +38,12 @@ export class AuthService {
     return true;
   }
 
-  // retorna o user com o username e password correspondente caso exista no servidor
+  /**
+   * Adds the user login though HTTP POST request
+   * @param username the user's nickname
+   * @param password the user's password
+   * @return an observable user if it exists in the server
+   */
   login(username: string, password: string): Observable<any> {
     return this.http.post<any>(
       `${endpoint}/Users/login`,
@@ -47,7 +52,13 @@ export class AuthService {
     );
   }
 
-  // retorna um novo user com o email, username e password inseridos, em caso de erro nao retorna nada
+  /**
+   * Adds the user register though HTTP POST request
+   * @param email the user's email
+   * @param username the user's nickname
+   * @param password the user's password
+   * @return a new user if valid or else it returns nothing
+   */
   register(email: string, username: string, password: string): Observable<any> {
     return this.http.post<any>(
       `${endpoint}/Users/register`,
@@ -57,7 +68,7 @@ export class AuthService {
   }
 
   // remove o user da localStorage, ou seja, remove a sua sessao
-  logout(): any {
+  logout() {
     localStorage.removeItem('currentUser');
   }
 

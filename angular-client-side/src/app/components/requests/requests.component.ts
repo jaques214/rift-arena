@@ -11,8 +11,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { NgClass, NgFor } from '@angular/common';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
+import {Request} from "@models/request";
 
 export interface PeriodicElement {
   requestId: number,
@@ -27,14 +28,13 @@ export interface PeriodicElement {
     templateUrl: './requests.component.html',
     styleUrls: ['./requests.component.css'],
     standalone: true,
-    imports: [NavBarComponent, NgClass, MatFormFieldModule, MatInputModule, MatTableModule, NgFor, NgIf, MatCheckboxModule, MatExpansionModule, MatIconModule, MatRadioModule, FormsModule, MatButtonModule]
+    imports: [NavBarComponent, NgClass, MatFormFieldModule, MatInputModule, MatTableModule, NgFor, MatCheckboxModule, MatExpansionModule, MatIconModule, MatRadioModule, FormsModule, MatButtonModule]
 })
 export class RequestsComponent implements OnInit {
   selectedValue!: string;
   requestID!: number;
-  requests: any = [];
+  requests: Request[] = new Array<Request>();
   ELEMENT_DATA: PeriodicElement[] = [];
-  //titles: any[] = ['Tag', 'Team Leader', 'Team Name', 'Current Total of Members'];
 
   columns = [
     /*{
@@ -76,7 +76,7 @@ export class RequestsComponent implements OnInit {
       header: 'Current Total of Members',
     },
   ];
-  dataSource: any;
+  dataSource!: MatTableDataSource<PeriodicElement>;
   displayedPartialColumns = this.columns.map(c => c.columnDef);
   displayedColumns = ['select', ...this.displayedPartialColumns];
   displayedMobileColumns = this.columnsMobile.map(c => c.columnDef);
@@ -87,7 +87,7 @@ export class RequestsComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.displayedColumns)
-    this.getRequests().subscribe((data: {}) => {
+    this.getRequests().subscribe((data) => {
       this.requests = data;
       this.populateTable();
       this.dataSource = new MatTableDataSource<PeriodicElement>(this.ELEMENT_DATA);
@@ -95,14 +95,14 @@ export class RequestsComponent implements OnInit {
   }
 
   populateTable() {
-    for (let index = 0; index < this.getRequestSize(); index++) {
-      this.ELEMENT_DATA[index] = {
-        requestId: this.requests[index].requestId,
-        tag: this.requests[index].team.tag,
-        teamLeader: this.requests[index].team.teamLeader,
-        teamName: this.requests[index].team.name,
-        members: this.requests[index].team.numberMembers
-      };
+    for (const request of this.requests) {
+      this.ELEMENT_DATA.push({
+        requestId: request.requestId!,
+        tag: request.team?.tag!,
+        teamLeader: request.team?.teamLeader?.nickname!,
+        teamName: request.team?.name!,
+        members: request.team?.numberMembers!
+      })
     }
   }
 
@@ -156,7 +156,7 @@ export class RequestsComponent implements OnInit {
        next: () => {
          this.router.navigate(['/view-my-team']);
        },
-       error: (err: any) => console.log(err)
+       error: (err) => console.log(err)
      });
   }
 
@@ -166,7 +166,7 @@ export class RequestsComponent implements OnInit {
       next: () => {
         this.router.navigate(['/']);
       },
-      error: (err: any) => console.log(err)
+      error: (err) => console.log(err)
     });
   }
 

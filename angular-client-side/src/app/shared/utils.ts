@@ -10,7 +10,7 @@ export const RANK_LIST: string[] = [
     'CHALLENGER',
   ];
 
-export function getRankIcon(key: any) {
+export function getRankIcon(key: string) {
   let rank: string;
   switch (key) {
     case 'IRON':

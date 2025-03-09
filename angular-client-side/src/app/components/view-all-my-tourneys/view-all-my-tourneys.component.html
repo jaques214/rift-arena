@@ -1,9 +1,9 @@
 <app-nav-bar></app-nav-bar>
 <div>
   <h1 style="text-align: center">My Tourneys ({{ userTourneys.length }})</h1>
-  <div class="row d-flex justify-content-center">
+  <div class="d-flex justify-content-center">
     <div
-      class="container d-flex justify-content-center row gap-3"
+      class="container d-flex justify-content-center gap-3"
       style="text-align: center"
     >
       <div
@@ -11,7 +11,7 @@
         style="width: 18rem"
         *ngFor="let tourney of userTourneys; let i = index"
       >
-        
+
           <div class="card-body">
             <p class="card-text">
               {{ tourney.name }}
@@ -46,7 +46,7 @@
             >
             <a href="{{clickEditEvent(tourney.tournamentId)}}" class="card-link" *ngIf="tourney.state == 1">Edit</a>
           </div>
-        
+
       </div>
     </div>
   </div>

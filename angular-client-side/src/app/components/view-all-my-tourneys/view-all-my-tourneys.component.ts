@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TourneyRestService } from '@services/tourney-rest/tourney-rest.service';
 import { NgFor, NgIf } from '@angular/common';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
+import {Tournament} from "@models/tournament";
 
 @Component({
     selector: 'app-view-all-my-tourneys',
@@ -15,22 +16,22 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
     ],
 })
 export class ViewAllMyTourneysComponent implements OnInit {
-  userTourneys: any = [];
+  userTourneys: Tournament[] = [];
 
   constructor(private tourneyService: TourneyRestService) {}
 
   ngOnInit(): void {
     this.tourneyService.getUserTourneys().subscribe({
-      next: (data: {}) => this.userTourneys = data,
-      error: (err: any) => console.log(err)
+      next: (data: Tournament[]) => this.userTourneys = data,
+      error: (err) => console.log(err)
     });
   }
 
   clickEvent(id: number) {
-    return '/view-tourney/' + id; 
+    return '/view-tourney/' + id;
   }
 
   clickEditEvent(id: number) {
-    return '/update-tourney/' + id; 
+    return '/update-tourney/' + id;
   }
 }

@@ -1,6 +1,5 @@
 import {Team} from './team';
 import { Message } from './message';
-import { LinkedList } from 'linked-list-typescript';
 
 export enum State {
     PUBLISHED,
@@ -18,7 +17,7 @@ export class Tournament {
         public maxTeams: number,
         public name: string,
         public state: State,
-        public stages: LinkedList<Team>,
+        public stages: Team[],
         public rank: string,
         public date: any,
         public region: string,

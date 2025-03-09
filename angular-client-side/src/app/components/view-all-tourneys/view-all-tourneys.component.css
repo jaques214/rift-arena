@@ -54,6 +54,10 @@ section div.content:last-child {
     width: 60%;
 }
 
+section div.content {
+  position: relative;
+}
+
 section div.content,
 section .tournament-container {
     display: flex;

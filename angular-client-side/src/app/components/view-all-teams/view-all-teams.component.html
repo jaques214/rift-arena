@@ -6,9 +6,10 @@
   <section class="parallax-team">
     <img
       *ngIf="team?.poster != undefined"
-      src="{{ createImgPath(team.poster!) }}"
+      ngSrc="{{ createImgPath(team.poster!) }}"
       alt="poster"
       class="bg"
+      fill
     />
     <div class="{{ getClass() }}">
       <div>
@@ -40,10 +41,11 @@
             <figure>
               <div class="item">
                 <img
-                  src="{{ createImgPath(team?.poster!) }}"
+                  ngSrc="{{ createImgPath(team?.poster!) }}"
                   alt="team-poster"
+                  fill
                 />
-                <img src="{{ getRank(team?.rank!) }}" class="icon" alt="icon" />
+                <img ngSrc="{{ getRank(team?.rank!) }}" class="icon" alt="icon" width="512" height="585" />
               </div>
               <figcaption>{{ team.name + " #" + team.tag }}</figcaption>
               <figcaption>{{ team.numberMembers + " member(s)" }}</figcaption>

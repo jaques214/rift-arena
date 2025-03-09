@@ -6,9 +6,8 @@ import { Team } from '@models/team';
 import { User } from '@models/user';
 import { Observable } from 'rxjs';
 import { Router, RouterLink } from '@angular/router';
-import { LinkedList } from 'linked-list-typescript';
 import ConfirmedValidator from '@src/app/confirmed.validator';
-import { ViewportScroller, NgIf, NgFor, NgClass } from '@angular/common';
+import {ViewportScroller, NgIf, NgFor, NgClass, NgOptimizedImage} from '@angular/common';
 import { getRankIcon } from '@src/app/shared/utils';
 import { environment } from '@src/environments/environment';
 import { MatInputModule } from '@angular/material/input';
@@ -25,19 +24,19 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
     templateUrl: './view-my-team.component.html',
     styleUrls: ['./view-my-team.component.css'],
     standalone: true,
-    imports: [NavBarComponent, NgIf, MatIconModule, MatFormFieldModule, MatTooltipModule, NgFor, NgClass, SharedFormFieldComponent, UploadComponent, MatButtonModule, RouterLink, FormsModule, ReactiveFormsModule, MatInputModule]
+  imports: [NavBarComponent, NgIf, MatIconModule, MatFormFieldModule, MatTooltipModule, NgFor, NgClass, SharedFormFieldComponent, UploadComponent, MatButtonModule, RouterLink, FormsModule, ReactiveFormsModule, MatInputModule, NgOptimizedImage]
 })
 export class ViewMyTeamComponent implements OnInit {
   nickname!: string;
-  nicknameList: any = [];
+  nicknameList: string[] = [];
   teamTag!: string;
   team!: Team;
   dataSource: any;
-  users: any = [];
+  users: User[] = new Array<User>();
   isShow = true;
   bool = true;
   flag!: string;
-  formFields: any = Team.fields();
+  formFields = Team.fields();
   filename!: string;
   response!: { dbPath: '' };
   editForm!: FormGroup;
@@ -58,7 +57,7 @@ export class ViewMyTeamComponent implements OnInit {
       tag: new FormControl('', [Validators.required]),
     });
 
-    this.getUsers().subscribe((data: {}) => {
+    this.getUsers().subscribe((data) => {
       this.users = data;
       this.populateUsers();
 
@@ -77,14 +76,14 @@ export class ViewMyTeamComponent implements OnInit {
     });
   }
 
-  getRank(key: any) {
+  getRank(key: string) {
     return getRankIcon(key);
   }
 
   populateUsers() {
-    this.users.forEach((element: any) => {
-      this.nicknameList.push(element.nickname);
-    });
+    for (const user of this.users) {
+      this.nicknameList.push(user.nickname!);
+    }
   }
 
   toggleDisplay() {
@@ -131,7 +130,7 @@ export class ViewMyTeamComponent implements OnInit {
     return this.restService.getUser();
   }
 
-  getUsers(): Observable<LinkedList<User>> {
+  getUsers(): Observable<User[]> {
     return this.restService.getUsers();
   }
 

@@ -47,7 +47,8 @@ section {
 }
 
 section div.content {
-    display: flex;
+  position: relative;
+  display: flex;
 }
 
 section div.content:first-child {

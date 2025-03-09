@@ -1,3 +1,60 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.menu-overlay {
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.9);
+  width: 100%;
+  margin: auto;
+  z-index: 1;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 0;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  transition: 0.5s
+}
+
+.overlay-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  top: 25%;
+  position: relative;
+  margin-top: 30px;
+}
+
+.overlay-content h1 {
+  color: #fff;
+  padding: 10px 0;
+  font-size: 42px;
+}
+
+.overlay-content div {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 15px 0;
+}
+
+.overlay-content a {
+  padding: 8px 0;
+  font-size: 28px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.menu-icon {
+  z-index: 2;
+}
+
+.icon-overlay {
+  color: #fff;
+}
+
 .navbar-brand {
   width: 120px;
   height: 60px;
@@ -27,19 +84,46 @@ button:focus {
 }
 
 .badge {
-  background-color: rgb(186, 39, 42)
+  background-color: rgb(186, 39, 42);
+}
+
+.request-badge {
+  cursor: pointer;
+  margin: 0 8px;
+  padding: 0 8px;
+  font-size: 12px;
+  background-color: rgb(186, 39, 42);
+  color: #fff;
+  font-weight: 700;
+  border-radius: 0.25rem;
+}
+
+.auth {
+  font-size: 14px;
 }
 
 .a-btn{
 text-align: left;
 }
+
 .a-btn:focus{
   outline: none;
   box-shadow: none;
 }
 
+.account {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  margin: 0 8px;
+}
+
+.nickname {
+  font-size: 14px;
+}
+
 .img-responsive {
-  margin-left: 15px;
   border-radius: 100%;
   width: 120px;
   height: 120px;

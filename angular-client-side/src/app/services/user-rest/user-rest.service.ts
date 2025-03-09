@@ -4,7 +4,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '@models/user';
 import { Request } from '@models/request';
-import { LinkedList } from 'linked-list-typescript';
 
 const endpoint = `${environment.apiUrl}/api/Users`;
 const httpOptions = {
@@ -26,8 +25,8 @@ export class UserRestService {
   }
 
   // retorna todos os users presentes no servidor
-  getUsers(): Observable<LinkedList<User>> {
-    return this.http.get<LinkedList<User>>(endpoint, httpOptions);
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(endpoint, httpOptions);
   }
 
   removeProfile() {
@@ -92,8 +91,8 @@ export class UserRestService {
       httpOptions);
   }
 
-  getRequests(): Observable<LinkedList<Request>> {
-    return this.http.get<LinkedList<Request>>(
+  getRequests(): Observable<Request[]> {
+    return this.http.get<Request[]>(
       endpoint + '/requests',
       httpOptions
     );

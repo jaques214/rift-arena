@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@services/auth/auth.service';
 import { MatButtonModule } from '@angular/material/button';
@@ -28,7 +28,7 @@ export class SharedFormGroupComponent implements OnInit {
   // });
   message!: string;
 
-  constructor(public router: Router, private authService: AuthService, private formBuilder: FormBuilder) {
+  constructor(public router: Router, private authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -64,7 +64,7 @@ export class SharedFormGroupComponent implements OnInit {
     this.authForm.get('password')?.value).subscribe({
       next: (result: any) => {
         localStorage.setItem('currentUser', result.token);
-        this.router.navigate(['/'])
+        this.router.navigate(['/']);
       },
       error: () => console.log("Erro no registo")
     });

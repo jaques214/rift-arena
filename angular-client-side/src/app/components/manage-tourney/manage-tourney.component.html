@@ -1,7 +1,60 @@
 <app-nav-bar></app-nav-bar>
 <h1 class="mat-h3" style="text-align: center">Tournament Name</h1>
 <div class="container">
-  <!--
+<mat-stepper #stepper>
+  @for (team of teams; track team.teamId; let idx = $index) {
+    <mat-step [stepControl]="firstFormGroup" errorMessage="Name is required.">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Stage {{ idx + 1 }}</ng-template>
+        @for (radio of radioGroup; track i; let i = $index) {
+          <mat-radio-group
+          [(ngModel)]="radioGroup[i].v"
+          aria-labelledby="example-radio-group-label"
+          class="example-radio-group bd-highlight"
+        >
+              <mat-radio-button [value]="radioButton[i].value[0]">
+                {{ radioButton[i].value[0] }}
+              </mat-radio-button>
+              <mat-radio-button [value]="radioButton[i].value[1]">
+                {{ radioButton[i].value[1] }}
+              </mat-radio-button>
+          </mat-radio-group>
+        }
+        <div>
+          <button mat-button matStepperNext>Go to next Phase</button>
+        </div>
+      </form>
+    </mat-step>
+  }
+ <!-- <mat-step [stepControl]="secondFormGroup" errorMessage="Address is required.">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Fill out your address</ng-template>
+      <mat-form-field>
+        <mat-label>Address</mat-label>
+        <input matInput placeholder="Ex. 1 Main St, New York, NY" formControlName="secondCtrl"
+               required>
+      </mat-form-field>
+      <div>
+        <p>Go to a different step to see the error state</p>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <p>You are now done.</p>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>-->
+</mat-stepper>
+</div>
+
+<!--<h1 class="mat-h3" style="text-align: center">Tournament Name</h1>
+<div class="container">
+  &lt;!&ndash;
   <div class="d-flex justify-content-center mt-5">
     <mat-form-field appearance="fill">
       <mat-label>Select the stage</mat-label>
@@ -11,13 +64,13 @@
         }}</mat-option>
       </mat-select>
     </mat-form-field>
-  </div>-->
+  </div>&ndash;&gt;
   <div class="d-flex justify-content-center mt-5">
     <h1>Stage {{stages[0].value}}</h1>
   </div>
   <div>
     <div *ngFor="let radio of radioGroup; let i = index">
-      <!--for cicle-->
+      &lt;!&ndash;for cicle&ndash;&gt;
       <mat-radio-group
         [(ngModel)]="radioGroup[i].v"
         class="example-radio-group bd-highlight"
@@ -34,4 +87,4 @@
   <button type="submit" (click)="getAllValues()" class="btn btn-blue">
     Go to Next Phase
   </button>
-</div>
+</div>-->

@@ -30,12 +30,18 @@ export class CreateTeamComponent implements OnInit {
 
   ngOnInit(): void {
     if (localStorage.getItem("currentUser") != null) {
-      this.userService.getUser().subscribe((user) => {
-        if (user.teamTag != null) {
-          this.router.navigate(['/']);
-        }
-        if (user.linkedAccount == null) {
-          this.router.navigate(['/']);
+      this.userService.getUser().subscribe({
+        next: async (user) => {
+          if (user.teamTag != null) {
+            await this.router.navigate(['/']);
+          }
+          if (user.linkedAccount === undefined) {
+            this.router.navigate(['/']).then(nav => {
+              console.log(nav); // true if navigation is successful
+            }, err => {
+              console.log(err) // when there's an error
+            });
+          }
         }
       });
 

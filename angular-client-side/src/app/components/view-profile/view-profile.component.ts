@@ -13,7 +13,7 @@ import { SharedFormFieldComponent } from '../shared-form-field/shared-form-field
 import { UploadComponent } from '../upload/upload.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { NgClass, NgIf, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
+import {NgClass, NgIf, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault, NgOptimizedImage} from '@angular/common';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 type FieldInput = {
@@ -41,11 +41,11 @@ type Info = {
     templateUrl: './view-profile.component.html',
     styleUrls: ['./view-profile.component.css'],
     standalone: true,
-    imports: [NavBarComponent, NgClass, NgIf, MatIconModule, MatFormFieldModule, UploadComponent, NgFor, NgSwitch, NgSwitchCase, SharedFormFieldComponent, NgSwitchDefault, AccountFormGroupComponent, MatButtonModule]
+  imports: [NavBarComponent, NgClass, NgIf, MatIconModule, MatFormFieldModule, UploadComponent, NgFor, NgSwitch, NgSwitchCase, SharedFormFieldComponent, NgSwitchDefault, AccountFormGroupComponent, MatButtonModule, NgOptimizedImage]
 })
 export class ViewProfileComponent implements OnInit {
   response!: { dbPath: '' };
-  user?: User;
+  user!: User;
   team?: Team;
   account?: LinkedAccount;
   //info!: Info | string = "No Linked Account";
@@ -53,7 +53,7 @@ export class ViewProfileComponent implements OnInit {
   flag: string = "view";
   accountFlag: string = "view";
   formFields: Field = User.fields();
-  accountFields: any = LinkedAccount.fields();
+  accountFields = LinkedAccount.fields();
   message!: string;
   filename!: string[];
   file: string = "";
@@ -116,10 +116,6 @@ export class ViewProfileComponent implements OnInit {
         summonerLevel: this.account?.summonerLevel,
       }
   }
-
-  /*typeOfInfo(value: any) {
-    return (typeof value === "Info");
-  }*/
 
   public uploadFinished = (event: any) => {
     this.response = event;
@@ -188,7 +184,7 @@ export class ViewProfileComponent implements OnInit {
     return convert;
   }
 
-  getUserValue(value: any): string {
+  getUserValue(value: string): string {
     let convert: string = "";
 
     if (this.user != null) {

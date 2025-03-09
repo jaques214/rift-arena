@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Tournament } from '@src/app/models/tournament';
 import { environment } from '@src/environments/environment';
 import { Observable } from 'rxjs';
+import {Team} from "@models/team";
 
 const endpoint = `${environment.apiUrl}/api/Tournaments/`;
 const httpOptions = {
@@ -53,6 +54,14 @@ export class TourneyRestService {
   getUserTourneys(): Observable<Tournament[]> {
     return this.http.get<Tournament[]>(
       endpoint + 'getUserTournaments',
+      httpOptions
+    );
+  }
+
+  startTourney(teams: Team[], id: number): Observable<Tournament> {
+    return this.http.post<Tournament>(
+      endpoint + 'startTournament/' + id,
+      JSON.stringify(teams),
       httpOptions
     );
   }

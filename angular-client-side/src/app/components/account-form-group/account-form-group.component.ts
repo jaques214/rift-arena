@@ -9,19 +9,19 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { NgFor, NgSwitch, NgSwitchCase, NgClass, NgSwitchDefault, NgIf } from '@angular/common';
+import { NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault, NgIf } from '@angular/common';
 
 @Component({
     selector: 'app-account-form-group',
     templateUrl: './account-form-group.component.html',
     styleUrls: ['./account-form-group.component.css'],
     standalone: true,
-    imports: [FormsModule, ReactiveFormsModule, NgFor, NgSwitch, NgSwitchCase, MatFormFieldModule, NgClass, MatSelectModule, MatOptionModule, MatIconModule, NgSwitchDefault, MatInputModule, NgIf, MatButtonModule]
+    imports: [FormsModule, ReactiveFormsModule, NgFor, NgSwitch, NgSwitchCase, MatFormFieldModule, MatSelectModule, MatOptionModule, MatIconModule, NgSwitchDefault, MatInputModule, NgIf, MatButtonModule]
 })
 export class AccountFormGroupComponent implements OnInit {
   @Input() value!:string;
   @Input() formFields!:any;
-  @Input() accountFlag!:any;
+  @Input() accountFlag!:string;
   username = '';
   rank = '';
   region = '';

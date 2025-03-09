@@ -12,6 +12,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgSwitch, NgSwitchCase, NgFor, NgClass, NgIf, NgSwitchDefault } from '@angular/common';
 
+type FormFieldInput = {
+  iconlabel: string;
+  name: string;
+  icon: string;
+  placeholder: string;
+  label?: string,
+  type: string;
+}
+
 @Component({
     selector: 'app-shared-form-field',
     templateUrl: './shared-form-field.component.html',
@@ -20,40 +29,40 @@ import { NgSwitch, NgSwitchCase, NgFor, NgClass, NgIf, NgSwitchDefault } from '@
     imports: [FormsModule, ReactiveFormsModule, NgSwitch, NgSwitchCase, NgFor, MatFormFieldModule, NgClass, MatInputModule, MatIconModule, NgIf, NgSwitchDefault, MatButtonModule]
 })
 export class SharedFormFieldComponent implements OnInit {
-  passwordFields: any = User.paswordfields();
-  @Input() input!:any;
+  passwordFields = User.paswordfields();
+  @Input() input!:FormFieldInput;
   @Input() value!:string;
-  @Input() flag!:any;
-  @Input() obj!:any;
+  @Input() flag!:string;
+  @Input() user!: User | Team;
   @Input() authForm!: FormGroup;
   hide = true;
   message!: string;
 
-  constructor(public router: Router, 
-    private restService: UserRestService, 
+  constructor(public router: Router,
+    private restService: UserRestService,
     private teamRestService: TeamRestService) {
   }
-  
+
   ngOnInit(): void {
     this.populateForm();
   }
 
   populateForm() {
     //if a user already exists populates the formFields inputs.
-    let values = Object.entries(this.obj);
+    let values = Object.entries(this.user);
 
     if(this.input.type == 'password') {
       let teste = this.authForm.get('pass');
-      values.forEach((val:any) => {
+      values.forEach((val:[string, any]) => {
         if(val[0] == this.input.name) {
-          teste?.get(this.input.name)?.setValue(val[1]);
+          teste!.get(this.input.name)?.setValue(val[1]);
         }
       });
     }
     else {
       let teste = this.authForm.get(this.input.name);
 
-      values.forEach((val:any) => {
+      values.forEach((val:[string, any]) => {
         if(val[0] == this.input.name) {
           teste?.setValue(val[1]);
         }
@@ -61,7 +70,7 @@ export class SharedFormFieldComponent implements OnInit {
     }
   }
 
-  getUser(): Observable<any> {
+  getUser(): Observable<User> {
     return this.restService.getUser();
   }
 
@@ -73,7 +82,7 @@ export class SharedFormFieldComponent implements OnInit {
     this.restService.updateUser(editValues).subscribe({
       next: () => {
         this.getUser().subscribe((user) => {
-          this.obj = user;
+          this.user = user;
           this.populateForm();
         });
         //window.location.reload()
@@ -82,19 +91,19 @@ export class SharedFormFieldComponent implements OnInit {
     });
   }
 
-  getTeam(): Observable<any> {
-    return this.teamRestService.getTeam(this.obj.teamTag);
+  getTeam(): Observable<Team> {
+    return this.teamRestService.getTeam((this.user as Team).tag!);
   }
 
   editTeam(team: Team): void {
     const editValues = {
       Name: team.name,
       Tag: team.tag
-    } 
+    }
     this.teamRestService.updateTeam(editValues).subscribe({
       next: () => {
         this.getTeam().subscribe((team) => {
-          this.obj = team;
+          this.user = team;
           this.populateForm();
           window.location.reload();
         });
@@ -107,7 +116,7 @@ export class SharedFormFieldComponent implements OnInit {
    * Submeter dados atualizados
    */
    onSubmit(): void {
-    const data = this.obj!;
+    const data = this.user!;
     if(this.input.type == 'password') {
       (data as any)[this.input.name!] = this.authForm.get('password')?.value
     }

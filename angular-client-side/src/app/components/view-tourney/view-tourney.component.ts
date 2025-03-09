@@ -5,20 +5,21 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { environment } from '@src/environments/environment';
 import { MatButtonModule } from '@angular/material/button';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
+import {NgOptimizedImage} from "@angular/common";
 
 @Component({
     selector: 'app-view-tourney',
     templateUrl: './view-tourney.component.html',
     styleUrls: ['./view-tourney.component.css'],
     standalone: true,
-    imports: [NavBarComponent, MatButtonModule, RouterLink]
+  imports: [NavBarComponent, MatButtonModule, RouterLink, NgOptimizedImage]
 })
 export class ViewTourneyComponent implements OnInit {
   tourneyId!: number;
   tourney!: Tournament
-  tournaments: any = [];
-  tourneysList: any = [];
-  idList: any = [];
+  tournaments: Tournament[] = [];
+  tourneysList: string[] = [];
+  idList: number[] = [];
 
   constructor(private route: ActivatedRoute, private tourneyRestService: TourneyRestService) {
     this.tourneyId = this.route.snapshot.params['id'];
@@ -74,7 +75,7 @@ export class ViewTourneyComponent implements OnInit {
   }
 
   populateTourneys() {
-    this.tournaments.forEach((element: any) => {
+    this.tournaments.forEach((element: Tournament) => {
       this.tourneysList.push(element.name);
       this.idList.push(element.tournamentId);
     });

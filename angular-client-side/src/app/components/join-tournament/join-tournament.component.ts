@@ -30,21 +30,23 @@ export interface PeriodicElement {
 })
 export class JoinTournamentComponent implements OnInit {
   tourney!: Tournament;
-  teams: any = [];
+  teams: Team[] = [];
+  selectedTeam?: Team;
   userNickname!:string;
   user!:User;
   form: FormGroup = new FormGroup({
     tourneys: new FormControl(''),
   });
   isShow = true;
-  tournaments: any = [];
-  tourneysList: any = [];
-  idList: any = [];
+  tournaments: Tournament[] = [];
+  tourneysList: string[] = [];
+  idList: number[] = [];
   ELEMENT_DATA: PeriodicElement[] = [];
-  dataSource: any;
+  dataSource!: MatTableDataSource<PeriodicElement>;
   displayedColumns: string[] = ['select', 'name'];
+  errorMessage = "";
   selection = new SelectionModel<PeriodicElement>(true, []);
-  
+
 
   constructor(private tournamentRestService: TourneyRestService,
      private teamRestService: TeamRestService,
@@ -56,13 +58,13 @@ export class JoinTournamentComponent implements OnInit {
       this.userNickname = user.nickname!;
     });
 
-    this.getTeams().subscribe((data: {}) => {
+    this.getTeams().subscribe((data) => {
         this.teams = data;
         this.populateTable();
         this.dataSource = new MatTableDataSource<PeriodicElement>(this.ELEMENT_DATA);
     });
 
-    this.getTournaments().subscribe((data: {}) => {
+    this.getTournaments().subscribe((data) => {
       this.tournaments = data;
       this.populateTourneys();
 
@@ -80,7 +82,7 @@ export class JoinTournamentComponent implements OnInit {
     const tam = this.teams.length;
     for (let index = 0; index < tam; index++) {
       this.ELEMENT_DATA[index] = {
-        name: this.teams[index].name, 
+        name: this.teams[index].name!,
       };
     }
   }
@@ -111,17 +113,20 @@ export class JoinTournamentComponent implements OnInit {
   }
 
   populateTourneys() {
-    this.tournaments.forEach((element:any) => {
-      this.tourneysList.push(element.name);
-      this.idList.push(element.tournamentId);
+    this.selectedTeam = this.teams.find(team => team.name = this.selection.selected[0]?.name)
+    this.tournaments.forEach((element:Tournament) => {
+      if(element.region === this.selectedTeam?.teamLeader?.linkedAccount?.region) {
+        this.tourneysList.push(element.name);
+        this.idList.push(element.tournamentId);
+      }
     });
   }
 
-  selectTourney(value: number) {
+  selectTourney(value: string) {
     this.isShow = !this.isShow;
     const index = this.tourneysList.indexOf(value);
     const id = this.idList[index];
-    
+
     this.getTournament(id).subscribe(tourney => {
       this.tourney = tourney;
  });
@@ -152,14 +157,18 @@ export class JoinTournamentComponent implements OnInit {
   }
 
   addTeam(id: number, nickname: string) {
-    this.selection.selected[0]?.name
+    this.selectedTeam = this.teams.find(team => team.name = this.selection.selected[0]?.name)
     this.tournamentRestService.addTeam(id, nickname).subscribe({
       next: () => {
         this.getUser().subscribe((user) => {
           this.userNickname = user.nickname!;
         });
       },
-      error: (err) => console.log(err)
+      error: () => {
+        if (this.tourney.rank != this.selectedTeam?.rank) {
+          this.errorMessage = "The tournament rank must correspond to team rank."
+        }
+      }
     });
   }
 }

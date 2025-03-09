@@ -14,17 +14,17 @@ export default class ConfirmedValidator {
                 control.get(matchingControlName)?.setErrors({ matching: true });
                 return { matching: true };
             }
-            else { 
+            else {
                 return null;
             }
         };
     }
 
-    static matchUser(controlName: string, users: any[]): ValidatorFn {
+    static matchUser(controlName: string, users: string[]): ValidatorFn {
         return (control: AbstractControl) => {
             const originalcontrol = control.get(controlName);
 
-            if(users.includes(originalcontrol?.value)) {
+            if(users.includes(<string>originalcontrol?.value)) {
                 return null;
             }
             else {
