@@ -54,10 +54,8 @@ namespace RiftArena.Models.Services
             {
                 throw new AppException("Account not found");
             }
-            else
-            {
-                return userTemp.Requests;
-            }
+
+            return userTemp.Requests;
         }
         //Apartir do ID de uma linkedAccount vai buscar o rank da mesma apartir da API da RIOT
         public string GetSummonerRank(LinkedAccount account)
@@ -178,11 +176,7 @@ namespace RiftArena.Models.Services
         //Confirma se a conta está validada ou não
         public bool CheckValidatedRiot(LinkedAccount linked)
         {
-            if (linked.ProfileIconID == 7)
-            {
-                return true;
-            }
-            return false;
+            return linked.ProfileIconID == 7;
         }
 
         //Desvincula a conta RIOT vinculada de um user

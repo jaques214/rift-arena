@@ -37,9 +37,9 @@ namespace RiftArena
             services.AddDbContext<RiftArenaContext>(opt => opt
             .UseSqlServer(Configuration.GetConnectionString("RiftArena"))
             .UseLazyLoadingProxies());
+
             services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-            
             services.AddCors();
 
 
@@ -105,6 +105,12 @@ namespace RiftArena
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RiftARENA v1"));
+            }
+
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetService<RiftArenaContext>();
+                db.Database.Migrate();
             }
 
             app.UseHttpsRedirection();

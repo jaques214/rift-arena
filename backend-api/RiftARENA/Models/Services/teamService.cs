@@ -22,13 +22,14 @@ namespace RiftArena.Models.Services
         void RemoveMember(string nickname, string userID);
         Team GetByTag(string Tag);
         double getTeamWinRate(string tag);
-
     }
+
     public class TeamServices : ITeamService
     {
         private RiftArenaContext _context;
 
         private readonly IWebHostEnvironment _env;
+
         public TeamServices(RiftArenaContext context, IWebHostEnvironment env)
         {
             _context = context;
@@ -88,7 +89,7 @@ namespace RiftArena.Models.Services
             team.Members = new List<User>();
             var leader = _context.Users.SingleOrDefault(x => x.Nickname == userID);
 
-            if(leader.TeamTag != null)
+            if (leader.TeamTag != null)
                 throw new AppException("Already has a team");
 
             if (leader.LinkedAccount == null)
@@ -108,11 +109,9 @@ namespace RiftArena.Models.Services
 
             if (_context.Teams.Any(x => x.Tag == team.Tag))
                 throw new AppException("Team tag \"" + team.Tag + "\" is already taken");
-            
+
             if (_context.Teams.Any(x => x.TeamLeader == team.TeamLeader))
                 throw new AppException("TeamLeader\"" + team.TeamLeader + "\"is already taken");
-
-
 
 
             team.TeamLeader = leader.Nickname;
@@ -125,8 +124,6 @@ namespace RiftArena.Models.Services
             team.Rank = leader.LinkedAccount.Rank;
 
 
-
-
             _context.Teams.Add(team);
 
             leader.TeamTag = team.Tag;
@@ -135,7 +132,6 @@ namespace RiftArena.Models.Services
             _context.SaveChanges();
 
             return GetByID(team.TeamId);
-
         }
 
         /// <summary>
@@ -153,7 +149,6 @@ namespace RiftArena.Models.Services
 
             if (team.Name != teamSer.Name && team.Name != null)
             {
-
                 if (_context.Teams.Any(x => x.Name == team.Name))
                     throw new AppException("Team name " + team.Name + " is already taken");
                 else
@@ -162,7 +157,6 @@ namespace RiftArena.Models.Services
 
             if (team.Tag != teamSer.Tag && team.Tag != null)
             {
-
                 if (_context.Teams.Any(x => x.Tag == team.Tag))
                     throw new AppException("Team tag " + team.Tag + " is already taken");
                 else
@@ -175,6 +169,7 @@ namespace RiftArena.Models.Services
                 {
                     File.Delete(teamSer.Poster);
                 }
+
                 teamSer.Poster = team.Poster;
             }
 
@@ -198,12 +193,12 @@ namespace RiftArena.Models.Services
             var team = _context.Teams.SingleOrDefault(x => x.TeamLeader == userID);
             if (team != null)
             {
-
                 for (int i = 0; i < team.Members.Count; i++)
                 {
                     team.Members[i].TeamTag = null;
                     _context.Users.Update(team.Members[i]);
                 }
+
                 if (File.Exists(team.Poster))
                 {
                     File.Delete(team.Poster);
@@ -220,7 +215,7 @@ namespace RiftArena.Models.Services
         /// </summary>
         /// <param name="user">User que será adicionado</param>
         /// <exception cref="AppException">Exceção caso a equipa não exista ou esteja cheia</exception>
-        public void AddMember(string nickname,int id)
+        public void AddMember(string nickname, int id)
         {
             var user = _context.Users.SingleOrDefault(x => x.Nickname == nickname);
             var TeamTemp = _context.Teams.Find(id);
@@ -229,26 +224,27 @@ namespace RiftArena.Models.Services
             {
                 throw new AppException("Not Found");
             }
-            else if(TeamTemp.NumberMembers == TeamTemp.MAX_MEMBERS)
-                {
-                    throw new AppException("Team full");
-                }
-                else if(user.LinkedAccount == null)
-                {
-                    throw new AppException("Linked Account is required");
-                }
-                else if (user.LinkedAccount.Region != teamLeader.LinkedAccount.Region)
-                    {
+
+            if (TeamTemp.NumberMembers == TeamTemp.MAX_MEMBERS)
+            {
+                throw new AppException("Team full");
+            }
+
+            if (user.LinkedAccount == null)
+            {
+                throw new AppException("Linked Account is required");
+            }
+
+            if (user.LinkedAccount.Region != teamLeader.LinkedAccount.Region)
+            {
                 throw new AppException("User region does not match team leader region");
             }
-                    else
-                        {
-                            user.TeamTag = TeamTemp.Tag;
-                            TeamTemp.Members.Add(user);
-                            TeamTemp.NumberMembers++;
-                            TeamTemp.Rank = GetRankMean(TeamTemp.TeamId);
-                        }
-            
+
+            user.TeamTag = TeamTemp.Tag;
+            TeamTemp.Members.Add(user);
+            TeamTemp.NumberMembers++;
+            TeamTemp.Rank = GetRankMean(TeamTemp.TeamId);
+
             _context.Teams.Update(TeamTemp);
             _context.SaveChanges();
         }
@@ -281,6 +277,7 @@ namespace RiftArena.Models.Services
                     TeamTemp.Rank = GetRankMean(TeamTemp.TeamId);
                 }
             }
+
             _context.Teams.Update(TeamTemp);
             _context.SaveChanges();
         }
@@ -295,7 +292,6 @@ namespace RiftArena.Models.Services
             var userTemp = _context.Users.SingleOrDefault(x => x.Nickname == UserID);
             var TeamTemp = GetByTag(userTemp.TeamTag);
 
-            
 
             if (TeamTemp.TeamLeader == userTemp.Nickname)
             {
@@ -304,13 +300,15 @@ namespace RiftArena.Models.Services
                 {
                     throw new AppException("Team leader cannot be removed without substitute.");
                 }
-                else if(TeamTemp.Members.Contains(userSubstitute))
+                else if (TeamTemp.Members.Contains(userSubstitute))
                 {
                     userTemp.TeamTag = null;
                     TeamTemp.Members.Remove(userTemp);
                     TeamTemp.NumberMembers--;
                     TeamTemp.TeamLeader = user.Nickname;
-                } else {
+                }
+                else
+                {
                     throw new AppException("The substituted does not belong to the team.");
                 }
             }
@@ -330,17 +328,18 @@ namespace RiftArena.Models.Services
         /// </summary>
         /// <param name="id">Id da equipa a calcular a média de rank</param>
         /// <returns>Rank médio</returns>
-        public string GetRankMean (int id)
+        public string GetRankMean(int id)
         {
             var Rank = "";
-            var TeamTemp = GetByID (id);
+            var TeamTemp = GetByID(id);
             var x = 0;
             var Ranktemp = 0;
 
 
             for (int i = 0; i < TeamTemp.Members.Count; i++)
             {
-                switch (TeamTemp.Members[i].LinkedAccount.Rank){
+                switch (TeamTemp.Members[i].LinkedAccount.Rank)
+                {
                     case "IRON":
                         x = x + 1;
                         break;
@@ -371,9 +370,9 @@ namespace RiftArena.Models.Services
                     default:
                         x = 0;
                         break;
-
                 }
             }
+
             Ranktemp = x / TeamTemp.Members.Count;
 
             switch (Ranktemp)
@@ -409,6 +408,5 @@ namespace RiftArena.Models.Services
 
             return Rank;
         }
-
     }
 }

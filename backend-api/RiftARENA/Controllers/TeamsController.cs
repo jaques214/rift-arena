@@ -1,24 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RiftArena.Models.Contexts;
 using RiftArena.Models;
 using RiftArena.Models.Services;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System.IO;
-using System.Net.Http.Headers;
 
 
 namespace RiftArena.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TeamsController : ControllerBase
+    public class TeamsController : Controller
     {
         private readonly RiftArenaContext _context;
         private readonly ITeamService _service;
@@ -160,7 +155,7 @@ namespace RiftArena.Controllers
         /// </summary>
         /// <param name="user">User que será adicionado</param>
         /// <returns>Ok</returns>
-        [HttpPost("addMember"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("addMember/{id:int}"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult AddMember([FromBody] User user,int id)
         {
             _service.AddMember(user.Nickname,id);

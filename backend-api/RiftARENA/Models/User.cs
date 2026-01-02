@@ -28,7 +28,7 @@ namespace RiftArena.Models
 
         public override string ToString()
         {
-            return base.ToString() + ": " + Nickname.ToString() + ": " + UserID.ToString() + ": " + Email.ToString() + ": " + Password.ToString();
+            return base.ToString() + ": " + Nickname + ": " + UserID.ToString() + ": " + Email + ": " + Password.ToString();
         }
 
     }

@@ -1,4 +1,3 @@
-using RiftArena.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -34,6 +33,7 @@ namespace RiftArena.Models
 
         public virtual List<Team> Stages { get; set; }
         public string Stage {get; set;}
+        public virtual TournamentStage[] FinalStages { get; set; }
 
         public Status State { get; set; }
 

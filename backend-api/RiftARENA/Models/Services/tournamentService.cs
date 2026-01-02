@@ -1,6 +1,4 @@
-﻿using RiftArena.Models;
-using RiftArena.Models.Contexts;
-using RiftArena.Models.Services;
+﻿using RiftArena.Models.Contexts;
 using System.Collections.Generic;
 using System.Linq;
 using System;
@@ -18,8 +16,8 @@ namespace RiftArena.Models.Services
         void DeleteTournament(int id, string userID);
         void PublishTournament(int id, string userID);
         void AddTeam(int id, string userNickname);
-        Tournament startTournament(Tournament tournament);
-        Tournament nextStage(List<string> nextTeams, int id);
+        Tournament StartTournament(int tournamentId);
+        // Tournament NextStage(List<string> nextTeams, int id);
         List<TeamTournament> GetTeamsAndStageByTournament(int id);
     }
 
@@ -40,7 +38,7 @@ namespace RiftArena.Models.Services
         /// <returns>O torneio com x nome</returns>
         public Tournament GetByTournamentName(string name)
         {
-           return  _context.Tournaments.SingleOrDefault(x => x.Name == name);
+            return _context.Tournaments.SingleOrDefault(x => x.Name == name);
         }
 
         /// <summary>
@@ -49,70 +47,100 @@ namespace RiftArena.Models.Services
         /// <param name="tournament">Torneio a serem geradas as brackets</param>
         /// <returns>Lista de aleatoriamente misturadas</returns>
         /// <exception cref="AppException">Exceção caso o torneio a criar falhe nas validações</exception>
-        public Tournament startTournament(Tournament tournament)
+        public Tournament StartTournament(int tournamentId)
         {
-            var tournamentTemp = GetById(tournament.TournamentId);
-            //passar isto para enum na classe Tournament
-            string[] v4Temp = new string[] { "4", "2", "1" };
-            string[] v8Temp = new string[] { "8", "4", "2", "1" };
-            string[] v16Temp = new string[] { "16", "8", "4", "2", "1" };
+            var tournamentTemp = GetById(tournamentId);
 
-           /* if (tournament.Date != DateTime.Now)
+            if (tournamentTemp.NumberOfTeams == 0)
             {
-                throw new AppException("Not on the scheduled date.");
+                throw new AppException("No Team has joined the Tournament");
+            }
+
+            if (tournamentTemp.NumberOfTeams > tournamentTemp.MaxTeams)
+            {
+                throw new AppException("Tournament already has max number of teams.");
+            }
+
+            if (!tournamentTemp.NumberOfTeams.Equals(2) &&
+                !tournamentTemp.NumberOfTeams.Equals(4) && 
+                !tournamentTemp.NumberOfTeams.Equals(8) && 
+                !tournamentTemp.NumberOfTeams.Equals(16))
+            {
+                tournamentTemp.State = Status.Canceled;
+                throw new AppException("Invalid number of teams, tournament canceled.");
+            }
+
+            if (tournamentTemp.State != Status.Published)
+            {
+                throw new AppException("Tournament not published yet.");
+            }
+
+            //passar isto para enum na classe Tournament
+            //string[] v4Temp = new string[] { "4", "2", "1" };
+            //string[] v8Temp = new string[] { "8", "4", "2", "1" };
+            //string[] v16Temp = new string[] { "16", "8", "4", "2", "1" };
+            
+            //Random rng = new Random();
+            tournamentTemp.State = Status.Online;
+
+            // int n = tournamentTemp.Stages.Count;
+            // Console.WriteLine(n);
+            // while (n > 1)
+            // {
+            //     n--;
+            //     int k = rng.Next(n + 1);
+            //     Team value = tournamentTemp.Stages[k];
+            //     tournamentTemp.Stages[k] = tournamentTemp.Stages[n];
+            //     tournamentTemp.Stages[n] = value;
+            // }
+            var n = int.Parse(tournamentTemp.Stage);
+            //n = tournamentTemp.NumberOfTeams;
+            n = 16;
+            
+            var count = 0;
+            //int[] teamsPerStage = new []{};
+            string[] teams = {"Team 1", "Team 2", "Team 3", "Team 4", "Team 5"}
+            Dictionary<int, Team[]> stageMap = new Dictionary<int, string[]>();
+            while (n != 1)
+            {
+                //teamsPerStage[count] = n;
+                count++;
+                n /= 2;
+                
+                var temp = new ArraySegment<Team>(tournamentTemp.Stages.ToArray());
+                temp.Slice(0, n - 1);
+                stageMap.Add(count, temp.ToArray());
+                temp = Array.Empty<Team>();
+            }
+
+            tournamentTemp.Stage = count.ToString();
+            //tournamentTemp.FinalStages = ;
+            Console.WriteLine(stageMap);
+
+            /*if (tournamentTemp.MaxTeams == 4)
+            {
+                tournamentTemp.Stage = v4Temp.First();
+            }
+            else if (tournamentTemp.MaxTeams == 8)
+            {
+                tournamentTemp.Stage = v8Temp.First();
             }
             else
-            {*/
-                if(tournamentTemp.NumberOfTeams != tournamentTemp.MaxTeams)
-                {
-                tournamentTemp.State = Status.Canceled;
-                    throw new AppException("Not enough teams to play, tournament canceled.");
-                }
-                else
-                {
-                  if(tournamentTemp.State == Status.Published)
-                  {
+            {
+                tournamentTemp.Stage = v16Temp.First();
+            }*/
+            /*List<string> teams = new List<string>();
+            foreach (var stage in tournamentTemp.Stages)
+            {
+                teams.Add(stage.Name);
+            }*/
+                
+            //NextStage(teams, tournamentTemp);
 
-                    Random rng = new Random();
-                    tournamentTemp.State = Status.Online;
-
-                    int n = tournamentTemp.Stages.Count;
-
-                    while (n > 1)
-                    {
-                        n--;
-                        int k = rng.Next(n + 1);
-                        Team value = tournamentTemp.Stages[k];
-                        tournamentTemp.Stages[k] = tournamentTemp.Stages[n];
-                        tournamentTemp.Stages[n] = value;
-                    }
-                    if (tournamentTemp.MaxTeams == 4)
-                    {
-                        tournamentTemp.Stage = v4Temp.First();
-
-                    }
-                    else if (tournamentTemp.MaxTeams == 8)
-                    {
-                        tournamentTemp.Stage = v8Temp.First();
-                    }
-                    else
-                    {
-                        tournamentTemp.Stage = v16Temp.First();
-                    }
-
-                  }
-                  else
-                  {
-                    throw new AppException("Tournament not published yet.");
-                  }
-                   
-                }
-
-            //}
             _context.Tournaments.Update(tournamentTemp);
-            _context.SaveChanges(); 
+            _context.SaveChanges();
 
-            return tournament;
+            return tournamentTemp;
         }
 
         /// <summary>
@@ -123,118 +151,113 @@ namespace RiftArena.Models.Services
         /// <param name="tournament">Torneio a serem atualizadas as brackets</param>
         /// <returns>Lista de equipas atualizadas</returns>
         /// <exception cref="AppException">Exceção caso o torneio a criar falhe nas validações</exception>
-        public Tournament nextStage(List<string> nextTeams,int id)
+        private void NextStage(List<string> nextTeams, Tournament tournament)
         {
             //passar isto para enum na classe Tournament
             //Testar
             string[] v4Temp = new string[] { "4", "2", "1" };
-            string[] v8Temp = new string[] { "8", "4", "2","1" };
+            string[] v8Temp = new string[] { "8", "4", "2", "1" };
             string[] v16Temp = new string[] { "16", "8", "4", "2", "1" };
 
-            var tournament = GetById(id);
-            
+            //var tournament = GetById(id);
 
-            if (tournament.State != Status.Online)
+            // if (tournament.State != Status.Online)
+            // {
+            //     throw new AppException("Not able to continue.");
+            // }
+
+            List<Team> nextTeamsTemp = tournament.Stages;
+
+            // for (int j = 0; j < nextTeams.Count; j++)
+            // {
+            //     var team = _teamService.GetByTag(nextTeams.ElementAt(j));
+            //     nextTeamsTemp.Add(team);
+            // }
+
+            for (int i = 0; i < tournament.Stages.Count; i++)
             {
-                throw new AppException("Not able to continue.");
+                if (!(nextTeamsTemp.Contains(tournament.Stages.ElementAt(i))))
+                {
+                    TeamTournament teamTournamentTemp = new TeamTournament();
+
+                    var team = _teamService.GetByTag(tournament.Stages.ElementAt(i).Tag);
+                    team.Defeats++;
+
+                    teamTournamentTemp.TeamId = tournament.Stages.ElementAt(i).TeamId;
+                    teamTournamentTemp.TournamentId = tournament.TournamentId;
+                    teamTournamentTemp.Position = Int32.Parse(tournament.Stage);
+                    tournament.Stages.Remove(tournament.Stages.ElementAt(i));
+
+                    _context.TeamTournaments.Add(teamTournamentTemp);
+                    _context.Teams.Update(team);
+                    _context.SaveChanges();
+                }
+            }
+
+            tournament.Stages = nextTeamsTemp;
+            setTeamWins(nextTeamsTemp);
+            var index = FindStage(v4Temp, tournament.Stage);
+
+            if (tournament.Stages.Count == 1)
+            {
+                tournament.FinalWinner = tournament.Stages.First().Tag;
+                var winner = _teamService.GetByTag(tournament.Stages.First().Tag);
+                winner.TournamentsWon++;
+                tournament.State = Status.Closed;
+
+                _context.Teams.Update(winner);
+                _context.SaveChanges();
             }
             else
             {
-                List<Team> nextTeamsTemp = new List<Team>();    
-
-                for(int j = 0;j< nextTeams.Count; j++)
+                if (index == -1)
                 {
-                    var team = _teamService.GetByTag(nextTeams.ElementAt(j));
-                    nextTeamsTemp.Add(team);
-                }
-
-                for (int i = 0; i < tournament.Stages.Count; i++)
-                {
-                    if (!(nextTeamsTemp.Contains(tournament.Stages.ElementAt(i)))){
-
-                        TeamTournament teamTournamentTemp = new TeamTournament();
-                        
-                        var team = _teamService.GetByTag(tournament.Stages.ElementAt(i).Tag);
-                        team.Defeats++;
-
-                        teamTournamentTemp.TeamId = tournament.Stages.ElementAt(i).TeamId; 
-                        teamTournamentTemp.TournamentId = tournament.TournamentId;
-                        teamTournamentTemp.Position = Int32.Parse(tournament.Stage);
-                        tournament.Stages.Remove(tournament.Stages.ElementAt(i));
-
-                        _context.TeamTournaments.Add(teamTournamentTemp);
-                        _context.Teams.Update(team);
-                        _context.SaveChanges();
-                    }
-                }
-                tournament.Stages = nextTeamsTemp;
-                setTeamWins(nextTeamsTemp);
-                var index = FindStage(v4Temp, tournament.Stage);
-
-                if (tournament.Stages.Count == 1)
-                {
-                    tournament.FinalWinner = tournament.Stages.First().Tag;
-                    var winner = _teamService.GetByTag(tournament.Stages.First().Tag);
-                    winner.TournamentsWon++;
-                    tournament.State = Status.Closed;
-
-                    _context.Teams.Update(winner);
-                    _context.SaveChanges();
-                    
+                    throw new Exception("Erro que não devia dar");
                 }
                 else
                 {
-                    if (index == -1)
+                    if (tournament.MaxTeams == 4)
                     {
-                        throw new Exception("Erro que não devia dar");
+                        tournament.Stage = v4Temp[index + 1];
                     }
-                    else
+
+                    if (tournament.MaxTeams == 8)
                     {
-                        if (tournament.MaxTeams == 4)
-                        {
-                            tournament.Stage = v4Temp[index + 1];
-                        }
+                        tournament.Stage = v8Temp[index + 1];
+                    }
 
-                        if (tournament.MaxTeams == 8)
-                        {
-                            tournament.Stage = v8Temp[index + 1];
-                        }
-
-                        if (tournament.MaxTeams == 16)
-                        {
-                            tournament.Stage = v16Temp[index + 1];
-                        }
-
+                    if (tournament.MaxTeams == 16)
+                    {
+                        tournament.Stage = v16Temp[index + 1];
                     }
                 }
-
-                _context.Tournaments.Update(tournament);
-                _context.SaveChanges();
-
-                return tournament;
             }
+
+            // _context.Tournaments.Update(tournament);
+            // _context.SaveChanges();
+
+            //return tournament;
         }
 
         public List<TeamTournament> GetTeamsAndStageByTournament(int id)
         {
             var x = _context.TeamTournaments.Where(x => x.TournamentId == id);
             Console.WriteLine(x.ToString());
-            
+
             return x.ToList();
         }
 
         /// <summary>
         /// Método que atribui as estatisticas de vitorias às equipas que passam
         /// </summary>
-        public void setTeamWins(List<Team> teams)
+        private void setTeamWins(List<Team> teams)
         {
             for (int i = 0; i < teams.Count; i++)
             {
                 teams.ElementAt(i).Wins++;
-                
-                _context.Teams.Update(teams.ElementAt(i)); 
-                _context.SaveChanges();
 
+                _context.Teams.Update(teams.ElementAt(i));
+                _context.SaveChanges();
             }
         }
 
@@ -243,12 +266,13 @@ namespace RiftArena.Models.Services
         /// Método que retorna todos o indice do stage atual
         /// </summary>
         /// <returns>Índice do stage atual</returns>
-        public int FindStage(string[] vX,string stageAtual)
+        private int FindStage(string[] vX, string stageAtual)
         {
-            for(int i = 0; i < vX.Length; i++)
+            for (int i = 0; i < vX.Length; i++)
             {
-                if(vX[i] == stageAtual) return i;
+                if (vX[i] == stageAtual) return i;
             }
+
             return -1;
         }
 
@@ -260,6 +284,7 @@ namespace RiftArena.Models.Services
         {
             return _context.Tournaments.ToList();
         }
+
         /// <summary>
         /// Método que retorna todos os torneios criados pelo user logado
         /// </summary>
@@ -269,13 +294,14 @@ namespace RiftArena.Models.Services
         {
             var myTournaments = new List<Tournament>();
             var allTour = _context.Tournaments.ToList();
-            for (int i = 0; i < allTour.Count; i++)
+            foreach (var t in allTour)
             {
-                if(allTour[i].CreatorNickname == userID)
+                if (t.CreatorNickname == userID)
                 {
-                    myTournaments.Add(allTour[i]);
+                    myTournaments.Add(t);
                 }
             }
+
             return myTournaments;
         }
 
@@ -341,11 +367,12 @@ namespace RiftArena.Models.Services
             {
                 if (tournamentSer.State == Status.NotPublished)
                 {
-                    if(tournament.Name != null){
+                    if (tournament.Name != null)
+                    {
                         tournamentSer.Name = tournament.Name;
                     }
 
-                    if(tournament.Description != null)
+                    if (tournament.Description != null)
                     {
                         tournamentSer.Description = tournament.Description;
                     }
@@ -361,7 +388,8 @@ namespace RiftArena.Models.Services
                             tournamentSer.MaxTeams = tournament.MaxTeams;
                         }
                     }
-                    if(tournament.Rank != null)
+
+                    if (tournament.Rank != null)
                     {
                         tournamentSer.Rank = tournament.Rank;
                     }
@@ -376,17 +404,20 @@ namespace RiftArena.Models.Services
                         {
                             throw new AppException("Invalid date.");
                         }
-
                     }
+
                     if (tournament.Poster != tournamentSer.Poster && tournament.Poster != null)
                     {
                         if (File.Exists(tournamentSer.Poster))
                         {
                             File.Delete(tournamentSer.Poster);
                         }
+
                         tournamentSer.Poster = tournament.Poster;
                     }
-                    if(tournament.Region != null){
+
+                    if (tournament.Region != null)
+                    {
                         tournamentSer.Region = tournament.Region;
                     }
                 }
@@ -419,6 +450,7 @@ namespace RiftArena.Models.Services
                 {
                     File.Delete(tournament.Poster);
                 }
+
                 _context.Tournaments.Remove(tournament);
                 _context.SaveChanges();
             }
@@ -459,7 +491,8 @@ namespace RiftArena.Models.Services
             {
                 throw new AppException("Full tournament, try another.");
             }
-            else if (user.TeamTag == null)
+
+            if (user.TeamTag == null)
             {
                 throw new AppException("User does not belong to any team.");
             }
@@ -493,6 +526,5 @@ namespace RiftArena.Models.Services
 
             _context.SaveChanges();
         }
-
     }
 }

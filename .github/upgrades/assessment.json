@@ -1,0 +1,1034 @@
+{
+  "settings": {
+    "components": {
+      "code": false,
+      "binaries": false
+    },
+    "targetId": "net10.0",
+    "targetDisplayName": ".NETCoreApp,Version=v10.0"
+  },
+  "analysisStartTime": "2026-01-02T17:08:29.7749842Z",
+  "analysisEndTime": "2026-01-02T17:08:44.6744246Z",
+  "privacyModeHelpUrl": "https://go.microsoft.com/fwlink/?linkid=2270980",
+  "stats": {
+    "summary": {
+      "projects": 2,
+      "issues": 9,
+      "incidents": 34,
+      "effort": 34
+    },
+    "charts": {
+      "severity": {
+        "Mandatory": 10,
+        "Optional": 2,
+        "Potential": 22,
+        "Information": 0
+      },
+      "category": {
+        "NuGet": 14,
+        "Project": 1,
+        "Api": 19
+      }
+    }
+  },
+  "projects": [
+    {
+      "path": "docker-compose.dcproj",
+      "startingProject": true,
+      "issues": 0,
+      "storyPoints": 0,
+      "properties": {
+        "appName": "docker-compose",
+        "projectKind": "DotNetCoreApp",
+        "frameworks": [],
+        "languages": [
+          ""
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 0,
+        "numberOfCodeFiles": 0,
+        "linesTotal": 0,
+        "linesOfCode": 0,
+        "totalApiScanned": 0,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [],
+      "features": []
+    },
+    {
+      "path": "RiftARENA\\RiftARENA.csproj",
+      "startingProject": true,
+      "issues": 8,
+      "storyPoints": 34,
+      "properties": {
+        "appName": "RiftARENA",
+        "projectKind": "AspNetCore",
+        "frameworks": [
+          "net7.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 43,
+        "numberOfCodeFiles": 40,
+        "linesTotal": 7411,
+        "linesOfCode": 5957,
+        "totalApiScanned": 6499,
+        "minLinesOfCodeToChange": 19,
+        "maxLinesOfCodeToChange": 19
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "4068f3f1-bcd1-498e-a988-1850e182b5b0",
+          "ruleId": "NuGet.0002",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Authentication.JwtBearer, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Authentication.JwtBearer, and replace with new package Microsoft.AspNetCore.Authentication.JwtBearer 10.0.1",
+              "protected": "Microsoft.AspNetCore.Authentication.JwtBearer, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Authentication.JwtBearer, and replace with new package Microsoft.AspNetCore.Authentication.JwtBearer 10.0.1"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\RiftARENA.csproj",
+            "snippet": "Microsoft.AspNetCore.Authentication.JwtBearer, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Authentication.JwtBearer, and replace with new package Microsoft.AspNetCore.Authentication.JwtBearer 10.0.1",
+            "protectedSnippet": "Microsoft.AspNetCore.Authentication.JwtBearer, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Authentication.JwtBearer, and replace with new package Microsoft.AspNetCore.Authentication.JwtBearer 10.0.1",
+            "label": "Microsoft.AspNetCore.Authentication.JwtBearer 7.0.14",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Authentication.JwtBearer",
+              "PackageVersion": "7.0.14",
+              "PackageNewVersion": "10.0.1",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "0200c3d5-e5df-4f9b-b0bf-3b6cd815d5aa",
+          "ruleId": "NuGet.0002",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Mvc.NewtonsoftJson, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.NewtonsoftJson, and replace with new package Microsoft.AspNetCore.Mvc.NewtonsoftJson 10.0.1",
+              "protected": "Microsoft.AspNetCore.Mvc.NewtonsoftJson, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.NewtonsoftJson, and replace with new package Microsoft.AspNetCore.Mvc.NewtonsoftJson 10.0.1"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\RiftARENA.csproj",
+            "snippet": "Microsoft.AspNetCore.Mvc.NewtonsoftJson, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.NewtonsoftJson, and replace with new package Microsoft.AspNetCore.Mvc.NewtonsoftJson 10.0.1",
+            "protectedSnippet": "Microsoft.AspNetCore.Mvc.NewtonsoftJson, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.NewtonsoftJson, and replace with new package Microsoft.AspNetCore.Mvc.NewtonsoftJson 10.0.1",
+            "label": "Microsoft.AspNetCore.Mvc.NewtonsoftJson 7.0.14",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Mvc.NewtonsoftJson",
+              "PackageVersion": "7.0.14",
+              "PackageNewVersion": "10.0.1",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "a6f8057a-5252-48ce-99a0-9868b8dfe1ef",
+          "ruleId": "NuGet.0002",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson, and replace with new package Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson 10.0.1",
+              "protected": "Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson, and replace with new package Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson 10.0.1"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\RiftARENA.csproj",
+            "snippet": "Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson, and replace with new package Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson 10.0.1",
+            "protectedSnippet": "Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson, and replace with new package Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson 10.0.1",
+            "label": "Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson 7.0.14",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson",
+              "PackageVersion": "7.0.14",
+              "PackageNewVersion": "10.0.1",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "166386b1-09e4-4d4b-b656-ef9b75a6a622",
+          "ruleId": "NuGet.0002",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore, and replace with new package Microsoft.EntityFrameworkCore 10.0.1",
+              "protected": "Microsoft.EntityFrameworkCore, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore, and replace with new package Microsoft.EntityFrameworkCore 10.0.1"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\RiftARENA.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore, and replace with new package Microsoft.EntityFrameworkCore 10.0.1",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore, and replace with new package Microsoft.EntityFrameworkCore 10.0.1",
+            "label": "Microsoft.EntityFrameworkCore 7.0.14",
+            "properties": {
+              "PackageId": "Microsoft.EntityFrameworkCore",
+              "PackageVersion": "7.0.14",
+              "PackageNewVersion": "10.0.1",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "69c95b8d-a161-4c2e-b5ad-99b4aa306ece",
+          "ruleId": "NuGet.0002",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore.Design, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Design, and replace with new package Microsoft.EntityFrameworkCore.Design 10.0.1",
+              "protected": "Microsoft.EntityFrameworkCore.Design, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Design, and replace with new package Microsoft.EntityFrameworkCore.Design 10.0.1"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\RiftARENA.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore.Design, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Design, and replace with new package Microsoft.EntityFrameworkCore.Design 10.0.1",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore.Design, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Design, and replace with new package Microsoft.EntityFrameworkCore.Design 10.0.1",
+            "label": "Microsoft.EntityFrameworkCore.Design 7.0.14",
+            "properties": {
+              "PackageId": "Microsoft.EntityFrameworkCore.Design",
+              "PackageVersion": "7.0.14",
+              "PackageNewVersion": "10.0.1",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "7d1a2dfd-a822-4dbf-b667-17b95b2acfe3",
+          "ruleId": "NuGet.0002",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore.Proxies, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Proxies, and replace with new package Microsoft.EntityFrameworkCore.Proxies 10.0.1",
+              "protected": "Microsoft.EntityFrameworkCore.Proxies, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Proxies, and replace with new package Microsoft.EntityFrameworkCore.Proxies 10.0.1"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\RiftARENA.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore.Proxies, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Proxies, and replace with new package Microsoft.EntityFrameworkCore.Proxies 10.0.1",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore.Proxies, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Proxies, and replace with new package Microsoft.EntityFrameworkCore.Proxies 10.0.1",
+            "label": "Microsoft.EntityFrameworkCore.Proxies 7.0.14",
+            "properties": {
+              "PackageId": "Microsoft.EntityFrameworkCore.Proxies",
+              "PackageVersion": "7.0.14",
+              "PackageNewVersion": "10.0.1",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "c2e29e71-e929-4058-9d7d-0c258a23d2a3",
+          "ruleId": "NuGet.0002",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore.SqlServer, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.SqlServer, and replace with new package Microsoft.EntityFrameworkCore.SqlServer 10.0.1",
+              "protected": "Microsoft.EntityFrameworkCore.SqlServer, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.SqlServer, and replace with new package Microsoft.EntityFrameworkCore.SqlServer 10.0.1"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\RiftARENA.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore.SqlServer, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.SqlServer, and replace with new package Microsoft.EntityFrameworkCore.SqlServer 10.0.1",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore.SqlServer, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.SqlServer, and replace with new package Microsoft.EntityFrameworkCore.SqlServer 10.0.1",
+            "label": "Microsoft.EntityFrameworkCore.SqlServer 7.0.14",
+            "properties": {
+              "PackageId": "Microsoft.EntityFrameworkCore.SqlServer",
+              "PackageVersion": "7.0.14",
+              "PackageNewVersion": "10.0.1",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "c5b9b1d8-911d-4227-a125-a4115a922aaa",
+          "ruleId": "NuGet.0002",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore.Tools, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Tools, and replace with new package Microsoft.EntityFrameworkCore.Tools 10.0.1",
+              "protected": "Microsoft.EntityFrameworkCore.Tools, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Tools, and replace with new package Microsoft.EntityFrameworkCore.Tools 10.0.1"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\RiftARENA.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore.Tools, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Tools, and replace with new package Microsoft.EntityFrameworkCore.Tools 10.0.1",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore.Tools, 7.0.14\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Tools, and replace with new package Microsoft.EntityFrameworkCore.Tools 10.0.1",
+            "label": "Microsoft.EntityFrameworkCore.Tools 7.0.14",
+            "properties": {
+              "PackageId": "Microsoft.EntityFrameworkCore.Tools",
+              "PackageVersion": "7.0.14",
+              "PackageNewVersion": "10.0.1",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "182ceb85-10fa-457e-b409-d5919da5226d",
+          "ruleId": "NuGet.0001",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.VisualStudio.Azure.Containers.Tools.Targets, 1.19.6\n\nRecommendation:\n\nNo supported version found",
+              "protected": "Microsoft.VisualStudio.Azure.Containers.Tools.Targets, 1.19.6\n\nRecommendation:\n\nNo supported version found"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\RiftARENA.csproj",
+            "snippet": "Microsoft.VisualStudio.Azure.Containers.Tools.Targets, 1.19.6\n\nRecommendation:\n\nNo supported version found",
+            "protectedSnippet": "Microsoft.VisualStudio.Azure.Containers.Tools.Targets, 1.19.6\n\nRecommendation:\n\nNo supported version found",
+            "label": "Microsoft.VisualStudio.Azure.Containers.Tools.Targets 1.19.6",
+            "properties": {
+              "PackageId": "Microsoft.VisualStudio.Azure.Containers.Tools.Targets",
+              "PackageVersion": "1.19.6",
+              "PackageNewVersion": null,
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "cdeb5cc1-fd8c-4365-aaeb-f10d341c569f",
+          "ruleId": "NuGet.0002",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.VisualStudio.Web.CodeGeneration.Design, 7.0.11\n\nRecommendation:\n\nRemove Microsoft.VisualStudio.Web.CodeGeneration.Design, and replace with new package Microsoft.VisualStudio.Web.CodeGeneration.Design 10.0.1",
+              "protected": "Microsoft.VisualStudio.Web.CodeGeneration.Design, 7.0.11\n\nRecommendation:\n\nRemove Microsoft.VisualStudio.Web.CodeGeneration.Design, and replace with new package Microsoft.VisualStudio.Web.CodeGeneration.Design 10.0.1"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\RiftARENA.csproj",
+            "snippet": "Microsoft.VisualStudio.Web.CodeGeneration.Design, 7.0.11\n\nRecommendation:\n\nRemove Microsoft.VisualStudio.Web.CodeGeneration.Design, and replace with new package Microsoft.VisualStudio.Web.CodeGeneration.Design 10.0.1",
+            "protectedSnippet": "Microsoft.VisualStudio.Web.CodeGeneration.Design, 7.0.11\n\nRecommendation:\n\nRemove Microsoft.VisualStudio.Web.CodeGeneration.Design, and replace with new package Microsoft.VisualStudio.Web.CodeGeneration.Design 10.0.1",
+            "label": "Microsoft.VisualStudio.Web.CodeGeneration.Design 7.0.11",
+            "properties": {
+              "PackageId": "Microsoft.VisualStudio.Web.CodeGeneration.Design",
+              "PackageVersion": "7.0.11",
+              "PackageNewVersion": "10.0.1",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "d6dafb6c-deed-4e02-922a-55350a67ddc8",
+          "ruleId": "NuGet.0003",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.Net.Http, 4.3.4\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+              "protected": "System.Net.Http, 4.3.4\n\nRecommendation:\n\nPackage functionality included with new framework reference"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\RiftARENA.csproj",
+            "snippet": "System.Net.Http, 4.3.4\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+            "protectedSnippet": "System.Net.Http, 4.3.4\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+            "label": "System.Net.Http 4.3.4",
+            "properties": {
+              "PackageId": "System.Net.Http",
+              "PackageVersion": "4.3.4",
+              "PackageNewVersion": null,
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "9bb48e15-fc80-4d1e-a531-8cb43923b728",
+          "ruleId": "NuGet.0003",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.Text.RegularExpressions, 4.3.1\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+              "protected": "System.Text.RegularExpressions, 4.3.1\n\nRecommendation:\n\nPackage functionality included with new framework reference"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\RiftARENA.csproj",
+            "snippet": "System.Text.RegularExpressions, 4.3.1\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+            "protectedSnippet": "System.Text.RegularExpressions, 4.3.1\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+            "label": "System.Text.RegularExpressions 4.3.1",
+            "properties": {
+              "PackageId": "System.Text.RegularExpressions",
+              "PackageVersion": "4.3.1",
+              "PackageNewVersion": null,
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "fab8265d-0d38-41aa-b834-885cdaa79679",
+          "ruleId": "NuGet.0005",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Azure.Identity, 1.11.4\n\nRecommendation:\n\nThis version takes a dependency on a deprecated version of MSAL .NET (Microsoft.Identity.Client).\nRemove Azure.Identity, and replace with new package Azure.Identity, 1.17.1",
+              "protected": "Azure.Identity, 1.11.4\n\nRecommendation:\n\nThis version takes a dependency on a deprecated version of MSAL .NET (Microsoft.Identity.Client).\nRemove Azure.Identity, and replace with new package Azure.Identity, 1.17.1"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\RiftARENA.csproj",
+            "snippet": "Azure.Identity, 1.11.4\n\nRecommendation:\n\nThis version takes a dependency on a deprecated version of MSAL .NET (Microsoft.Identity.Client).\nRemove Azure.Identity, and replace with new package Azure.Identity, 1.17.1",
+            "protectedSnippet": "Azure.Identity, 1.11.4\n\nRecommendation:\n\nThis version takes a dependency on a deprecated version of MSAL .NET (Microsoft.Identity.Client).\nRemove Azure.Identity, and replace with new package Azure.Identity, 1.17.1",
+            "label": "Azure.Identity 1.11.4",
+            "properties": {
+              "PackageId": "Azure.Identity",
+              "PackageVersion": "1.11.4",
+              "PackageNewVersion": null,
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "af771bdb-cce8-40e9-9eab-2aea208b1e94",
+          "ruleId": "NuGet.0005",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.IdentityModel.Tokens.Jwt, 7.3.1\n\nRecommendation:\n\nMove to latest https://aka.ms/IdentityModel/LTS\nRemove System.IdentityModel.Tokens.Jwt, and replace with new package System.IdentityModel.Tokens.Jwt, 8.15.0",
+              "protected": "System.IdentityModel.Tokens.Jwt, 7.3.1\n\nRecommendation:\n\nMove to latest https://aka.ms/IdentityModel/LTS\nRemove System.IdentityModel.Tokens.Jwt, and replace with new package System.IdentityModel.Tokens.Jwt, 8.15.0"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\RiftARENA.csproj",
+            "snippet": "System.IdentityModel.Tokens.Jwt, 7.3.1\n\nRecommendation:\n\nMove to latest https://aka.ms/IdentityModel/LTS\nRemove System.IdentityModel.Tokens.Jwt, and replace with new package System.IdentityModel.Tokens.Jwt, 8.15.0",
+            "protectedSnippet": "System.IdentityModel.Tokens.Jwt, 7.3.1\n\nRecommendation:\n\nMove to latest https://aka.ms/IdentityModel/LTS\nRemove System.IdentityModel.Tokens.Jwt, and replace with new package System.IdentityModel.Tokens.Jwt, 8.15.0",
+            "label": "System.IdentityModel.Tokens.Jwt 7.3.1",
+            "properties": {
+              "PackageId": "System.IdentityModel.Tokens.Jwt",
+              "PackageVersion": "7.3.1",
+              "PackageNewVersion": null,
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "fe14f31f-6e93-44ad-be17-9f77c3631f3c",
+          "ruleId": "Project.0002",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net7.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net7.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\RiftARENA.csproj",
+            "snippet": "Current target framework: net7.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net7.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net7.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        },
+        {
+          "incidentId": "040b56f6-4fd5-4e29-8ede-5801aa426df3",
+          "ruleId": "Api.0002",
+          "description": "This API supports obsolete formatter-based serialization. It should not be called or extended by application code. ",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": ": base(info, context)",
+              "protected": "M:System.Exception.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\Models\\Services\\AppException.cs",
+            "snippet": ": base(info, context)",
+            "protectedSnippet": "M:System.Exception.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)",
+            "label": "M:System.Exception.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://aka.ms/dotnet-warnings/SYSLIB0051",
+                "isCustom": false
+              }
+            ],
+            "line": 20,
+            "column": 81
+          }
+        },
+        {
+          "incidentId": "37b456d9-ccd7-4e36-9f26-08fb6c597fd7",
+          "ruleId": "Api.0002",
+          "description": "This API supports obsolete formatter-based serialization. It should not be called or extended by application code. ",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": ": base(info, context)",
+              "protected": "M:System.Exception.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\Models\\Services\\AppException.cs",
+            "snippet": ": base(info, context)",
+            "protectedSnippet": "M:System.Exception.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)",
+            "label": "M:System.Exception.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://aka.ms/dotnet-warnings/SYSLIB0051",
+                "isCustom": false
+              }
+            ],
+            "line": 20,
+            "column": 81
+          }
+        },
+        {
+          "incidentId": "90177c48-7269-437b-9b08-b70568fa7b43",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "return tokenHandler.WriteToken(token);",
+              "protected": "M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.WriteToken(Microsoft.IdentityModel.Tokens.SecurityToken)"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\Models\\Services\\userServices.cs",
+            "snippet": "return tokenHandler.WriteToken(token);",
+            "protectedSnippet": "M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.WriteToken(Microsoft.IdentityModel.Tokens.SecurityToken)",
+            "label": "M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.WriteToken(Microsoft.IdentityModel.Tokens.SecurityToken)",
+            "line": 397,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "6e5ebd42-0c30-467d-92f3-fef1aa62ceb8",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var token = tokenHandler.CreateToken(tokenDescription);",
+              "protected": "M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.CreateToken(Microsoft.IdentityModel.Tokens.SecurityTokenDescriptor)"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\Models\\Services\\userServices.cs",
+            "snippet": "var token = tokenHandler.CreateToken(tokenDescription);",
+            "protectedSnippet": "M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.CreateToken(Microsoft.IdentityModel.Tokens.SecurityTokenDescriptor)",
+            "label": "M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.CreateToken(Microsoft.IdentityModel.Tokens.SecurityTokenDescriptor)",
+            "line": 395,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "792688ea-e11c-4f0e-935a-0b0d3fc506cf",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var tokenHandler = new JwtSecurityTokenHandler();",
+              "protected": "T:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\Models\\Services\\userServices.cs",
+            "snippet": "var tokenHandler = new JwtSecurityTokenHandler();",
+            "protectedSnippet": "T:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler",
+            "label": "T:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler",
+            "line": 385,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "5112641b-215f-49f7-a574-a8db8e86350d",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var tokenHandler = new JwtSecurityTokenHandler();",
+              "protected": "M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.#ctor"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\Models\\Services\\userServices.cs",
+            "snippet": "var tokenHandler = new JwtSecurityTokenHandler();",
+            "protectedSnippet": "M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.#ctor",
+            "label": "M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.#ctor",
+            "line": 385,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "e09d9221-4ef4-47a9-9b5f-349264539f36",
+          "ruleId": "Api.0003",
+          "description": "Breaking change - Streaming HTTP responses enabled by default in browser HTTP clients ",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "string content = response.Content.ReadAsStringAsync().Result;",
+              "protected": "T:System.Net.Http.HttpContent"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\Models\\API\\Summoner_V4.cs",
+            "snippet": "string content = response.Content.ReadAsStringAsync().Result;",
+            "protectedSnippet": "T:System.Net.Http.HttpContent",
+            "label": "T:System.Net.Http.HttpContent",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/default-http-streaming.md",
+                "isCustom": false
+              }
+            ],
+            "line": 36,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "d44d22b9-f31d-49eb-a619-7d323083fd96",
+          "ruleId": "Api.0003",
+          "description": "Breaking change - Streaming HTTP responses enabled by default in browser HTTP clients ",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "string content = response.Content.ReadAsStringAsync().Result;",
+              "protected": "T:System.Net.Http.HttpContent"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\Models\\API\\Summoner_V4.cs",
+            "snippet": "string content = response.Content.ReadAsStringAsync().Result;",
+            "protectedSnippet": "T:System.Net.Http.HttpContent",
+            "label": "T:System.Net.Http.HttpContent",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/default-http-streaming.md",
+                "isCustom": false
+              }
+            ],
+            "line": 17,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "397cad0a-70aa-4e37-9951-3be2f618c7ed",
+          "ruleId": "Api.0002",
+          "description": "API is available in package Microsoft.AspNetCore.Authentication.JwtBearer, 8.0.6. Add package reference to Microsoft.AspNetCore.Authentication.JwtBearer, 8.0.6",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "x.TokenValidationParameters = new TokenValidationParameters\r\n                {\r\n                    ValidateIssuerSigningKey = true,\r\n                    IssuerSigningKey = new SymmetricSecurityKey(key),\r\n                    ValidateIssuer = false,\r\n                    ValidateAudience = false\r\n                };",
+              "protected": "P:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions.TokenValidationParameters"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\Startup.cs",
+            "snippet": "x.TokenValidationParameters = new TokenValidationParameters\r\n                {\r\n                    ValidateIssuerSigningKey = true,\r\n                    IssuerSigningKey = new SymmetricSecurityKey(key),\r\n                    ValidateIssuer = false,\r\n                    ValidateAudience = false\r\n                };",
+            "protectedSnippet": "P:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions.TokenValidationParameters",
+            "label": "P:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions.TokenValidationParameters",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Authentication.JwtBearer",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 84,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "1c79d78a-e4aa-40a8-9119-6070266b2159",
+          "ruleId": "Api.0002",
+          "description": "API is available in package Microsoft.AspNetCore.Authentication.JwtBearer, 8.0.6. Add package reference to Microsoft.AspNetCore.Authentication.JwtBearer, 8.0.6",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "x.SaveToken = true;",
+              "protected": "P:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions.SaveToken"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\Startup.cs",
+            "snippet": "x.SaveToken = true;",
+            "protectedSnippet": "P:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions.SaveToken",
+            "label": "P:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions.SaveToken",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Authentication.JwtBearer",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 83,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "38b566fb-80e8-4217-868c-652b4f6eb69a",
+          "ruleId": "Api.0002",
+          "description": "API is available in package Microsoft.AspNetCore.Authentication.JwtBearer, 8.0.6. Add package reference to Microsoft.AspNetCore.Authentication.JwtBearer, 8.0.6",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "x.RequireHttpsMetadata = false;",
+              "protected": "P:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions.RequireHttpsMetadata"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\Startup.cs",
+            "snippet": "x.RequireHttpsMetadata = false;",
+            "protectedSnippet": "P:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions.RequireHttpsMetadata",
+            "label": "P:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions.RequireHttpsMetadata",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Authentication.JwtBearer",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 82,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "71bb6eae-8370-4af5-871b-cabe291f4a18",
+          "ruleId": "Api.0002",
+          "description": "API is available in package Microsoft.AspNetCore.Authentication.JwtBearer, 8.0.6. Add package reference to Microsoft.AspNetCore.Authentication.JwtBearer, 8.0.6",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;",
+              "protected": "T:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\Startup.cs",
+            "snippet": "x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;",
+            "protectedSnippet": "T:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults",
+            "label": "T:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Authentication.JwtBearer",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 78,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "e64de0bf-4cfd-4648-9bb3-e69102d5ff9f",
+          "ruleId": "Api.0002",
+          "description": "API is available in package Microsoft.AspNetCore.Authentication.JwtBearer, 8.0.6. Add package reference to Microsoft.AspNetCore.Authentication.JwtBearer, 8.0.6",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;",
+              "protected": "F:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\Startup.cs",
+            "snippet": "x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;",
+            "protectedSnippet": "F:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme",
+            "label": "F:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Authentication.JwtBearer",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 78,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "ec7a162d-762c-4853-87f1-73924f05103a",
+          "ruleId": "Api.0002",
+          "description": "API is available in package Microsoft.AspNetCore.Authentication.JwtBearer, 8.0.6. Add package reference to Microsoft.AspNetCore.Authentication.JwtBearer, 8.0.6",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;",
+              "protected": "T:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\Startup.cs",
+            "snippet": "x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;",
+            "protectedSnippet": "T:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults",
+            "label": "T:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Authentication.JwtBearer",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 77,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "a276178c-24df-4f38-9fcc-98e932bf604e",
+          "ruleId": "Api.0002",
+          "description": "API is available in package Microsoft.AspNetCore.Authentication.JwtBearer, 8.0.6. Add package reference to Microsoft.AspNetCore.Authentication.JwtBearer, 8.0.6",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;",
+              "protected": "F:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\Startup.cs",
+            "snippet": "x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;",
+            "protectedSnippet": "F:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme",
+            "label": "F:Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Authentication.JwtBearer",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 77,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "c04175f1-c7ad-4770-bf3a-16daa21ed825",
+          "ruleId": "Api.0002",
+          "description": "API is available in package Microsoft.AspNetCore.Authentication.JwtBearer, 8.0.6. Add package reference to Microsoft.AspNetCore.Authentication.JwtBearer, 8.0.6",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "services.AddAuthentication(x =\u003E\r\n            {\r\n                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;\r\n                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;\r\n            })\r\n            .AddJwtBearer(x =\u003E\r\n            {\r\n                x.RequireHttpsMetadata = false;\r\n                x.SaveToken = true;\r\n                x.TokenValidationParameters = new TokenValidationParameters\r\n                {\r\n                    ValidateIssuerSigningKey = true,\r\n                    IssuerSigningKey = new SymmetricSecurityKey(key),\r\n                    ValidateIssuer = false,\r\n                    ValidateAudience = false\r\n                };\r\n            });",
+              "protected": "T:Microsoft.Extensions.DependencyInjection.JwtBearerExtensions"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\Startup.cs",
+            "snippet": "services.AddAuthentication(x =\u003E\r\n            {\r\n                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;\r\n                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;\r\n            })\r\n            .AddJwtBearer(x =\u003E\r\n            {\r\n                x.RequireHttpsMetadata = false;\r\n                x.SaveToken = true;\r\n                x.TokenValidationParameters = new TokenValidationParameters\r\n                {\r\n                    ValidateIssuerSigningKey = true,\r\n                    IssuerSigningKey = new SymmetricSecurityKey(key),\r\n                    ValidateIssuer = false,\r\n                    ValidateAudience = false\r\n                };\r\n            });",
+            "protectedSnippet": "T:Microsoft.Extensions.DependencyInjection.JwtBearerExtensions",
+            "label": "T:Microsoft.Extensions.DependencyInjection.JwtBearerExtensions",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Authentication.JwtBearer",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 75,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "8b6b0da7-f89c-46fc-94a2-325cec00b04f",
+          "ruleId": "Api.0002",
+          "description": "API is available in package Microsoft.AspNetCore.Authentication.JwtBearer, 8.0.6. Add package reference to Microsoft.AspNetCore.Authentication.JwtBearer, 8.0.6",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "services.AddAuthentication(x =\u003E\r\n            {\r\n                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;\r\n                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;\r\n            })\r\n            .AddJwtBearer(x =\u003E\r\n            {\r\n                x.RequireHttpsMetadata = false;\r\n                x.SaveToken = true;\r\n                x.TokenValidationParameters = new TokenValidationParameters\r\n                {\r\n                    ValidateIssuerSigningKey = true,\r\n                    IssuerSigningKey = new SymmetricSecurityKey(key),\r\n                    ValidateIssuer = false,\r\n                    ValidateAudience = false\r\n                };\r\n            });",
+              "protected": "M:Microsoft.Extensions.DependencyInjection.JwtBearerExtensions.AddJwtBearer(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.Action{Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions})"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\Startup.cs",
+            "snippet": "services.AddAuthentication(x =\u003E\r\n            {\r\n                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;\r\n                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;\r\n            })\r\n            .AddJwtBearer(x =\u003E\r\n            {\r\n                x.RequireHttpsMetadata = false;\r\n                x.SaveToken = true;\r\n                x.TokenValidationParameters = new TokenValidationParameters\r\n                {\r\n                    ValidateIssuerSigningKey = true,\r\n                    IssuerSigningKey = new SymmetricSecurityKey(key),\r\n                    ValidateIssuer = false,\r\n                    ValidateAudience = false\r\n                };\r\n            });",
+            "protectedSnippet": "M:Microsoft.Extensions.DependencyInjection.JwtBearerExtensions.AddJwtBearer(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.Action{Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions})",
+            "label": "M:Microsoft.Extensions.DependencyInjection.JwtBearerExtensions.AddJwtBearer(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.Action{Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerOptions})",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Authentication.JwtBearer",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 75,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "50205e79-b898-4d14-9942-0b284accc480",
+          "ruleId": "Api.0001",
+          "description": "Breaking change: DynamicallyAccessedMembers annotation removed from trim-unsafe configuration APIs ",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var appSettings = appSettingsSection.Get\u003CAppSettings\u003E();",
+              "protected": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.Get\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration)"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\Startup.cs",
+            "snippet": "var appSettings = appSettingsSection.Get\u003CAppSettings\u003E();",
+            "protectedSnippet": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.Get\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration)",
+            "label": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.Get\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/extensions/10.0/dynamically-accessed-members-configuration.md",
+                "isCustom": false
+              }
+            ],
+            "line": 73,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "39472c69-f8c6-463f-b209-c46441b7a8d8",
+          "ruleId": "Api.0001",
+          "description": "Breaking change: DynamicallyAccessedMembers annotation removed from trim-unsafe configuration APIs ",
+          "projectPath": "RiftARENA\\RiftARENA.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "services.Configure\u003CAppSettings\u003E(appSettingsSection);",
+              "protected": "M:Microsoft.Extensions.DependencyInjection.OptionsConfigurationServiceCollectionExtensions.Configure\u0060\u00601(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)"
+            },
+            "kind": "File",
+            "path": "RiftARENA\\Startup.cs",
+            "snippet": "services.Configure\u003CAppSettings\u003E(appSettingsSection);",
+            "protectedSnippet": "M:Microsoft.Extensions.DependencyInjection.OptionsConfigurationServiceCollectionExtensions.Configure\u0060\u00601(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)",
+            "label": "M:Microsoft.Extensions.DependencyInjection.OptionsConfigurationServiceCollectionExtensions.Configure\u0060\u00601(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/extensions/10.0/dynamically-accessed-members-configuration.md",
+                "isCustom": false
+              }
+            ],
+            "line": 70,
+            "column": 12
+          }
+        }
+      ],
+      "features": [
+        {
+          "featureId": "IdentityModel",
+          "incidents": [
+            "5112641b-215f-49f7-a574-a8db8e86350d",
+            "792688ea-e11c-4f0e-935a-0b0d3fc506cf",
+            "6e5ebd42-0c30-467d-92f3-fef1aa62ceb8",
+            "90177c48-7269-437b-9b08-b70568fa7b43"
+          ]
+        }
+      ]
+    }
+  ],
+  "rules": {
+    "NuGet.0002": {
+      "id": "NuGet.0002",
+      "isFeature": false,
+      "description": "NuGet package upgrade is recommended for selected target framework.\n\nStandard .NET packages are recommended to have versions matching version of .NET that project targets.\n\nSome other packages also are known to work better for selected target frameworks.",
+      "label": "NuGet package upgrade is recommended",
+      "severity": "Potential",
+      "effort": 1,
+      "links": [
+        {
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262530",
+          "isCustom": false
+        }
+      ]
+    },
+    "NuGet.0001": {
+      "id": "NuGet.0001",
+      "isFeature": false,
+      "description": "NuGet package is incompatible with selected target framework.\n\nPackage needs to be upgraded to a version supporting selected project target framework. If there no new package versions supporting new target framework, different package needs to be used and all code needs to be upgraded to new API.",
+      "label": "NuGet package is incompatible",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262529",
+          "isCustom": false
+        }
+      ]
+    },
+    "NuGet.0003": {
+      "id": "NuGet.0003",
+      "isFeature": false,
+      "description": "NuGet package functionality is included with framework reference.\n\nPackage needs to be removed.",
+      "label": "NuGet package functionality is included with framework reference",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262609",
+          "isCustom": false
+        }
+      ]
+    },
+    "NuGet.0005": {
+      "id": "NuGet.0005",
+      "isFeature": false,
+      "description": "NuGet package is deprecated.\n\nGo to its documentation and if there is a guidance for replacement of functionality provided by this package.",
+      "label": "NuGet package is deprecated",
+      "severity": "Optional",
+      "effort": 1,
+      "links": [
+        {
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262531",
+          "isCustom": false
+        }
+      ]
+    },
+    "Project.0002": {
+      "id": "Project.0002",
+      "isFeature": false,
+      "description": "Project\u0027s target framework(s) needs to be changed to the new target framework that you selected for this upgrade.\n\nDuring upgrade target framework will be adjusted to corresponding platform when applicable. In some cases project would result in multiple target frameworks after the upgrade if it was using features that now have their own platforms in modern .NET frameworks (windows, iOS, Android etc).",
+      "label": "Project\u0027s target framework(s) needs to be changed",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "title": "Overview of porting from .NET Framework to .NET",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2265227",
+          "isCustom": false
+        },
+        {
+          "title": ".NET project SDKs",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2265226",
+          "isCustom": false
+        }
+      ]
+    },
+    "Api.0002": {
+      "id": "Api.0002",
+      "isFeature": false,
+      "description": "API is source incompatible for selected .NET version: requires code changes to compile successfully when targeting a new version, such as removing obsolete APIs or changing method signatures.",
+      "label": "Source incompatible for selected .NET version",
+      "severity": "Potential",
+      "effort": 1,
+      "links": [
+        {
+          "title": "Breaking changes in .NET",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262679",
+          "isCustom": false
+        }
+      ]
+    },
+    "Api.0001": {
+      "id": "Api.0001",
+      "isFeature": false,
+      "description": "API is binary incompatible for selected .NET version: affects existing binaries, often requiring recompilation, because the API has changed in a way that prevents older binaries from loading or executing.",
+      "label": "Binary incompatible for selected .NET version",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "title": "Breaking changes in .NET",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262679",
+          "isCustom": false
+        }
+      ]
+    },
+    "Api.0003": {
+      "id": "Api.0003",
+      "isFeature": false,
+      "description": "API has a behavioral change in selected .NET version: code and binaries may behave differently at runtime without needing recompilation, but the new behavior might be undesirable and require updates.",
+      "label": "Behavioral change in selected .NET version",
+      "severity": "Potential",
+      "effort": 1
+    },
+    "IdentityModel": {
+      "id": "IdentityModel",
+      "isFeature": false,
+      "description": "Windows Identity Foundation (WIF), SAML, and claims-based authentication APIs that have been replaced by modern identity libraries. WIF was the original identity framework for .NET Framework. Migrate to Microsoft.IdentityModel.* packages (modern identity stack).",
+      "label": "IdentityModel \u0026 Claims-based Security",
+      "severity": "Mandatory",
+      "effort": 4,
+      "links": [
+        {
+          "title": "Microsoft.IdentityModel packages",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2341614",
+          "isCustom": false
+        }
+      ]
+    }
+  }
+}

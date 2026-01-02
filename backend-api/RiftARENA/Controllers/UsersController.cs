@@ -82,7 +82,7 @@ namespace RiftArena.Controllers
         [HttpPost("validarConta"), Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult ValidateRiotAccount()
         {
-            User userTemp = _userService.GetByUsername(User.Identity.Name);
+            var userTemp = _userService.GetByUsername(User.Identity.Name);
             _userService.ValidateRiot(userTemp.LinkedAccount);
             _context.SaveChanges();
 
@@ -134,7 +134,7 @@ namespace RiftArena.Controllers
                 _userService.Create(user, user.Password);
                 _context.SaveChanges();
 
-                return this.LoginAuthenticate(user);
+                return LoginAuthenticate(user);
                 //return CreatedAtRoute("GetUser", new { username = user.Nickname }, user);
             }
             catch (ApplicationException ex)
