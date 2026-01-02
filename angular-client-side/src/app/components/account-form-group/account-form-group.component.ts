@@ -15,7 +15,6 @@ import { NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault, NgIf } from '@angular/c
     selector: 'app-account-form-group',
     templateUrl: './account-form-group.component.html',
     styleUrls: ['./account-form-group.component.css'],
-    standalone: true,
     imports: [FormsModule, ReactiveFormsModule, NgFor, NgSwitch, NgSwitchCase, MatFormFieldModule, MatSelectModule, MatOptionModule, MatIconModule, NgSwitchDefault, MatInputModule, NgIf, MatButtonModule]
 })
 export class AccountFormGroupComponent implements OnInit {

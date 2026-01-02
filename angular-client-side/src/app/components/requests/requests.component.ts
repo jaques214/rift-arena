@@ -27,7 +27,6 @@ export interface PeriodicElement {
     selector: 'app-requests',
     templateUrl: './requests.component.html',
     styleUrls: ['./requests.component.css'],
-    standalone: true,
     imports: [NavBarComponent, NgClass, MatFormFieldModule, MatInputModule, MatTableModule, NgFor, MatCheckboxModule, MatExpansionModule, MatIconModule, MatRadioModule, FormsModule, MatButtonModule]
 })
 export class RequestsComponent implements OnInit {

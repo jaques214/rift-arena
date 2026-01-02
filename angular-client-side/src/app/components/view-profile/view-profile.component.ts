@@ -40,8 +40,7 @@ type Info = {
     selector: 'app-view-profile',
     templateUrl: './view-profile.component.html',
     styleUrls: ['./view-profile.component.css'],
-    standalone: true,
-  imports: [NavBarComponent, NgClass, NgIf, MatIconModule, MatFormFieldModule, UploadComponent, NgFor, NgSwitch, NgSwitchCase, SharedFormFieldComponent, NgSwitchDefault, AccountFormGroupComponent, MatButtonModule, NgOptimizedImage]
+    imports: [NavBarComponent, NgClass, NgIf, MatIconModule, MatFormFieldModule, UploadComponent, NgFor, NgSwitch, NgSwitchCase, SharedFormFieldComponent, NgSwitchDefault, AccountFormGroupComponent, MatButtonModule, NgOptimizedImage]
 })
 export class ViewProfileComponent implements OnInit {
   response!: { dbPath: '' };

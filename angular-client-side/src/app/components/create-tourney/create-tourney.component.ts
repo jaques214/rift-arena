@@ -15,7 +15,6 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
     selector: 'app-create-tourney',
     templateUrl: './create-tourney.component.html',
     styleUrls: ['./create-tourney.component.css'],
-    standalone: true,
     imports: [
         NavBarComponent,
         NgIf,
@@ -24,7 +23,7 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
         NgFor,
         NgClass,
         UploadComponent,
-    ],
+    ]
 })
 export class CreateTourneyComponent implements OnInit {
   form!: FormGroup;

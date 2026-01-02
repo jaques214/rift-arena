@@ -11,14 +11,13 @@ import { MatCardModule } from '@angular/material/card';
     selector: 'app-register',
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.css'],
-    standalone: true,
     imports: [
         MatCardModule,
         NgClass,
         SharedFormGroupComponent,
         RouterLink,
         NgOptimizedImage
-    ],
+    ]
 })
 export class RegisterComponent implements OnInit {
   title: string = 'Register your account';

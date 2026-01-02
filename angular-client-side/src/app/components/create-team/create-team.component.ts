@@ -10,14 +10,13 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
     selector: 'app-create-team',
     templateUrl: './create-team.component.html',
     styleUrls: ['./create-team.component.css'],
-    standalone: true,
     imports: [
         NavBarComponent,
         NgIf,
         FormsModule,
         ReactiveFormsModule,
         NgClass,
-    ],
+    ]
 })
 export class CreateTeamComponent implements OnInit {
   form!: FormGroup;

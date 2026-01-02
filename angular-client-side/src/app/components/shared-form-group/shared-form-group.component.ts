@@ -12,7 +12,6 @@ import { NgFor, NgSwitch, NgSwitchCase, NgClass, NgIf, NgSwitchDefault } from '@
     selector: 'app-shared-form-group',
     templateUrl: './shared-form-group.component.html',
     styleUrls: ['./shared-form-group.component.css'],
-    standalone: true,
     imports: [FormsModule, ReactiveFormsModule, NgFor, NgSwitch, NgSwitchCase, MatFormFieldModule, NgClass, MatInputModule, MatIconModule, NgIf, NgSwitchDefault, MatButtonModule]
 })
 export class SharedFormGroupComponent implements OnInit {

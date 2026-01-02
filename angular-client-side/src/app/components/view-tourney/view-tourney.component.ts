@@ -11,8 +11,7 @@ import {NgOptimizedImage} from "@angular/common";
     selector: 'app-view-tourney',
     templateUrl: './view-tourney.component.html',
     styleUrls: ['./view-tourney.component.css'],
-    standalone: true,
-  imports: [NavBarComponent, MatButtonModule, RouterLink, NgOptimizedImage]
+    imports: [NavBarComponent, MatButtonModule, RouterLink, NgOptimizedImage]
 })
 export class ViewTourneyComponent implements OnInit {
   tourneyId!: number;

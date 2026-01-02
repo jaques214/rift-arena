@@ -21,26 +21,25 @@ type RadioGroupType = {
 }
 
 @Component({
-  selector: "app-manage-tourney",
-  templateUrl: "./manage-tourney.component.html",
-  styleUrls: ["./manage-tourney.component.css"],
-  providers: [
-    {
-      provide: STEPPER_GLOBAL_OPTIONS,
-      useValue: {showError: true},
-    },
-  ],
-  standalone: true,
-  imports: [
-    NavBarComponent,
-    MatRadioModule,
-    MatStepperModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-  ],
+    selector: "app-manage-tourney",
+    templateUrl: "./manage-tourney.component.html",
+    styleUrls: ["./manage-tourney.component.css"],
+    providers: [
+        {
+            provide: STEPPER_GLOBAL_OPTIONS,
+            useValue: { showError: true },
+        },
+    ],
+    imports: [
+        NavBarComponent,
+        MatRadioModule,
+        MatStepperModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+    ]
 })
 export class ManageTourneyComponent implements OnInit {
   stages: Stage[] = [

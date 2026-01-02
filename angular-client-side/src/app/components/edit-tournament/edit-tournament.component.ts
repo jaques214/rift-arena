@@ -14,7 +14,6 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
     selector: 'app-edit-tournament',
     templateUrl: './edit-tournament.component.html',
     styleUrls: ['./edit-tournament.component.css'],
-    standalone: true,
     imports: [NavBarComponent, NgIf, FormsModule, ReactiveFormsModule, NgFor, NgClass, UploadComponent]
 })
 export class EditTournamentComponent implements OnInit {

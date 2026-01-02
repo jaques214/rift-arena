@@ -14,8 +14,7 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
     selector: 'app-view-all-teams',
     templateUrl: './view-all-teams.component.html',
     styleUrls: ['./view-all-teams.component.css'],
-    standalone: true,
-  imports: [NavBarComponent, NgIf, MatButtonModule, RouterLink, NgFor, NgOptimizedImage]
+    imports: [NavBarComponent, NgIf, MatButtonModule, RouterLink, NgFor, NgOptimizedImage]
 })
 export class ViewAllTeamsComponent implements OnInit {
   team!: Team;

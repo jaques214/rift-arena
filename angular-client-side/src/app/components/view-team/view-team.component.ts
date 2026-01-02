@@ -23,8 +23,7 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
     selector: 'app-view-team',
     templateUrl: './view-team.component.html',
     styleUrls: ['./view-team.component.css'],
-    standalone: true,
-  imports: [NavBarComponent, NgIf, MatIconModule, MatFormFieldModule, MatTooltipModule, NgFor, NgClass, SharedFormFieldComponent, UploadComponent, MatButtonModule, RouterLink, FormsModule, ReactiveFormsModule, MatInputModule, NgOptimizedImage]
+    imports: [NavBarComponent, NgIf, MatIconModule, MatFormFieldModule, MatTooltipModule, NgFor, NgClass, SharedFormFieldComponent, UploadComponent, MatButtonModule, RouterLink, FormsModule, ReactiveFormsModule, MatInputModule, NgOptimizedImage]
 })
 export class ViewTeamComponent implements OnInit {
   nickname!: string;

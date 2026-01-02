@@ -25,7 +25,6 @@ export interface PeriodicElement {
     selector: 'app-join-tournament',
     templateUrl: './join-tournament.component.html',
     styleUrls: ['./join-tournament.component.css'],
-    standalone: true,
     imports: [NavBarComponent, FormsModule, ReactiveFormsModule, MatFormFieldModule, NgClass, MatInputModule, NgIf, MatButtonModule, MatTableModule, MatCheckboxModule]
 })
 export class JoinTournamentComponent implements OnInit {

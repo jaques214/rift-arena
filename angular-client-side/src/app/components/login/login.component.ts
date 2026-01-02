@@ -10,14 +10,13 @@ import { MatCardModule } from '@angular/material/card';
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css'],
-    standalone: true,
-  imports: [
-    MatCardModule,
-    NgClass,
-    SharedFormGroupComponent,
-    RouterLink,
-    NgOptimizedImage,
-  ],
+    imports: [
+        MatCardModule,
+        NgClass,
+        SharedFormGroupComponent,
+        RouterLink,
+        NgOptimizedImage,
+    ]
 })
 export class LoginComponent implements OnInit {
   formFields: any = User.loginFields();

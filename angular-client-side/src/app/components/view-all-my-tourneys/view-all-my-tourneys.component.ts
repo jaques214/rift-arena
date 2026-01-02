@@ -8,12 +8,11 @@ import {Tournament} from "@models/tournament";
     selector: 'app-view-all-my-tourneys',
     templateUrl: './view-all-my-tourneys.component.html',
     styleUrls: ['./view-all-my-tourneys.component.css'],
-    standalone: true,
     imports: [
         NavBarComponent,
         NgFor,
         NgIf,
-    ],
+    ]
 })
 export class ViewAllMyTourneysComponent implements OnInit {
   userTourneys: Tournament[] = [];

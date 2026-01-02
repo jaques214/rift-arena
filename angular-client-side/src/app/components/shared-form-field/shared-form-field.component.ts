@@ -25,7 +25,6 @@ type FormFieldInput = {
     selector: 'app-shared-form-field',
     templateUrl: './shared-form-field.component.html',
     styleUrls: ['./shared-form-field.component.css'],
-    standalone: true,
     imports: [FormsModule, ReactiveFormsModule, NgSwitch, NgSwitchCase, NgFor, MatFormFieldModule, NgClass, MatInputModule, MatIconModule, NgIf, NgSwitchDefault, MatButtonModule]
 })
 export class SharedFormFieldComponent implements OnInit {

@@ -11,8 +11,7 @@ import {Tournament} from "@models/tournament";
     selector: 'app-view-all-tourneys',
     templateUrl: './view-all-tourneys.component.html',
     styleUrls: ['./view-all-tourneys.component.css'],
-    standalone: true,
-  imports: [NavBarComponent, NgIf, NgFor, MatButtonModule, RouterLink, NgOptimizedImage]
+    imports: [NavBarComponent, NgIf, NgFor, MatButtonModule, RouterLink, NgOptimizedImage]
 })
 export class ViewAllTourneysComponent implements OnInit {
   tournaments: Tournament[] = [];

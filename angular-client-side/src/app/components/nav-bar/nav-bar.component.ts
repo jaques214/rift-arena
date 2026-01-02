@@ -22,24 +22,23 @@ import {Request} from "@models/request";
     selector: 'app-nav-bar',
     templateUrl: './nav-bar.component.html',
     styleUrl: './nav-bar.component.css',
-    standalone: true,
-  imports: [NgIf, NgOptimizedImage, MatIconModule, MatToolbarModule, MatButtonModule, MatMenuModule, RouterLink],
-  animations: [
-    trigger('openClose', [
-      state('open', style({
-        height: '100%',
-      })),
-      state('closed', style({
-        height: '0px',
-      })),
-      transition('closed => open', [
-        animate('0.3s')
-      ]),
-      transition('open => closed', [
-        animate('0.3s')
-      ]),
-    ]),
-  ]
+    imports: [NgIf, NgOptimizedImage, MatIconModule, MatToolbarModule, MatButtonModule, MatMenuModule, RouterLink],
+    animations: [
+        trigger('openClose', [
+            state('open', style({
+                height: '100%',
+            })),
+            state('closed', style({
+                height: '0px',
+            })),
+            transition('closed => open', [
+                animate('0.3s')
+            ]),
+            transition('open => closed', [
+                animate('0.3s')
+            ]),
+        ]),
+    ]
 })
 export class NavBarComponent implements OnInit {
   response!: { dbPath: '' };

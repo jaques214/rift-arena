@@ -13,7 +13,6 @@ import { MatButtonModule } from '@angular/material/button';
     selector: 'app-upload',
     templateUrl: './upload.component.html',
     styleUrls: ['./upload.component.css'],
-    standalone: true,
     imports: [MatButtonModule, NgIf]
 })
 export class UploadComponent implements OnInit {

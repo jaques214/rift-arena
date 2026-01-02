@@ -14,7 +14,6 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
     selector: 'app-front-page',
     templateUrl: './front-page.component.html',
     styleUrls: ['./front-page.component.css'],
-    standalone: true,
     imports: [
         NavBarComponent,
         NgIf,
@@ -23,7 +22,7 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
         MatProgressSpinnerModule,
         AsyncPipe,
         SlicePipe,
-    ],
+    ]
 })
 export class FrontPageComponent implements OnInit {
   firstTeam!: Team;
