@@ -23,13 +23,13 @@ namespace RiftARENA.Migrations
                         column: x => x.TeamId,
                         principalTable: "Teams",
                         principalColumn: "TeamId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_TeamTournament_Tournaments_IdTournament",
                         column: x => x.TournamentId,
                         principalTable: "Tournaments",
                         principalColumn: "TournamentId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             

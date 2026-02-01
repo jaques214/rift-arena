@@ -99,8 +99,8 @@ namespace RiftArena.Models.Services
             
             var count = 0;
             //int[] teamsPerStage = new []{};
-            string[] teams = {"Team 1", "Team 2", "Team 3", "Team 4", "Team 5"}
-            Dictionary<int, Team[]> stageMap = new Dictionary<int, string[]>();
+            string[] teams = { "Team 1", "Team 2", "Team 3", "Team 4", "Team 5" };
+            Dictionary<int, Team[]> stageMap = new Dictionary<int, Team[]>();
             while (n != 1)
             {
                 //teamsPerStage[count] = n;

@@ -11,13 +11,12 @@ using RiftArena.Models.Contexts;
 using RiftArena.Models.Services;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using RiftArena.Helpers;
 using Microsoft.AspNetCore.Http.Features;
 using System.IO;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Http;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 
 namespace RiftArena
 {

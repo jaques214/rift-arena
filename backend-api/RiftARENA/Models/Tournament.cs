@@ -44,5 +44,7 @@ namespace RiftArena.Models
         public string CreatorNickname {get; set; }
 
         public int MaxTeams {get; set;}
+
+        public virtual List<TeamTournament> TeamTournaments { get; set; }
     }
 }

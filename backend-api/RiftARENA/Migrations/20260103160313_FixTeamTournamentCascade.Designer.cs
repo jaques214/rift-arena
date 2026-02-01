@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RiftArena.Models.Contexts;
 
@@ -11,9 +12,11 @@ using RiftArena.Models.Contexts;
 namespace RiftARENA.Migrations
 {
     [DbContext(typeof(RiftArenaContext))]
-    partial class RiftArenaContextModelSnapshot : ModelSnapshot
+    [Migration("20260103160313_FixTeamTournamentCascade")]
+    partial class FixTeamTournamentCascade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

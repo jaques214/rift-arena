@@ -34,7 +34,9 @@ namespace RiftArena.Models
 
         public string Poster { get; set; }
 
-        public virtual List<Tournament> Tournament {get; set; }
+        public virtual List<Tournament> Tournament { get; set; }
+
+        public virtual List<TeamTournament> TeamTournaments { get; set; }
 
         public readonly int MAIN_MEMBERS = 5;
         

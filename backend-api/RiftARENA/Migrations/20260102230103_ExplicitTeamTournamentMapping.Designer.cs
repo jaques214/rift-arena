@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RiftArena.Models.Contexts;
 
@@ -11,9 +12,11 @@ using RiftArena.Models.Contexts;
 namespace RiftARENA.Migrations
 {
     [DbContext(typeof(RiftArenaContext))]
-    partial class RiftArenaContextModelSnapshot : ModelSnapshot
+    [Migration("20260102230103_ExplicitTeamTournamentMapping")]
+    partial class ExplicitTeamTournamentMapping
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -337,13 +340,13 @@ namespace RiftARENA.Migrations
                     b.HasOne("RiftArena.Models.Team", "Team")
                         .WithMany("TeamTournaments")
                         .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("RiftArena.Models.Tournament", "Tournament")
                         .WithMany("TeamTournaments")
                         .HasForeignKey("TournamentId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Team");
