@@ -3,15 +3,15 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { environment } from '@src/environments/environment';
 import { MatButtonModule } from '@angular/material/button';
-import {NgIf, NgFor, NgOptimizedImage} from '@angular/common';
+import { NgIf, NgFor, NgOptimizedImage } from '@angular/common';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
-import {Tournament} from "@models/tournament";
+import { Tournament } from "@models/tournament";
 
 @Component({
-    selector: 'app-view-all-tourneys',
-    templateUrl: './view-all-tourneys.component.html',
-    styleUrls: ['./view-all-tourneys.component.css'],
-    imports: [NavBarComponent, NgIf, NgFor, MatButtonModule, RouterLink, NgOptimizedImage]
+  selector: 'app-view-all-tourneys',
+  templateUrl: './view-all-tourneys.component.html',
+  styleUrls: ['./view-all-tourneys.component.css'],
+  imports: [NavBarComponent, NgIf, NgFor, MatButtonModule, RouterLink, NgOptimizedImage]
 })
 export class ViewAllTourneysComponent implements OnInit {
   tournaments: Tournament[] = [];
@@ -37,7 +37,8 @@ export class ViewAllTourneysComponent implements OnInit {
   }
 
   public createImgPath = (serverPath: string) => {
-    return `${environment.apiUrl}/Resources/Images/${serverPath}`;
+    const base_path = `${environment.apiUrl}/Resources/Images/`;
+    return `${base_path}/${serverPath === null || serverPath === undefined ? "image_placeholder.png" : serverPath}`;
   }
 
   getTournaments() {
