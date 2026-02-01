@@ -1,11 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RiftArena
 {
@@ -20,6 +14,10 @@ namespace RiftArena
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.ConfigureKestrel((context, options) =>
+                    {
+                        options.Configure(context.Configuration.GetSection("Kestrel"));
+                    });
                     webBuilder.UseStartup<Startup>();
                 });
     }
