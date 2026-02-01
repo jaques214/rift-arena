@@ -44,7 +44,7 @@ export class AuthService {
    * @param password the user's password
    * @return an observable user if it exists in the server
    */
-  login(username: string, password: string): Observable<any> {
+  login(username: string, password: string) {
     return this.http.post<any>(
       `${endpoint}/Users/login`,
       JSON.stringify({ Nickname: username, Password: password }),

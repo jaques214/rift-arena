@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, inject, Input, OnInit} from "@angular/core";
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@services/auth/auth.service';
@@ -26,8 +26,9 @@ export class SharedFormGroupComponent implements OnInit {
   //   new_password: new FormControl(''),
   // });
   message!: string;
+  private authService = inject(AuthService);
 
-  constructor(public router: Router, private authService: AuthService) {
+  constructor(public router: Router) {
   }
 
   ngOnInit(): void {
@@ -47,7 +48,7 @@ export class SharedFormGroupComponent implements OnInit {
   login(): void {
     // validar se o user inseriu dados (verificar se model dos inputs é null (por enquanto é nickname/password mas
     // vai ser alterado
-    //, e se validou, pode avançar, senao, lançar um alert a dizer que n inseriu))
+    //, e se validou, pode avançar, senão, lançar um alert a dizer que não inseriu))
 
     this.authService.login(this.authForm.get("nickname")?.value, this.authForm.get("password")?.value).subscribe({
       next: async (result: any) => {

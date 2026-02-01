@@ -451,3 +451,5 @@ backend-api/RiftARENA/obj/Debug/net5.0/RiftARENA.assets.cache
 backend-api/RiftARENA/obj/Debug/net5.0/RiftARENA.csproj.AssemblyReference.cache
 backend-api/RiftARENA/obj/Debug/net5.0/RiftARENA.GeneratedMSBuildEditorConfig.editorconfig
 .vscode/**
+
+.github/**
