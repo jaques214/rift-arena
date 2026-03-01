@@ -36,6 +36,9 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.8.3"
   },
+  "overrides": {
+    "serialize-javascript": "7.0.3"
+  },
   "resolutions": {
     "tar": ">=7.5.7"
   }
