@@ -16,6 +16,7 @@ static fields(){
     return {
         inputs: [
           {
+            id: "username",
             name: 'username',
             type: 'text',
             label: 'Username',
@@ -25,6 +26,7 @@ static fields(){
             model: 'username',
           },
           {
+            id: "region",
             type: 'select',
             label: 'Region',
             value: 'region',

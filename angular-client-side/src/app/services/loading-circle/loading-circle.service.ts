@@ -8,8 +8,6 @@ export class LoadingCircleService {
   private loading = new BehaviorSubject<boolean>(false);
   public readonly loading$ = this.loading.asObservable();
 
-  constructor() {}
-
   show() {
     this.loading.next(true);
   }

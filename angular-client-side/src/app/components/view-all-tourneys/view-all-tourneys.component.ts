@@ -1,9 +1,9 @@
 import { TourneyRestService } from '@services/tourney-rest/tourney-rest.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { environment } from '@src/environments/environment';
 import { MatButtonModule } from '@angular/material/button';
-import { NgIf, NgFor, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 import { Tournament } from "@models/tournament";
 
@@ -11,12 +11,12 @@ import { Tournament } from "@models/tournament";
   selector: 'app-view-all-tourneys',
   templateUrl: './view-all-tourneys.component.html',
   styleUrls: ['./view-all-tourneys.component.css'],
-  imports: [NavBarComponent, NgIf, NgFor, MatButtonModule, RouterLink, NgOptimizedImage]
+  imports: [NavBarComponent, MatButtonModule, RouterLink, NgOptimizedImage]
 })
 export class ViewAllTourneysComponent implements OnInit {
-  tournaments: Tournament[] = [];
+  private tourneyRestService = inject(TourneyRestService);
 
-  constructor(private tourneyRestService: TourneyRestService) { }
+  tournaments: Tournament[] = [];
 
   ngOnInit(): void {
     this.getTournaments().subscribe((data: Tournament[]) => {

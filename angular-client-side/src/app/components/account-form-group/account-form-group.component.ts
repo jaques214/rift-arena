@@ -1,6 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import { LinkedAccount } from '@models/linked_acount';
 import { UserRestService } from '@services/user-rest/user-rest.service';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,26 +8,24 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault, NgIf } from '@angular/common';
 
 @Component({
     selector: 'app-account-form-group',
     templateUrl: './account-form-group.component.html',
     styleUrls: ['./account-form-group.component.css'],
-    imports: [FormsModule, ReactiveFormsModule, NgFor, NgSwitch, NgSwitchCase, MatFormFieldModule, MatSelectModule, MatOptionModule, MatIconModule, NgSwitchDefault, MatInputModule, NgIf, MatButtonModule]
+    imports: [FormsModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule, MatOptionModule, MatIconModule, MatInputModule, MatButtonModule]
 })
 export class AccountFormGroupComponent implements OnInit {
-  @Input() value!:string;
-  @Input() formFields!:any;
-  @Input() accountFlag!:string;
+  private restService = inject(UserRestService);
+
+  @Input() value = '';
+  @Input() formFields: any[] = [];
+  @Input() accountFlag = '';
   username = '';
   rank = '';
   region = '';
   form!: FormGroup;
   message!: string;
-
-  constructor(public router: Router, private restService : UserRestService) {
-  }
 
   ngOnInit(): void {
     this.form = new FormGroup({

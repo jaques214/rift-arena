@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { TourneyRestService } from '@services/tourney-rest/tourney-rest.service';
-import { NgFor, NgIf } from '@angular/common';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 import {Tournament} from "@models/tournament";
 
@@ -9,15 +8,13 @@ import {Tournament} from "@models/tournament";
     templateUrl: './view-all-my-tourneys.component.html',
     styleUrls: ['./view-all-my-tourneys.component.css'],
     imports: [
-        NavBarComponent,
-        NgFor,
-        NgIf,
+        NavBarComponent
     ]
 })
 export class ViewAllMyTourneysComponent implements OnInit {
-  userTourneys: Tournament[] = [];
+  private tourneyService = inject(TourneyRestService);
 
-  constructor(private tourneyService: TourneyRestService) {}
+  userTourneys: Tournament[] = [];
 
   ngOnInit(): void {
     this.tourneyService.getUserTourneys().subscribe({

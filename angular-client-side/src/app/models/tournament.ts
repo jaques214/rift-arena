@@ -32,6 +32,7 @@ export class Tournament {
         return {
             inputs: [
               {
+                id: "name",
                 name: 'name',
                 type: 'text',
                 placeholder: 'Enter tournament name',
@@ -40,6 +41,7 @@ export class Tournament {
                 model: undefined,
               },
               {
+                id: "nTeams",
                 name: 'nTeams',
                 type: 'number',
                 placeholder: 'Enter the number of teams',
@@ -48,6 +50,7 @@ export class Tournament {
                 model: undefined,
               },
               {
+                id: "date",
                 name: 'date',
                 type: 'datetime-local',
                 placeholder: 'Enter tournament date',

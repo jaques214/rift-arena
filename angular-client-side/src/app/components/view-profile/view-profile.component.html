@@ -4,17 +4,27 @@
   <!-- ng <button mat-flat-button class="btn-red" type="button" (click)="removeUser()">Delete Profile</button> -->
   <div [ngClass]="'container'">
     <div>
-      <img *ngIf="user?.poster != undefined"
-        ngSrc="{{ createImgPath(user.poster!) }}"
-        class="profileImg"
-        alt="account circle icon"
-           fill
-      />
-        <mat-icon *ngIf="user?.poster == undefined" aria-hidden="false" aria-label="account circle icon" matSuffix>account_circle</mat-icon>
-      </div>
+      @if (user.poster != undefined) {
+        <img
+          ngSrc="{{ createImgPath(user.poster!) }}"
+          class="profileImg"
+          alt="account circle icon"
+          fill
+        />
+      } @else {
+        <mat-icon aria-hidden="false" aria-label="account circle icon" matSuffix>
+          account_circle
+        </mat-icon>
+      }
+    </div>
 
     <div>
-      <app-upload [title]="changeTitle()" [getObj]="getUser()" [obj]="user" (onUploadFinished)="uploadFinished($event)"></app-upload>
+      <app-upload
+        [title]="changeTitle()"
+        [getObj]="getUser()"
+        [obj]="user"
+        (onUploadFinished)="uploadFinished($event)"
+      ></app-upload>
       <p>
         {{ getFileName() }}
       </p>
@@ -26,47 +36,77 @@
     <p [ngClass]="'subtitle'">Nickname</p>
   </div>
   <p>{{ user.nickname }}</p>
-  <div *ngFor="let input of formFields.inputs">
+  @for (input of formFields.inputs; track input.id) {
+    <div>
       <div [ngClass]="'item'">
         <p [ngClass]="'subtitle'">{{ input.name }}</p>
-        <mat-icon (click)="clickEvent(input.name)" aria-hidden="false" aria-label="edit icon" matSuffix style="width: auto; height: auto; font-size: 24px">
+        <mat-icon
+          (click)="clickEvent(input.name)"
+          aria-hidden="false"
+          aria-label="edit icon"
+          matSuffix
+          style="width: auto; height: auto; font-size: 24px"
+        >
           edit
         </mat-icon>
       </div>
-    <ng-container [ngSwitch]="flag">
-      <div *ngSwitchCase="'edit-' + input.name" [ngClass]="'form-size'">
-        <app-shared-form-field [input]="input" [value]="'Submit'" [user]="user" [authForm]="form" [flag]="flag"></app-shared-form-field>
-      </div>
 
-      <ng-container *ngSwitchDefault>
-        <p>{{ getUserValue(input.name) }}</p>
-      </ng-container>
-    </ng-container>
-  </div>
+      @switch (flag) {
+        @case ('edit-' + input.name) {
+          <div [ngClass]="'form-size'">
+            <app-shared-form-field
+              [input]="input"
+              [value]="'Submit'"
+              [user]="user"
+              [authForm]="form"
+              [flag]="flag"
+            ></app-shared-form-field>
+          </div>
+        }
+        @default {
+          <p>{{ getUserValue(input.name) }}</p>
+        }
+      }
+    </div>
+  }
 
   <div [ngClass]="'item'">
     <p [ngClass]="'subtitle'">Linked Account</p>
-    <mat-icon (click)="clickAccount()" aria-hidden="false" matSuffix style="width: auto; height: auto; font-size: 24px">{{ icon }}</mat-icon>
+    <mat-icon
+      (click)="clickAccount()"
+      aria-hidden="false"
+      matSuffix
+      style="width: auto; height: auto; font-size: 24px"
+      >{{ icon }}</mat-icon
+    >
   </div>
 
-  <ng-container [ngSwitch]="accountFlag">
-    <ng-container *ngSwitchCase="'edit'">
-      <app-account-form-group [formFields]="accountFields.inputs" [value]="'Submit'" [accountFlag]="accountFlag"></app-account-form-group>
-    </ng-container>
-
-    <ng-container *ngSwitchDefault>
-      <p *ngIf="account === undefined; else elseBlock">No Linked Account</p>
-
-      <ng-template #elseBlock>
-        <p><strong>Username:</strong> {{ account?.username }}</p>
-        <p><strong>Region:</strong> {{ account?.region }}</p>
-        <p><strong>Rank:</strong> {{ account?.rank }}</p>
-        <p><strong>Summoner Level:</strong> {{ account?.summonerLevel }}</p>
-        <button *ngIf="team == undefined" mat-raised-button color="primary" type="submit" (click)="unlinkRiotAccount()">Unlink account</button>
-      </ng-template>
-
-    </ng-container>
-  </ng-container>
+  @switch (accountFlag) {
+    @case ('edit') {
+      <app-account-form-group
+        [formFields]="accountFields.inputs"
+        [value]="'Submit'"
+        [accountFlag]="accountFlag"
+      ></app-account-form-group>
+    }
+    @default {
+      @if (account === undefined) {
+        <p>No Linked Account</p>
+      } @else {
+        <ng-template>
+          <p><strong>Username:</strong> {{ account.username }}</p>
+          <p><strong>Region:</strong> {{ account.region }}</p>
+          <p><strong>Rank:</strong> {{ account.rank }}</p>
+          <p><strong>Summoner Level:</strong> {{ account.summonerLevel }}</p>
+          @if (team == undefined) {
+            <button mat-raised-button color="primary" type="submit" (click)="unlinkRiotAccount()">
+              Unlink account
+            </button>
+          }
+        </ng-template>
+      }
+    }
+  }
 
   <div [ngClass]="'item'">
     <p [ngClass]="'subtitle'">Team</p>

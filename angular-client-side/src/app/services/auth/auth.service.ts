@@ -16,7 +16,7 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient) { }
+  private http = inject(HttpClient);
 
   async canActivate(): Promise<boolean> {
     const router = inject(Router)

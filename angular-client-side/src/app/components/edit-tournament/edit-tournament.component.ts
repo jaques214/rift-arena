@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { dateValidator } from '@src/app/CustomValidator';
@@ -7,30 +7,26 @@ import { TourneyRestService } from '@src/app/services/tourney-rest/tourney-rest.
 import { RANK_LIST } from '@src/app/shared/utils';
 import { first, Observable } from 'rxjs';
 import { UploadComponent } from '../upload/upload.component';
-import { NgIf, NgFor, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
     selector: 'app-edit-tournament',
     templateUrl: './edit-tournament.component.html',
     styleUrls: ['./edit-tournament.component.css'],
-    imports: [NavBarComponent, NgIf, FormsModule, ReactiveFormsModule, NgFor, NgClass, UploadComponent]
+    imports: [NavBarComponent, FormsModule, ReactiveFormsModule, NgClass, UploadComponent]
 })
 export class EditTournamentComponent implements OnInit {
+  private router = inject(Router);
+  private route = inject(ActivatedRoute)
+  private tourneyRest = inject(TourneyRestService);
+  id = this.route.snapshot.params['id'];
+
   form!: FormGroup;
   tourney!: Tournament
   filename!: string;
   response!: {dbPath: ''};
   ranks: string[] = RANK_LIST;
-  id!: number;
-
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private tourneyRest: TourneyRestService
-  ) {
-    this.id = this.route.snapshot.params['id'];
-  }
 
   ngOnInit(): void {
     this.getTourney(this.id).subscribe({

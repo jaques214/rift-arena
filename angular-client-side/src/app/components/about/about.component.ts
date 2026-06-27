@@ -9,10 +9,6 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
     imports: [NavBarComponent, NgOptimizedImage]
 })
 export class AboutComponent implements OnInit {
-
-  constructor() { }
-
   ngOnInit(): void {
   }
-
 }

@@ -43,6 +43,7 @@ type RadioGroupType = {
 })
 export class ManageTourneyComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
+  private teamService = inject(TeamRestService);
   
   stages: Stage[] = [
     {value: "1", viewValue: "Stage1"},
@@ -66,9 +67,6 @@ export class ManageTourneyComponent implements OnInit {
   secondFormGroup = this.formBuilder.group({
     secondCtrl: ["", Validators.required],
   });
-
-  constructor(private teamService: TeamRestService) {
-  }
 
   ngOnInit(): void {
     this.getTeams().subscribe((data: Team[]) => {

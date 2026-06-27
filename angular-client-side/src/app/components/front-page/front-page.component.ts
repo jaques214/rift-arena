@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Team } from '@src/app/models/team';
 import { TeamRestService } from '@src/app/services/team-rest/team-rest.service';
 import { LoadingCircleService } from '@services/loading-circle/loading-circle.service';
@@ -7,7 +7,7 @@ import { TourneyRestService } from '@src/app/services/tourney-rest/tourney-rest.
 import { Observable } from 'rxjs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
-import { NgIf, NgFor, AsyncPipe, SlicePipe } from '@angular/common';
+import { AsyncPipe, SlicePipe } from '@angular/common';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
@@ -16,8 +16,6 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
     styleUrls: ['./front-page.component.css'],
     imports: [
         NavBarComponent,
-        NgIf,
-        NgFor,
         RouterLink,
         MatProgressSpinnerModule,
         AsyncPipe,
@@ -25,6 +23,9 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
     ]
 })
 export class FrontPageComponent implements OnInit {
+  private teamService = inject(TeamRestService);
+  private tourneyService = inject(TourneyRestService)
+
   firstTeam!: Team;
   teams!: Team[];
   firstTourney!: Tournament;
@@ -32,11 +33,6 @@ export class FrontPageComponent implements OnInit {
   noInfo: boolean = true;
   loader: LoadingCircleService = new LoadingCircleService();
   loading: Observable<boolean> = this.loader.loading$;
-
-  constructor(
-    private teamService: TeamRestService,
-    private tourneyService: TourneyRestService,
-  ) { }
 
   ngOnInit(): void {
     this.loader.show();

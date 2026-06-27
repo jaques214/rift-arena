@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TeamRestService } from '@src/app/services/team-rest/team-rest.service';
 import { UserRestService } from '@src/app/services/user-rest/user-rest.service';
-import { NgIf, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
@@ -12,20 +12,17 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
     styleUrls: ['./create-team.component.css'],
     imports: [
         NavBarComponent,
-        NgIf,
         FormsModule,
         ReactiveFormsModule,
         NgClass,
     ]
 })
 export class CreateTeamComponent implements OnInit {
-  form!: FormGroup;
+  private teamService = inject(TeamRestService);
+  private userService = inject(UserRestService);
+  private router = inject(Router);
 
-  constructor(
-    private teamService: TeamRestService,
-    private userService: UserRestService,
-    private router: Router
-  ) {}
+  form!: FormGroup;
 
   ngOnInit(): void {
     if (localStorage.getItem("currentUser") != null) {

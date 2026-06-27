@@ -1,46 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { User } from '@models/user';
 import { AuthService } from '@services/auth/auth.service';
 import { UserRestService } from '@services/user-rest/user-rest.service';
 import { environment } from '@src/environments/environment';
-import { NgIf, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import { MatIconModule } from "@angular/material/icon";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatButtonModule } from "@angular/material/button";
 import { MatMenuModule } from "@angular/material/menu";
 import { RouterLink } from "@angular/router";
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition
-} from '@angular/animations';
 import { Request } from "@models/request";
 
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.css',
-  imports: [NgIf, NgOptimizedImage, MatIconModule, MatToolbarModule, MatButtonModule, MatMenuModule, RouterLink],
-  animations: [
-    trigger('openClose', [
-      state('open', style({
-        height: '100%',
-      })),
-      state('closed', style({
-        height: '0px',
-      })),
-      transition('closed => open', [
-        animate('0.3s')
-      ]),
-      transition('open => closed', [
-        animate('0.3s')
-      ]),
-    ]),
-  ]
+  imports: [NgOptimizedImage, MatIconModule, MatToolbarModule, MatButtonModule, MatMenuModule, RouterLink],
 })
 export class NavBarComponent implements OnInit {
+  private authService = inject(AuthService);
+  private userService = inject(UserRestService);
+
   response!: { dbPath: '' };
   user: User = new User();
   profile?: string;
@@ -49,13 +29,8 @@ export class NavBarComponent implements OnInit {
   hasLinkedAccount: boolean = false;
   isShow: boolean = true;
 
-  constructor(
-    private userService: UserRestService,
-    private authService: AuthService
-  ) { }
-
   ngOnInit(): void {
-    if (localStorage.getItem('currentUser') != null) {
+    if (typeof localStorage !== 'undefined' && localStorage.getItem('currentUser') != null) {
       this.userService.getUser().subscribe({
         next: (user) => {
           this.user = user;
@@ -68,7 +43,7 @@ export class NavBarComponent implements OnInit {
             this.numberOfRequests = requests.length;
           });
         },
-        error: () => localStorage.removeItem('currentUser')
+        error: () => { if (typeof localStorage !== 'undefined') localStorage.removeItem('currentUser'); }
       });
     }
   }
@@ -88,6 +63,8 @@ export class NavBarComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
-    window.location.reload();
+    if (typeof window !== 'undefined' && window.location && typeof window.location.reload === 'function') {
+      window.location.reload();
+    }
   }
 }

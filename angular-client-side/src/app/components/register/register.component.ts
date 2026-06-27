@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '@models/user';
 import ConfirmedValidator from '@src/app/confirmed.validator';
@@ -20,6 +20,8 @@ import { MatCardModule } from '@angular/material/card';
     ]
 })
 export class RegisterComponent implements OnInit {
+  private formBuilder = inject(FormBuilder);
+
   title: string = 'Register your account';
   formFields: any = User.registerFields();
   authForm: FormGroup = new FormGroup({
@@ -28,8 +30,6 @@ export class RegisterComponent implements OnInit {
     password: new FormControl(''),
     new_password: new FormControl(''),
   });
-
-  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.authForm = this.formBuilder.group({

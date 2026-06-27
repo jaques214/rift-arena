@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Tournament } from '@src/app/models/tournament';
 import { environment } from '@src/environments/environment';
 import { Observable } from 'rxjs';
@@ -16,7 +16,7 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class TourneyRestService {
-  constructor(private http: HttpClient) { }
+  private http = inject(HttpClient);
 
   getTourneys(): Observable<Tournament[]> {
     return this.http.get<Tournament[]>(endpoint, httpOptions);

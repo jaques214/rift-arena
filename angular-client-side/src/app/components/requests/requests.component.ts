@@ -1,5 +1,5 @@
 import { UserRestService } from '@services/user-rest/user-rest.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import { Router } from '@angular/router';
@@ -11,7 +11,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { NgClass, NgFor } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 import {Request} from "@models/request";
 
@@ -27,9 +27,12 @@ export interface PeriodicElement {
     selector: 'app-requests',
     templateUrl: './requests.component.html',
     styleUrls: ['./requests.component.css'],
-    imports: [NavBarComponent, NgClass, MatFormFieldModule, MatInputModule, MatTableModule, NgFor, MatCheckboxModule, MatExpansionModule, MatIconModule, MatRadioModule, FormsModule, MatButtonModule]
+    imports: [NavBarComponent, NgClass, MatFormFieldModule, MatInputModule, MatTableModule, MatCheckboxModule, MatExpansionModule, MatIconModule, MatRadioModule, FormsModule, MatButtonModule]
 })
 export class RequestsComponent implements OnInit {
+  private router = inject(Router);
+  private restService = inject(UserRestService);
+
   selectedValue!: string;
   requestID!: number;
   requests: Request[] = new Array<Request>();
@@ -82,10 +85,7 @@ export class RequestsComponent implements OnInit {
   panelOpenState = false;
   selection = new SelectionModel<PeriodicElement>(true, []);
 
-  constructor(private router: Router, private restService: UserRestService) { }
-
   ngOnInit(): void {
-    console.log(this.displayedColumns)
     this.getRequests().subscribe((data) => {
       this.requests = data;
       this.populateTable();
@@ -161,7 +161,7 @@ export class RequestsComponent implements OnInit {
 
   refuseRequest() {
     this.requestID = this.getRequestID();
-    this.restService.acceptRequest(this.requestID).subscribe({
+    this.restService.refuseRequest(this.requestID).subscribe({
       next: () => {
         this.router.navigate(['/']);
       },

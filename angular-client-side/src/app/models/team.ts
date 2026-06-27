@@ -24,6 +24,7 @@ export class Team {
         return {
             inputs: [
               {
+                id: "name",
                 name: 'name',
                 type: 'text',
                 placeholder: 'Enter Team Name',
@@ -31,6 +32,7 @@ export class Team {
                 icon: 'account_circle',
               },
               {
+                id: "tag",
                 name: 'tag',
                 type: 'text',
                 placeholder: 'Enter Team Tag',

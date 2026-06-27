@@ -13,7 +13,11 @@
   top: 0;
   height: 0;
   overflow-x: hidden; /* Disable horizontal scroll */
-  transition: 0.5s
+  transition: height 0.3s ease;
+}
+
+.menu-overlay.open {
+  height: 100%;
 }
 
 .overlay-content {

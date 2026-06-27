@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, inject } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -10,7 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { NgSwitch, NgSwitchCase, NgFor, NgClass, NgIf, NgSwitchDefault } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 type FormFieldInput = {
   iconlabel: string;
@@ -25,9 +25,13 @@ type FormFieldInput = {
     selector: 'app-shared-form-field',
     templateUrl: './shared-form-field.component.html',
     styleUrls: ['./shared-form-field.component.css'],
-    imports: [FormsModule, ReactiveFormsModule, NgSwitch, NgSwitchCase, NgFor, MatFormFieldModule, NgClass, MatInputModule, MatIconModule, NgIf, NgSwitchDefault, MatButtonModule]
+    imports: [FormsModule, ReactiveFormsModule, MatFormFieldModule, NgClass, MatInputModule, MatIconModule, MatButtonModule]
 })
 export class SharedFormFieldComponent implements OnInit {
+  private router = inject(Router);
+  private restService = inject(UserRestService);
+  private teamRestService = inject(TeamRestService);
+
   passwordFields = User.paswordfields();
   @Input() input!:FormFieldInput;
   @Input() value!:string;
@@ -36,11 +40,6 @@ export class SharedFormFieldComponent implements OnInit {
   @Input() authForm!: FormGroup;
   hide = true;
   message!: string;
-
-  constructor(public router: Router,
-    private restService: UserRestService,
-    private teamRestService: TeamRestService) {
-  }
 
   ngOnInit(): void {
     this.populateForm();

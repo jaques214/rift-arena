@@ -31,7 +31,7 @@
       <mat-icon>{{isShow ? 'menu' : 'close'}}</mat-icon>
     </button>
 
-    <div [@openClose]="isShow ? 'closed' : 'open'" class="menu-overlay">
+    <div [class.open]="!isShow" class="menu-overlay">
       <div class="overlay-content">
         <h1>Tournaments</h1>
         <div>
@@ -60,7 +60,7 @@
       <mat-icon>{{isShow ? 'menu' : 'close'}}</mat-icon>
     </button>
 
-    <div [@openClose]="isShow ? 'closed' : 'open'" class="menu-overlay">
+    <div [class.open]="!isShow" class="menu-overlay">
       <div class="overlay-content">
         <h1>Tournaments</h1>
         <div>

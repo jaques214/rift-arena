@@ -6,15 +6,18 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { NgFor, NgSwitch, NgSwitchCase, NgClass, NgIf, NgSwitchDefault } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-shared-form-group',
     templateUrl: './shared-form-group.component.html',
     styleUrls: ['./shared-form-group.component.css'],
-    imports: [FormsModule, ReactiveFormsModule, NgFor, NgSwitch, NgSwitchCase, MatFormFieldModule, NgClass, MatInputModule, MatIconModule, NgIf, NgSwitchDefault, MatButtonModule]
+    imports: [FormsModule, ReactiveFormsModule, MatFormFieldModule, NgClass, MatInputModule, MatIconModule, MatButtonModule]
 })
 export class SharedFormGroupComponent implements OnInit {
+  private router = inject(Router);
+  private authService = inject(AuthService);
+
   @Input() formFields!:any;
   @Input() value!:string;
   @Input() authForm!:FormGroup;
@@ -26,10 +29,6 @@ export class SharedFormGroupComponent implements OnInit {
   //   new_password: new FormControl(''),
   // });
   message!: string;
-  private authService = inject(AuthService);
-
-  constructor(public router: Router) {
-  }
 
   ngOnInit(): void {
   }

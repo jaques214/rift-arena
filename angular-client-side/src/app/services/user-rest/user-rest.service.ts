@@ -1,5 +1,5 @@
 import { environment } from '@environments/environment';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '@models/user';
@@ -17,7 +17,7 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class UserRestService {
-  constructor(private http: HttpClient) { }
+  private http = inject(HttpClient);
 
   // retorna um user com o mesmo id inserido, caso contrário nada retorna
   getUser(): Observable<User> {

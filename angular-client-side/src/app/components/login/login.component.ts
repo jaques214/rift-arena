@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '@models/user';
 import { RouterLink } from '@angular/router';
@@ -19,6 +19,8 @@ import { MatCardModule } from '@angular/material/card';
     ]
 })
 export class LoginComponent implements OnInit {
+  private formBuilder = inject(FormBuilder);
+
   formFields: any = User.loginFields();
   title: string = 'Insert your account data';
   authForm: FormGroup = new FormGroup({
@@ -27,8 +29,6 @@ export class LoginComponent implements OnInit {
     password: new FormControl(''),
     new_password: new FormControl(''),
   });
-
-  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.authForm = this.formBuilder.group({

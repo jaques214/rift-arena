@@ -1,13 +1,13 @@
 import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { UserRestService } from '@services/user-rest/user-rest.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Team } from '@models/team';
 import { User } from '@models/user';
 import { Observable } from 'rxjs';
 import { Router, RouterLink } from '@angular/router';
 import ConfirmedValidator from '@src/app/confirmed.validator';
-import {ViewportScroller, NgIf, NgFor, NgClass, NgOptimizedImage} from '@angular/common';
+import {ViewportScroller, NgClass, NgOptimizedImage} from '@angular/common';
 import { getRankIcon } from '@src/app/shared/utils';
 import { environment } from '@src/environments/environment';
 import { MatInputModule } from '@angular/material/input';
@@ -23,9 +23,15 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
     selector: 'app-view-my-team',
     templateUrl: './view-my-team.component.html',
     styleUrls: ['./view-my-team.component.css'],
-    imports: [NavBarComponent, NgIf, MatIconModule, MatFormFieldModule, MatTooltipModule, NgFor, NgClass, SharedFormFieldComponent, UploadComponent, MatButtonModule, RouterLink, FormsModule, ReactiveFormsModule, MatInputModule, NgOptimizedImage]
+    imports: [NavBarComponent, MatIconModule, MatFormFieldModule, MatTooltipModule, NgClass, SharedFormFieldComponent, UploadComponent, MatButtonModule, RouterLink, FormsModule, ReactiveFormsModule, MatInputModule, NgOptimizedImage]
 })
 export class ViewMyTeamComponent implements OnInit {
+  private router = inject(Router);
+  private teamService = inject(TeamRestService)
+  private restService = inject(UserRestService);
+  private formBuilder = inject(FormBuilder);
+  private scroller = inject(ViewportScroller);
+
   nickname!: string;
   nicknameList: string[] = [];
   teamTag!: string;
@@ -43,12 +49,6 @@ export class ViewMyTeamComponent implements OnInit {
     users: new FormControl(''),
   });
   //route: string = this.router.url;
-
-  constructor(private router: Router,
-    private teamService: TeamRestService,
-    private restService: UserRestService,
-    private formBuilder: FormBuilder,
-    private scroller: ViewportScroller) { }
 
   ngOnInit(): void {
     this.editForm = new FormGroup({

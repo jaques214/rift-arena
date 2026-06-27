@@ -1,23 +1,22 @@
 <form [formGroup]="form" (ngSubmit)="onSubmitAccount()">
-  <ng-container *ngFor="let input of formFields">
-    <ng-container [ngSwitch]="input.type">
-      <ng-template [ngSwitchCase]="'select'">
+  @for (input of formFields; track input.id) {
+    @switch (input.type) {
+      @case ('select') {
         <mat-form-field appearance="fill" class="form-field">
           <mat-select formControlName="{{ input.value }}" required>
-            <mat-option *ngFor="let val of input.values" [value]="val">{{
-              val
-            }}</mat-option>
+            @for (val of input.values; track val.id) {
+              <mat-option [value]="val">{{ val }}</mat-option>
+            }
           </mat-select>
-          <mat-label
-            ><mat-icon aria-hidden="false" aria-label="" matSuffix>
+          <mat-label>
+            <mat-icon aria-hidden="false" aria-label="" matSuffix>
               {{ input.icon }}
             </mat-icon>
-            {{ input.label }}</mat-label
-          >
+            {{ input.label }}
+          </mat-label>
         </mat-form-field>
-      </ng-template>
-
-      <ng-template *ngSwitchDefault>
+      }
+      @default {
         <div>
           <mat-form-field appearance="fill" class="form-field">
             <mat-label>{{ input.label }}</mat-label>
@@ -29,17 +28,15 @@
               formControlName="{{ input.name }}"
               required
             />
-            <mat-icon aria-hidden="false" aria-label="" matSuffix>{{
-              input.icon
-            }}</mat-icon>
-            <mat-error *ngIf="form.get(input.name)?.invalid">{{
-              getErrorMessage(input.name)
-            }}</mat-error>
+            <mat-icon aria-hidden="false" aria-label="" matSuffix>{{ input.icon }}</mat-icon>
+            @if (form.get(input.name)?.invalid) {
+              <mat-error>{{ getErrorMessage(input.name) }}</mat-error>
+            }
           </mat-form-field>
         </div>
-      </ng-template>
-    </ng-container>
-  </ng-container>
+      }
+    }
+  }
   <div>
     <button mat-flat-button class="btn-blue" type="submit">{{ value }}</button>
   </div>

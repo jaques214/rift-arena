@@ -1,59 +1,42 @@
 <app-nav-bar></app-nav-bar>
 <div class="container shadow-lg p-3 mb-5 bg-body rounded-1">
   <h1 class="header-font">Create Your Team</h1>
-  <form
-    class="position-relative"
-    [formGroup]="form"
-    *ngIf="form"
-    (submit)="save()"
-  >
-    <div
-      *ngIf="
-        ((form.get('teamName')!.hasError('required') &&
-          form.get('teamName')!.touched) ||
-        (form.get('teamName')!.dirty && form.get('teamName')!.invalid)) ||
-        ((form.get('tagName')!.hasError('required') &&
-        form.get('tagName')!.touched) ||
-      (form.get('tagName')!.dirty && form.get('tagName')!.invalid))
-      "
-      class="alert alert-danger"
-      role="alert"
-    >
-      Campo obrigatório/inválido
-    </div>
-    <div class="mb-3">
-      <label for="formGroupExampleInput" class="form-group"
-        >Insert Team Name</label
-      >
-      <input
-        type="text"
-        class="form-control"
-        formControlName="teamName"
-        id="formGroupExampleInput"
-        placeholder="Example: TeamABC"
-      />
-    </div>
-    <div class="mb-3">
-      <label for="formGroupExampleInput2" class="form-group"
-        >Insert Tag Team</label
-      >
-      <input
-        type="text"
-        class="form-control"
-        formControlName="tagName"
-        id="formGroupExampleInput2"
-        placeholder="example: ABC"
-      />
-    </div>
-    <div class="d-flex justify-content-between">
-      <button
-        type="submit"
-        onclick="window.location.href='/'"
-        class="btn btn-blue"
-      >
-        Go Back
-      </button>
-      <button [ngClass]="{'disabled': !isEnable()}" class="btn btn-blue">Add</button>
-    </div>
-  </form>
+  @if (form) {
+    <form class="position-relative" [formGroup]="form" (submit)="save()">
+      @if (
+        (form.get('teamName')!.hasError('required') && form.get('teamName')!.touched) ||
+        (form.get('teamName')!.dirty && form.get('teamName')!.invalid) ||
+        (form.get('tagName')!.hasError('required') && form.get('tagName')!.touched) ||
+          (form.get('tagName')!.dirty && form.get('tagName')!.invalid)
+      ) {
+        <div class="alert alert-danger" role="alert">Campo obrigatório/inválido</div>
+      }
+      <div class="mb-3">
+        <label for="formGroupExampleInput" class="form-group">Insert Team Name</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="teamName"
+          id="formGroupExampleInput"
+          placeholder="Example: TeamABC"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="formGroupExampleInput2" class="form-group">Insert Tag Team</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="tagName"
+          id="formGroupExampleInput2"
+          placeholder="example: ABC"
+        />
+      </div>
+      <div class="d-flex justify-content-between">
+        <button type="submit" onclick="window.location.href = '/'" class="btn btn-blue">
+          Go Back
+        </button>
+        <button [ngClass]="{ disabled: !isEnable() }" class="btn btn-blue">Add</button>
+      </div>
+    </form>
+  }
 </div>

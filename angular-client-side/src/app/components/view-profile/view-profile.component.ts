@@ -1,6 +1,6 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { User } from '@models/user'
 import { LinkedAccount } from '@models/linked_acount';
 import { Team } from '@models/team';
@@ -13,10 +13,11 @@ import { SharedFormFieldComponent } from '../shared-form-field/shared-form-field
 import { UploadComponent } from '../upload/upload.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import {NgClass, NgIf, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault, NgOptimizedImage} from '@angular/common';
+import {NgClass, NgOptimizedImage} from '@angular/common';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 type FieldInput = {
+      id: string,
       name: string,
       type: string,
       label: string,
@@ -40,9 +41,11 @@ type Info = {
     selector: 'app-view-profile',
     templateUrl: './view-profile.component.html',
     styleUrls: ['./view-profile.component.css'],
-    imports: [NavBarComponent, NgClass, NgIf, MatIconModule, MatFormFieldModule, UploadComponent, NgFor, NgSwitch, NgSwitchCase, SharedFormFieldComponent, NgSwitchDefault, AccountFormGroupComponent, MatButtonModule, NgOptimizedImage]
+    imports: [NavBarComponent, NgClass, MatIconModule, MatFormFieldModule, UploadComponent, SharedFormFieldComponent, AccountFormGroupComponent, MatButtonModule, NgOptimizedImage]
 })
 export class ViewProfileComponent implements OnInit {
+  private restService = inject(UserRestService);
+
   response!: { dbPath: '' };
   user!: User;
   team?: Team;
@@ -58,9 +61,6 @@ export class ViewProfileComponent implements OnInit {
   file: string = "";
   title!: string;
   form!: FormGroup;
-
-  constructor(private restService: UserRestService) {
-  }
 
   ngOnInit(): void {
     this.form = new FormGroup({

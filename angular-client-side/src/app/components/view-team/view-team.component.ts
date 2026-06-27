@@ -1,13 +1,13 @@
 import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { UserRestService } from '@services/user-rest/user-rest.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Team } from '@models/team';
 import { User } from '@models/user';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import ConfirmedValidator from '@src/app/confirmed.validator';
-import {ViewportScroller, NgIf, NgFor, NgClass, NgOptimizedImage} from '@angular/common';
+import {ViewportScroller, NgClass, NgOptimizedImage} from '@angular/common';
 import { getRankIcon } from '@src/app/shared/utils';
 import { environment } from '@src/environments/environment';
 import { MatInputModule } from '@angular/material/input';
@@ -23,12 +23,19 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
     selector: 'app-view-team',
     templateUrl: './view-team.component.html',
     styleUrls: ['./view-team.component.css'],
-    imports: [NavBarComponent, NgIf, MatIconModule, MatFormFieldModule, MatTooltipModule, NgFor, NgClass, SharedFormFieldComponent, UploadComponent, MatButtonModule, RouterLink, FormsModule, ReactiveFormsModule, MatInputModule, NgOptimizedImage]
+    imports: [NavBarComponent, MatIconModule, MatFormFieldModule, MatTooltipModule, NgClass, SharedFormFieldComponent, UploadComponent, MatButtonModule, RouterLink, FormsModule, ReactiveFormsModule, MatInputModule, NgOptimizedImage]
 })
 export class ViewTeamComponent implements OnInit {
+  private router = inject(Router);
+  private r = inject(ActivatedRoute);
+  private teamService = inject(TeamRestService);
+  private restService = inject(UserRestService);
+  private formBuilder = inject(FormBuilder);
+  private scroller = inject(ViewportScroller);
+
+  teamTag: string = this.r.snapshot.params['id'];
   nickname!: string;
   nicknameList: string[] = [];
-  teamTag!: string;
   team!: Team;
   users: User[] = new Array<User>();
   isShow = true;
@@ -41,15 +48,6 @@ export class ViewTeamComponent implements OnInit {
   form: FormGroup = new FormGroup({
     users: new FormControl(''),
   });
-
-  constructor(private router: Router,
-    private r: ActivatedRoute,
-    private teamService: TeamRestService,
-    private restService: UserRestService,
-    private formBuilder: FormBuilder,
-    private scroller: ViewportScroller) {
-    this.teamTag = this.r.snapshot.params['id'];
-  }
 
   ngOnInit(): void {
     this.editForm = new FormGroup({

@@ -1,5 +1,5 @@
 import { UserRestService } from '@services/user-rest/user-rest.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Team } from '@models/team';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { Observable } from 'rxjs';
@@ -7,22 +7,23 @@ import { getRankIcon } from '@src/app/shared/utils';
 import { environment } from '@src/environments/environment';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import {NgIf, NgFor, NgOptimizedImage} from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
     selector: 'app-view-all-teams',
     templateUrl: './view-all-teams.component.html',
     styleUrls: ['./view-all-teams.component.css'],
-    imports: [NavBarComponent, NgIf, MatButtonModule, RouterLink, NgFor, NgOptimizedImage]
+    imports: [NavBarComponent, MatButtonModule, RouterLink, NgOptimizedImage]
 })
 export class ViewAllTeamsComponent implements OnInit {
+  private userService = inject(UserRestService);
+  private teamService = inject(TeamRestService);
+
   team!: Team;
   nickname!: string;
   //searchText!: string;
   teams: Team[] = [];
-
-  constructor(private userService: UserRestService, private teamService: TeamRestService) { }
 
   ngOnInit(): void {
     this.userService.getUser().subscribe((user) => {

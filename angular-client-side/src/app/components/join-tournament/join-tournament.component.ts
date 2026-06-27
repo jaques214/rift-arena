@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '@models/user';
 import { Team } from '@models/team';
@@ -13,7 +13,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
@@ -25,9 +25,14 @@ export interface PeriodicElement {
     selector: 'app-join-tournament',
     templateUrl: './join-tournament.component.html',
     styleUrls: ['./join-tournament.component.css'],
-    imports: [NavBarComponent, FormsModule, ReactiveFormsModule, MatFormFieldModule, NgClass, MatInputModule, NgIf, MatButtonModule, MatTableModule, MatCheckboxModule]
+    imports: [NavBarComponent, FormsModule, ReactiveFormsModule, MatFormFieldModule, NgClass, MatInputModule, MatButtonModule, MatTableModule, MatCheckboxModule]
 })
 export class JoinTournamentComponent implements OnInit {
+  private tournamentRestService = inject(TourneyRestService);
+  private teamRestService = inject(TeamRestService);
+  private userRestService = inject(UserRestService);
+  public formBuilder = inject(FormBuilder);
+
   tourney!: Tournament;
   teams: Team[] = [];
   selectedTeam?: Team;
@@ -45,12 +50,6 @@ export class JoinTournamentComponent implements OnInit {
   displayedColumns: string[] = ['select', 'name'];
   errorMessage = "";
   selection = new SelectionModel<PeriodicElement>(true, []);
-
-
-  constructor(private tournamentRestService: TourneyRestService,
-     private teamRestService: TeamRestService,
-     private userRestService: UserRestService,
-     private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.getUser().subscribe((user) => {

@@ -2,16 +2,9 @@
 <div>
   <h1 style="text-align: center">My Tourneys ({{ userTourneys.length }})</h1>
   <div class="d-flex justify-content-center">
-    <div
-      class="container d-flex justify-content-center gap-3"
-      style="text-align: center"
-    >
-      <div
-        class="card"
-        style="width: 18rem"
-        *ngFor="let tourney of userTourneys; let i = index"
-      >
-
+    <div class="container d-flex justify-content-center gap-3" style="text-align: center">
+      @for (tourney of userTourneys; track tourney.tournamentId; let idx = $index) {
+        <div class="card" style="width: 18rem">
           <div class="card-body">
             <p class="card-text">
               {{ tourney.name }}
@@ -35,19 +28,18 @@
             </li>
           </ul>
           <div class="card-body">
-            <a href="{{clickEvent(tourney.tournamentId)}}" class="card-link" *ngIf="tourney.state == 5"
-              >View More</a
-            >
-            <a
-              href="/manage-tourney"
-              class="card-link"
-              *ngIf="tourney.state == 4"
-              >Manage Brackets</a
-            >
-            <a href="{{clickEditEvent(tourney.tournamentId)}}" class="card-link" *ngIf="tourney.state == 1">Edit</a>
+            @if (tourney.state == 5) {
+              <a href="{{ clickEvent(tourney.tournamentId) }}" class="card-link">View More</a>
+            }
+            @if (tourney.state == 4) {
+              <a href="/manage-tourney" class="card-link">Manage Brackets</a>
+            }
+            @if (tourney.state == 1) {
+              <a href="{{ clickEditEvent(tourney.tournamentId) }}" class="card-link">Edit</a>
+            }
           </div>
-
-      </div>
+        </div>
+      }
     </div>
   </div>
 </div>

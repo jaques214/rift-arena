@@ -1,5 +1,5 @@
 import { TourneyRestService } from '@services/tourney-rest/tourney-rest.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Tournament } from '@src/app/models/tournament';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { environment } from '@src/environments/environment';
@@ -14,15 +14,14 @@ import {NgOptimizedImage} from "@angular/common";
     imports: [NavBarComponent, MatButtonModule, RouterLink, NgOptimizedImage]
 })
 export class ViewTourneyComponent implements OnInit {
-  tourneyId!: number;
+  private route = inject(ActivatedRoute);
+  private tourneyRestService = inject(TourneyRestService);
+
+  tourneyId: number = this.route.snapshot.params['id'];
   tourney!: Tournament
   tournaments: Tournament[] = [];
   tourneysList: string[] = [];
   idList: number[] = [];
-
-  constructor(private route: ActivatedRoute, private tourneyRestService: TourneyRestService) {
-    this.tourneyId = this.route.snapshot.params['id'];
-  }
 
   ngOnInit(): void {
     this.getTournament(this.tourneyId).subscribe(tourney => {

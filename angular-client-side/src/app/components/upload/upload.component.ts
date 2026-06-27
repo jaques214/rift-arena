@@ -1,21 +1,24 @@
-import { TourneyRestService } from '@src/app/services/tourney-rest/tourney-rest.service';
 import { Router } from '@angular/router';
 import { UserRestService } from '@services/user-rest/user-rest.service';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, inject } from '@angular/core';
 import { HttpEventType, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '@src/environments/environment';
-import { NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
     selector: 'app-upload',
     templateUrl: './upload.component.html',
     styleUrls: ['./upload.component.css'],
-    imports: [MatButtonModule, NgIf]
+    imports: [MatButtonModule]
 })
 export class UploadComponent implements OnInit {
+  private http = inject(HttpClient);
+  private router = inject(Router);
+  private teamRestService = inject(TeamRestService);
+  private userRestService = inject(UserRestService);
+
   progress!: number;
   message!: string;
   @Input() title!: string;
@@ -23,12 +26,6 @@ export class UploadComponent implements OnInit {
   @Input() getObj!: Observable<any>;
   @Input() obj!: any;
   editValues!: any;
-
-  constructor(private http: HttpClient,
-    private router: Router,
-    private tourneyRestService: TourneyRestService,
-    private teamRestService: TeamRestService,
-    private userRestService: UserRestService) { }
 
   ngOnInit() {
   }

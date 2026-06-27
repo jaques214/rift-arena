@@ -1,31 +1,32 @@
 <app-nav-bar></app-nav-bar>
 <div class="container shadow-lg p-3 mb-5 bg-body rounded-1">
     <h1 class="header-font">Update The Tourney</h1>
+    @if (form) {
     <form
       class="position-relative"
       [formGroup]="form"
-      *ngIf="form"
       (submit)="save()"
     >
+    @if (
+        (form.get('tourneyName')!.hasError('required') &&
+          form.get('tourneyName')!.touched) ||
+        (form.get('tourneyName')!.dirty && form.get('tourneyName')!.invalid) ||
+        (form.get('rank')!.hasError('required') && form.get('rank')!.touched) ||
+        (form.get('rank')!.dirty && form.get('rank')!.invalid) ||
+        (form.get('maxTeams')!.hasError('required') &&
+          form.get('maxTeams')!.touched) ||
+        (form.get('maxTeams')!.dirty && form.get('maxTeams')!.invalid) ||
+        (form.get('dateTourney')!.hasError('required') &&
+          form.get('dateTourney')!.touched) ||
+        (form.get('dateTourney')!.dirty && form.get('dateTourney')!.invalid)
+      ) {
       <div
-        *ngIf="
-          (form.get('tourneyName')!.hasError('required') &&
-            form.get('tourneyName')!.touched) ||
-          (form.get('tourneyName')!.dirty && form.get('tourneyName')!.invalid) ||
-          (form.get('rank')!.hasError('required') && form.get('rank')!.touched) ||
-          (form.get('rank')!.dirty && form.get('rank')!.invalid) ||
-          (form.get('maxTeams')!.hasError('required') &&
-            form.get('maxTeams')!.touched) ||
-          (form.get('maxTeams')!.dirty && form.get('maxTeams')!.invalid) ||
-          (form.get('dateTourney')!.hasError('required') &&
-            form.get('dateTourney')!.touched) ||
-          (form.get('dateTourney')!.dirty && form.get('dateTourney')!.invalid)
-        "
         class="alert alert-danger"
         role="alert"
       >
         Campo obrigatório/inválido
       </div>
+    }
       <div class="mb-3">
         <label for="formGroupTourneyName" class="form-group"
           >Insert Tourney Name</label
@@ -105,4 +106,5 @@
         </button>
       </div>
     </form>
+  }
   </div>

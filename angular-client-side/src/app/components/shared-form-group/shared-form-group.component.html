@@ -1,60 +1,54 @@
 <form [formGroup]="authForm" (ngSubmit)="submit()">
-  <ng-container *ngFor="let input of formFields">
-    <ng-container [ngSwitch]="input.type">
-      <ng-template [ngSwitchCase]="'password'">
-        <mat-form-field appearance="fill" ngClass="form-field">
-          <mat-label>{{ input.label }}</mat-label>
-          <input
-            matInput
-            [type]="hide ? 'password' : 'text'"
-            placeholder="{{ input.placeholder }}"
-            name="{{ input.name }}"
-            formControlName="{{ input.name }}"
-            autocomplete="{{ getAutoCompleteValue(input.name) }}"
-            required
-          />
-          <mat-icon
-            matSuffix
-            id="password"
-            (click)="hide = !hide"
-            [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hide"
-            >{{ hide ? "visibility_off" : "visibility" }}</mat-icon
-          >
-          <mat-error *ngIf="authForm.get(input.name)?.invalid">{{
-            getErrorMessage(input.name)
-          }}</mat-error>
-        </mat-form-field>
-      </ng-template>
-
-      <ng-template ngSwitchDefault>
-        <mat-form-field appearance="fill" ngClass="form-field">
-          <mat-label>{{ input.label }}</mat-label>
-          <input
-            matInput
-            type="{{ input.type }}"
-            placeholder="{{ input.placeholder }}"
-            name="{{ input.name }}"
-            formControlName="{{ input.name }}"
-            required
-          />
-          <mat-icon aria-hidden="false" aria-label="" matSuffix>{{
-            input.icon
-          }}</mat-icon>
-          <mat-error *ngIf="authForm.get(input.name)?.invalid">{{
-            getErrorMessage(input.name)
-          }}</mat-error>
-        </mat-form-field>
-      </ng-template>
+  @for (input of formFields; track input.id) {
+    <ng-container>
+      @switch (input.type) {
+        @case ('password') {
+          <mat-form-field appearance="fill" ngClass="form-field">
+            <mat-label>{{ input.label }}</mat-label>
+            <input
+              matInput
+              [type]="hide ? 'password' : 'text'"
+              placeholder="{{ input.placeholder }}"
+              name="{{ input.name }}"
+              formControlName="{{ input.name }}"
+              autocomplete="{{ getAutoCompleteValue(input.name) }}"
+              required
+            />
+            <mat-icon
+              matSuffix
+              id="password"
+              (click)="hide = !hide"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide"
+              >{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon
+            >
+            @if (authForm.get(input.name)?.invalid) {
+              <mat-error>{{ getErrorMessage(input.name) }}</mat-error>
+            }
+          </mat-form-field>
+        }
+        @default {
+          <mat-form-field appearance="fill" ngClass="form-field">
+            <mat-label>{{ input.label }}</mat-label>
+            <input
+              matInput
+              type="{{ input.type }}"
+              placeholder="{{ input.placeholder }}"
+              name="{{ input.name }}"
+              formControlName="{{ input.name }}"
+              required
+            />
+            <mat-icon aria-hidden="false" aria-label="" matSuffix>{{ input.icon }}</mat-icon>
+            @if (authForm.get(input.name)?.invalid) {
+              <mat-error>{{ getErrorMessage(input.name) }}</mat-error>
+            }
+          </mat-form-field>
+        }
+      }
     </ng-container>
-  </ng-container>
+  }
   <div class="submit-action">
-    <button
-      mat-flat-button
-      color="primary"
-      type="submit"
-      [disabled]="getValidationResult()"
-    >
+    <button mat-flat-button color="primary" type="submit" [disabled]="getValidationResult()">
       {{ value }}
     </button>
   </div>

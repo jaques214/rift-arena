@@ -1,5 +1,5 @@
 import { Tournament } from '@models/tournament';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { dateValidator } from '@app/CustomValidator';
@@ -26,6 +26,8 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
     ]
 })
 export class CreateTourneyComponent implements OnInit {
+  private tourneyRest = inject(TourneyRestService);
+
   form!: FormGroup;
   tourney!: Tournament
   filename!: string;
@@ -45,11 +47,6 @@ export class CreateTourneyComponent implements OnInit {
     'ru',
     'tr1',
   ];
-
-  constructor(
-    private router: Router,
-    private tourneyRest: TourneyRestService
-  ) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
