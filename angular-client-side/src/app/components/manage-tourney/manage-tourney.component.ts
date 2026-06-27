@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, inject, OnInit} from "@angular/core";
 import {MatRadioModule} from "@angular/material/radio";
 import {NavBarComponent} from "../nav-bar/nav-bar.component";
 import {TeamRestService} from "@services/team-rest/team-rest.service";
@@ -42,6 +42,8 @@ type RadioGroupType = {
     ]
 })
 export class ManageTourneyComponent implements OnInit {
+  private formBuilder = inject(FormBuilder);
+  
   stages: Stage[] = [
     {value: "1", viewValue: "Stage1"},
     {value: "2", viewValue: "Stage2"},
@@ -58,14 +60,14 @@ export class ManageTourneyComponent implements OnInit {
 
   s: number = this.stages.length - 1;
   selectedStage = this.stages[0].value;
-  firstFormGroup = this._formBuilder.group({
+  firstFormGroup = this.formBuilder.group({
     firstCtrl: ["", Validators.required],
   });
-  secondFormGroup = this._formBuilder.group({
+  secondFormGroup = this.formBuilder.group({
     secondCtrl: ["", Validators.required],
   });
 
-  constructor(private teamService: TeamRestService, private _formBuilder: FormBuilder) {
+  constructor(private teamService: TeamRestService) {
   }
 
   ngOnInit(): void {

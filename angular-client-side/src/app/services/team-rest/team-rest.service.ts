@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Team } from '@models/team';
@@ -16,7 +16,7 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class TeamRestService {
-  constructor(private http: HttpClient) { }
+  private http = inject(HttpClient);
 
   // por enquanto está ID mas com a alteraçao vai ser pela TAG
   getTeam(tag: String): Observable<Team> {
