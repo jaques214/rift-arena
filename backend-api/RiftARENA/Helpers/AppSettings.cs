@@ -1,7 +1,6 @@
-﻿namespace RiftArena.Helpers
+﻿namespace RiftArena.Helpers;
+
+public class AppSettings
 {
-    public class AppSettings
-    {
-        public string Token { get; set; }
-    }
+    public string Token { get; set; }
 }

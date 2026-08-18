@@ -239,6 +239,7 @@ ClientBin/
 *.dbproj.schemaview
 *.jfm
 *.pfx
+*.crt
 *.publishsettings
 orleans.codegen.cs
 
@@ -445,11 +446,8 @@ $RECYCLE.BIN/
 *.sln.iml
 
 backend-api/RiftARENA/appsettings.json
-backend-api/RiftARENA/obj/
-backend-api/RiftARENA/appsettings.json
-backend-api/RiftARENA/obj/Debug/net5.0/RiftARENA.assets.cache
-backend-api/RiftARENA/obj/Debug/net5.0/RiftARENA.csproj.AssemblyReference.cache
-backend-api/RiftARENA/obj/Debug/net5.0/RiftARENA.GeneratedMSBuildEditorConfig.editorconfig
+backend-api/.env
+backend-api/RiftARENA/obj/**
 .vscode/**
 
 .github/**

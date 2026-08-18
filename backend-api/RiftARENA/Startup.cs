@@ -16,63 +16,62 @@ using Microsoft.AspNetCore.Http.Features;
 using System.IO;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi;
 
-namespace RiftArena
+namespace RiftArena;
+
+public class Startup(IConfiguration configuration)
 {
-    public class Startup
+    private IConfiguration Configuration { get; } = configuration;
+
+    // This method gets called by the runtime. Use this method to add services to the container.
+    public void ConfigureServices(IServiceCollection services)
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
             
-            services.AddDbContext<RiftArenaContext>(opt => opt
-            .UseSqlServer(Configuration.GetConnectionString("RiftArena"))
-            .UseLazyLoadingProxies());
+        services.AddDbContext<RiftArenaContext>(opt =>
+        {
+            opt
+                .UseSqlServer(Configuration.GetConnectionString("RiftArena"))
+                .UseLazyLoadingProxies();
+        });
 
-            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+        services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-            services.AddCors();
+        services.AddCors();
 
 
-            services.Configure<FormOptions>(o =>
+        services.Configure<FormOptions>(o =>
+        {
+            o.ValueCountLimit = int.MaxValue;
+            o.MultipartBodyLengthLimit = int.MaxValue;
+            o.MemoryBufferThreshold = int.MaxValue;
+        });
+
+        services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "RiftARENA", Version = "v1" });
+        });
+
+        /*services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, Options =>
+        {
+            Options.RequireHttpsMetadata = false;
+            Options.SaveToken = true;
+            Options.TokenValidationParameters = new TokenValidationParameters
             {
-                o.ValueCountLimit = int.MaxValue;
-                o.MultipartBodyLengthLimit = int.MaxValue;
-                o.MemoryBufferThreshold = int.MaxValue;
-            });
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                ValidateIssuer = false,
+                ValidateAudience = false
+            };
+        });*/
+        var appSettingsSection = Configuration.GetSection("AppSettings");
+        services.Configure<AppSettings>(appSettingsSection);
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "RiftARENA", Version = "v1" });
-            });
-
-            /*services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, Options =>
-            {
-                Options.RequireHttpsMetadata = false;
-                Options.SaveToken = true;
-                Options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });*/
-            var appSettingsSection = Configuration.GetSection("AppSettings");
-            services.Configure<AppSettings>(appSettingsSection);
-
-            // configure jwt authentication
-            var appSettings = appSettingsSection.Get<AppSettings>();
-            var key = Encoding.ASCII.GetBytes(appSettings.Token);
-            services.AddAuthentication(x =>
+        // configure jwt authentication
+        var appSettings = appSettingsSection.Get<AppSettings>();
+        var key = Encoding.ASCII.GetBytes(appSettings.Token);
+        services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -90,53 +89,66 @@ namespace RiftArena
                 };
             });
 
-            services.AddScoped<IUserService, UserServices>();
-            services.AddScoped<ITeamService, TeamServices>();
-            services.AddScoped<ITournamentService, TournamentService>();
-            services.AddAuthentication(IISDefaults.AuthenticationScheme);
+        services.AddScoped<IUserService, UserServices>();
+        services.AddScoped<ITeamService, TeamServices>();
+        services.AddScoped<ITournamentService, TournamentService>();
+        services.AddAuthentication(IISDefaults.AuthenticationScheme);
+    }
+
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        app.UseSwagger();
+        app.UseSwaggerUI(c =>
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RiftARENA v1"));
-            }
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "RiftARENA v1");
+            c.RoutePrefix = "swagger";
+        });
 
-            using (var scope = app.ApplicationServices.CreateScope())
+        using (var scope = app.ApplicationServices.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<RiftArenaContext>();
+            var logger = scope.ServiceProvider.GetRequiredService<ILogger<Startup>>();
+
+            if (db.Database.CanConnect())
             {
-                var db = scope.ServiceProvider.GetService<RiftArenaContext>();
                 db.Database.Migrate();
             }
-
-            app.UseHttpsRedirection();
-
-            app.UseStaticFiles();
-            app.UseStaticFiles(new StaticFileOptions{
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
-                RequestPath = new PathString("/Resources")
-            });
-
-
-            app.UseRouting();
-            
-            // global cors policy
-            app.UseCors(x => x
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
-
-            app.UseAuthentication();
-            app.UseAuthorization();
-            
-
-            app.UseEndpoints(endpoints =>
+            else
             {
-                endpoints.MapControllers();
-            });
+                logger.LogWarning("Database is not reachable; skipping migrations. Update the connection string or start the SQL Server container before calling the API.");
+            }
         }
+
+        app.UseHttpsRedirection();
+
+        app.UseStaticFiles();
+        app.UseStaticFiles(new StaticFileOptions{
+            FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
+            RequestPath = new PathString("/Resources")
+        });
+
+
+        app.UseRouting();
+            
+        // global cors policy
+        app.UseCors(x => x
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+
+        app.UseAuthentication();
+        app.UseAuthorization();
+            
+
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
     }
 }

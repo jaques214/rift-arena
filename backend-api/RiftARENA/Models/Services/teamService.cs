@@ -8,405 +8,404 @@ using RiftArena.Models.Contexts;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 
-namespace RiftArena.Models.Services
+namespace RiftArena.Models.Services;
+
+public interface ITeamService
 {
-    public interface ITeamService
+    Team CreateTeam(Team team, string userID);
+    IEnumerable<Team> GetAll();
+    Team GetByID(int id);
+    Team UpdateTeam(Team team, string userID);
+    void DeleteTeam(string userID);
+    void LeaveTeam(string UserID, User user);
+    void AddMember(string nickname, int id);
+    void RemoveMember(string nickname, string userID);
+    Team GetByTag(string Tag);
+    double getTeamWinRate(string tag);
+}
+
+public class TeamServices : ITeamService
+{
+    private RiftArenaContext _context;
+
+    private readonly IWebHostEnvironment _env;
+
+    public TeamServices(RiftArenaContext context, IWebHostEnvironment env)
     {
-        Team CreateTeam(Team team, string userID);
-        IEnumerable<Team> GetAll();
-        Team GetByID(int id);
-        Team UpdateTeam(Team team, string userID);
-        void DeleteTeam(string userID);
-        void LeaveTeam(string UserID, User user);
-        void AddMember(string nickname, int id);
-        void RemoveMember(string nickname, string userID);
-        Team GetByTag(string Tag);
-        double getTeamWinRate(string tag);
+        _context = context;
+        this._env = env;
     }
 
-    public class TeamServices : ITeamService
+    /// <summary>
+    /// Método que retorna todas as equipas existentes
+    /// </summary>
+    /// <returns>Todas as equipas existentes</returns>
+    public IEnumerable<Team> GetAll()
     {
-        private RiftArenaContext _context;
+        return _context.Teams.ToList();
+    }
 
-        private readonly IWebHostEnvironment _env;
+    /// <summary>
+    /// Método que retorna o WinRate de uma dada equipa
+    /// </summary>
+    /// <returns>Winrate da equipa</returns>
+    public double getTeamWinRate(string tag)
+    {
+        var team = GetByTag(tag);
 
-        public TeamServices(RiftArenaContext context, IWebHostEnvironment env)
+        double winRate = team.Wins / team.Defeats;
+
+        return winRate;
+    }
+
+    /// <summary>
+    /// Método que retorna uma equipa através de um ID
+    /// </summary>
+    /// <param name="id">ID da equipa a retornar</param>
+    /// <returns>Equipa com ID fornecido</returns>
+    public Team GetByID(int id)
+    {
+        return _context.Teams.Find(id);
+    }
+
+    /// <summary>
+    /// Método que retorna uma equipa através de uma tag
+    /// </summary>
+    /// <param name="tag">tag da equipa a retornar</param>
+    /// <returns>Equipa com tag fornecido</returns>
+    public Team GetByTag(string Tag)
+    {
+        return _context.Teams.SingleOrDefault(x => x.Tag == Tag);
+    }
+
+    /// <summary>
+    /// Método que permite a criação de uma equipa
+    /// </summary>
+    /// <param name="team">Equipa a ser criada</param>
+    /// <returns>Equipa criada</returns>
+    /// <exception cref="AppException">Exceção caso a equipa a criar falhe nas validações</exception>
+    public Team CreateTeam(Team team, string userID)
+    {
+        team.Members = new List<User>();
+        var leader = _context.Users.SingleOrDefault(x => x.Nickname == userID);
+
+        if (leader.TeamTag != null)
+            throw new AppException("Already has a team");
+
+        if (leader.LinkedAccount == null)
+            throw new AppException("Linked Account is required");
+
+        if (string.IsNullOrWhiteSpace(team.Name))
+            throw new AppException("Team name is required");
+
+        if (_context.Teams.Any(x => x.Name == team.Name))
+            throw new AppException("Team name \"" + team.Name + "\" is already taken");
+
+        if (string.IsNullOrWhiteSpace(team.Tag))
+            throw new AppException("Team tag is required");
+
+        if (team.Tag.Length != 3)
+            throw new AppException("TAG should contain only 3 letters");
+
+        if (_context.Teams.Any(x => x.Tag == team.Tag))
+            throw new AppException("Team tag \"" + team.Tag + "\" is already taken");
+
+        if (_context.Teams.Any(x => x.TeamLeader == team.TeamLeader))
+            throw new AppException("TeamLeader\"" + team.TeamLeader + "\"is already taken");
+
+
+        team.TeamLeader = leader.Nickname;
+        team.Members.Add(leader);
+        team.Defeats = 0;
+        team.Wins = 0;
+        team.TournamentsWon = 0;
+        team.GamesPlayed = 0;
+        team.NumberMembers = 1;
+        team.Rank = leader.LinkedAccount.Rank;
+
+
+        _context.Teams.Add(team);
+
+        leader.TeamTag = team.Tag;
+        _context.Users.Update(leader);
+
+        _context.SaveChanges();
+
+        return GetByID(team.TeamId);
+    }
+
+    /// <summary>
+    /// Método que permite a edição de uma equipa
+    /// </summary>
+    /// <param name="team">Equipa com as edições feitas</param>
+    /// <returns>Equipa editada</returns>
+    /// <exception cref="AppException">Exceção caso a equipa a editar falhe nas validações</exception>
+    public Team UpdateTeam(Team team, string userID)
+    {
+        var teamSer = _context.Teams.FirstOrDefault(x => x.TeamLeader == userID);
+        if (teamSer == null)
+            throw new AppException("Team not found!");
+
+
+        if (team.Name != teamSer.Name && team.Name != null)
         {
-            _context = context;
-            this._env = env;
-        }
-
-        /// <summary>
-        /// Método que retorna todas as equipas existentes
-        /// </summary>
-        /// <returns>Todas as equipas existentes</returns>
-        public IEnumerable<Team> GetAll()
-        {
-            return _context.Teams.ToList();
-        }
-
-        /// <summary>
-        /// Método que retorna o WinRate de uma dada equipa
-        /// </summary>
-        /// <returns>Winrate da equipa</returns>
-        public double getTeamWinRate(string tag)
-        {
-            var team = GetByTag(tag);
-
-            double winRate = team.Wins / team.Defeats;
-
-            return winRate;
-        }
-
-        /// <summary>
-        /// Método que retorna uma equipa através de um ID
-        /// </summary>
-        /// <param name="id">ID da equipa a retornar</param>
-        /// <returns>Equipa com ID fornecido</returns>
-        public Team GetByID(int id)
-        {
-            return _context.Teams.Find(id);
-        }
-
-        /// <summary>
-        /// Método que retorna uma equipa através de uma tag
-        /// </summary>
-        /// <param name="tag">tag da equipa a retornar</param>
-        /// <returns>Equipa com tag fornecido</returns>
-        public Team GetByTag(string Tag)
-        {
-            return _context.Teams.SingleOrDefault(x => x.Tag == Tag);
-        }
-
-        /// <summary>
-        /// Método que permite a criação de uma equipa
-        /// </summary>
-        /// <param name="team">Equipa a ser criada</param>
-        /// <returns>Equipa criada</returns>
-        /// <exception cref="AppException">Exceção caso a equipa a criar falhe nas validações</exception>
-        public Team CreateTeam(Team team, string userID)
-        {
-            team.Members = new List<User>();
-            var leader = _context.Users.SingleOrDefault(x => x.Nickname == userID);
-
-            if (leader.TeamTag != null)
-                throw new AppException("Already has a team");
-
-            if (leader.LinkedAccount == null)
-                throw new AppException("Linked Account is required");
-
-            if (string.IsNullOrWhiteSpace(team.Name))
-                throw new AppException("Team name is required");
-
             if (_context.Teams.Any(x => x.Name == team.Name))
-                throw new AppException("Team name \"" + team.Name + "\" is already taken");
+                throw new AppException("Team name " + team.Name + " is already taken");
+            else
+                teamSer.Name = team.Name;
+        }
 
-            if (string.IsNullOrWhiteSpace(team.Tag))
-                throw new AppException("Team tag is required");
-
-            if (team.Tag.Length != 3)
-                throw new AppException("TAG should contain only 3 letters");
-
+        if (team.Tag != teamSer.Tag && team.Tag != null)
+        {
             if (_context.Teams.Any(x => x.Tag == team.Tag))
-                throw new AppException("Team tag \"" + team.Tag + "\" is already taken");
-
-            if (_context.Teams.Any(x => x.TeamLeader == team.TeamLeader))
-                throw new AppException("TeamLeader\"" + team.TeamLeader + "\"is already taken");
-
-
-            team.TeamLeader = leader.Nickname;
-            team.Members.Add(leader);
-            team.Defeats = 0;
-            team.Wins = 0;
-            team.TournamentsWon = 0;
-            team.GamesPlayed = 0;
-            team.NumberMembers = 1;
-            team.Rank = leader.LinkedAccount.Rank;
-
-
-            _context.Teams.Add(team);
-
-            leader.TeamTag = team.Tag;
-            _context.Users.Update(leader);
-
-            _context.SaveChanges();
-
-            return GetByID(team.TeamId);
+                throw new AppException("Team tag " + team.Tag + " is already taken");
+            else
+                teamSer.Tag = team.Tag;
         }
 
-        /// <summary>
-        /// Método que permite a edição de uma equipa
-        /// </summary>
-        /// <param name="team">Equipa com as edições feitas</param>
-        /// <returns>Equipa editada</returns>
-        /// <exception cref="AppException">Exceção caso a equipa a editar falhe nas validações</exception>
-        public Team UpdateTeam(Team team, string userID)
+        if (team.Poster != teamSer.Poster && team.Poster != null)
         {
-            var teamSer = _context.Teams.FirstOrDefault(x => x.TeamLeader == userID);
-            if (teamSer == null)
-                throw new AppException("Team not found!");
-
-
-            if (team.Name != teamSer.Name && team.Name != null)
+            if (File.Exists(teamSer.Poster))
             {
-                if (_context.Teams.Any(x => x.Name == team.Name))
-                    throw new AppException("Team name " + team.Name + " is already taken");
-                else
-                    teamSer.Name = team.Name;
+                File.Delete(teamSer.Poster);
             }
 
-            if (team.Tag != teamSer.Tag && team.Tag != null)
-            {
-                if (_context.Teams.Any(x => x.Tag == team.Tag))
-                    throw new AppException("Team tag " + team.Tag + " is already taken");
-                else
-                    teamSer.Tag = team.Tag;
-            }
-
-            if (team.Poster != teamSer.Poster && team.Poster != null)
-            {
-                if (File.Exists(teamSer.Poster))
-                {
-                    File.Delete(teamSer.Poster);
-                }
-
-                teamSer.Poster = team.Poster;
-            }
-
-            for (int i = 0; i < teamSer.Members.Count; i++)
-            {
-                teamSer.Members[i].TeamTag = team.Tag;
-                _context.Users.Update(teamSer.Members[i]);
-            }
-
-            _context.Teams.Update(teamSer);
-            _context.SaveChanges();
-
-            return GetByID(teamSer.TeamId);
+            teamSer.Poster = team.Poster;
         }
 
-        /// <summary>
-        /// Método que permite a eliminação de uma equipa
-        /// </summary>
-        public void DeleteTeam(string userID)
+        for (int i = 0; i < teamSer.Members.Count; i++)
         {
-            var team = _context.Teams.SingleOrDefault(x => x.TeamLeader == userID);
-            if (team != null)
-            {
-                for (int i = 0; i < team.Members.Count; i++)
-                {
-                    team.Members[i].TeamTag = null;
-                    _context.Users.Update(team.Members[i]);
-                }
-
-                if (File.Exists(team.Poster))
-                {
-                    File.Delete(team.Poster);
-                }
-
-
-                _context.Teams.Remove(team);
-                _context.SaveChanges();
-            }
+            teamSer.Members[i].TeamTag = team.Tag;
+            _context.Users.Update(teamSer.Members[i]);
         }
 
-        /// <summary>
-        /// Método que permite a adição de um membro a uma equipa
-        /// </summary>
-        /// <param name="user">User que será adicionado</param>
-        /// <exception cref="AppException">Exceção caso a equipa não exista ou esteja cheia</exception>
-        public void AddMember(string nickname, int id)
+        _context.Teams.Update(teamSer);
+        _context.SaveChanges();
+
+        return GetByID(teamSer.TeamId);
+    }
+
+    /// <summary>
+    /// Método que permite a eliminação de uma equipa
+    /// </summary>
+    public void DeleteTeam(string userID)
+    {
+        var team = _context.Teams.SingleOrDefault(x => x.TeamLeader == userID);
+        if (team != null)
         {
-            var user = _context.Users.SingleOrDefault(x => x.Nickname == nickname);
-            var TeamTemp = _context.Teams.Find(id);
-            var teamLeader = _context.Users.SingleOrDefault(x => x.Nickname == TeamTemp.TeamLeader);
-            if (TeamTemp == null)
+            for (int i = 0; i < team.Members.Count; i++)
             {
-                throw new AppException("Not Found");
+                team.Members[i].TeamTag = null;
+                _context.Users.Update(team.Members[i]);
             }
 
-            if (TeamTemp.NumberMembers == TeamTemp.MAX_MEMBERS)
+            if (File.Exists(team.Poster))
             {
-                throw new AppException("Team full");
+                File.Delete(team.Poster);
             }
 
-            if (user.LinkedAccount == null)
-            {
-                throw new AppException("Linked Account is required");
-            }
 
-            if (user.LinkedAccount.Region != teamLeader.LinkedAccount.Region)
-            {
-                throw new AppException("User region does not match team leader region");
-            }
-
-            user.TeamTag = TeamTemp.Tag;
-            TeamTemp.Members.Add(user);
-            TeamTemp.NumberMembers++;
-            TeamTemp.Rank = GetRankMean(TeamTemp.TeamId);
-
-            _context.Teams.Update(TeamTemp);
+            _context.Teams.Remove(team);
             _context.SaveChanges();
         }
+    }
 
-        /// <summary>
-        /// Método que permite a remoção de um membro a uma equipa
-        /// </summary>
-        /// <param name="id">ID da equipa que o user será removido</param>
-        /// <param name="user">User que será removido</param>
-        /// <exception cref="AppException">Exceção caso a equipa não exista ou o user a ser removido seja o team leader</exception>
-        public void RemoveMember(string nickname, string userID)
+    /// <summary>
+    /// Método que permite a adição de um membro a uma equipa
+    /// </summary>
+    /// <param name="user">User que será adicionado</param>
+    /// <exception cref="AppException">Exceção caso a equipa não exista ou esteja cheia</exception>
+    public void AddMember(string nickname, int id)
+    {
+        var user = _context.Users.SingleOrDefault(x => x.Nickname == nickname);
+        var TeamTemp = _context.Teams.Find(id);
+        var teamLeader = _context.Users.SingleOrDefault(x => x.Nickname == TeamTemp.TeamLeader);
+        if (TeamTemp == null)
         {
-            var user = _context.Users.SingleOrDefault(x => x.Nickname == nickname);
-            var TeamTemp = _context.Teams.SingleOrDefault(x => x.TeamLeader == userID);
-            if (TeamTemp == null)
+            throw new AppException("Not Found");
+        }
+
+        if (TeamTemp.NumberMembers == TeamTemp.MAX_MEMBERS)
+        {
+            throw new AppException("Team full");
+        }
+
+        if (user.LinkedAccount == null)
+        {
+            throw new AppException("Linked Account is required");
+        }
+
+        if (user.LinkedAccount.Region != teamLeader.LinkedAccount.Region)
+        {
+            throw new AppException("User region does not match team leader region");
+        }
+
+        user.TeamTag = TeamTemp.Tag;
+        TeamTemp.Members.Add(user);
+        TeamTemp.NumberMembers++;
+        TeamTemp.Rank = GetRankMean(TeamTemp.TeamId);
+
+        _context.Teams.Update(TeamTemp);
+        _context.SaveChanges();
+    }
+
+    /// <summary>
+    /// Método que permite a remoção de um membro a uma equipa
+    /// </summary>
+    /// <param name="id">ID da equipa que o user será removido</param>
+    /// <param name="user">User que será removido</param>
+    /// <exception cref="AppException">Exceção caso a equipa não exista ou o user a ser removido seja o team leader</exception>
+    public void RemoveMember(string nickname, string userID)
+    {
+        var user = _context.Users.SingleOrDefault(x => x.Nickname == nickname);
+        var TeamTemp = _context.Teams.SingleOrDefault(x => x.TeamLeader == userID);
+        if (TeamTemp == null)
+        {
+            throw new AppException("Not Found");
+        }
+        else
+        {
+            if (TeamTemp.TeamLeader.Equals(user.Nickname))
             {
-                throw new AppException("Not Found");
+                throw new AppException("Team leader cannot be removed");
             }
             else
             {
-                if (TeamTemp.TeamLeader.Equals(user.Nickname))
-                {
-                    throw new AppException("Team leader cannot be removed");
-                }
-                else
-                {
-                    user.TeamTag = null;
-                    TeamTemp.Members.Remove(user);
-                    TeamTemp.NumberMembers--;
-                    TeamTemp.Rank = GetRankMean(TeamTemp.TeamId);
-                }
+                user.TeamTag = null;
+                TeamTemp.Members.Remove(user);
+                TeamTemp.NumberMembers--;
+                TeamTemp.Rank = GetRankMean(TeamTemp.TeamId);
             }
-
-            _context.Teams.Update(TeamTemp);
-            _context.SaveChanges();
         }
 
-        /// <summary>
-        /// Método que permite que um utilizador saia da sua equipa.
-        /// </summary>
-        /// <param name="UserID">User logado que pretende sair da equipa</param>
-        /// <param name="user">Nickname do utilizador a substituir caso seja o teamLeader a sair.</param>
-        public void LeaveTeam(string UserID, User user)
+        _context.Teams.Update(TeamTemp);
+        _context.SaveChanges();
+    }
+
+    /// <summary>
+    /// Método que permite que um utilizador saia da sua equipa.
+    /// </summary>
+    /// <param name="UserID">User logado que pretende sair da equipa</param>
+    /// <param name="user">Nickname do utilizador a substituir caso seja o teamLeader a sair.</param>
+    public void LeaveTeam(string UserID, User user)
+    {
+        var userTemp = _context.Users.SingleOrDefault(x => x.Nickname == UserID);
+        var TeamTemp = GetByTag(userTemp.TeamTag);
+
+
+        if (TeamTemp.TeamLeader == userTemp.Nickname)
         {
-            var userTemp = _context.Users.SingleOrDefault(x => x.Nickname == UserID);
-            var TeamTemp = GetByTag(userTemp.TeamTag);
-
-
-            if (TeamTemp.TeamLeader == userTemp.Nickname)
+            var userSubstitute = _context.Users.SingleOrDefault(x => x.Nickname == user.Nickname);
+            if (user.Nickname == null)
             {
-                var userSubstitute = _context.Users.SingleOrDefault(x => x.Nickname == user.Nickname);
-                if (user.Nickname == null)
-                {
-                    throw new AppException("Team leader cannot be removed without substitute.");
-                }
-                else if (TeamTemp.Members.Contains(userSubstitute))
-                {
-                    userTemp.TeamTag = null;
-                    TeamTemp.Members.Remove(userTemp);
-                    TeamTemp.NumberMembers--;
-                    TeamTemp.TeamLeader = user.Nickname;
-                }
-                else
-                {
-                    throw new AppException("The substituted does not belong to the team.");
-                }
+                throw new AppException("Team leader cannot be removed without substitute.");
             }
-            else
+            else if (TeamTemp.Members.Contains(userSubstitute))
             {
                 userTemp.TeamTag = null;
                 TeamTemp.Members.Remove(userTemp);
                 TeamTemp.NumberMembers--;
+                TeamTemp.TeamLeader = user.Nickname;
             }
-
-            _context.Teams.Update(TeamTemp);
-            _context.SaveChanges();
+            else
+            {
+                throw new AppException("The substituted does not belong to the team.");
+            }
         }
-
-
-        /// Método que permite calcular a média de rank da equipa
-        /// </summary>
-        /// <param name="id">Id da equipa a calcular a média de rank</param>
-        /// <returns>Rank médio</returns>
-        public string GetRankMean(int id)
+        else
         {
-            var Rank = "";
-            var TeamTemp = GetByID(id);
-            var x = 0;
-            var Ranktemp = 0;
-
-
-            for (int i = 0; i < TeamTemp.Members.Count; i++)
-            {
-                switch (TeamTemp.Members[i].LinkedAccount.Rank)
-                {
-                    case "IRON":
-                        x = x + 1;
-                        break;
-                    case "BRONZE":
-                        x = x + 2;
-                        break;
-                    case "SILVER":
-                        x = x + 3;
-                        break;
-                    case "GOLD":
-                        x = x + 4;
-                        break;
-                    case "PLATINUM":
-                        x = x + 5;
-                        break;
-                    case "DIAMOND":
-                        x = x + 6;
-                        break;
-                    case "MASTER":
-                        x = x + 7;
-                        break;
-                    case "GRANDMASTER":
-                        x = x + 8;
-                        break;
-                    case "CHALLENGER":
-                        x = x + 9;
-                        break;
-                    default:
-                        x = 0;
-                        break;
-                }
-            }
-
-            Ranktemp = x / TeamTemp.Members.Count;
-
-            switch (Ranktemp)
-            {
-                case 1:
-                    Rank = "IRON";
-                    break;
-                case 2:
-                    Rank = "BRONZE";
-                    break;
-                case 3:
-                    Rank = "SILVER";
-                    break;
-                case 4:
-                    Rank = "GOLD";
-                    break;
-                case 5:
-                    Rank = "PLATINUM";
-                    break;
-                case 6:
-                    Rank = "DIAMOND";
-                    break;
-                case 7:
-                    Rank = "MASTER";
-                    break;
-                case 8:
-                    Rank = "GRANDMASTER";
-                    break;
-                case 9:
-                    Rank = "CHALLENGER";
-                    break;
-            }
-
-            return Rank;
+            userTemp.TeamTag = null;
+            TeamTemp.Members.Remove(userTemp);
+            TeamTemp.NumberMembers--;
         }
+
+        _context.Teams.Update(TeamTemp);
+        _context.SaveChanges();
+    }
+
+
+    /// Método que permite calcular a média de rank da equipa
+    /// </summary>
+    /// <param name="id">Id da equipa a calcular a média de rank</param>
+    /// <returns>Rank médio</returns>
+    public string GetRankMean(int id)
+    {
+        var Rank = "";
+        var TeamTemp = GetByID(id);
+        var x = 0;
+        var Ranktemp = 0;
+
+
+        for (int i = 0; i < TeamTemp.Members.Count; i++)
+        {
+            switch (TeamTemp.Members[i].LinkedAccount.Rank)
+            {
+                case "IRON":
+                    x = x + 1;
+                    break;
+                case "BRONZE":
+                    x = x + 2;
+                    break;
+                case "SILVER":
+                    x = x + 3;
+                    break;
+                case "GOLD":
+                    x = x + 4;
+                    break;
+                case "PLATINUM":
+                    x = x + 5;
+                    break;
+                case "DIAMOND":
+                    x = x + 6;
+                    break;
+                case "MASTER":
+                    x = x + 7;
+                    break;
+                case "GRANDMASTER":
+                    x = x + 8;
+                    break;
+                case "CHALLENGER":
+                    x = x + 9;
+                    break;
+                default:
+                    x = 0;
+                    break;
+            }
+        }
+
+        Ranktemp = x / TeamTemp.Members.Count;
+
+        switch (Ranktemp)
+        {
+            case 1:
+                Rank = "IRON";
+                break;
+            case 2:
+                Rank = "BRONZE";
+                break;
+            case 3:
+                Rank = "SILVER";
+                break;
+            case 4:
+                Rank = "GOLD";
+                break;
+            case 5:
+                Rank = "PLATINUM";
+                break;
+            case 6:
+                Rank = "DIAMOND";
+                break;
+            case 7:
+                Rank = "MASTER";
+                break;
+            case 8:
+                Rank = "GRANDMASTER";
+                break;
+            case 9:
+                Rank = "CHALLENGER";
+                break;
+        }
+
+        return Rank;
     }
 }

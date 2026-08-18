@@ -1,10 +1,9 @@
-﻿namespace RiftArena.Models
+﻿namespace RiftArena.Models;
+
+public class SummonerSTATS
 {
-    public class SummonerSTATS
-    {
-        public string summonerId { get; set; }
-        public string summonerName { get; set; }
-        public string rank { get; set; }
-        public string tier { get; set; }
-    }
+    public string summonerId { get; set; }
+    public string summonerName { get; set; }
+    public string rank { get; set; }
+    public string tier { get; set; }
 }
