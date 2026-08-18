@@ -30,10 +30,17 @@ export class NavBarComponent implements OnInit {
   isShow: boolean = true;
 
   ngOnInit(): void {
+    const tokenNickname = this.authService.getCurrentUserNickname();
+    if (tokenNickname) {
+      this.user.nickname = tokenNickname;
+      this.authService.setCurrentUser({ nickname: tokenNickname } as User);
+    }
+
     if (typeof localStorage !== 'undefined' && localStorage.getItem('currentUser') != null) {
       this.userService.getUser().subscribe({
         next: (user) => {
           this.user = user;
+          this.authService.setCurrentUser(user);
           if (this.user.teamTag != null) {
             this.hasTeam = true;
           } if (this.user.linkedAccount != null) {
@@ -43,7 +50,13 @@ export class NavBarComponent implements OnInit {
             this.numberOfRequests = requests.length;
           });
         },
-        error: () => { if (typeof localStorage !== 'undefined') localStorage.removeItem('currentUser'); }
+        error: () => {
+          if (typeof localStorage !== 'undefined') {
+            localStorage.removeItem('currentUser');
+          }
+          this.user = new User();
+          this.authService.setCurrentUser(null);
+        }
       });
     }
   }

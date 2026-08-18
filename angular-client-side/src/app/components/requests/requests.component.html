@@ -36,17 +36,18 @@
         </td>
       </ng-container>
 
-      <ng-container
-        *ngFor="let column of columns"
-        [matColumnDef]="column.columnDef"
-      >
-        <th mat-header-cell *matHeaderCellDef>
-          {{ column?.header + ":" }}
-        </th>
-        <td mat-cell *matCellDef="let row">
-          {{ column?.cell(row) }}
-        </td>
-      </ng-container>
+      @for (column of columns; track i; let i = $index) {
+        <ng-container
+          [matColumnDef]="column.columnDef"
+        >
+          <th mat-header-cell *matHeaderCellDef>
+            {{ column?.header + ":" }}
+          </th>
+          <td mat-cell *matCellDef="let row">
+            {{ column?.cell(row) }}
+          </td>
+        </ng-container>
+      }
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr
@@ -64,36 +65,37 @@
   </div>
 
   <mat-accordion class="example-headers-align">
-    <mat-expansion-panel
-      class="mat-expansion-panel"
-      hideToggle
-      *ngFor="let element of ELEMENT_DATA"
-      (opened)="panelOpenState = true"
-      (closed)="panelOpenState = false"
-    >
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          {{ "#" + element.tag }}
-        </mat-panel-title>
-        <mat-panel-description>
-          <mat-icon>{{ panelOpenState ? "remove" : "add" }}</mat-icon>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <p><strong>Team Leader:</strong> {{ element.teamLeader }}</p>
-      <p><strong>Team Name:</strong> {{ element.teamName }}</p>
-      <p><strong>Current Total of Members:</strong> {{ element.members }}</p>
-      <mat-radio-group
-        [(ngModel)]="selectedValue"
-        aria-label="Select an option"
+    @for (element of ELEMENT_DATA; track i; let i = $index) {
+      <mat-expansion-panel
+        class="mat-expansion-panel"
+        hideToggle
+        (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false"
       >
-        <mat-radio-button [value]="element.requestId + '1'"
-          >Accept</mat-radio-button
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ "#" + element.tag }}
+          </mat-panel-title>
+          <mat-panel-description>
+            <mat-icon>{{ panelOpenState ? "remove" : "add" }}</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p><strong>Team Leader:</strong> {{ element.teamLeader }}</p>
+        <p><strong>Team Name:</strong> {{ element.teamName }}</p>
+        <p><strong>Current Total of Members:</strong> {{ element.members }}</p>
+        <mat-radio-group
+          [(ngModel)]="selectedValue"
+          aria-label="Select an option"
         >
-        <mat-radio-button [value]="element.requestId + '2'"
-          >Refuse</mat-radio-button
-        >
-      </mat-radio-group>
-    </mat-expansion-panel>
+          <mat-radio-button [value]="element.requestId + '1'"
+            >Accept</mat-radio-button
+          >
+          <mat-radio-button [value]="element.requestId + '2'"
+            >Refuse</mat-radio-button
+          >
+        </mat-radio-group>
+      </mat-expansion-panel>
+    }
   </mat-accordion>
 
   <p><strong>Total Requests:</strong> {{ getRequestSize() }}</p>

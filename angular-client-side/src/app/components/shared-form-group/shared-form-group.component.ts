@@ -51,7 +51,15 @@ export class SharedFormGroupComponent implements OnInit {
 
     this.authService.login(this.authForm.get("nickname")?.value, this.authForm.get("password")?.value).subscribe({
       next: async (result: any) => {
-        localStorage.setItem('currentUser', result.token);
+        const token = result?.token ?? result?.Token;
+        const nickname = this.authForm.get('nickname')?.value;
+        if (!token) {
+          console.log('Erro no login: token não recebido');
+          return;
+        }
+
+        localStorage.setItem('currentUser', token);
+        this.authService.setCurrentUser({ nickname } as any);
         await this.router.navigate(['/']);
       },
       error: () => console.log("Erro no login")
@@ -62,7 +70,15 @@ export class SharedFormGroupComponent implements OnInit {
     this.authService.register(this.authForm.get('email')?.value, this.authForm.get('nickname')?.value,
     this.authForm.get('password')?.value).subscribe({
       next: (result: any) => {
-        localStorage.setItem('currentUser', result.token);
+        const token = result?.token ?? result?.Token;
+        const nickname = this.authForm.get('nickname')?.value;
+        if (!token) {
+          console.log('Erro no registo: token não recebido');
+          return;
+        }
+
+        localStorage.setItem('currentUser', token);
+        this.authService.setCurrentUser({ nickname } as any);
         this.router.navigate(['/']);
       },
       error: () => console.log("Erro no registo")

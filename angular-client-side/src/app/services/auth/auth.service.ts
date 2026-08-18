@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '@src/environments/environment';
 import {Router} from "@angular/router";
+import { User } from '@models/user';
 
 const endpoint = `${environment.apiUrl}/api`;
 const httpOptions = {
@@ -17,6 +18,33 @@ const httpOptions = {
 })
 export class AuthService {
   private http = inject(HttpClient);
+  currentUser: User | null = null;
+
+  setCurrentUser(user: User | null): void {
+    this.currentUser = user;
+  }
+
+  getCurrentUserNickname(): string | null {
+    if (typeof localStorage === 'undefined') {
+      return null;
+    }
+
+    const token = localStorage.getItem('currentUser');
+    if (!token || token.split('.').length < 2) {
+      return null;
+    }
+
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const padded = base64.padEnd(base64.length + ((4 - (base64.length % 4)) % 4), '=');
+      const decoded = atob(padded);
+      const payload = JSON.parse(decoded);
+      return payload?.unique_name ?? payload?.name ?? payload?.nickname ?? null;
+    } catch {
+      return null;
+    }
+  }
 
   async canActivate(): Promise<boolean> {
     const router = inject(Router)
@@ -70,6 +98,7 @@ export class AuthService {
   // remove o user da localStorage, ou seja, remove a sua sessao
   logout() {
     localStorage.removeItem('currentUser');
+    this.currentUser = null;
   }
 
   // verifica se o email inserido pertence a um user com conta RIOT vinculada ou nao

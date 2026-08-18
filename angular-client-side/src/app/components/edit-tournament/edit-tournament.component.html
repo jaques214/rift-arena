@@ -72,7 +72,9 @@
           formControlName="rank"
           id="formGroupRank"
         >
-          <option *ngFor="let r of ranks" [value]="r">{{ r }}</option>
+          @for (r of ranks; track i; let i = $index) {
+            <option [value]="r">{{ r }}</option>
+          }
         </select>
       </div>
 

@@ -14,6 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgClass } from '@angular/common';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 import {Request} from "@models/request";
+import {RANK_LIST} from "@shared/utils";
 
 export interface PeriodicElement {
   requestId: number,
@@ -169,4 +170,5 @@ export class RequestsComponent implements OnInit {
     });
   }
 
+  protected readonly ranks = RANK_LIST;
 }

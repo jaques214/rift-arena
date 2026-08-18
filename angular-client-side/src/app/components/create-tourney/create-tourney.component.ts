@@ -1,14 +1,13 @@
 import { Tournament } from '@models/tournament';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import { dateValidator } from '@app/CustomValidator';
 import { TourneyRestService } from '@services/tourney-rest/tourney-rest.service';
 import { first } from 'rxjs/operators';
 import {RANK_LIST} from '@app/shared/utils';
 import { Observable } from 'rxjs';
 import { UploadComponent } from '../upload/upload.component';
-import { NgIf, NgFor, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
@@ -17,10 +16,8 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
     styleUrls: ['./create-tourney.component.css'],
     imports: [
         NavBarComponent,
-        NgIf,
         FormsModule,
         ReactiveFormsModule,
-        NgFor,
         NgClass,
         UploadComponent,
     ]

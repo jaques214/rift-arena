@@ -4,7 +4,7 @@
   <!-- ng <button mat-flat-button class="btn-red" type="button" (click)="removeUser()">Delete Profile</button> -->
   <div [ngClass]="'container'">
     <div>
-      @if (user.poster != undefined) {
+      @if (user.poster) {
         <img
           ngSrc="{{ createImgPath(user.poster!) }}"
           class="profileImg"
@@ -35,7 +35,7 @@
   <div [ngClass]="'item'">
     <p [ngClass]="'subtitle'">Nickname</p>
   </div>
-  <p>{{ user.nickname }}</p>
+  <p>{{ user.nickname ?? 'Loading profile...' }}</p>
   @for (input of formFields.inputs; track input.id) {
     <div>
       <div [ngClass]="'item'">

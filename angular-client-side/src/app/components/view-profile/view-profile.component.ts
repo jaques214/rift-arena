@@ -47,7 +47,7 @@ export class ViewProfileComponent implements OnInit {
   private restService = inject(UserRestService);
 
   response!: { dbPath: '' };
-  user!: User;
+  user: User = new User();
   team?: Team;
   account?: LinkedAccount;
   //info!: Info | string = "No Linked Account";
@@ -75,10 +75,8 @@ export class ViewProfileComponent implements OnInit {
       )
     });
     this.getUser().subscribe((user) => {
-      this.user = user;
+      this.user = user ?? new User();
       this.account = this.user?.linkedAccount;
-      console.log(this.user)
-      console.log(this.account)
 
       if (this.account == undefined) {
         //this.info = "No Linked Account";
@@ -88,7 +86,6 @@ export class ViewProfileComponent implements OnInit {
         this.icon = "edit";
           //this.typeOf(this.info)
       }
-      //console.log(this.info)
     });
     console.log(this.accountFlag)
   }

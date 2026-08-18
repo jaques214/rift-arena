@@ -1,10 +1,10 @@
 <mat-toolbar>
-  <a class="navbar-brand" href="">
-    <img ngSrc="assets/images/logo.png" alt="riftarena_logo" width="104.77" height="50"/>
+  <a class="navbar-brand" routerLink="/" aria-label="Home">
+    <img [ngSrc]="'assets/images/logo.png'" alt="riftarena_logo" width="100" height="48" priority />
   </a>
 
   <span class="example-spacer"></span>
-
+  <span>{{user.nickname}}</span>
   <!--if user is connected -->
   @if (user.nickname !== undefined) {
     <span class="request-badge" routerLink="/requests">{{ numberOfRequests }}</span>
@@ -23,7 +23,9 @@
     <mat-menu #profile="matMenu">
       <button mat-menu-item routerLink="/profile">My Profile</button>
       <button mat-menu-item routerLink="/view-my-tourneys">My Tournaments</button>
-      <button *ngIf="hasTeam" mat-menu-item routerLink="/view-my-team">My Team</button>
+      @if (hasTeam) {
+        <button mat-menu-item routerLink="/view-my-team">My Team</button>
+      }
       <button mat-menu-item (click)="logout()">Logout</button>
     </mat-menu>
 
@@ -37,12 +39,16 @@
         <div>
           <a routerLink="/create-tourney">Create</a>
           <a routerLink="/view-all-tourneys">View All</a>
-          <a *ngIf="hasTeam" routerLink="/join-tournament">Join</a>
+          @if (hasTeam) {
+            <a routerLink="/join-tournament">Join</a>
+          }
         </div>
 
         <h1>Teams</h1>
         <div>
-          <a *ngIf="!hasTeam" routerLink="/create-team">Create</a>
+          @if (!hasTeam) {
+            <a routerLink="/create-team">Create</a>
+          }
           <a routerLink="/view-all-teams">View All</a>
         </div>
 
@@ -51,7 +57,7 @@
     </div>
   }
   @else {
-  <!--if user isnt logged-->
+  <!--if user isn't logged-->
     <div class="account">
       <a routerLink="/login" class="auth">Login</a>
       <a routerLink="/register" class="auth">Register</a>
