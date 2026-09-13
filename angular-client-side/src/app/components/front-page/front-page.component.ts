@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Team } from '@src/app/models/team';
+import type { Team } from '@src/app/models/team';
 import { TeamRestService } from '@src/app/services/team-rest/team-rest.service';
 import { LoadingCircleService } from '@services/loading-circle/loading-circle.service';
 import { Tournament } from '@src/app/models/tournament';

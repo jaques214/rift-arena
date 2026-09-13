@@ -1,11 +1,13 @@
 import { Router } from '@angular/router';
 import { UserRestService } from '@services/user-rest/user-rest.service';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
-import { Component, OnInit, Output, EventEmitter, Input, inject } from '@angular/core';
+import {Component, OnInit, WritableSignal, inject, input, output, model} from "@angular/core";
 import { HttpEventType, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '@src/environments/environment';
 import { MatButtonModule } from '@angular/material/button';
+import { Team } from '@src/app/models/team';
+import { User } from '@src/app/models/user';
 
 @Component({
     selector: 'app-upload',
@@ -21,10 +23,12 @@ export class UploadComponent implements OnInit {
 
   progress!: number;
   message!: string;
-  @Input() title!: string;
-  @Output() onUploadFinished = new EventEmitter();
-  @Input() getObj!: Observable<any>;
-  @Input() obj!: any;
+  title = input.required<string>();
+  onUploadFinished = output<unknown>();
+  getUser = model<WritableSignal<User>>();
+  getTeam = input<Observable<Team>>();
+  userObj = input<User>();
+  teamObj = input<Team>();
   editValues!: any;
 
   ngOnInit() {
@@ -49,16 +53,16 @@ export class UploadComponent implements OnInit {
         }
       });
 
-    if (this.router.url == '/view-my-team') {
+    if (this.router.url == '/view-my-team' && this.teamObj() !== undefined) {
       this.editValues = {
-        Name: this.obj.name,
-        Tag: this.obj.tag,
+        Name: this.teamObj().name,
+        Tag: this.teamObj().tag,
         Poster: fileToUpload.name,
       }
       this.teamRestService.updateTeam(this.editValues).subscribe({
         next: () => {
-          this.getObj.subscribe((obj) => {
-            this.obj = obj;
+          this.getTeam?.subscribe((obj) => {
+            this.teamObj = obj;
           });
         },
         error: (err) => console.log(err)
@@ -66,15 +70,13 @@ export class UploadComponent implements OnInit {
     }
     else if (this.router.url == '/profile') {
       this.editValues = {
-        Password: this.obj.password,
-        Email: this.obj.email,
+        Password: this.userObj().password,
+        Email: this.userObj().email,
         Poster: fileToUpload.name,
       }
       this.userRestService.updateUser(this.editValues).subscribe({
         next: () => {
-          this.getObj.subscribe((obj) => {
-            this.obj = obj;
-          });
+          this.getUser?.set(this.userObj());
         },
         error: (err) => console.log(err)
       });

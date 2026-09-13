@@ -1,6 +1,5 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, effect, signal, WritableSignal } from '@angular/core';
 import { User } from '@models/user'
 import { LinkedAccount } from '@models/linked_acount';
 import { Team } from '@models/team';
@@ -9,26 +8,14 @@ import ConfirmedValidator from '@src/app/confirmed.validator';
 import { environment } from '@src/environments/environment';
 import { MatButtonModule } from '@angular/material/button';
 import { AccountFormGroupComponent } from '../account-form-group/account-form-group.component';
-import { SharedFormFieldComponent } from '../shared-form-field/shared-form-field.component';
+import { SharedFormFieldComponent } from "../shared-form-field/shared-form-field.component";
 import { UploadComponent } from '../upload/upload.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import {NgClass, NgOptimizedImage} from '@angular/common';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
-
-type FieldInput = {
-      id: string,
-      name: string,
-      type: string,
-      label: string,
-      placeholder: string,
-      iconlabel: string,
-      icon: string,
-}
-
-type Field = {
-  inputs: FieldInput[]
-}
+import { toSignal } from '@angular/core/rxjs-interop';
+import {Field} from "@shared/utils";
 
 type Info = {
   username?: string,
@@ -47,7 +34,6 @@ export class ViewProfileComponent implements OnInit {
   private restService = inject(UserRestService);
 
   response!: { dbPath: '' };
-  user: User = new User();
   team?: Team;
   account?: LinkedAccount;
   //info!: Info | string = "No Linked Account";
@@ -62,6 +48,12 @@ export class ViewProfileComponent implements OnInit {
   title!: string;
   form!: FormGroup;
 
+  user: WritableSignal<User> = signal(new User());
+
+  constructor() {
+    this.user.set(toSignal(this.restService.getUser(), { initialValue: new User() })() as User);
+  }
+
   ngOnInit(): void {
     this.form = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -74,19 +66,17 @@ export class ViewProfileComponent implements OnInit {
         }
       )
     });
-    this.getUser().subscribe((user) => {
-      this.user = user ?? new User();
-      this.account = this.user?.linkedAccount;
 
-      if (this.account == undefined) {
-        //this.info = "No Linked Account";
-        this.icon = "add_circle_outline";
+    effect(() => {
+      const user = this.user();
+      this.account = user?.linkedAccount;
+      if (user?.linkedAccount) {
+        this.icon = "edit";
       }
       else {
-        this.icon = "edit";
-          //this.typeOf(this.info)
+        this.icon = "add_circle_outline";
       }
-    });
+    })
     console.log(this.accountFlag)
   }
 
@@ -97,8 +87,8 @@ export class ViewProfileComponent implements OnInit {
     });
   }
 
-  changeTitle() {
-    return (this.user?.poster) ? 'Change profile image' : 'Insert profile image';
+  changeTitle(poster: string | undefined): string {
+    return (poster) ? 'Change profile image' : 'Insert profile image';
   }
 
   typeOf(info: string | Info) {
@@ -115,8 +105,10 @@ export class ViewProfileComponent implements OnInit {
 
   public uploadFinished = (event: any) => {
     this.response = event;
-    (this.user!.poster as any) = this.response.dbPath;
-    this.file = this.user?.poster!;
+    const currentUser = this.user();
+    currentUser.poster = this.response.dbPath;
+    this.user.set(currentUser);
+    this.file = this.user().poster!;
   }
 
   getFileName(): string {
@@ -145,10 +137,6 @@ export class ViewProfileComponent implements OnInit {
 
   clickAccount() {
     this.accountFlag = (this.accountFlag == "view") ? "edit" : "view";
-  }
-
-  getUser(): Observable<User> {
-    return this.restService.getUser();
   }
 
   hideText(index: number, str: string): string {
@@ -182,9 +170,10 @@ export class ViewProfileComponent implements OnInit {
 
   getUserValue(value: string): string {
     let convert: string = "";
+    const currentUser = this.user();
 
-    if (this.user != null) {
-      let values = Object.entries(this.user!);
+    if (currentUser != null) {
+      let values = Object.entries(currentUser);
 
       values.forEach(val => {
         if (val[0] == value) {
@@ -203,6 +192,7 @@ export class ViewProfileComponent implements OnInit {
   }
 
   getTeamName() {
-    return (this.user?.teamTag) ? this.user?.teamTag : "No Team";
+    const currentUser = this.user();
+    return (currentUser?.teamTag) ? currentUser?.teamTag : "No Team";
   }
 }

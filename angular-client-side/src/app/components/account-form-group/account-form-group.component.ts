@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import {Component, inject, input, model, OnInit} from "@angular/core";
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LinkedAccount } from '@models/linked_acount';
 import { UserRestService } from '@services/user-rest/user-rest.service';
@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import type {FieldInput} from "@shared/utils";
 
 @Component({
     selector: 'app-account-form-group',
@@ -18,9 +19,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 export class AccountFormGroupComponent implements OnInit {
   private restService = inject(UserRestService);
 
-  @Input() value = '';
-  @Input() formFields: any[] = [];
-  @Input() accountFlag = '';
+  value = input<string>('');
+  formFields = input<FieldInput[]>([]);
+  accountFlag = model<string>('');
   username = '';
   rank = '';
   region = '';
@@ -37,7 +38,7 @@ export class AccountFormGroupComponent implements OnInit {
   onSubmitAccount(): void {
     const data = new LinkedAccount();
 
-    this.formFields.forEach((input:any) => {
+    this.formFields().forEach((input:any) => {
       if(input.type != 'select') {
         // (data as any)[input.name!] = input.model;
         (data as any)[input.name!] = this.form.get(input.name)?.value
@@ -46,7 +47,7 @@ export class AccountFormGroupComponent implements OnInit {
         this.region = this.form.get(input.value)?.value;
       }
     });
-    this.accountFlag = "view";
+    this.accountFlag.set("view");
 
     const values = Object.values(data);
 

@@ -1,5 +1,5 @@
-<form [formGroup]="authForm" (ngSubmit)="onSubmit()">
-  @switch (input.type) {
+<form [formGroup]="authForm()" (ngSubmit)="onSubmit()">
+  @switch (input().type) {
     @case ('password') {
       @for (password of passwordFields.inputs; track password.label) {
         <div formGroupName="pass">
@@ -21,7 +21,7 @@
               [attr.aria-pressed]="hide"
               >{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon
             >
-            @if (authForm.get(password.name)?.invalid) {
+            @if (authForm().get(password.name)?.invalid) {
               <mat-error>{{ getErrorMessage(password.name) }}</mat-error>
             }
           </mat-form-field>
@@ -30,25 +30,25 @@
     }
     @default {
       <mat-form-field appearance="fill" ngClass="form-field">
-        <mat-label>{{ input.label }}</mat-label>
+        <mat-label>{{ input().label }}</mat-label>
         <input
           matInput
-          type="{{ input.type }}"
-          placeholder="{{ input.placeholder }}"
-          name="{{ input.name }}"
-          formControlName="{{ input.name }}"
+          type="{{ input().type }}"
+          placeholder="{{ input().placeholder }}"
+          name="{{ input().name }}"
+          formControlName="{{ input().name }}"
           required
         />
         <mat-icon aria-hidden="false" inline="true" matSuffix style="width: auto; height: auto">{{
-          input.icon
+          input().icon
         }}</mat-icon>
-        @if (authForm.get(input.name)?.invalid) {
-          <mat-error>{{ getErrorMessage(input.name) }}</mat-error>
+        @if (authForm().get(input().name)?.invalid) {
+          <mat-error>{{ getErrorMessage(input().name) }}</mat-error>
         }
       </mat-form-field>
     }
   }
   <div>
-    <button mat-flat-button class="btn-blue" type="submit">{{ value }}</button>
+    <button mat-flat-button class="btn-blue" type="submit">{{ value() }}</button>
   </div>
 </form>

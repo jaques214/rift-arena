@@ -2,7 +2,7 @@ import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveF
 import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { UserRestService } from '@services/user-rest/user-rest.service';
 import { Component, inject, OnInit } from '@angular/core';
-import { Team } from '@models/team';
+import {Team, teamFields} from "@models/team";
 import { User } from '@models/user';
 import { Observable } from 'rxjs';
 import { Router, RouterLink } from '@angular/router';
@@ -41,7 +41,7 @@ export class ViewMyTeamComponent implements OnInit {
   isShow = true;
   bool = true;
   flag!: string;
-  formFields = Team.fields();
+  formFields = teamFields();
   filename!: string;
   response!: { dbPath: '' };
   editForm!: FormGroup;

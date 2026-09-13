@@ -8,7 +8,7 @@
       (change)="uploadFile(file.files)"
     />
     <button class="upload-button" mat-flat-button type="button" (click)="file.click()">
-      {{ title }}
+      {{ title() }}
     </button>
     <div>
       @if (progress > 0 && message) {

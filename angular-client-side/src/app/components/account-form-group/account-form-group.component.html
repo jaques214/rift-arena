@@ -1,10 +1,10 @@
 <form [formGroup]="form" (ngSubmit)="onSubmitAccount()">
-  @for (input of formFields; track input.id) {
+  @for (input of formFields(); track input.id) {
     @switch (input.type) {
       @case ('select') {
         <mat-form-field appearance="fill" class="form-field">
           <mat-select formControlName="{{ input.value }}" required>
-            @for (val of input.values; track val.id) {
+            @for (val of input.values; track val) {
               <mat-option [value]="val">{{ val }}</mat-option>
             }
           </mat-select>
@@ -38,6 +38,6 @@
     }
   }
   <div>
-    <button mat-flat-button class="btn-blue" type="submit">{{ value }}</button>
+    <button mat-flat-button class="btn-blue" type="submit">{{ value() }}</button>
   </div>
 </form>

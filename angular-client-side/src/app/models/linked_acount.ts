@@ -21,7 +21,7 @@ static fields(){
             type: 'text',
             label: 'Username',
             placeholder: 'Enter username',
-            iconlabel: 'account circle icon',
+            iconLabel: 'account circle icon',
             icon: 'account_circle',
             model: 'username',
           },
@@ -30,7 +30,7 @@ static fields(){
             type: 'select',
             label: 'Region',
             value: 'region',
-            iconlabel: 'place icon',
+            iconLabel: 'place icon',
             icon: 'place',
             values: [
               'br1', 'eun1', 'euw1', 'jp1', 'kr', 'la1', 'la2', 'na1', 'oc1', 'ru', 'tr1',

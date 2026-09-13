@@ -1,4 +1,4 @@
-import {Component, inject, Input, OnInit} from "@angular/core";
+import {Component, inject, OnInit, input} from "@angular/core";
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@services/auth/auth.service';
@@ -18,9 +18,9 @@ export class SharedFormGroupComponent implements OnInit {
   private router = inject(Router);
   private authService = inject(AuthService);
 
-  @Input() formFields!:any;
-  @Input() value!:string;
-  @Input() authForm!:FormGroup;
+  readonly formFields = input.required<any>();
+  readonly value = input.required<string>();
+  readonly authForm = input.required<FormGroup>();
   hide = true;
   // authForm: FormGroup = new FormGroup({
   //   nickname: new FormControl(''),
@@ -49,10 +49,11 @@ export class SharedFormGroupComponent implements OnInit {
     // vai ser alterado
     //, e se validou, pode avançar, senão, lançar um alert a dizer que não inseriu))
 
-    this.authService.login(this.authForm.get("nickname")?.value, this.authForm.get("password")?.value).subscribe({
+    const authForm = this.authForm();
+    this.authService.login(authForm.get("nickname")?.value, authForm.get("password")?.value).subscribe({
       next: async (result: any) => {
         const token = result?.token ?? result?.Token;
-        const nickname = this.authForm.get('nickname')?.value;
+        const nickname = this.authForm().get('nickname')?.value;
         if (!token) {
           console.log('Erro no login: token não recebido');
           return;
@@ -67,11 +68,12 @@ export class SharedFormGroupComponent implements OnInit {
   }
 
   register(): void{
-    this.authService.register(this.authForm.get('email')?.value, this.authForm.get('nickname')?.value,
-    this.authForm.get('password')?.value).subscribe({
+    const authForm = this.authForm();
+    this.authService.register(authForm.get('email')?.value, authForm.get('nickname')?.value,
+    authForm.get('password')?.value).subscribe({
       next: (result: any) => {
         const token = result?.token ?? result?.Token;
-        const nickname = this.authForm.get('nickname')?.value;
+        const nickname = this.authForm().get('nickname')?.value;
         if (!token) {
           console.log('Erro no registo: token não recebido');
           return;
@@ -90,11 +92,12 @@ export class SharedFormGroupComponent implements OnInit {
   }
 
   getValidationResult(): boolean {
-    return (this.router.url == "/register") ? this.authForm.invalid : false;
+    return (this.router.url == "/register") ? this.authForm().invalid : false;
   }
 
   getErrorMessage(name: string) {
-    if (this.authForm.get(name)?.hasError('required')) {
+    const authForm = this.authForm();
+    if (authForm.get(name)?.hasError('required')) {
       return 'You must enter a value';
     }
 
@@ -113,6 +116,6 @@ export class SharedFormGroupComponent implements OnInit {
       break;
     }
 
-    return (this.authForm.get(name)?.hasError(name) || this.authForm.get(name)?.errors?.['matching']) ? this.message : '';
+    return (authForm.get(name)?.hasError(name) || authForm.get(name)?.errors?.['matching']) ? this.message : '';
   }
 }

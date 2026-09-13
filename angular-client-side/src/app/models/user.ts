@@ -24,7 +24,7 @@ export class User {
           type: 'text',
           label: 'Account Nickname',
           placeholder: 'Enter Account nickname',
-          iconlabel: 'account circle icon',
+          iconLabel: 'account circle icon',
           icon: 'account_circle',
           model: 'nickname',
         },
@@ -34,7 +34,7 @@ export class User {
           type: 'password',
           label: 'Password',
           placeholder: 'Enter password',
-          iconlabel: 'no encryption icon',
+          iconLabel: 'no encryption icon',
           icon: 'no_encryption',
           // model: 'password',
         },
@@ -51,7 +51,7 @@ export class User {
           type: 'text',
           label: 'Account Nickname',
           placeholder: 'Enter Account nickname',
-          iconlabel: 'account circle icon',
+          iconLabel: 'account circle icon',
           icon: 'account_circle',
           model: 'nickname',
         },
@@ -61,7 +61,7 @@ export class User {
           type: 'email',
           label: 'Email',
           placeholder: 'Enter email',
-          iconlabel: 'email icon',
+          iconLabel: 'email icon',
           icon: 'email',
           model: 'email',
         },
@@ -71,7 +71,7 @@ export class User {
           type: 'password',
           label: 'Password',
           placeholder: 'Enter password',
-          iconlabel: 'no encryption icon',
+          iconLabel: 'no encryption icon',
           icon: 'no_encryption',
           // model: 'password',
         },
@@ -81,7 +81,7 @@ export class User {
           type: 'password',
           label: 'Confirm Password',
           placeholder: 'Enter password again',
-          iconlabel: 'no encryption icon',
+          iconLabel: 'no encryption icon',
           icon: 'no_encryption',
           // model: 'password',
         },
@@ -98,7 +98,7 @@ export class User {
           type: 'email',
           label: 'Email',
           placeholder: 'Enter email',
-          iconlabel: 'email icon',
+          iconLabel: 'email icon',
           icon: 'email',
           // model: 'email',
         },
@@ -108,7 +108,7 @@ export class User {
           type: 'password',
           label: 'Password',
           placeholder: 'Enter password',
-          iconlabel: 'no encryption icon',
+          iconLabel: 'no encryption icon',
           icon: 'no_encryption',
           // model: 'password',
         },
@@ -116,7 +116,7 @@ export class User {
     };
   }
 
-  static paswordfields() {
+  static passwordFields() {
     return {
       inputs: [
         {
@@ -125,7 +125,7 @@ export class User {
           type: 'password',
           label: 'Password',
           placeholder: 'Enter password',
-          iconlabel: 'no encryption icon',
+          iconLabel: 'no encryption icon',
           icon: 'no_encryption',
           // model: 'password',
         },
@@ -135,7 +135,7 @@ export class User {
           type: 'password',
           label: 'Confirm Password',
           placeholder: 'Enter password again',
-          iconlabel: 'no encryption icon',
+          iconLabel: 'no encryption icon',
           icon: 'no_encryption',
           // model: 'password',
         },

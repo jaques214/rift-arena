@@ -1,3 +1,19 @@
+export type FieldInput = {
+  id: string;
+  name: string;
+  type: string;
+  label: string;
+  placeholder: string;
+  value?: string;
+  iconLabel: string;
+  icon: string;
+  values?: string[];
+}
+
+export type Field = {
+  inputs: FieldInput[]
+}
+
 export const RANK_LIST: string[] = [
     'IRON',
     'BRONZE',

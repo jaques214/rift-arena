@@ -69,13 +69,13 @@
 
   <div id="name"></div>
   <section [hidden]="bool">
-    @for (input of formFields.inputs; track input.id) {
+    @for (input of formFields; track input.id) {
       @if (input.name == this.flag) {
         <div [ngClass]="'form-size'">
           <app-shared-form-field
             [input]="input"
             [value]="'Submit'"
-            [user]="team"
+            [inputUser]="team"
             [authForm]="editForm"
           ></app-shared-form-field>
         </div>
@@ -88,8 +88,8 @@
       <div [ngClass]="'profile-container'">
         <app-upload
           [title]="changeTitle()"
-          [getObj]="getTeam(team.tag!)"
-          [obj]="team"
+          [getTeam]="getTeam(team.tag!)"
+          [teamObj]="team"
           (onUploadFinished)="uploadFinished($event)"
         ></app-upload>
         <div>
