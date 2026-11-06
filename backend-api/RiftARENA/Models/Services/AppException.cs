@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace RiftArena.Models.Services;
 
-[Serializable]
 internal class AppException : Exception
 {
     public AppException()
@@ -15,10 +13,6 @@ internal class AppException : Exception
     }
 
     public AppException(string message, Exception innerException) : base(message, innerException)
-    {
-    }
-
-    protected AppException(SerializationInfo info, StreamingContext context) : base(info, context)
     {
     }
 }

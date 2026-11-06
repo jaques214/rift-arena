@@ -1,13 +1,5 @@
 {
   "profiles": {
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "api/",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
     "RiftARENA": {
       "commandName": "Project",
       "launchBrowser": true,
@@ -37,13 +29,5 @@
       "useSSL": true
     }
   },
-  "$schema": "http://json.schemastore.org/launchsettings.json",
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:3231",
-      "sslPort": 44303
-    }
-  }
+  "$schema": "http://json.schemastore.org/launchsettings.json"
 }
