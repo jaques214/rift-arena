@@ -4,16 +4,16 @@ import {FieldInput} from "@shared/utils";
 
 export type Team = {
   teamId?: number;
-  name?: string;
-  tag?: string;
+  name: string;
+  tag: string;
   teamLeader?: User;
   rank?: string;
-  numberMembers?: number;
+  numberMembers: number;
   wins?: number;
   defeats?: number;
   gamesPlayed?: number;
   tournamentsWon?: number;
-  poster?: string;
+  poster: string;
   members?: User[];
   tournament?: Tournament[];
   winrate?: number | null;

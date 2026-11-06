@@ -1,4 +1,5 @@
-import {inject, Injectable} from '@angular/core';
+import {inject, Injectable, PLATFORM_ID} from '@angular/core';
+import {isPlatformBrowser} from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '@src/environments/environment';
@@ -18,6 +19,7 @@ const httpOptions = {
 })
 export class AuthService {
   private http = inject(HttpClient);
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   currentUser: User | null = null;
 
   setCurrentUser(user: User | null): void {
@@ -25,7 +27,7 @@ export class AuthService {
   }
 
   getCurrentUserNickname(): string | null {
-    if (typeof localStorage === 'undefined') {
+    if (!this.isBrowser) {
       return null;
     }
 
@@ -48,7 +50,7 @@ export class AuthService {
 
   async canActivate(): Promise<boolean> {
     const router = inject(Router)
-    if (localStorage.getItem('currentUser') && localStorage.getItem('currentUser') != null) {
+    if (this.isBrowser && localStorage.getItem('currentUser') != null) {
       return true;
     }
     //router.navigate(['/login']);
@@ -58,7 +60,7 @@ export class AuthService {
   async loggedIn(): Promise<boolean> {
     const router = inject(Router)
     if (
-      localStorage.getItem('currentUser') &&
+      this.isBrowser &&
       localStorage.getItem('currentUser') != null
     ) {
       return await router.navigate(['']);
@@ -97,7 +99,9 @@ export class AuthService {
 
   // remove o user da localStorage, ou seja, remove a sua sessao
   logout() {
-    localStorage.removeItem('currentUser');
+    if (this.isBrowser) {
+      localStorage.removeItem('currentUser');
+    }
     this.currentUser = null;
   }
 

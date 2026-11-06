@@ -9,7 +9,7 @@
         <div class="content">
           <div>
             <div class="item">
-              <h1>{{ team.name }}</h1>
+              <h1>{{ getTeamValue('name') }}</h1>
               <mat-icon
                 (click)="clickEvent('name')"
                 aria-hidden="false"
@@ -21,7 +21,7 @@
 
             <div class="item">
               <p>
-                <i>{{ '#' + team.tag }}</i>
+                <i>{{ '#' + getTeamValue('tag') }}</i>
               </p>
               <mat-icon
                 (click)="clickEvent('tag')"
@@ -35,11 +35,11 @@
           </div>
           <div class="rank">
             <img
-              ngSrc="{{ getRank(team.rank!) }}"
+              ngSrc="{{ getRank(getTeamValue('rank')) }}"
               class="icon"
               alt="icon"
               [matTooltipPosition]="'below'"
-              matTooltip="{{ team.rank + ' RANK' }}"
+              matTooltip="{{ getTeamValue('rank') + ' RANK' }}"
               width="512"
               height="585"
             />
@@ -49,19 +49,19 @@
           <p>
             {{ getCompletePercentage(team.numberMembers!) + '% of total members' }}
           </p>
-          <p>{{ team.numberMembers }} member(s) + 2 substitute members</p>
+          <p>{{ getTeamValue('numberMembers') }} member(s) + 2 substitute members</p>
           <!-- <p><strong>Rank:</strong> {{team?.rank}}</p> -->
         </div>
       </div>
       <div class="container">
         <div>
-          <p>{{ 'Wins: ' + team.wins }}</p>
+          <p>{{ 'Wins: ' + getTeamValue('wins') }}</p>
         </div>
         <div>
-          <p>{{ 'Defeats: ' + team.defeats }}</p>
+          <p>{{ 'Defeats: ' + getTeamValue('defeats') }}</p>
         </div>
         <div>
-          <p>{{ 'Games Played: ' + team.gamesPlayed }}</p>
+          <p>{{ 'Games Played: ' + getTeamValue('gamesPlayed') }}</p>
         </div>
       </div>
     </section>
@@ -84,13 +84,13 @@
   </section>
 
   <section class="details">
-    @if (team.teamLeader == nickname) {
+    @if (team.teamLeader?.nickname === nickname) {
       <div [ngClass]="'profile-container'">
         <app-upload
           [title]="changeTitle()"
-          [getTeam]="getTeam(team.tag!)"
           [teamObj]="team"
           (onUploadFinished)="uploadFinished($event)"
+          (teamUpdated)="team = $event"
         ></app-upload>
         <div>
           <p>{{ getFileName() }}</p>
@@ -148,7 +148,7 @@
       </table>
     </div>
 
-    @if (team.teamLeader == nickname) {
+    @if (team.teamLeader?.nickname === nickname) {
       <div class="request">
         <button mat-flat-button class="btn-blue" type="submit" (click)="toggleDisplay()">
           Add new member
@@ -165,7 +165,7 @@
                 formControlName="users"
                 required
               />
-              <mat-icon aria-hidden="false" aria-label="" matSuffix>account_circle</mat-icon>
+              <mat-icon aria-hidden="false" aria-label="account circle" matSuffix>account_circle</mat-icon>
               @if (form.get('users')?.invalid) {
                 <mat-error>{{ getErrorMessage() }}</mat-error>
               }

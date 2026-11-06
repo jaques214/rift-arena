@@ -1,18 +1,17 @@
 <mat-toolbar>
   <a class="navbar-brand" routerLink="/" aria-label="Home">
-    <img [ngSrc]="'assets/images/logo.png'" alt="riftarena_logo" width="100" height="48" priority />
+    <img ngSrc="assets/images/logo.png" alt="riftarena_logo" width="100" height="48" priority />
   </a>
 
   <span class="example-spacer"></span>
-  <span>{{user.nickname}}</span>
   <!--if user is connected -->
-  @if (user.nickname !== undefined) {
+  @if (user?.nickname !== undefined) {
     <span class="request-badge" routerLink="/requests">{{ numberOfRequests }}</span>
     <div class="account" [matMenuTriggerFor]="profile">
-      <span class="nickname">{{ user.nickname }}</span>
+      <span class="nickname">{{ user?.nickname }}</span>
       <img
         ngSrc="{{ toogleProfileIcon() }}"
-        alt="Profile Picture"
+        alt="Profile Icon"
         class="img-responsive"
         width="35"
         height="35"

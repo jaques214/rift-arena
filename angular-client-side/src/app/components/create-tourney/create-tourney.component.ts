@@ -6,7 +6,7 @@ import { TourneyRestService } from '@services/tourney-rest/tourney-rest.service'
 import { first } from 'rxjs/operators';
 import {RANK_LIST} from '@app/shared/utils';
 import { Observable } from 'rxjs';
-import { UploadComponent } from '../upload/upload.component';
+import { UploadComponent, type UploadResponse } from '../upload/upload.component';
 import { NgClass } from '@angular/common';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
@@ -28,7 +28,7 @@ export class CreateTourneyComponent implements OnInit {
   form!: FormGroup;
   tourney!: Tournament
   filename!: string;
-  response!: {dbPath: ''};
+  response!: UploadResponse;
   ranks: string[] = RANK_LIST;
 
   regions: string[] = [
@@ -62,13 +62,13 @@ export class CreateTourneyComponent implements OnInit {
     });
   }
 
-  public uploadFinished = (event: any) => {
+  public uploadFinished = (event: UploadResponse) => {
     this.response = event;
     this.filename = this.response.dbPath;
   }
 
   getFileName(): string {
-    return (this.filename != undefined) ? this.filename : "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB";
+    return (this.filename !== undefined) ? this.filename : "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB";
   }
 
   getTourney(id: number): Observable<Tournament> {
@@ -82,7 +82,7 @@ export class CreateTourneyComponent implements OnInit {
       this.form.get('rank')?.value == null ||
       this.form.get('region')?.value == null ||
       !this.form.get('dateTourney')?.valid ||
-      this.filename == undefined);
+      this.filename === undefined);
   }
 
   save() {

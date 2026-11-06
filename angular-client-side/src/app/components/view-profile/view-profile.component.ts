@@ -1,21 +1,19 @@
+import { NgClass, NgOptimizedImage } from '@angular/common';
+import { Component, inject, type OnInit, signal, type WritableSignal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Component, inject, OnInit, effect, signal, WritableSignal } from '@angular/core';
-import { User } from '@models/user'
-import { LinkedAccount } from '@models/linked_acount';
-import { Team } from '@models/team';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { accountFields, type LinkedAccount } from '@models/linked_acount';
+import type { Team } from '@models/team';
+import { type User, userFields } from '@models/user';
 import { UserRestService } from '@services/user-rest/user-rest.service';
 import ConfirmedValidator from '@src/app/confirmed.validator';
 import { environment } from '@src/environments/environment';
-import { MatButtonModule } from '@angular/material/button';
 import { AccountFormGroupComponent } from '../account-form-group/account-form-group.component';
-import { SharedFormFieldComponent } from "../shared-form-field/shared-form-field.component";
-import { UploadComponent } from '../upload/upload.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import {NgClass, NgOptimizedImage} from '@angular/common';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
-import { toSignal } from '@angular/core/rxjs-interop';
-import {Field} from "@shared/utils";
+import { SharedFormFieldComponent } from "../shared-form-field/shared-form-field.component";
+import { UploadComponent, type UploadResponse } from '../upload/upload.component';
 
 type Info = {
   username?: string,
@@ -33,25 +31,32 @@ type Info = {
 export class ViewProfileComponent implements OnInit {
   private restService = inject(UserRestService);
 
-  response!: { dbPath: '' };
+  response!: UploadResponse;
   team?: Team;
-  account?: LinkedAccount;
+  account: LinkedAccount | null = null;
   //info!: Info | string = "No Linked Account";
   icon?: string;
   flag: string = "view";
   accountFlag: string = "view";
-  formFields: Field = User.fields();
-  accountFields = LinkedAccount.fields();
+  formFields = userFields();
+  accountFields = accountFields();
   message!: string;
   filename!: string[];
   file: string = "";
   title!: string;
   form!: FormGroup;
 
-  user: WritableSignal<User> = signal(new User());
+  user: WritableSignal<User> = signal({ teamTag: null });
 
   constructor() {
-    this.user.set(toSignal(this.restService.getUser(), { initialValue: new User() })() as User);
+    this.restService.getUser().subscribe({
+      next: (user) => {
+        this.user.set(user);
+        this.account = user.linkedAccount ?? null;
+        this.icon = user.linkedAccount ? 'edit' : 'add_circle_outline';
+      },
+      error: (error) => console.error('Failed to load user profile', error),
+    });
   }
 
   ngOnInit(): void {
@@ -66,18 +71,6 @@ export class ViewProfileComponent implements OnInit {
         }
       )
     });
-
-    effect(() => {
-      const user = this.user();
-      this.account = user?.linkedAccount;
-      if (user?.linkedAccount) {
-        this.icon = "edit";
-      }
-      else {
-        this.icon = "add_circle_outline";
-      }
-    })
-    console.log(this.accountFlag)
   }
 
   unlinkRiotAccount(): void {
@@ -103,16 +96,16 @@ export class ViewProfileComponent implements OnInit {
       }
   }
 
-  public uploadFinished = (event: any) => {
+  public uploadFinished = (event: UploadResponse) => {
     this.response = event;
     const currentUser = this.user();
     currentUser.poster = this.response.dbPath;
     this.user.set(currentUser);
-    this.file = this.user().poster!;
+    this.file = this.user().poster ?? "";
   }
 
   getFileName(): string {
-    return (this.filename != undefined) ? this.filename[2] : "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB";
+    return (this.filename !== undefined) ? this.filename[2] : "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB";
   }
 
   public createImgPath = (serverPath: string) => {
@@ -122,21 +115,21 @@ export class ViewProfileComponent implements OnInit {
   changeFlag(name: string): string {
     switch (name) {
       case 'email':
-        this.flag = 'edit-' + name;
+        this.flag = `edit-${name}`;
         break;
       case 'password':
-        this.flag = 'edit-' + name;
+        this.flag = `edit-${name}`;
         break;
     }
     return this.flag;
   }
 
   clickEvent(name: string) {
-    this.flag = (this.flag == "view") ? this.changeFlag(name) : "view";
+    this.flag = (this.flag === "view") ? this.changeFlag(name) : "view";
   }
 
   clickAccount() {
-    this.accountFlag = (this.accountFlag == "view") ? "edit" : "view";
+    this.accountFlag = (this.accountFlag === "view") ? "edit" : "view";
   }
 
   hideText(index: number, str: string): string {
@@ -151,13 +144,14 @@ export class ViewProfileComponent implements OnInit {
 
   selectValue(key: string, value: string): string {
     let convert: string;
-    let i = 0;
+    const i = 0;
     switch (key) {
-      case "email":
-        let part = value.split('@');
-        let teste = part[0].slice(1, part[0].length - 2);
-        convert = part[0].slice(0, 1) + this.hideText(i, teste) + part[0].slice(part[0].length - 1) + '@' + part[1];
+      case "email": {
+        const part = value.split('@');
+        const teste = part[0].slice(1, part[0].length - 2);
+        convert = `${part[0].slice(0, 1)}${this.hideText(i, teste)}${part[0].slice(part[0].length - 1)}@${part[1]}`;
         break;
+      }
       case "password":
         convert = this.hideText(i, value);
         break;
@@ -168,21 +162,21 @@ export class ViewProfileComponent implements OnInit {
     return convert;
   }
 
-  getUserValue(value: string): string {
+  /* getUserValue(value: string): string {
     let convert: string = "";
     const currentUser = this.user();
 
     if (currentUser != null) {
-      let values = Object.entries(currentUser);
+      const values = Object.entries(currentUser);
 
       values.forEach(val => {
-        if (val[0] == value) {
+        if (val[0] === value) {
           convert = this.selectValue(value, val[1]);
         }
       });
     }
     return convert;
-  }
+  } */
 
   removeUser() {
     this.restService.removeProfile().subscribe({

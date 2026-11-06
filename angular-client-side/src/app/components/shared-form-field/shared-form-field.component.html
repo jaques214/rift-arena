@@ -1,7 +1,7 @@
 <form [formGroup]="authForm()" (ngSubmit)="onSubmit()">
   @switch (input().type) {
     @case ('password') {
-      @for (password of passwordFields.inputs; track password.label) {
+      @for (password of passwordFields; track password.label) {
         <div formGroupName="pass">
           <mat-form-field appearance="fill" ngClass="form-field">
             <mat-label>{{ password.label }}</mat-label>

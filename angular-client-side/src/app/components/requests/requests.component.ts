@@ -1,20 +1,20 @@
-import { UserRestService } from '@services/user-rest/user-rest.service';
-import { Component, inject, OnInit } from '@angular/core';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import {SelectionModel} from '@angular/cdk/collections';
-import { Router } from '@angular/router';
-import { MatButtonModule } from '@angular/material/button';
-import { FormsModule } from '@angular/forms';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatIconModule } from '@angular/material/icon';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { SelectionModel } from '@angular/cdk/collections';
 import { NgClass } from '@angular/common';
+import { Component, inject, type OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { Router } from '@angular/router';
+import type { Request } from "@models/request";
+import { UserRestService } from '@services/user-rest/user-rest.service';
+import { RANK_LIST } from "@shared/utils";
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
-import {Request} from "@models/request";
-import {RANK_LIST} from "@shared/utils";
 
 export interface PeriodicElement {
   requestId: number,
@@ -34,9 +34,9 @@ export class RequestsComponent implements OnInit {
   private router = inject(Router);
   private restService = inject(UserRestService);
 
-  selectedValue!: string;
-  requestID!: number;
-  requests: Request[] = new Array<Request>();
+  selectedValue = '';
+  requestID = 0;
+  requests: Request[] = [];
   ELEMENT_DATA: PeriodicElement[] = [];
 
   columns = [
@@ -79,7 +79,7 @@ export class RequestsComponent implements OnInit {
       header: 'Current Total of Members',
     },
   ];
-  dataSource!: MatTableDataSource<PeriodicElement>;
+  dataSource = new MatTableDataSource<PeriodicElement>();
   displayedPartialColumns = this.columns.map(c => c.columnDef);
   displayedColumns = ['select', ...this.displayedPartialColumns];
   displayedMobileColumns = this.columnsMobile.map(c => c.columnDef);
@@ -97,11 +97,11 @@ export class RequestsComponent implements OnInit {
   populateTable() {
     for (const request of this.requests) {
       this.ELEMENT_DATA.push({
-        requestId: request.requestId!,
-        tag: request.team?.tag!,
-        teamLeader: request.team?.teamLeader?.nickname!,
-        teamName: request.team?.name!,
-        members: request.team?.numberMembers!
+        requestId: request.requestId,
+        tag: request.team ? request.team.tag : '',
+        teamLeader: request.team ? request.team.teamLeader?.nickname ?? '' : '',
+        teamName: request.team ? request.team.name : '',
+        members: request.team ? request.team.numberMembers : 0
       })
     }
   }
@@ -145,9 +145,9 @@ export class RequestsComponent implements OnInit {
   }
 
   getRequestID(): number {
-    return (this.selection.selected[0]?.requestId == undefined) ?
-      this.requestID = (this.selectedValue.slice(0,1) as any) :
-      this.requestID = this.selection.selected[0]!.requestId;
+    return (this.selection.selected[0].requestId === undefined) ?
+      +this.selectedValue.slice(0,1) :
+      this.selection.selected[0].requestId;
   }
 
   acceptRequest() {

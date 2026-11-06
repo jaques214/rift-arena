@@ -1,15 +1,15 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { User } from '@models/user';
+import { isPlatformBrowser, NgOptimizedImage } from '@angular/common';
+import { Component, inject, type OnInit, PLATFORM_ID } from '@angular/core';
+import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
+import { MatMenuModule } from "@angular/material/menu";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { RouterLink } from "@angular/router";
+import type { Request } from "@models/request";
+import type { User } from '@models/user';
 import { AuthService } from '@services/auth/auth.service';
 import { UserRestService } from '@services/user-rest/user-rest.service';
 import { environment } from '@src/environments/environment';
-import { NgOptimizedImage } from '@angular/common';
-import { MatIconModule } from "@angular/material/icon";
-import { MatToolbarModule } from "@angular/material/toolbar";
-import { MatButtonModule } from "@angular/material/button";
-import { MatMenuModule } from "@angular/material/menu";
-import { RouterLink } from "@angular/router";
-import { Request } from "@models/request";
 
 @Component({
   selector: 'app-nav-bar',
@@ -20,9 +20,10 @@ import { Request } from "@models/request";
 export class NavBarComponent implements OnInit {
   private authService = inject(AuthService);
   private userService = inject(UserRestService);
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   response!: { dbPath: '' };
-  user: User = new User();
+  user: User | null = null;
   profile?: string;
   numberOfRequests: number = 0;
   hasTeam: boolean = false;
@@ -31,19 +32,20 @@ export class NavBarComponent implements OnInit {
 
   ngOnInit(): void {
     const tokenNickname = this.authService.getCurrentUserNickname();
-    if (tokenNickname) {
-      this.user.nickname = tokenNickname;
-      this.authService.setCurrentUser({ nickname: tokenNickname } as User);
+    if (tokenNickname && !this.user) {
+      this.user = { nickname: tokenNickname } as User;
+      this.authService.setCurrentUser(this.user);
     }
 
-    if (typeof localStorage !== 'undefined' && localStorage.getItem('currentUser') != null) {
+    if (this.isBrowser && localStorage.getItem('currentUser') !== null) {
       this.userService.getUser().subscribe({
         next: (user) => {
           this.user = user;
           this.authService.setCurrentUser(user);
-          if (this.user.teamTag != null) {
+          if (this.user.teamTag !== null) {
             this.hasTeam = true;
-          } if (this.user.linkedAccount != null) {
+          }
+          if (this.user.linkedAccount !== null) {
             this.hasLinkedAccount = true;
           }
           this.userService.getRequests().subscribe((requests: Request[]) => {
@@ -51,10 +53,10 @@ export class NavBarComponent implements OnInit {
           });
         },
         error: () => {
-          if (typeof localStorage !== 'undefined') {
+          if (this.isBrowser) {
             localStorage.removeItem('currentUser');
           }
-          this.user = new User();
+          this.user = null;
           this.authService.setCurrentUser(null);
         }
       });
@@ -66,8 +68,9 @@ export class NavBarComponent implements OnInit {
   }
 
   toogleProfileIcon() {
-    let imageFieldPath = this.createImgPath(this.user?.poster!);
-    return this.user?.poster ? imageFieldPath : 'assets/images/profile-icon.png';
+    if (!this.user) return 'assets/images/profile-icon.png';
+    const imageFieldPath = this.createImgPath(this.user.poster!);
+    return this.user.poster ? imageFieldPath : 'assets/images/profile-icon.png';
   }
 
   openMenu() {

@@ -1,14 +1,14 @@
-import {Component, inject, input, model, OnInit} from "@angular/core";
-import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LinkedAccount } from '@models/linked_acount';
-import { UserRestService } from '@services/user-rest/user-rest.service';
+import { Component, inject, input, model, type OnInit } from "@angular/core";
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
 import { MatOptionModule } from '@angular/material/core';
-import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import type {FieldInput} from "@shared/utils";
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import type { LinkedAccount } from '@models/linked_acount';
+import { UserRestService } from '@services/user-rest/user-rest.service';
+import type { FieldInput } from "@shared/utils";
 
 @Component({
     selector: 'app-account-form-group',
@@ -21,6 +21,7 @@ export class AccountFormGroupComponent implements OnInit {
 
   value = input<string>('');
   formFields = input<FieldInput[]>([]);
+  existingAccount = input<LinkedAccount | null>(null);
   accountFlag = model<string>('');
   username = '';
   rank = '';
@@ -36,26 +37,31 @@ export class AccountFormGroupComponent implements OnInit {
   }
 
   onSubmitAccount(): void {
-    const data = new LinkedAccount();
+    const data: LinkedAccount = {};
 
-    this.formFields().forEach((input:any) => {
-      if(input.type != 'select') {
-        // (data as any)[input.name!] = input.model;
-        (data as any)[input.name!] = this.form.get(input.name)?.value
-      }
-      else {
-        this.region = this.form.get(input.value)?.value;
+    this.formFields().forEach((input) => {
+      if (input.type !== 'select') {
+        data[input.name as keyof LinkedAccount] = this.form.get(input.name)?.value;
+      } else {
+        this.region = this.form.get(input.value as string)?.value;
       }
     });
-    this.accountFlag.set("view");
 
     const values = Object.values(data);
+    const hasMissingValue = values.some((value) => value === undefined || value === null);
 
-    (values.includes(undefined)) ? this.addAccount(data) : this.editAccount(data);
+    if (hasMissingValue) {
+      return;
+    }
+
+    this.accountFlag.set('view');
+
+    const hasExistingAccount = !!this.existingAccount()?.username;
+    (hasExistingAccount ? this.editAccount(data) : this.addAccount(data));
   }
 
   addAccount(account: LinkedAccount): void {
-    this.username = account.username!;
+    this.username = account.username ?? "";
 
     this.restService.addAccount(this.username, this.region).subscribe({
       next: () => window.location.reload(),
@@ -64,7 +70,7 @@ export class AccountFormGroupComponent implements OnInit {
   }
 
   editAccount(account: LinkedAccount): void {
-    this.username = account.username!;
+    this.username = account.username ?? "";
 
     this.restService.updateRiotAccount(this.username, this.region).subscribe({
       next: () => window.location.reload(),

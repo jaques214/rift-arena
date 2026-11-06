@@ -1,10 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { NgClass, NgOptimizedImage } from '@angular/common';
+import { Component, inject, type OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { User } from '@models/user';
-import { RouterLink } from '@angular/router';
-import { SharedFormGroupComponent } from '../shared-form-group/shared-form-group.component';
-import {NgClass, NgOptimizedImage} from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
+import { RouterLink } from '@angular/router';
+import { loginFields } from '@models/user';
+import { SharedFormGroupComponent } from '../shared-form-group/shared-form-group.component';
 
 @Component({
     selector: 'app-login',
@@ -21,7 +21,7 @@ import { MatCardModule } from '@angular/material/card';
 export class LoginComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
 
-  formFields: any = User.loginFields();
+  formFields = loginFields();
   title: string = 'Insert your account data';
   authForm: FormGroup = new FormGroup({
     nickname: new FormControl(''),

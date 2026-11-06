@@ -84,13 +84,13 @@
   </section>
 
   <section class="details">
-    @if (team.teamLeader == nickname) {
+    @if (team.teamLeader?.nickname === nickname) {
       <div [ngClass]="'profile-container'">
         <app-upload
           [title]="changeTitle()"
-          [getTeam]="getTeam(team.tag!)"
           [teamObj]="team"
           (onUploadFinished)="uploadFinished($event)"
+          (teamUpdated)="team = $event"
         ></app-upload>
         <div>
           <p>{{ getFileName() }}</p>
@@ -116,7 +116,7 @@
               <td>
                 {{ member.nickname }}
               </td>
-              @if (member.nickname == nickname) {
+              @if (member.nickname === nickname) {
                 <td>
                   <button mat-flat-button class="btn-blue" type="button" [routerLink]="'/profile'">
                     View Profile
@@ -138,7 +138,7 @@
       </table>
     </div>
 
-    @if (team.teamLeader == nickname) {
+    @if (team.teamLeader?.nickname === nickname) {
       <div class="request">
         <button mat-flat-button class="btn-blue" type="submit" (click)="toggleDisplay()">
           Add new member
@@ -155,7 +155,7 @@
                 formControlName="users"
                 required
               />
-              <mat-icon aria-hidden="false" aria-label="" matSuffix>account_circle</mat-icon>
+              <mat-icon aria-hidden="false" aria-label="account circle" matSuffix>account_circle</mat-icon>
               @if (form.get('users')?.invalid) {
                 <mat-error>{{ getErrorMessage() }}</mat-error>
               }

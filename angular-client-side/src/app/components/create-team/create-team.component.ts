@@ -1,9 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TeamRestService } from '@src/app/services/team-rest/team-rest.service';
 import { UserRestService } from '@src/app/services/user-rest/user-rest.service';
-import { NgClass } from '@angular/common';
+import { isPlatformBrowser, NgClass } from '@angular/common';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
@@ -21,11 +21,12 @@ export class CreateTeamComponent implements OnInit {
   private teamService = inject(TeamRestService);
   private userService = inject(UserRestService);
   private router = inject(Router);
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   form!: FormGroup;
 
   ngOnInit(): void {
-    if (localStorage.getItem("currentUser") != null) {
+    if (this.isBrowser && localStorage.getItem("currentUser") != null) {
       this.userService.getUser().subscribe({
         next: async (user) => {
           if (user.teamTag != null) {

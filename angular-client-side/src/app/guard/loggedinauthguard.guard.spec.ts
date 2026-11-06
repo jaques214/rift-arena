@@ -3,11 +3,11 @@ import { TestBed } from '@angular/core/testing';
 import { loggedInAuthGuard } from './loggedinauthguard.guard';
 
 describe('LoggedinauthguardGuard', () => {
-  let guard: loggedInAuthGuard;
+  let guard: typeof loggedInAuthGuard;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    guard = TestBed.inject(loggedInAuthGuard);
+    guard = loggedInAuthGuard;
   });
 
   it('should be created', () => {

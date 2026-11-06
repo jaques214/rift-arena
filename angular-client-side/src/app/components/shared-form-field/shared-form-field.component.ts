@@ -1,17 +1,17 @@
-import { Component, OnInit, inject, input, signal, WritableSignal, effect } from '@angular/core';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { User } from '@models/user';
-import { type Team } from '@models/team';
-import { UserRestService } from '@services/user-rest/user-rest.service';
-import { TeamRestService } from '@services/team-rest/team-rest.service';
+import { NgClass } from '@angular/common';
+import { Component, effect, inject, input, type OnInit, signal, type WritableSignal } from '@angular/core';
+import { type FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { NgClass } from '@angular/common';
-import {FieldInput} from "@shared/utils";
+import { Router } from '@angular/router';
+import type { Team } from '@models/team';
+import { passwordFields, type User } from '@models/user';
+import { TeamRestService } from '@services/team-rest/team-rest.service';
+import { UserRestService } from '@services/user-rest/user-rest.service';
+import type { FieldInput } from "@shared/utils";
+import type { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-shared-form-field',
@@ -24,11 +24,11 @@ export class SharedFormFieldComponent implements OnInit {
   private restService = inject(UserRestService);
   private teamRestService = inject(TeamRestService);
 
-  passwordFields = User.passwordFields();
+  passwordFields = passwordFields();
   readonly input = input.required<FieldInput>();
   readonly value = input.required<string>();
   inputUser = input.required<User | Team>();
-  currentUser: WritableSignal<User | Team> = signal({});
+  currentUser: WritableSignal<User | Team> = signal({} as User | Team);
   readonly authForm = input.required<FormGroup>();
   hide = true;
   message!: string;
@@ -49,11 +49,11 @@ export class SharedFormFieldComponent implements OnInit {
     let values = Object.entries(user);
 
     const inputValue = this.input();
-    if(inputValue.type == 'password') {
+    if(inputValue.type === 'password') {
       let teste = this.authForm().get('pass');
       values.forEach((val:[string, any]) => {
         const inputVal = this.input();
-        if(val[0] == inputVal.name) {
+        if(val[0] === inputVal.name) {
           teste!.get(inputVal.name)?.setValue(val[1]);
         }
       });
@@ -62,7 +62,7 @@ export class SharedFormFieldComponent implements OnInit {
       let teste = this.authForm().get(inputValue.name);
 
       values.forEach((val:[string, any]) => {
-        if(val[0] == this.input().name) {
+        if(val[0] === this.input().name) {
           teste?.setValue(val[1]);
         }
       });
@@ -117,7 +117,7 @@ export class SharedFormFieldComponent implements OnInit {
    onSubmit(): void {
     const data = this.currentUser();
     const inputValue = this.input();
-    if(inputValue.type == 'password') {
+    if(inputValue.type === 'password') {
       (data as any)[inputValue.name!] = this.authForm().get('password')?.value
     }
     else {
@@ -127,7 +127,7 @@ export class SharedFormFieldComponent implements OnInit {
   }
 
   editObj(data: any) {
-    (this.router.url == "/view-my-team") ? this.editTeam(data) : this.editUser(data);
+    (this.router.url === "/view-my-team") ? this.editTeam(data) : this.editUser(data);
   }
 
   getErrorMessage(name: string) {

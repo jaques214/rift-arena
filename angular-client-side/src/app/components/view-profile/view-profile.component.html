@@ -36,7 +36,7 @@
     <p [ngClass]="'subtitle'">Nickname</p>
   </div>
   <p>{{ user().nickname ?? 'Loading profile...' }}</p>
-  @for (input of formFields.inputs; track input.id) {
+  @for (input of formFields; track input.id) {
     <div>
       <div [ngClass]="'item'">
         <p [ngClass]="'subtitle'">{{ input.name }}</p>
@@ -63,7 +63,7 @@
           </div>
         }
         @default {
-          <p>{{ getUserValue(input.name) }}</p>
+          <p>{{ input.name }}</p>
         }
       }
     </div>
@@ -83,7 +83,8 @@
   @switch (accountFlag) {
     @case ('edit') {
       <app-account-form-group
-        [formFields]="accountFields.inputs"
+        [formFields]="accountFields"
+        [existingAccount]="account"
         [value]="'Submit'"
         [(accountFlag)]="accountFlag"
       ></app-account-form-group>
@@ -93,10 +94,10 @@
         <p>No Linked Account</p>
       } @else {
         <ng-template>
-          <p><strong>Username:</strong> {{ account.username }}</p>
-          <p><strong>Region:</strong> {{ account.region }}</p>
-          <p><strong>Rank:</strong> {{ account.rank }}</p>
-          <p><strong>Summoner Level:</strong> {{ account.summonerLevel }}</p>
+          <p><strong>Username:</strong> {{ account?.username }}</p>
+          <p><strong>Region:</strong> {{ account?.region }}</p>
+          <p><strong>Rank:</strong> {{ account?.rank }}</p>
+          <p><strong>Summoner Level:</strong> {{ account?.summonerLevel }}</p>
           @if (team == undefined) {
             <button mat-raised-button color="primary" type="submit" (click)="unlinkRiotAccount()">
               Unlink account

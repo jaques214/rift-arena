@@ -12,7 +12,7 @@ import { getRankIcon } from '@src/app/shared/utils';
 import { environment } from '@src/environments/environment';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { UploadComponent } from '../upload/upload.component';
+import { UploadComponent, type UploadResponse } from '../upload/upload.component';
 import { SharedFormFieldComponent } from '../shared-form-field/shared-form-field.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -34,16 +34,16 @@ export class ViewTeamComponent implements OnInit {
   private scroller = inject(ViewportScroller);
 
   teamTag: string = this.r.snapshot.params['id'];
-  nickname!: string;
+  nickname = "";
   nicknameList: string[] = [];
   team!: Team;
-  users: User[] = new Array<User>();
+  users: User[] = [];
   isShow = true;
   bool = true;
   flag!: string;
   formFields = teamFields();
   filename!: string;
-  response!: { dbPath: '' };
+  response!: UploadResponse;
   editForm!: FormGroup;
   form: FormGroup = new FormGroup({
     users: new FormControl(''),
@@ -68,7 +68,7 @@ export class ViewTeamComponent implements OnInit {
     });
     this.getUser().subscribe((user) => {
       this.nickname = user.nickname!;
-      this.getTeam(this.teamTag).subscribe((team) => {
+      this.teamService.getTeam(this.teamTag).subscribe((team) => {
         this.team = team;
       });
     });
@@ -100,17 +100,18 @@ export class ViewTeamComponent implements OnInit {
   }
 
   getTeamValue(value: string): string {
-    let convert: string = "";
+    const currentTeam = this.team;
 
-    if (this.team !== null) {
-      let values = Object.entries(this.team!);
-      values.forEach(val => {
-        if (val[0] == value) {
-          convert = val[1];
+    if (currentTeam != null) {
+      const values = Object.entries(currentTeam);
+      for (const [key, teamValue] of values) {
+        if (key === value) {
+          return teamValue === null ? "" : String(teamValue);
         }
-      });
+      }
     }
-    return convert;
+
+    return "";
   }
 
   addRequest(nickname: string): void {
@@ -118,10 +119,6 @@ export class ViewTeamComponent implements OnInit {
       next: () => this.router.navigate(['/']),
       error: (err) => console.log(err)
     });
-  }
-
-  getTeam(tag: string): Observable<Team> {
-    return this.teamService.getTeam(tag);
   }
 
   getUser() {
@@ -133,7 +130,7 @@ export class ViewTeamComponent implements OnInit {
   }
 
   getClass() {
-    return (this.team?.poster == undefined) ? "none" : "caption";
+    return (this.team?.poster === undefined) ? "none" : "caption";
   }
 
   getCompletePercentage(numberMembers: number) {
@@ -144,14 +141,14 @@ export class ViewTeamComponent implements OnInit {
     return (this.team?.poster) ? 'Change Team Poster' : 'Upload Team Poster';
   }
 
-  public uploadFinished = (event: any) => {
+  public uploadFinished = (event: UploadResponse) => {
     this.response = event;
-    (this.team!.poster as any) = this.response.dbPath;
-    this.filename = this.team?.poster!;
+    this.team.poster = this.response.dbPath;
+    this.filename = this.team.poster;
   }
 
   getFileName(): string {
-    return (this.filename != undefined) ? this.filename : "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB";
+    return (this.filename !== undefined) ? this.filename : "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB";
   }
 
   public createImgPath = (serverPath: string) => {

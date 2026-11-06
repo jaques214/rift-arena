@@ -4,11 +4,10 @@
   "type": "module",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "NODE_EXTRA_CA_CERTS=../backend-api/RiftARENA/certificates/localhost.crt ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "serve:ssr:angular-client-side": "node dist/angular-client-side/server/server.mjs"
+    "test": "ng test"
   },
   "prettier": {
     "printWidth": 100,
