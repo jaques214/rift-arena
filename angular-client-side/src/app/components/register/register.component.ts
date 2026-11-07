@@ -8,16 +8,10 @@ import ConfirmedValidator from '@src/app/confirmed.validator';
 import { SharedFormGroupComponent } from '../shared-form-group/shared-form-group.component';
 
 @Component({
-    selector: 'app-register',
-    templateUrl: './register.component.html',
-    styleUrls: ['./register.component.css'],
-    imports: [
-        MatCardModule,
-        NgClass,
-        SharedFormGroupComponent,
-        RouterLink,
-        NgOptimizedImage
-    ]
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css'],
+  imports: [MatCardModule, NgClass, SharedFormGroupComponent, RouterLink, NgOptimizedImage],
 })
 export class RegisterComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
@@ -32,14 +26,16 @@ export class RegisterComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.authForm = this.formBuilder.group({
-      nickname: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-      new_password: ['', Validators.required],
-    },
-    {
-      validators: [ConfirmedValidator.match('password', 'new_password')]
-    });
+    this.authForm = this.formBuilder.group(
+      {
+        nickname: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', Validators.required],
+        new_password: ['', Validators.required],
+      },
+      {
+        validators: [ConfirmedValidator.match('password', 'new_password')],
+      },
+    );
   }
 }

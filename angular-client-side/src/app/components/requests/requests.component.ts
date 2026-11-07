@@ -11,13 +11,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
-import type { Request } from "@models/request";
+import type { Request } from '@models/request';
 import { UserRestService } from '@services/user-rest/user-rest.service';
-import { RANK_LIST } from "@shared/utils";
+import { RANK_LIST } from '@shared/utils';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 export interface PeriodicElement {
-  requestId: number,
+  requestId: number;
   tag: string;
   teamLeader: string;
   teamName: string;
@@ -25,10 +25,22 @@ export interface PeriodicElement {
 }
 
 @Component({
-    selector: 'app-requests',
-    templateUrl: './requests.component.html',
-    styleUrls: ['./requests.component.css'],
-    imports: [NavBarComponent, NgClass, MatFormFieldModule, MatInputModule, MatTableModule, MatCheckboxModule, MatExpansionModule, MatIconModule, MatRadioModule, FormsModule, MatButtonModule]
+  selector: 'app-requests',
+  templateUrl: './requests.component.html',
+  styleUrls: ['./requests.component.css'],
+  imports: [
+    NavBarComponent,
+    NgClass,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+    MatCheckboxModule,
+    MatExpansionModule,
+    MatIconModule,
+    MatRadioModule,
+    FormsModule,
+    MatButtonModule,
+  ],
 })
 export class RequestsComponent implements OnInit {
   private router = inject(Router);
@@ -80,9 +92,9 @@ export class RequestsComponent implements OnInit {
     },
   ];
   dataSource = new MatTableDataSource<PeriodicElement>();
-  displayedPartialColumns = this.columns.map(c => c.columnDef);
+  displayedPartialColumns = this.columns.map((c) => c.columnDef);
   displayedColumns = ['select', ...this.displayedPartialColumns];
-  displayedMobileColumns = this.columnsMobile.map(c => c.columnDef);
+  displayedMobileColumns = this.columnsMobile.map((c) => c.columnDef);
   panelOpenState = false;
   selection = new SelectionModel<PeriodicElement>(true, []);
 
@@ -99,10 +111,10 @@ export class RequestsComponent implements OnInit {
       this.ELEMENT_DATA.push({
         requestId: request.requestId,
         tag: request.team ? request.team.tag : '',
-        teamLeader: request.team ? request.team.teamLeader?.nickname ?? '' : '',
+        teamLeader: request.team ? (request.team.teamLeader?.nickname ?? '') : '',
         teamName: request.team ? request.team.name : '',
-        members: request.team ? request.team.numberMembers : 0
-      })
+        members: request.team ? request.team.numberMembers : 0,
+      });
     }
   }
 
@@ -145,19 +157,19 @@ export class RequestsComponent implements OnInit {
   }
 
   getRequestID(): number {
-    return (this.selection.selected[0].requestId === undefined) ?
-      +this.selectedValue.slice(0,1) :
-      this.selection.selected[0].requestId;
+    return this.selection.selected[0].requestId === undefined
+      ? +this.selectedValue.slice(0, 1)
+      : this.selection.selected[0].requestId;
   }
 
   acceptRequest() {
     this.requestID = this.getRequestID();
     this.restService.acceptRequest(this.requestID).subscribe({
-       next: () => {
-         this.router.navigate(['/view-my-team']);
-       },
-       error: (err) => console.log(err)
-     });
+      next: () => {
+        this.router.navigate(['/view-my-team']);
+      },
+      error: (err) => console.log(err),
+    });
   }
 
   refuseRequest() {
@@ -166,7 +178,7 @@ export class RequestsComponent implements OnInit {
       next: () => {
         this.router.navigate(['/']);
       },
-      error: (err) => console.log(err)
+      error: (err) => console.log(err),
     });
   }
 

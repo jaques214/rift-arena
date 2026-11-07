@@ -5,13 +5,13 @@ import { environment } from '@src/environments/environment';
 import { MatButtonModule } from '@angular/material/button';
 import { NgOptimizedImage } from '@angular/common';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
-import { Tournament } from "@models/tournament";
+import { Tournament } from '@models/tournament';
 
 @Component({
   selector: 'app-view-all-tourneys',
   templateUrl: './view-all-tourneys.component.html',
   styleUrls: ['./view-all-tourneys.component.css'],
-  imports: [NavBarComponent, MatButtonModule, RouterLink, NgOptimizedImage]
+  imports: [NavBarComponent, MatButtonModule, RouterLink, NgOptimizedImage],
 })
 export class ViewAllTourneysComponent implements OnInit {
   private tourneyRestService = inject(TourneyRestService);
@@ -25,7 +25,7 @@ export class ViewAllTourneysComponent implements OnInit {
   }
 
   getColor(state: number): string {
-    return (this.getState(state) == "Online") ? "green" : "red";
+    return this.getState(state) == 'Online' ? 'green' : 'red';
   }
 
   clickEvent(id: number) {
@@ -33,13 +33,13 @@ export class ViewAllTourneysComponent implements OnInit {
   }
 
   getState(state: number): string {
-    return (state == 1) ? "Online" : "Offline";
+    return state == 1 ? 'Online' : 'Offline';
   }
 
   public createImgPath = (serverPath: string) => {
     const base_path = `${environment.apiUrl}/Resources/Images/`;
-    return `${base_path}/${serverPath === null || serverPath === undefined ? "image_placeholder.png" : serverPath}`;
-  }
+    return `${base_path}/${serverPath === null || serverPath === undefined ? 'image_placeholder.png' : serverPath}`;
+  };
 
   getTournaments() {
     return this.tourneyRestService.getTourneys();

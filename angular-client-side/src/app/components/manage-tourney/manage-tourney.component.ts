@@ -1,15 +1,15 @@
-import {Component, inject, OnInit} from "@angular/core";
-import {MatRadioModule} from "@angular/material/radio";
-import {NavBarComponent} from "../nav-bar/nav-bar.component";
-import {TeamRestService} from "@services/team-rest/team-rest.service";
-import {FormBuilder, Validators, FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
-import {MatButtonModule} from "@angular/material/button";
-import {MatInputModule} from "@angular/material/input";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatStepperModule} from "@angular/material/stepper";
-import {Team} from "@models/team";
-import {Observable} from "rxjs";
+import { Component, inject, OnInit } from '@angular/core';
+import { MatRadioModule } from '@angular/material/radio';
+import { NavBarComponent } from '../nav-bar/nav-bar.component';
+import { TeamRestService } from '@services/team-rest/team-rest.service';
+import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatStepperModule } from '@angular/material/stepper';
+import { Team } from '@models/team';
+import { Observable } from 'rxjs';
 
 interface Stage {
   value: string;
@@ -18,60 +18,59 @@ interface Stage {
 
 type RadioGroupType = {
   v: string;
-}
+};
 
 @Component({
-    selector: "app-manage-tourney",
-    templateUrl: "./manage-tourney.component.html",
-    styleUrls: ["./manage-tourney.component.css"],
-    providers: [
-        {
-            provide: STEPPER_GLOBAL_OPTIONS,
-            useValue: { showError: true },
-        },
-    ],
-    imports: [
-        NavBarComponent,
-        MatRadioModule,
-        MatStepperModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-    ]
+  selector: 'app-manage-tourney',
+  templateUrl: './manage-tourney.component.html',
+  styleUrls: ['./manage-tourney.component.css'],
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { showError: true },
+    },
+  ],
+  imports: [
+    NavBarComponent,
+    MatRadioModule,
+    MatStepperModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+  ],
 })
 export class ManageTourneyComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
   private teamService = inject(TeamRestService);
-  
+
   stages: Stage[] = [
-    {value: "1", viewValue: "Stage1"},
-    {value: "2", viewValue: "Stage2"},
-    {value: "3", viewValue: "StageN"},
+    { value: '1', viewValue: 'Stage1' },
+    { value: '2', viewValue: 'Stage2' },
+    { value: '3', viewValue: 'StageN' },
   ];
 
   radioButton: { value: string[] }[] = [
-    {value: ["team1", "team2"]},
-    {value: ["team3", "team4"]},
-    {value: ["team5", "team6"]},
+    { value: ['team1', 'team2'] },
+    { value: ['team3', 'team4'] },
+    { value: ['team5', 'team6'] },
   ];
   teams: Team[] = [];
-  radioGroup: RadioGroupType[] = [{v: "abc"}, {v: "xas"}, {v: "asd"}];
+  radioGroup: RadioGroupType[] = [{ v: 'abc' }, { v: 'xas' }, { v: 'asd' }];
 
   s: number = this.stages.length - 1;
   selectedStage = this.stages[0].value;
   firstFormGroup = this.formBuilder.group({
-    firstCtrl: ["", Validators.required],
+    firstCtrl: ['', Validators.required],
   });
   secondFormGroup = this.formBuilder.group({
-    secondCtrl: ["", Validators.required],
+    secondCtrl: ['', Validators.required],
   });
 
   ngOnInit(): void {
     this.getTeams().subscribe((data: Team[]) => {
       this.teams = data;
-
     });
   }
 
@@ -92,5 +91,4 @@ export class ManageTourneyComponent implements OnInit {
       results.push(result.v);
     });
   }
-
 }

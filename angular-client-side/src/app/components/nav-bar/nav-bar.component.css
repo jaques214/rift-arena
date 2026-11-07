@@ -3,7 +3,7 @@
 }
 
 .menu-overlay {
-  background-color: rgba(0,0,0,0.9);
+  background-color: rgba(0, 0, 0, 0.9);
   width: 100%;
   margin: auto;
   z-index: 10;
@@ -84,8 +84,8 @@ button:focus {
   left: auto;
 }
 
-.username-btn{
-  color: rgba(0,0,0,.55);
+.username-btn {
+  color: rgba(0, 0, 0, 0.55);
 }
 
 .badge {
@@ -107,11 +107,11 @@ button:focus {
   font-size: 14px;
 }
 
-.a-btn{
-text-align: left;
+.a-btn {
+  text-align: left;
 }
 
-.a-btn:focus{
+.a-btn:focus {
   outline: none;
   box-shadow: none;
 }

@@ -6,7 +6,14 @@ import { Tournament } from '@models/tournament';
 import { UserRestService } from '@services/user-rest/user-rest.service';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { TourneyRestService } from '@services/tourney-rest/tourney-rest.service';
-import { FormControl, FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import ConfirmedValidator from '@src/app/confirmed.validator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -22,10 +29,20 @@ export interface PeriodicElement {
 }
 
 @Component({
-    selector: 'app-join-tournament',
-    templateUrl: './join-tournament.component.html',
-    styleUrls: ['./join-tournament.component.css'],
-    imports: [NavBarComponent, FormsModule, ReactiveFormsModule, MatFormFieldModule, NgClass, MatInputModule, MatButtonModule, MatTableModule, MatCheckboxModule]
+  selector: 'app-join-tournament',
+  templateUrl: './join-tournament.component.html',
+  styleUrls: ['./join-tournament.component.css'],
+  imports: [
+    NavBarComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    NgClass,
+    MatInputModule,
+    MatButtonModule,
+    MatTableModule,
+    MatCheckboxModule,
+  ],
 })
 export class JoinTournamentComponent implements OnInit {
   private tournamentRestService = inject(TourneyRestService);
@@ -36,8 +53,8 @@ export class JoinTournamentComponent implements OnInit {
   tourney!: Tournament;
   teams: Team[] = [];
   selectedTeam?: Team;
-  userNickname!:string;
-  user!:User;
+  userNickname!: string;
+  user!: User;
   form: FormGroup = new FormGroup({
     tourneys: new FormControl(''),
   });
@@ -48,7 +65,7 @@ export class JoinTournamentComponent implements OnInit {
   ELEMENT_DATA: PeriodicElement[] = [];
   dataSource!: MatTableDataSource<PeriodicElement>;
   displayedColumns: string[] = ['select', 'name'];
-  errorMessage = "";
+  errorMessage = '';
   selection = new SelectionModel<PeriodicElement>(true, []);
 
   ngOnInit(): void {
@@ -57,23 +74,24 @@ export class JoinTournamentComponent implements OnInit {
     });
 
     this.getTeams().subscribe((data) => {
-        this.teams = data;
-        this.populateTable();
-        this.dataSource = new MatTableDataSource<PeriodicElement>(this.ELEMENT_DATA);
+      this.teams = data;
+      this.populateTable();
+      this.dataSource = new MatTableDataSource<PeriodicElement>(this.ELEMENT_DATA);
     });
 
     this.getTournaments().subscribe((data) => {
       this.tournaments = data;
       this.populateTourneys();
 
-      this.form = this.formBuilder.group({
-        tourneys: ['', Validators.required],
-      },
-      {
-        validators: [ConfirmedValidator.matchUser('tourneys', this.tourneysList)]
-      });
+      this.form = this.formBuilder.group(
+        {
+          tourneys: ['', Validators.required],
+        },
+        {
+          validators: [ConfirmedValidator.matchUser('tourneys', this.tourneysList)],
+        },
+      );
     });
-
   }
 
   populateTable() {
@@ -111,9 +129,9 @@ export class JoinTournamentComponent implements OnInit {
   }
 
   populateTourneys() {
-    this.selectedTeam = this.teams.find(team => team.name = this.selection.selected[0]?.name)
-    this.tournaments.forEach((element:Tournament) => {
-      if(element.region === this.selectedTeam?.teamLeader?.linkedAccount?.region) {
+    this.selectedTeam = this.teams.find((team) => (team.name = this.selection.selected[0]?.name));
+    this.tournaments.forEach((element: Tournament) => {
+      if (element.region === this.selectedTeam?.teamLeader?.linkedAccount?.region) {
         this.tourneysList.push(element.name);
         this.idList.push(element.tournamentId);
       }
@@ -125,9 +143,9 @@ export class JoinTournamentComponent implements OnInit {
     const index = this.tourneysList.indexOf(value);
     const id = this.idList[index];
 
-    this.getTournament(id).subscribe(tourney => {
+    this.getTournament(id).subscribe((tourney) => {
       this.tourney = tourney;
- });
+    });
   }
 
   getErrorMessage() {
@@ -135,7 +153,10 @@ export class JoinTournamentComponent implements OnInit {
       return 'You must enter a value';
     }
 
-    return (this.form.get('tourneys')?.hasError('tourneys') || this.form.get('tourneys')?.errors?.['matching']) ? "This tournament doesn't exist." : "";
+    return this.form.get('tourneys')?.hasError('tourneys') ||
+      this.form.get('tourneys')?.errors?.['matching']
+      ? "This tournament doesn't exist."
+      : '';
   }
 
   getTournaments() {
@@ -155,7 +176,7 @@ export class JoinTournamentComponent implements OnInit {
   }
 
   addTeam(id: number, nickname: string) {
-    this.selectedTeam = this.teams.find(team => team.name = this.selection.selected[0]?.name)
+    this.selectedTeam = this.teams.find((team) => (team.name = this.selection.selected[0]?.name));
     this.tournamentRestService.addTeam(id, nickname).subscribe({
       next: () => {
         this.getUser().subscribe((user) => {
@@ -164,9 +185,9 @@ export class JoinTournamentComponent implements OnInit {
       },
       error: () => {
         if (this.tourney.rank != this.selectedTeam?.rank) {
-          this.errorMessage = "The tournament rank must correspond to team rank."
+          this.errorMessage = 'The tournament rank must correspond to team rank.';
         }
-      }
+      },
     });
   }
 }

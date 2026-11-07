@@ -1,9 +1,9 @@
-import {inject, Injectable, PLATFORM_ID} from '@angular/core';
-import {isPlatformBrowser} from '@angular/common';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '@src/environments/environment';
-import {Router} from "@angular/router";
+import { Router } from '@angular/router';
 import { User } from '@models/user';
 
 const endpoint = `${environment.apiUrl}/api`;
@@ -49,7 +49,7 @@ export class AuthService {
   }
 
   async canActivate(): Promise<boolean> {
-    const router = inject(Router)
+    const router = inject(Router);
     if (this.isBrowser && localStorage.getItem('currentUser') != null) {
       return true;
     }
@@ -58,11 +58,8 @@ export class AuthService {
   }
 
   async loggedIn(): Promise<boolean> {
-    const router = inject(Router)
-    if (
-      this.isBrowser &&
-      localStorage.getItem('currentUser') != null
-    ) {
+    const router = inject(Router);
+    if (this.isBrowser && localStorage.getItem('currentUser') != null) {
       return await router.navigate(['']);
     }
     return true;
@@ -78,7 +75,7 @@ export class AuthService {
     return this.http.post<any>(
       `${endpoint}/Users/login`,
       JSON.stringify({ Nickname: username, Password: password }),
-      httpOptions
+      httpOptions,
     );
   }
 
@@ -93,7 +90,7 @@ export class AuthService {
     return this.http.post<any>(
       `${endpoint}/Users/register`,
       JSON.stringify({ Nickname: username, Email: email, Password: password }),
-      httpOptions
+      httpOptions,
     );
   }
 
@@ -107,9 +104,10 @@ export class AuthService {
 
   // verifica se o email inserido pertence a um user com conta RIOT vinculada ou nao
   verifyBoundedAccount(): Observable<any> {
-    return this.http.post<any>( // isto vai ser preciso alterar quando o controller no backend for feito
+    return this.http.post<any>(
+      // isto vai ser preciso alterar quando o controller no backend for feito
       endpoint + `verifyAccount`,
-      httpOptions
+      httpOptions,
     );
   }
 }

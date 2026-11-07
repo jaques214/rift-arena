@@ -1,5 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { dateValidator } from '@src/app/CustomValidator';
 import type { Tournament } from '@src/app/models/tournament';
@@ -11,27 +17,27 @@ import { NgClass } from '@angular/common';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
-    selector: 'app-edit-tournament',
-    templateUrl: './edit-tournament.component.html',
-    styleUrls: ['./edit-tournament.component.css'],
-    imports: [NavBarComponent, FormsModule, ReactiveFormsModule, NgClass, UploadComponent]
+  selector: 'app-edit-tournament',
+  templateUrl: './edit-tournament.component.html',
+  styleUrls: ['./edit-tournament.component.css'],
+  imports: [NavBarComponent, FormsModule, ReactiveFormsModule, NgClass, UploadComponent],
 })
 export class EditTournamentComponent implements OnInit {
   private router = inject(Router);
-  private route = inject(ActivatedRoute)
+  private route = inject(ActivatedRoute);
   private tourneyRest = inject(TourneyRestService);
   id = this.route.snapshot.params['id'];
 
   form!: FormGroup;
-  tourney!: Tournament
+  tourney!: Tournament;
   filename!: string;
   response!: UploadResponse;
   ranks: string[] = RANK_LIST;
 
   ngOnInit(): void {
     this.getTourney(this.id).subscribe({
-      next: (tourney) => this.tourney = tourney,
-      error: () => this.router.navigate([''])
+      next: (tourney) => (this.tourney = tourney),
+      error: () => this.router.navigate(['']),
     });
 
     this.form = new FormGroup({
@@ -42,20 +48,19 @@ export class EditTournamentComponent implements OnInit {
       description: new FormControl(null),
       maxTeams: new FormControl(null),
       rank: new FormControl(null),
-      dateTourney: new FormControl(null, [
-        Validators.required,
-        dateValidator(),
-      ]),
+      dateTourney: new FormControl(null, [Validators.required, dateValidator()]),
     });
   }
 
   public uploadFinished = (event: UploadResponse) => {
     this.response = event;
     this.filename = this.response.dbPath;
-  }
+  };
 
   getFileName(): string {
-    return (this.filename !== undefined) ? this.filename : "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB";
+    return this.filename !== undefined
+      ? this.filename
+      : 'No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB';
   }
 
   getTourney(id: number): Observable<Tournament> {
@@ -63,12 +68,14 @@ export class EditTournamentComponent implements OnInit {
   }
 
   isEnable(): boolean {
-    return !(!this.form.get('tourneyName')?.valid ||
+    return !(
+      !this.form.get('tourneyName')?.valid ||
       this.form.get('maxTeams')?.value == null ||
       this.form.get('description')?.value == null ||
       this.form.get('rank')?.value == null ||
       !this.form.get('dateTourney')?.valid ||
-      this.filename === undefined);
+      this.filename === undefined
+    );
   }
 
   save() {
@@ -80,14 +87,17 @@ export class EditTournamentComponent implements OnInit {
       const date: String = this.form.get('dateTourney')?.value;
 
       this.tourneyRest
-        .updateTourney({
-          Name: name,
-          MaxTeams: y,
-          Description: description,
-          Rank: rank,
-          date: date,
-          Poster: this.filename
-        }, this.id)
+        .updateTourney(
+          {
+            Name: name,
+            MaxTeams: y,
+            Description: description,
+            Rank: rank,
+            date: date,
+            Poster: this.filename,
+          },
+          this.id,
+        )
         .pipe(first())
         .subscribe(() => {
           alert('Atualizado com sucesso.');

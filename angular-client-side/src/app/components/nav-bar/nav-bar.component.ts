@@ -1,11 +1,11 @@
 import { isPlatformBrowser, NgOptimizedImage } from '@angular/common';
 import { Component, inject, type OnInit, PLATFORM_ID } from '@angular/core';
-import { MatButtonModule } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
-import { MatMenuModule } from "@angular/material/menu";
-import { MatToolbarModule } from "@angular/material/toolbar";
-import { RouterLink } from "@angular/router";
-import type { Request } from "@models/request";
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { RouterLink } from '@angular/router';
+import type { Request } from '@models/request';
 import type { User } from '@models/user';
 import { AuthService } from '@services/auth/auth.service';
 import { UserRestService } from '@services/user-rest/user-rest.service';
@@ -15,7 +15,14 @@ import { environment } from '@src/environments/environment';
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.css',
-  imports: [NgOptimizedImage, MatIconModule, MatToolbarModule, MatButtonModule, MatMenuModule, RouterLink],
+  imports: [
+    NgOptimizedImage,
+    MatIconModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatMenuModule,
+    RouterLink,
+  ],
 })
 export class NavBarComponent implements OnInit {
   private authService = inject(AuthService);
@@ -58,14 +65,14 @@ export class NavBarComponent implements OnInit {
           }
           this.user = null;
           this.authService.setCurrentUser(null);
-        }
+        },
       });
     }
   }
 
   createImgPath = (serverPath: string) => {
     return `${environment.apiUrl}/Resources/Images/${serverPath}`;
-  }
+  };
 
   toogleProfileIcon() {
     if (!this.user) return 'assets/images/profile-icon.png';
@@ -79,7 +86,11 @@ export class NavBarComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
-    if (typeof window !== 'undefined' && window.location && typeof window.location.reload === 'function') {
+    if (
+      typeof window !== 'undefined' &&
+      window.location &&
+      typeof window.location.reload === 'function'
+    ) {
       window.location.reload();
     }
   }

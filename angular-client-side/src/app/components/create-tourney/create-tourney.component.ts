@@ -1,49 +1,37 @@
 import { Tournament } from '@models/tournament';
 import { Component, inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { dateValidator } from '@app/CustomValidator';
 import { TourneyRestService } from '@services/tourney-rest/tourney-rest.service';
 import { first } from 'rxjs/operators';
-import {RANK_LIST} from '@app/shared/utils';
+import { RANK_LIST } from '@app/shared/utils';
 import { Observable } from 'rxjs';
 import { UploadComponent, type UploadResponse } from '../upload/upload.component';
 import { NgClass } from '@angular/common';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
-    selector: 'app-create-tourney',
-    templateUrl: './create-tourney.component.html',
-    styleUrls: ['./create-tourney.component.css'],
-    imports: [
-        NavBarComponent,
-        FormsModule,
-        ReactiveFormsModule,
-        NgClass,
-        UploadComponent,
-    ]
+  selector: 'app-create-tourney',
+  templateUrl: './create-tourney.component.html',
+  styleUrls: ['./create-tourney.component.css'],
+  imports: [NavBarComponent, FormsModule, ReactiveFormsModule, NgClass, UploadComponent],
 })
 export class CreateTourneyComponent implements OnInit {
   private tourneyRest = inject(TourneyRestService);
 
   form!: FormGroup;
-  tourney!: Tournament
+  tourney!: Tournament;
   filename!: string;
   response!: UploadResponse;
   ranks: string[] = RANK_LIST;
 
-  regions: string[] = [
-    'br1',
-    'eun1',
-    'euw1',
-    'jp1',
-    'kr',
-    'la1',
-    'la2',
-    'na1',
-    'oc1',
-    'ru',
-    'tr1',
-  ];
+  regions: string[] = ['br1', 'eun1', 'euw1', 'jp1', 'kr', 'la1', 'la2', 'na1', 'oc1', 'ru', 'tr1'];
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -55,20 +43,19 @@ export class CreateTourneyComponent implements OnInit {
       maxTeams: new FormControl(null),
       rank: new FormControl(null),
       region: new FormControl(null),
-      dateTourney: new FormControl(null, [
-        Validators.required,
-        dateValidator(),
-      ]),
+      dateTourney: new FormControl(null, [Validators.required, dateValidator()]),
     });
   }
 
   public uploadFinished = (event: UploadResponse) => {
     this.response = event;
     this.filename = this.response.dbPath;
-  }
+  };
 
   getFileName(): string {
-    return (this.filename !== undefined) ? this.filename : "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB";
+    return this.filename !== undefined
+      ? this.filename
+      : 'No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB';
   }
 
   getTourney(id: number): Observable<Tournament> {
@@ -76,13 +63,15 @@ export class CreateTourneyComponent implements OnInit {
   }
 
   isEnable(): boolean {
-    return !(!this.form.get('tourneyName')?.valid ||
+    return !(
+      !this.form.get('tourneyName')?.valid ||
       this.form.get('maxTeams')?.value == null ||
       this.form.get('description')?.value == null ||
       this.form.get('rank')?.value == null ||
       this.form.get('region')?.value == null ||
       !this.form.get('dateTourney')?.valid ||
-      this.filename === undefined);
+      this.filename === undefined
+    );
   }
 
   save() {
@@ -102,7 +91,7 @@ export class CreateTourneyComponent implements OnInit {
           Rank: rank,
           Region: region,
           date: date,
-          Poster: this.filename
+          Poster: this.filename,
         })
         .pipe(first())
         .subscribe(() => {

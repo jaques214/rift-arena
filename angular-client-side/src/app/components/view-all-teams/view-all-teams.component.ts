@@ -11,10 +11,10 @@ import type { Observable } from 'rxjs';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
-    selector: 'app-view-all-teams',
-    templateUrl: './view-all-teams.component.html',
-    styleUrls: ['./view-all-teams.component.css'],
-    imports: [NavBarComponent, MatButtonModule, RouterLink, NgOptimizedImage]
+  selector: 'app-view-all-teams',
+  templateUrl: './view-all-teams.component.html',
+  styleUrls: ['./view-all-teams.component.css'],
+  imports: [NavBarComponent, MatButtonModule, RouterLink, NgOptimizedImage],
 })
 export class ViewAllTeamsComponent implements OnInit {
   private userService = inject(UserRestService);
@@ -33,7 +33,7 @@ export class ViewAllTeamsComponent implements OnInit {
       this.getTeams().subscribe((data: Team[]) => {
         this.teams = data;
 
-        this.getTeam(nickname).subscribe(team => {
+        this.getTeam(nickname).subscribe((team) => {
           this.team = team;
           this.teams = this.removeItemOnce(this.team);
         });
@@ -48,13 +48,13 @@ export class ViewAllTeamsComponent implements OnInit {
 
   calculateStages(): number {
     //return this.recursiveDivideBy2(this.teams.length);
-    let count= 0;
+    let count = 0;
     let n = this.teams.length;
     while (n !== 1) {
       n = n / 2;
       count++;
     }
-    console.log(n)
+    console.log(n);
     return count;
   }
 
@@ -63,12 +63,14 @@ export class ViewAllTeamsComponent implements OnInit {
   }
 
   getClass() {
-    return (this.team?.poster === undefined) ? "none" : "caption";
+    return this.team?.poster === undefined ? 'none' : 'caption';
   }
 
   public createImgPath = (serverPath: string) => {
-    return (serverPath !== undefined) ? `${environment.apiUrl}/Resources/Images/${serverPath}` : "assets/images/image_placeholder.png";
-  }
+    return serverPath !== undefined
+      ? `${environment.apiUrl}/Resources/Images/${serverPath}`
+      : 'assets/images/image_placeholder.png';
+  };
 
   removeItemOnce(team: Team) {
     const index = this.teams.indexOf(team);
@@ -89,5 +91,4 @@ export class ViewAllTeamsComponent implements OnInit {
   getRank(key: string) {
     return getRankIcon(key);
   }
-
 }

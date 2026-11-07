@@ -1,5 +1,13 @@
 import { NgClass } from '@angular/common';
-import { Component, effect, inject, input, type OnInit, signal, type WritableSignal } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  input,
+  type OnInit,
+  signal,
+  type WritableSignal,
+} from '@angular/core';
 import { type FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,14 +18,22 @@ import type { Team } from '@models/team';
 import { passwordFields, type User } from '@models/user';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { UserRestService } from '@services/user-rest/user-rest.service';
-import type { FieldInput } from "@shared/utils";
+import type { FieldInput } from '@shared/utils';
 import type { Observable } from 'rxjs';
 
 @Component({
-    selector: 'app-shared-form-field',
-    templateUrl: './shared-form-field.component.html',
-    styleUrls: ['./shared-form-field.component.css'],
-    imports: [FormsModule, ReactiveFormsModule, MatFormFieldModule, NgClass, MatInputModule, MatIconModule, MatButtonModule]
+  selector: 'app-shared-form-field',
+  templateUrl: './shared-form-field.component.html',
+  styleUrls: ['./shared-form-field.component.css'],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    NgClass,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule,
+  ],
 })
 export class SharedFormFieldComponent implements OnInit {
   private router = inject(Router);
@@ -49,20 +65,19 @@ export class SharedFormFieldComponent implements OnInit {
     let values = Object.entries(user);
 
     const inputValue = this.input();
-    if(inputValue.type === 'password') {
+    if (inputValue.type === 'password') {
       let teste = this.authForm().get('pass');
-      values.forEach((val:[string, any]) => {
+      values.forEach((val: [string, any]) => {
         const inputVal = this.input();
-        if(val[0] === inputVal.name) {
+        if (val[0] === inputVal.name) {
           teste!.get(inputVal.name)?.setValue(val[1]);
         }
       });
-    }
-    else {
+    } else {
       let teste = this.authForm().get(inputValue.name);
 
-      values.forEach((val:[string, any]) => {
-        if(val[0] === this.input().name) {
+      values.forEach((val: [string, any]) => {
+        if (val[0] === this.input().name) {
           teste?.setValue(val[1]);
         }
       });
@@ -77,7 +92,7 @@ export class SharedFormFieldComponent implements OnInit {
     const editValues = {
       Password: user.password,
       Email: user.email,
-    }
+    };
     this.restService.updateUser(editValues).subscribe({
       next: () => {
         this.getUser().subscribe((updatedUser) => {
@@ -86,7 +101,7 @@ export class SharedFormFieldComponent implements OnInit {
         });
         //window.location.reload()
       },
-      error: (err) => console.log(err)
+      error: (err) => console.log(err),
     });
   }
 
@@ -97,8 +112,8 @@ export class SharedFormFieldComponent implements OnInit {
   editTeam(team: Team): void {
     const editValues = {
       Name: team.name,
-      Tag: team.tag
-    }
+      Tag: team.tag,
+    };
     this.teamRestService.updateTeam(editValues).subscribe({
       next: () => {
         this.getTeam().subscribe((updatedTeam) => {
@@ -107,27 +122,26 @@ export class SharedFormFieldComponent implements OnInit {
           window.location.reload();
         });
       },
-      error: (err) => console.log(err)
+      error: (err) => console.log(err),
     });
   }
 
   /**
    * Submeter dados atualizados
    */
-   onSubmit(): void {
+  onSubmit(): void {
     const data = this.currentUser();
     const inputValue = this.input();
-    if(inputValue.type === 'password') {
-      (data as any)[inputValue.name!] = this.authForm().get('password')?.value
-    }
-    else {
-      (data as any)[inputValue.name!] = this.authForm().get(inputValue.name)?.value
+    if (inputValue.type === 'password') {
+      (data as any)[inputValue.name!] = this.authForm().get('password')?.value;
+    } else {
+      (data as any)[inputValue.name!] = this.authForm().get(inputValue.name)?.value;
     }
     this.editObj(data);
   }
 
   editObj(data: any) {
-    (this.router.url === "/view-my-team") ? this.editTeam(data) : this.editUser(data);
+    this.router.url === '/view-my-team' ? this.editTeam(data) : this.editUser(data);
   }
 
   getErrorMessage(name: string) {
@@ -139,15 +153,17 @@ export class SharedFormFieldComponent implements OnInit {
     switch (name) {
       case 'email':
         this.message = 'Not a valid email';
-      break;
+        break;
       case 'password':
         this.message = 'Not a valid password';
-      break;
+        break;
       case 'new_password':
-         this.message = 'Password and Confirm Password must be match.';
-      break;
+        this.message = 'Password and Confirm Password must be match.';
+        break;
     }
 
-    return (authForm.get(name)?.hasError(name) || authForm.get(name)?.errors?.['matching']) ? this.message : '';
+    return authForm.get(name)?.hasError(name) || authForm.get(name)?.errors?.['matching']
+      ? this.message
+      : '';
   }
 }

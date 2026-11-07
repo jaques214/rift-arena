@@ -1,13 +1,13 @@
 .upload-button {
-    background-color: grey;
-    margin-bottom: 10px;
+  background-color: grey;
+  margin-bottom: 10px;
 }
 
-.upload{
-    font-weight:bold;
-    color:#28a745;
+.upload {
+  font-weight: bold;
+  color: #28a745;
 }
 
 .row {
-    text-align: center;
+  text-align: center;
 }

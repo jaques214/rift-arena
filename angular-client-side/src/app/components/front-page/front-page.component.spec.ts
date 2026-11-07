@@ -8,9 +8,8 @@ describe('FrontPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [FrontPageComponent]
-})
-    .compileComponents();
+      imports: [FrontPageComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

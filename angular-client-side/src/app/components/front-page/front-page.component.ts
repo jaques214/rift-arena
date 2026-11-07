@@ -11,20 +11,14 @@ import { AsyncPipe, SlicePipe } from '@angular/common';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
-    selector: 'app-front-page',
-    templateUrl: './front-page.component.html',
-    styleUrls: ['./front-page.component.css'],
-    imports: [
-        NavBarComponent,
-        RouterLink,
-        MatProgressSpinnerModule,
-        AsyncPipe,
-        SlicePipe,
-    ]
+  selector: 'app-front-page',
+  templateUrl: './front-page.component.html',
+  styleUrls: ['./front-page.component.css'],
+  imports: [NavBarComponent, RouterLink, MatProgressSpinnerModule, AsyncPipe, SlicePipe],
 })
 export class FrontPageComponent implements OnInit {
   private teamService = inject(TeamRestService);
-  private tourneyService = inject(TourneyRestService)
+  private tourneyService = inject(TourneyRestService);
 
   firstTeam!: Team;
   teams!: Team[];
@@ -42,7 +36,7 @@ export class FrontPageComponent implements OnInit {
         this.teams = data;
         this.firstTeam = this.teams.splice(0, 1)[0];
       },
-      error: () => console.log("Error fetching teams")
+      error: () => console.log('Error fetching teams'),
     });
 
     this.tourneyService.getTourneys().subscribe((data) => {
@@ -53,8 +47,6 @@ export class FrontPageComponent implements OnInit {
         this.noInfo = false;
       }
     });
-
-
   }
 
   getWinrate(team: Team): Number {

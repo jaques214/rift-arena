@@ -8,9 +8,8 @@ describe('AccountFormGroupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [AccountFormGroupComponent]
-})
-    .compileComponents();
+      imports: [AccountFormGroupComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

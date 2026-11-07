@@ -1,19 +1,19 @@
 header {
-    width: 100%;
-    text-align: center;
+  width: 100%;
+  text-align: center;
 }
 
 table {
-    width: 100%;
+  width: 100%;
 }
 
 section {
-    width: 80%;
-    margin: auto;
-    text-align: center;
+  width: 80%;
+  margin: auto;
+  text-align: center;
 }
 
 section button {
-    width: 150px;
-    margin-top: 15px;
+  width: 150px;
+  margin-top: 15px;
 }

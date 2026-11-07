@@ -1,7 +1,6 @@
-
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -11,17 +10,17 @@
 @include mat.app-background();
 
 $my-palette: (
- 50: #E4F2FC,
- 100: #BEDEF8,
- 200: #96CAF3,
- 300: #71B5EE,
- 400: #56A5EA,
- 500: #4297E7,
- 600: #3C8AD9,
- 700: #3478C7,
- 800: #2E68B5,
- 900: #234A95,
- contrast: (
+  50: #e4f2fc,
+  100: #bedef8,
+  200: #96caf3,
+  300: #71b5ee,
+  400: #56a5ea,
+  500: #4297e7,
+  600: #3c8ad9,
+  700: #3478c7,
+  800: #2e68b5,
+  900: #234a95,
+  contrast: (
     50: rgba(black, 0.87),
     100: rgba(black, 0.87),
     200: rgba(black, 0.87),
@@ -32,7 +31,7 @@ $my-palette: (
     700: white,
     800: white,
     900: white,
- )
+  ),
 );
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
@@ -46,13 +45,15 @@ $angular-client-side-warn: mat.m2-define-palette(mat.$m2-red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$angular-client-side-theme: mat.m2-define-light-theme((
-  color: (
-    primary: $angular-client-side-primary,
-    accent: $angular-client-side-accent,
-    warn: $angular-client-side-warn,
+$angular-client-side-theme: mat.m2-define-light-theme(
+  (
+    color: (
+      primary: $angular-client-side-primary,
+      accent: $angular-client-side-accent,
+      warn: $angular-client-side-warn,
+    ),
   )
-));
+);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component

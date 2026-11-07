@@ -1,5 +1,11 @@
 import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { TeamRestService } from '@src/app/services/team-rest/team-rest.service';
 import { UserRestService } from '@src/app/services/user-rest/user-rest.service';
@@ -7,15 +13,10 @@ import { isPlatformBrowser, NgClass } from '@angular/common';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
-    selector: 'app-create-team',
-    templateUrl: './create-team.component.html',
-    styleUrls: ['./create-team.component.css'],
-    imports: [
-        NavBarComponent,
-        FormsModule,
-        ReactiveFormsModule,
-        NgClass,
-    ]
+  selector: 'app-create-team',
+  templateUrl: './create-team.component.html',
+  styleUrls: ['./create-team.component.css'],
+  imports: [NavBarComponent, FormsModule, ReactiveFormsModule, NgClass],
 })
 export class CreateTeamComponent implements OnInit {
   private teamService = inject(TeamRestService);
@@ -26,20 +27,23 @@ export class CreateTeamComponent implements OnInit {
   form!: FormGroup;
 
   ngOnInit(): void {
-    if (this.isBrowser && localStorage.getItem("currentUser") != null) {
+    if (this.isBrowser && localStorage.getItem('currentUser') != null) {
       this.userService.getUser().subscribe({
         next: async (user) => {
           if (user.teamTag != null) {
             await this.router.navigate(['/']);
           }
           if (user.linkedAccount === undefined) {
-            this.router.navigate(['/']).then(nav => {
-              console.log(nav); // true if navigation is successful
-            }, err => {
-              console.log(err) // when there's an error
-            });
+            this.router.navigate(['/']).then(
+              (nav) => {
+                console.log(nav); // true if navigation is successful
+              },
+              (err) => {
+                console.log(err); // when there's an error
+              },
+            );
           }
-        }
+        },
       });
 
       this.form = new FormGroup({
@@ -47,10 +51,7 @@ export class CreateTeamComponent implements OnInit {
           Validators.required,
           Validators.pattern('^([A-Z]{1}[A-Za-z]+(([ ]{0,1}[A-Za-z])+[a-z]*)*)$'),
         ]),
-        tagName: new FormControl(null, [
-          Validators.required,
-          Validators.pattern('^[A-Z]{3}$'),
-        ]),
+        tagName: new FormControl(null, [Validators.required, Validators.pattern('^[A-Z]{3}$')]),
       });
     }
   }
@@ -66,7 +67,7 @@ export class CreateTeamComponent implements OnInit {
 
       this.teamService.createTeam(tag, teamName).subscribe({
         next: () => this.router.navigate(['']),
-        error: (err: any) => console.log(err)
+        error: (err: any) => console.log(err),
       });
     }
   }

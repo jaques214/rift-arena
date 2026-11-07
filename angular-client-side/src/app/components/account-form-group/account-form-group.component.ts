@@ -1,5 +1,11 @@
-import { Component, inject, input, model, type OnInit } from "@angular/core";
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, input, model, type OnInit } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,13 +14,22 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import type { LinkedAccount } from '@models/linked_acount';
 import { UserRestService } from '@services/user-rest/user-rest.service';
-import type { FieldInput } from "@shared/utils";
+import type { FieldInput } from '@shared/utils';
 
 @Component({
-    selector: 'app-account-form-group',
-    templateUrl: './account-form-group.component.html',
-    styleUrls: ['./account-form-group.component.css'],
-    imports: [FormsModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule, MatOptionModule, MatIconModule, MatInputModule, MatButtonModule]
+  selector: 'app-account-form-group',
+  templateUrl: './account-form-group.component.html',
+  styleUrls: ['./account-form-group.component.css'],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatIconModule,
+    MatInputModule,
+    MatButtonModule,
+  ],
 })
 export class AccountFormGroupComponent implements OnInit {
   private restService = inject(UserRestService);
@@ -57,24 +72,24 @@ export class AccountFormGroupComponent implements OnInit {
     this.accountFlag.set('view');
 
     const hasExistingAccount = !!this.existingAccount()?.username;
-    (hasExistingAccount ? this.editAccount(data) : this.addAccount(data));
+    hasExistingAccount ? this.editAccount(data) : this.addAccount(data);
   }
 
   addAccount(account: LinkedAccount): void {
-    this.username = account.username ?? "";
+    this.username = account.username ?? '';
 
     this.restService.addAccount(this.username, this.region).subscribe({
       next: () => window.location.reload(),
-      error: (err) => console.log(err)
+      error: (err) => console.log(err),
     });
   }
 
   editAccount(account: LinkedAccount): void {
-    this.username = account.username ?? "";
+    this.username = account.username ?? '';
 
     this.restService.updateRiotAccount(this.username, this.region).subscribe({
       next: () => window.location.reload(),
-      error: (err) => console.log(err)
+      error: (err) => console.log(err),
     });
   }
 
@@ -85,11 +100,11 @@ export class AccountFormGroupComponent implements OnInit {
 
     switch (name) {
       case 'username':
-        this.message = "Not a valid username";
-      break;
+        this.message = 'Not a valid username';
+        break;
       case 'region':
         this.message = "Region doesn't exist";
-      break;
+        break;
     }
 
     return this.form.get(name)?.hasError(name) ? this.message : '';

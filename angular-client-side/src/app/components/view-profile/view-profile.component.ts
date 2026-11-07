@@ -12,21 +12,31 @@ import ConfirmedValidator from '@src/app/confirmed.validator';
 import { environment } from '@src/environments/environment';
 import { AccountFormGroupComponent } from '../account-form-group/account-form-group.component';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
-import { SharedFormFieldComponent } from "../shared-form-field/shared-form-field.component";
+import { SharedFormFieldComponent } from '../shared-form-field/shared-form-field.component';
 import { UploadComponent, type UploadResponse } from '../upload/upload.component';
 
 type Info = {
-  username?: string,
-  region?: string,
-  rank?: string,
-  summonerLevel?: number,
+  username?: string;
+  region?: string;
+  rank?: string;
+  summonerLevel?: number;
 };
 
 @Component({
-    selector: 'app-view-profile',
-    templateUrl: './view-profile.component.html',
-    styleUrls: ['./view-profile.component.css'],
-    imports: [NavBarComponent, NgClass, MatIconModule, MatFormFieldModule, UploadComponent, SharedFormFieldComponent, AccountFormGroupComponent, MatButtonModule, NgOptimizedImage]
+  selector: 'app-view-profile',
+  templateUrl: './view-profile.component.html',
+  styleUrls: ['./view-profile.component.css'],
+  imports: [
+    NavBarComponent,
+    NgClass,
+    MatIconModule,
+    MatFormFieldModule,
+    UploadComponent,
+    SharedFormFieldComponent,
+    AccountFormGroupComponent,
+    MatButtonModule,
+    NgOptimizedImage,
+  ],
 })
 export class ViewProfileComponent implements OnInit {
   private restService = inject(UserRestService);
@@ -36,13 +46,13 @@ export class ViewProfileComponent implements OnInit {
   account: LinkedAccount | null = null;
   //info!: Info | string = "No Linked Account";
   icon?: string;
-  flag: string = "view";
-  accountFlag: string = "view";
+  flag: string = 'view';
+  accountFlag: string = 'view';
   formFields = userFields();
   accountFields = accountFields();
   message!: string;
   filename!: string[];
-  file: string = "";
+  file: string = '';
   title!: string;
   form!: FormGroup;
 
@@ -62,38 +72,39 @@ export class ViewProfileComponent implements OnInit {
   ngOnInit(): void {
     this.form = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
-      pass: new FormGroup({
-        password: new FormControl('', [Validators.required]),
-        new_password: new FormControl('', [Validators.required]),
-      },
+      pass: new FormGroup(
         {
-          validators: [ConfirmedValidator.match('password', 'new_password')]
-        }
-      )
+          password: new FormControl('', [Validators.required]),
+          new_password: new FormControl('', [Validators.required]),
+        },
+        {
+          validators: [ConfirmedValidator.match('password', 'new_password')],
+        },
+      ),
     });
   }
 
   unlinkRiotAccount(): void {
     this.restService.unlinkAccount().subscribe({
       next: () => window.location.reload(),
-      error: (err) => console.log(err)
+      error: (err) => console.log(err),
     });
   }
 
   changeTitle(poster: string | undefined): string {
-    return (poster) ? 'Change profile image' : 'Insert profile image';
+    return poster ? 'Change profile image' : 'Insert profile image';
   }
 
   typeOf(info: string | Info) {
-    if (typeof info === "string") {
-      return "No Linked Account"
+    if (typeof info === 'string') {
+      return 'No Linked Account';
     }
-      return {
-        username: this.account?.username,
-        region: this.account?.region,
-        rank: this.account?.rank,
-        summonerLevel: this.account?.summonerLevel,
-      }
+    return {
+      username: this.account?.username,
+      region: this.account?.region,
+      rank: this.account?.rank,
+      summonerLevel: this.account?.summonerLevel,
+    };
   }
 
   public uploadFinished = (event: UploadResponse) => {
@@ -101,16 +112,18 @@ export class ViewProfileComponent implements OnInit {
     const currentUser = this.user();
     currentUser.poster = this.response.dbPath;
     this.user.set(currentUser);
-    this.file = this.user().poster ?? "";
-  }
+    this.file = this.user().poster ?? '';
+  };
 
   getFileName(): string {
-    return (this.filename !== undefined) ? this.filename[2] : "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB";
+    return this.filename !== undefined
+      ? this.filename[2]
+      : 'No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB';
   }
 
   public createImgPath = (serverPath: string) => {
     return `${environment.apiUrl}/Resources/Images/${serverPath}`;
-  }
+  };
 
   changeFlag(name: string): string {
     switch (name) {
@@ -125,15 +138,15 @@ export class ViewProfileComponent implements OnInit {
   }
 
   clickEvent(name: string) {
-    this.flag = (this.flag === "view") ? this.changeFlag(name) : "view";
+    this.flag = this.flag === 'view' ? this.changeFlag(name) : 'view';
   }
 
   clickAccount() {
-    this.accountFlag = (this.accountFlag === "view") ? "edit" : "view";
+    this.accountFlag = this.accountFlag === 'view' ? 'edit' : 'view';
   }
 
   hideText(index: number, str: string): string {
-    let convert: string = "";
+    let convert: string = '';
     const tam = str.length;
     while (index < tam) {
       convert += '*';
@@ -146,13 +159,13 @@ export class ViewProfileComponent implements OnInit {
     let convert: string;
     const i = 0;
     switch (key) {
-      case "email": {
+      case 'email': {
         const part = value.split('@');
         const teste = part[0].slice(1, part[0].length - 2);
         convert = `${part[0].slice(0, 1)}${this.hideText(i, teste)}${part[0].slice(part[0].length - 1)}@${part[1]}`;
         break;
       }
-      case "password":
+      case 'password':
         convert = this.hideText(i, value);
         break;
       default:
@@ -181,12 +194,12 @@ export class ViewProfileComponent implements OnInit {
   removeUser() {
     this.restService.removeProfile().subscribe({
       next: () => window.location.reload(),
-      error: (err) => console.log(err)
+      error: (err) => console.log(err),
     });
   }
 
   getTeamName() {
     const currentUser = this.user();
-    return (currentUser?.teamTag) ? currentUser?.teamTag : "No Team";
+    return currentUser?.teamTag ? currentUser?.teamTag : 'No Team';
   }
 }

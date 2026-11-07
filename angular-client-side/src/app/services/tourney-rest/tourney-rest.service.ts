@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Tournament } from '@src/app/models/tournament';
 import { environment } from '@src/environments/environment';
 import { Observable } from 'rxjs';
-import {Team} from "@models/team";
+import { Team } from '@models/team';
 
 const endpoint = `${environment.apiUrl}/api/Tournaments/`;
 const httpOptions = {
@@ -30,7 +30,7 @@ export class TourneyRestService {
     return this.http.put<Tournament>(
       endpoint + id + '/addMyTeam',
       JSON.stringify({ Nickname: nickname }),
-      httpOptions
+      httpOptions,
     );
   }
 
@@ -39,30 +39,23 @@ export class TourneyRestService {
       endpoint + id,
       // { Name: name, Tag: tag, Poster: poster }
       JSON.stringify(obj),
-      httpOptions
+      httpOptions,
     );
   }
 
   createTourney(tourney: object): Observable<Tournament> {
-    return this.http.post<Tournament>(
-      endpoint + 'createTournament',
-      tourney,
-      httpOptions
-    );
+    return this.http.post<Tournament>(endpoint + 'createTournament', tourney, httpOptions);
   }
 
   getUserTourneys(): Observable<Tournament[]> {
-    return this.http.get<Tournament[]>(
-      endpoint + 'getUserTournaments',
-      httpOptions
-    );
+    return this.http.get<Tournament[]>(endpoint + 'getUserTournaments', httpOptions);
   }
 
   startTourney(teams: Team[], id: number): Observable<Tournament> {
     return this.http.post<Tournament>(
       endpoint + 'startTournament/' + id,
       JSON.stringify(teams),
-      httpOptions
+      httpOptions,
     );
   }
 }

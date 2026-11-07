@@ -7,13 +7,17 @@
 
 .mat-h3,
 .mat-typography h3 {
-  font: 800 xx-large/32px "Montserrat", sans-serif;
+  font:
+    800 xx-large / 32px "Montserrat",
+    sans-serif;
 }
 
 .mat-h1,
 .mat-headline,
 .mat-typography h1 {
-  font: 800 xx-large/32px "Montserrat", sans-serif;
+  font:
+    800 xx-large / 32px "Montserrat",
+    sans-serif;
 }
 
 * {
@@ -63,7 +67,10 @@ app-shared-form-group .btn-blue {
   background-color: #fff;
 }
 
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 .editIcon {
   width: auto;
@@ -71,15 +78,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 /**
-* view-my-team.css
-* view-team.css
-*/
+ * view-my-team.css
+ * view-team.css
+ */
 
 .example-container {
   min-height: 55px;
   max-height: 250px;
   width: 40%;
-  overflow-y:scroll;
+  overflow-y: scroll;
   border: 1px solid black;
 }
 
@@ -87,7 +94,8 @@ td:first-child {
   border-right: 1px solid black;
 }
 
-table, td {
+table,
+td {
   padding: 10px 15px;
 }
 
@@ -177,7 +185,8 @@ section.caption {
   opacity: 0.4;
 }
 
-.content, .staricon {
+.content,
+.staricon {
   opacity: 1;
 }
 
@@ -301,7 +310,7 @@ section {
 }
 
 .item .mat-icon:hover {
-  color: #24499A;
+  color: #24499a;
 }
 
 .form-size {

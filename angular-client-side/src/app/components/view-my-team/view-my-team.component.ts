@@ -1,13 +1,20 @@
-import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { TeamRestService } from '@services/team-rest/team-rest.service';
 import { UserRestService } from '@services/user-rest/user-rest.service';
 import { Component, inject, OnInit } from '@angular/core';
-import {Team, teamFields} from "@models/team";
+import { Team, teamFields } from '@models/team';
 import { User } from '@models/user';
 import { Observable } from 'rxjs';
 import { Router, RouterLink } from '@angular/router';
 import ConfirmedValidator from '@src/app/confirmed.validator';
-import {ViewportScroller, NgClass, NgOptimizedImage} from '@angular/common';
+import { ViewportScroller, NgClass, NgOptimizedImage } from '@angular/common';
 import { getRankIcon } from '@src/app/shared/utils';
 import { environment } from '@src/environments/environment';
 import { MatInputModule } from '@angular/material/input';
@@ -20,14 +27,28 @@ import { MatIconModule } from '@angular/material/icon';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
-    selector: 'app-view-my-team',
-    templateUrl: './view-my-team.component.html',
-    styleUrls: ['./view-my-team.component.css'],
-    imports: [NavBarComponent, MatIconModule, MatFormFieldModule, MatTooltipModule, NgClass, SharedFormFieldComponent, UploadComponent, MatButtonModule, RouterLink, FormsModule, ReactiveFormsModule, MatInputModule, NgOptimizedImage]
+  selector: 'app-view-my-team',
+  templateUrl: './view-my-team.component.html',
+  styleUrls: ['./view-my-team.component.css'],
+  imports: [
+    NavBarComponent,
+    MatIconModule,
+    MatFormFieldModule,
+    MatTooltipModule,
+    NgClass,
+    SharedFormFieldComponent,
+    UploadComponent,
+    MatButtonModule,
+    RouterLink,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    NgOptimizedImage,
+  ],
 })
 export class ViewMyTeamComponent implements OnInit {
   private router = inject(Router);
-  private teamService = inject(TeamRestService)
+  private teamService = inject(TeamRestService);
   private restService = inject(UserRestService);
   private formBuilder = inject(FormBuilder);
   private scroller = inject(ViewportScroller);
@@ -60,12 +81,14 @@ export class ViewMyTeamComponent implements OnInit {
       this.users = data;
       this.populateUsers();
 
-      this.form = this.formBuilder.group({
-        users: ['', Validators.required],
-      },
+      this.form = this.formBuilder.group(
         {
-          validators: [ConfirmedValidator.matchUser('users', this.nicknameList)]
-        });
+          users: ['', Validators.required],
+        },
+        {
+          validators: [ConfirmedValidator.matchUser('users', this.nicknameList)],
+        },
+      );
     });
     this.getUser().subscribe((user) => {
       this.nickname = user.nickname!;
@@ -93,9 +116,8 @@ export class ViewMyTeamComponent implements OnInit {
     this.flag = name;
     if (!this.bool) {
       this.bool = true;
-    }
-    else {
-      this.scroller.scrollToAnchor("name");
+    } else {
+      this.scroller.scrollToAnchor('name');
       this.bool = false;
     }
   }
@@ -107,18 +129,18 @@ export class ViewMyTeamComponent implements OnInit {
       const values = Object.entries(currentTeam);
       for (const [key, teamValue] of values) {
         if (key === value) {
-          return teamValue == null ? "" : String(teamValue);
+          return teamValue == null ? '' : String(teamValue);
         }
       }
     }
 
-    return "";
+    return '';
   }
 
   addRequest(nickname: string): void {
     this.restService.createRequest(nickname).subscribe({
       next: () => this.router.navigate(['/']),
-      error: (err) => console.log(err)
+      error: (err) => console.log(err),
     });
   }
 
@@ -135,7 +157,7 @@ export class ViewMyTeamComponent implements OnInit {
   }
 
   getClass() {
-    return (this.team?.poster === undefined) ? "none" : "caption";
+    return this.team?.poster === undefined ? 'none' : 'caption';
   }
 
   getCompletePercentage(numberMembers: number) {
@@ -143,42 +165,46 @@ export class ViewMyTeamComponent implements OnInit {
   }
 
   changeTitle() {
-    return (this.team?.poster) ? 'Change Team Poster' : 'Upload Team Poster';
+    return this.team?.poster ? 'Change Team Poster' : 'Upload Team Poster';
   }
 
   public uploadFinished = (event: UploadResponse) => {
     this.response = event;
     this.team.poster = this.response.dbPath;
     this.filename = this.team.poster;
-  }
+  };
 
   getFileName(): string {
-    return (this.filename !== undefined) ? this.filename : "No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB";
+    return this.filename !== undefined
+      ? this.filename
+      : 'No file uploaded yet. Image in JPEG, PNG or GIF format and less than 10MB';
   }
 
   public createImgPath = (serverPath: string) => {
     return `${environment.apiUrl}/Resources/Images/${serverPath}`;
-  }
+  };
 
   getErrorMessage() {
     if (this.form.get('users')?.hasError('required')) {
       return 'You must enter a value';
     }
 
-    return (this.form.get('users')?.hasError('users') || this.form.get('users')?.errors?.['matching']) ? "This user doesn't exist." : "";
+    return this.form.get('users')?.hasError('users') || this.form.get('users')?.errors?.['matching']
+      ? "This user doesn't exist."
+      : '';
   }
 
   removeMember(nickname: string) {
     this.teamService.removeMember(nickname).subscribe({
       next: () => window.location.reload(),
-      error: (err) => console.log(err)
+      error: (err) => console.log(err),
     });
   }
 
   removeTeam() {
     this.teamService.deleteTeam().subscribe({
       next: () => window.location.reload(),
-      error: (err) => console.log(err)
+      error: (err) => console.log(err),
     });
   }
 }

@@ -8,23 +8,23 @@ export type FieldInput = {
   iconLabel: string;
   icon: string;
   values?: string[];
-}
+};
 
 export type Field = {
-  inputs: FieldInput[]
-}
+  inputs: FieldInput[];
+};
 
 export const RANK_LIST: string[] = [
-    'IRON',
-    'BRONZE',
-    'SILVER',
-    'GOLD',
-    'PLATINUM',
-    'DIAMOND',
-    'GRANDMASTER',
-    'MASTER',
-    'CHALLENGER',
-  ];
+  'IRON',
+  'BRONZE',
+  'SILVER',
+  'GOLD',
+  'PLATINUM',
+  'DIAMOND',
+  'GRANDMASTER',
+  'MASTER',
+  'CHALLENGER',
+];
 
 export function getRankIcon(key: string) {
   let rank: string;

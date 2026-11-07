@@ -1,4 +1,4 @@
-import {Component, inject, OnInit, input} from "@angular/core";
+import { Component, inject, OnInit, input } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@services/auth/auth.service';
@@ -9,10 +9,18 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgClass } from '@angular/common';
 
 @Component({
-    selector: 'app-shared-form-group',
-    templateUrl: './shared-form-group.component.html',
-    styleUrls: ['./shared-form-group.component.css'],
-    imports: [FormsModule, ReactiveFormsModule, MatFormFieldModule, NgClass, MatInputModule, MatIconModule, MatButtonModule]
+  selector: 'app-shared-form-group',
+  templateUrl: './shared-form-group.component.html',
+  styleUrls: ['./shared-form-group.component.css'],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    NgClass,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule,
+  ],
 })
 export class SharedFormGroupComponent implements OnInit {
   private router = inject(Router);
@@ -30,8 +38,7 @@ export class SharedFormGroupComponent implements OnInit {
   // });
   message!: string;
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   submit() {
     switch (this.router.url) {
@@ -50,49 +57,56 @@ export class SharedFormGroupComponent implements OnInit {
     //, e se validou, pode avançar, senão, lançar um alert a dizer que não inseriu))
 
     const authForm = this.authForm();
-    this.authService.login(authForm.get("nickname")?.value, authForm.get("password")?.value).subscribe({
-      next: async (result: any) => {
-        const token = result?.token ?? result?.Token;
-        const nickname = this.authForm().get('nickname')?.value;
-        if (!token) {
-          console.log('Erro no login: token não recebido');
-          return;
-        }
+    this.authService
+      .login(authForm.get('nickname')?.value, authForm.get('password')?.value)
+      .subscribe({
+        next: async (result: any) => {
+          const token = result?.token ?? result?.Token;
+          const nickname = this.authForm().get('nickname')?.value;
+          if (!token) {
+            console.log('Erro no login: token não recebido');
+            return;
+          }
 
-        localStorage.setItem('currentUser', token);
-        this.authService.setCurrentUser({ nickname } as any);
-        await this.router.navigate(['/']);
-      },
-      error: () => console.log("Erro no login")
-    });
+          localStorage.setItem('currentUser', token);
+          this.authService.setCurrentUser({ nickname } as any);
+          await this.router.navigate(['/']);
+        },
+        error: () => console.log('Erro no login'),
+      });
   }
 
-  register(): void{
+  register(): void {
     const authForm = this.authForm();
-    this.authService.register(authForm.get('email')?.value, authForm.get('nickname')?.value,
-    authForm.get('password')?.value).subscribe({
-      next: (result: any) => {
-        const token = result?.token ?? result?.Token;
-        const nickname = this.authForm().get('nickname')?.value;
-        if (!token) {
-          console.log('Erro no registo: token não recebido');
-          return;
-        }
+    this.authService
+      .register(
+        authForm.get('email')?.value,
+        authForm.get('nickname')?.value,
+        authForm.get('password')?.value,
+      )
+      .subscribe({
+        next: (result: any) => {
+          const token = result?.token ?? result?.Token;
+          const nickname = this.authForm().get('nickname')?.value;
+          if (!token) {
+            console.log('Erro no registo: token não recebido');
+            return;
+          }
 
-        localStorage.setItem('currentUser', token);
-        this.authService.setCurrentUser({ nickname } as any);
-        this.router.navigate(['/']);
-      },
-      error: () => console.log("Erro no registo")
-    });
+          localStorage.setItem('currentUser', token);
+          this.authService.setCurrentUser({ nickname } as any);
+          this.router.navigate(['/']);
+        },
+        error: () => console.log('Erro no registo'),
+      });
   }
 
-  getAutoCompleteValue(name: string):string {
-    return (name == "password") ? "current_password" : "new_password";
+  getAutoCompleteValue(name: string): string {
+    return name == 'password' ? 'current_password' : 'new_password';
   }
 
   getValidationResult(): boolean {
-    return (this.router.url == "/register") ? this.authForm().invalid : false;
+    return this.router.url == '/register' ? this.authForm().invalid : false;
   }
 
   getErrorMessage(name: string) {
@@ -104,18 +118,20 @@ export class SharedFormGroupComponent implements OnInit {
     switch (name) {
       case 'nickname':
         this.message = "The nickname can't have any accents";
-      break;
+        break;
       case 'email':
         this.message = 'Not a valid email';
-      break;
+        break;
       case 'password':
         this.message = 'Not a valid password';
-      break;
+        break;
       case 'new_password':
-         this.message = 'Password and Confirm Password must be match.';
-      break;
+        this.message = 'Password and Confirm Password must be match.';
+        break;
     }
 
-    return (authForm.get(name)?.hasError(name) || authForm.get(name)?.errors?.['matching']) ? this.message : '';
+    return authForm.get(name)?.hasError(name) || authForm.get(name)?.errors?.['matching']
+      ? this.message
+      : '';
   }
 }

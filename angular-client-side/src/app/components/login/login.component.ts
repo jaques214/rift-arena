@@ -7,16 +7,10 @@ import { loginFields } from '@models/user';
 import { SharedFormGroupComponent } from '../shared-form-group/shared-form-group.component';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.css'],
-    imports: [
-        MatCardModule,
-        NgClass,
-        SharedFormGroupComponent,
-        RouterLink,
-        NgOptimizedImage,
-    ]
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
+  imports: [MatCardModule, NgClass, SharedFormGroupComponent, RouterLink, NgOptimizedImage],
 })
 export class LoginComponent implements OnInit {
   private formBuilder = inject(FormBuilder);

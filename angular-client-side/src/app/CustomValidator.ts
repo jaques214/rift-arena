@@ -11,8 +11,6 @@ export function dateValidator(): ValidatorFn {
     }
 
     // return null if there's no errors
-    return date.getTime() < today
-      ? { invalidDate: 'You cannot use past dates' }
-      : null;
+    return date.getTime() < today ? { invalidDate: 'You cannot use past dates' } : null;
   };
 }

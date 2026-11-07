@@ -1,5 +1,5 @@
 import { HttpClient, HttpEventType } from '@angular/common/http';
-import { Component, inject, input, model, type OnInit, output } from "@angular/core";
+import { Component, inject, input, model, type OnInit, output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import type { Team } from '@models/team';
@@ -21,10 +21,10 @@ type TeamEditValues = {
 };
 
 @Component({
-    selector: 'app-upload',
-    templateUrl: './upload.component.html',
-    styleUrls: ['./upload.component.css'],
-    imports: [MatButtonModule]
+  selector: 'app-upload',
+  templateUrl: './upload.component.html',
+  styleUrls: ['./upload.component.css'],
+  imports: [MatButtonModule],
 })
 export class UploadComponent implements OnInit {
   private http = inject(HttpClient);
@@ -42,8 +42,7 @@ export class UploadComponent implements OnInit {
   teamObj = input<Team>();
   editValues!: TeamEditValues;
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   uploadFile = (files: FileList | null) => {
     if (!files || files.length === 0) return;
@@ -52,10 +51,14 @@ export class UploadComponent implements OnInit {
     const formData = new FormData();
     formData.append('file', fileToUpload, fileToUpload.name);
 
-    this.http.post<UploadResponse>(`${environment.apiUrl}/api/upload`, formData, { reportProgress: true, observe: 'events' })
-      .subscribe(event => {
+    this.http
+      .post<UploadResponse>(`${environment.apiUrl}/api/upload`, formData, {
+        reportProgress: true,
+        observe: 'events',
+      })
+      .subscribe((event) => {
         if (event.type === HttpEventType.UploadProgress)
-          this.progress = Math.round(100 * event.loaded / event.total!);
+          this.progress = Math.round((100 * event.loaded) / event.total!);
         else if (event.type === HttpEventType.Response) {
           if (event.body === null) {
             console.error('Upload endpoint returned an empty response.');
@@ -74,24 +77,23 @@ export class UploadComponent implements OnInit {
         Name: team.name,
         Tag: team.tag,
         Poster: fileToUpload.name,
-      }
+      };
       this.teamRestService.updateTeam(this.editValues).subscribe({
-        next: updatedTeam => this.teamUpdated.emit(updatedTeam),
-        error: (err) => console.log(err)
+        next: (updatedTeam) => this.teamUpdated.emit(updatedTeam),
+        error: (err) => console.log(err),
       });
-    }
-    else if (this.router.url === '/profile' && user) {
+    } else if (this.router.url === '/profile' && user) {
       this.editValues = {
         Password: user.password,
         Email: user.email,
         Poster: fileToUpload.name,
-      }
+      };
       this.userRestService.updateUser(this.editValues).subscribe({
         next: () => {
           this.getUser.set(user);
         },
-        error: (err) => console.log(err)
+        error: (err) => console.log(err),
       });
     }
-  }
+  };
 }

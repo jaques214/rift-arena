@@ -1,97 +1,97 @@
 section {
-    padding: 0 20px;
+  padding: 0 20px;
 }
 
 h3 {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .subtitle {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .profileImg {
-    border-radius: 100%;
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    object-position: top center;
+  border-radius: 100%;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  object-position: top center;
 }
 
 .container {
-    display: flex;
-    width: 80%;
-    background-color: #dddbdb;
-    justify-content: flex-start;
-    padding: 10px;
-    border-radius: 10px;
-    flex-wrap: wrap;
+  display: flex;
+  width: 80%;
+  background-color: #dddbdb;
+  justify-content: flex-start;
+  padding: 10px;
+  border-radius: 10px;
+  flex-wrap: wrap;
 }
 
 .container div:first-child {
-    text-align: center;
+  text-align: center;
 }
 
 .container div {
-    flex-basis: 50%;
-    margin: auto;
+  flex-basis: 50%;
+  margin: auto;
 }
 
 .container .mat-icon {
-    text-align: center;
-    margin: 0 auto;
-    width: 100%;
-    height: 100%;
-    font-size: 120px;
+  text-align: center;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  font-size: 120px;
 }
 
 .container p {
-    font-size: 12px;
-    margin-bottom: 0;
+  font-size: 12px;
+  margin-bottom: 0;
 }
 
 .item {
-    align-items: center;
-    display: flex;
-    margin: auto;
+  align-items: center;
+  display: flex;
+  margin: auto;
 }
 
 .mat-form-field {
-    width: 80%;
+  width: 80%;
 }
 
 .item p.subtitle {
-    margin: 12px 0;
-    text-transform: capitalize;
+  margin: 12px 0;
+  text-transform: capitalize;
 }
 
 .item .mat-icon {
-    cursor: pointer;
-    padding-left: 8px;
-    align-content: center;
+  cursor: pointer;
+  padding-left: 8px;
+  align-content: center;
 }
 
 .item .mat-icon:hover {
-    color: #24499A;
+  color: #24499a;
 }
 
 .btn-red {
-    color: #fff;
-    background-color: red;
+  color: #fff;
+  background-color: red;
 }
 
 @media screen and (min-width: 1000px) {
-    .container {
-        display: flex;
-        width: 40%;
-        background-color: #dddbdb;
-        justify-content: flex-start;
-        padding: 10px;
-        flex-wrap: wrap;
-        border-radius: 10px;
-    }
+  .container {
+    display: flex;
+    width: 40%;
+    background-color: #dddbdb;
+    justify-content: flex-start;
+    padding: 10px;
+    flex-wrap: wrap;
+    border-radius: 10px;
+  }
 
-    .mat-form-field {
-        width: 40%;
-    }
+  .mat-form-field {
+    width: 40%;
+  }
 }

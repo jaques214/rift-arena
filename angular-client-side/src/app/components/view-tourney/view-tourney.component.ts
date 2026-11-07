@@ -5,64 +5,64 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { environment } from '@src/environments/environment';
 import { MatButtonModule } from '@angular/material/button';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
-import {NgOptimizedImage} from "@angular/common";
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
-    selector: 'app-view-tourney',
-    templateUrl: './view-tourney.component.html',
-    styleUrls: ['./view-tourney.component.css'],
-    imports: [NavBarComponent, MatButtonModule, RouterLink, NgOptimizedImage]
+  selector: 'app-view-tourney',
+  templateUrl: './view-tourney.component.html',
+  styleUrls: ['./view-tourney.component.css'],
+  imports: [NavBarComponent, MatButtonModule, RouterLink, NgOptimizedImage],
 })
 export class ViewTourneyComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private tourneyRestService = inject(TourneyRestService);
 
   tourneyId: number = this.route.snapshot.params['id'];
-  tourney!: Tournament
+  tourney!: Tournament;
   tournaments: Tournament[] = [];
   tourneysList: string[] = [];
   idList: number[] = [];
 
   ngOnInit(): void {
-    this.getTournament(this.tourneyId).subscribe(tourney => {
+    this.getTournament(this.tourneyId).subscribe((tourney) => {
       this.tourney = tourney;
     });
   }
 
   getColor(state: number): string {
-    return (this.getState(state) == "Online") ? "green" : "red";
+    return this.getState(state) == 'Online' ? 'green' : 'red';
   }
 
   getState(state: number): string {
-    let result = "";
+    let result = '';
     switch (state) {
       case 0:
-        result = "Published";
+        result = 'Published';
         break;
       case 1:
-        result = "Not Published";
+        result = 'Not Published';
         break;
       case 2:
-        result = "Canceled";
+        result = 'Canceled';
         break;
       case 3:
-        result = "Soon";
+        result = 'Soon';
         break;
       case 4:
-        result = "Online";
+        result = 'Online';
         break;
       case 5:
-        result = "Closed";
+        result = 'Closed';
         break;
       default:
         break;
     }
-    return (state == 1) ? "Online" : "Offline";
+    return state == 1 ? 'Online' : 'Offline';
   }
 
   public createImgPath = (serverPath: string) => {
     return `${environment.apiUrl}/Resources/Images/${serverPath}`;
-  }
+  };
 
   getTournament(id: number) {
     return this.tourneyRestService.getTourney(id);
@@ -78,5 +78,4 @@ export class ViewTourneyComponent implements OnInit {
       this.idList.push(element.tournamentId);
     });
   }
-
 }

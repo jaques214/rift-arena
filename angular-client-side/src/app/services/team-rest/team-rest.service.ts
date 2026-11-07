@@ -32,29 +32,23 @@ export class TeamRestService {
       endpoint,
       // { Name: name, Tag: tag, Poster: poster }
       JSON.stringify(obj),
-      httpOptions
+      httpOptions,
     );
   }
 
   removeMember(nickname: string): Observable<any> {
-    return this.http.delete<any>(
-      endpoint + 'removeMember',
-      {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        body: {
-          Nickname: nickname,
-        },
-      }
-    )
+    return this.http.delete<any>(endpoint + 'removeMember', {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: {
+        Nickname: nickname,
+      },
+    });
   }
 
   deleteTeam(): Observable<any> {
-    return this.http.delete<any>(
-      endpoint,
-      httpOptions
-    );
+    return this.http.delete<any>(endpoint, httpOptions);
   }
 
   createTeam(tag: string, nameTeam: string): Observable<any> {
@@ -64,7 +58,7 @@ export class TeamRestService {
         Name: nameTeam,
         Tag: tag,
       }),
-      httpOptions
+      httpOptions,
     );
   }
 }

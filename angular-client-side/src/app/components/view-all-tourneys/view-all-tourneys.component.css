@@ -1,59 +1,59 @@
 section {
-    padding: 0 35px;
-    width: 100%;
+  padding: 0 35px;
+  width: 100%;
 }
 
 .message {
-    text-align: center;
+  text-align: center;
 }
 
 #box {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    justify-content: center;
-    padding: 15px;
-    border: 1px solid #000;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  padding: 15px;
+  border: 1px solid #000;
 }
 
 .poster {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .round-icon {
-    margin-right: 10px;
-    border-radius: 100%;
-    width: 12px;
-    height: 12px;
+  margin-right: 10px;
+  border-radius: 100%;
+  width: 12px;
+  height: 12px;
 }
 
 .green {
-    background-color: rgb(134, 207, 24);
+  background-color: rgb(134, 207, 24);
 }
 
 .red {
-    background-color: red;
+  background-color: red;
 }
 
 .status {
-    align-items: center;
-    display: flex;
-    margin: 10px 0;
+  align-items: center;
+  display: flex;
+  margin: 10px 0;
 }
 
 .status p {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 section div.content:first-child {
-    width: 40%;
+  width: 40%;
 }
 
 section div.content:last-child {
-    width: 60%;
+  width: 60%;
 }
 
 section div.content {
@@ -62,31 +62,31 @@ section div.content {
 
 section div.content,
 section .tournament-container {
-    display: flex;
+  display: flex;
 }
 
 section .tournament-container {
-    flex-direction: row;
-    gap: 30px;
+  flex-direction: row;
+  gap: 30px;
 }
 
 header {
-    padding: 0 35px 15px 35px;
-    text-align: end;
+  padding: 0 35px 15px 35px;
+  text-align: end;
 }
 
 header a {
-    padding: 0 8px;
-    text-decoration: none;
+  padding: 0 8px;
+  text-decoration: none;
 }
 
 @media only screen and (max-width: 700px) {
-    section div.content:first-child,
-    section div.content:last-child {
-        width: 100%;
-    }
+  section div.content:first-child,
+  section div.content:last-child {
+    width: 100%;
+  }
 
-    section .tournament-container {
-        flex-direction: column;
-    }
+  section .tournament-container {
+    flex-direction: column;
+  }
 }
