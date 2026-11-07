@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { dateValidator } from '@src/app/CustomValidator';
-import { Tournament } from '@src/app/models/tournament';
+import type { Tournament } from '@src/app/models/tournament';
 import { TourneyRestService } from '@src/app/services/tourney-rest/tourney-rest.service';
 import { RANK_LIST } from '@src/app/shared/utils';
 import { first, Observable } from 'rxjs';

@@ -1,11 +1,8 @@
-import { Tournament } from './tournament';
+import type { Tournament } from './tournament';
 
-export class Message {
-    constructor(
-        public messageId: number,
-        public message: string,
-        public tournament: Tournament,
-        public userId: number,
-     ) {}
-}
-
+export type Message = {
+  messageId: number;
+  message: string;
+  tournament: Tournament;
+  userId: number;
+};

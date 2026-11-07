@@ -23,7 +23,6 @@ export const loginFields = () => [
     placeholder: 'Enter Account nickname',
     iconLabel: 'account circle icon',
     icon: 'account_circle',
-    model: 'nickname',
   },
   {
     id: 'password',
@@ -33,7 +32,6 @@ export const loginFields = () => [
     placeholder: 'Enter password',
     iconLabel: 'no encryption icon',
     icon: 'no_encryption',
-    // model: 'password',
   },
 ];
 
@@ -46,7 +44,6 @@ export const registerFields = () => [
     placeholder: 'Enter Account nickname',
     iconLabel: 'account circle icon',
     icon: 'account_circle',
-    model: 'nickname',
   },
   {
     id: 'email',
@@ -56,7 +53,6 @@ export const registerFields = () => [
     placeholder: 'Enter email',
     iconLabel: 'email icon',
     icon: 'email',
-    model: 'email',
   },
   {
     id: 'password',
@@ -66,7 +62,6 @@ export const registerFields = () => [
     placeholder: 'Enter password',
     iconLabel: 'no encryption icon',
     icon: 'no_encryption',
-    // model: 'password',
   },
   {
     id: 'new_password',
@@ -76,7 +71,6 @@ export const registerFields = () => [
     placeholder: 'Enter password again',
     iconLabel: 'no encryption icon',
     icon: 'no_encryption',
-    // model: 'password',
   },
 ];
 
@@ -89,7 +83,6 @@ export const userFields = () => [
     placeholder: 'Enter email',
     iconLabel: 'email icon',
     icon: 'email',
-    // model: 'email',
   },
   {
     id: 'password',
@@ -99,7 +92,6 @@ export const userFields = () => [
     placeholder: 'Enter password',
     iconLabel: 'no encryption icon',
     icon: 'no_encryption',
-    // model: 'password',
   },
 ];
 
@@ -112,7 +104,6 @@ export const passwordFields = () => [
     placeholder: 'Enter password',
     iconLabel: 'no encryption icon',
     icon: 'no_encryption',
-    // model: 'password',
   },
   {
     id: 'new_password',
@@ -122,6 +113,5 @@ export const passwordFields = () => [
     placeholder: 'Enter password again',
     iconLabel: 'no encryption icon',
     icon: 'no_encryption',
-    // model: 'password',
   },
 ];

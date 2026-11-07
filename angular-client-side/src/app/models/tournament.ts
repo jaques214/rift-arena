@@ -1,63 +1,55 @@
-import {Team} from './team';
-import { Message } from './message';
+import type { Team } from './team';
+import type { Message } from './message';
 
 export enum State {
-    PUBLISHED,
-    NOT_PUBLISHED,
-    CANCELED,
-    SOON,
-    ONLINE,
-    CLOSED
+  PUBLISHED,
+  NOT_PUBLISHED,
+  CANCELED,
+  SOON,
+  ONLINE,
+  CLOSED,
 }
 
-export class Tournament {
-    constructor(
-        public tournamentId: number,
-        public numberOfTeams: number,
-        public maxTeams: number,
-        public name: string,
-        public state: State,
-        public stages: Team[],
-        public rank: string,
-        public date: any,
-        public region: string,
-        public finalWinner: string,
-        public description: string,
-        public prize: number,
-        public poster: string,
-        public chat: Message[],
-    ) {}
+export type Tournament = {
+  tournamentId: number;
+  numberOfTeams: number;
+  maxTeams: number;
+  name: string;
+  state: State;
+  stages: Team[];
+  rank: string;
+  date: any;
+  region: string;
+  finalWinner: string;
+  description: string;
+  prize: number;
+  poster: string;
+  chat: Message[];
+};
 
-    static fields(){
-        return {
-            inputs: [
-              {
-                id: "name",
-                name: 'name',
-                type: 'text',
-                placeholder: 'Enter tournament name',
-                iconLabel: 'category icon',
-                icon: 'category',
-                model: undefined,
-              },
-              {
-                id: "nTeams",
-                name: 'nTeams',
-                type: 'number',
-                placeholder: 'Enter the number of teams',
-                iconLabel: 'group icon',
-                icon: 'group',
-                model: undefined,
-              },
-              {
-                id: "date",
-                name: 'date',
-                type: 'datetime-local',
-                placeholder: 'Enter tournament date',
-                iconLabel: 'today icon',
-                icon: 'today',
-                model: undefined,
-              },
-        ]}
-    }
-}
+export const tournamentFields = () => [
+  {
+    id: 'name',
+    name: 'name',
+    type: 'text',
+    placeholder: 'Enter tournament name',
+    iconLabel: 'category icon',
+    icon: 'category',
+  },
+  {
+    id: 'nTeams',
+    name: 'nTeams',
+    type: 'number',
+    placeholder: 'Enter the number of teams',
+    iconLabel: 'group icon',
+    icon: 'group',
+  },
+  {
+    id: 'date',
+    name: 'date',
+    type: 'datetime-local',
+    placeholder: 'Enter tournament date',
+    iconLabel: 'today icon',
+    icon: 'today',
+  },
+];

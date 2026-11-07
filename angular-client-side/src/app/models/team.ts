@@ -1,6 +1,6 @@
-import {User} from "./user"
-import {Tournament} from "./tournament"
-import {FieldInput} from "@shared/utils";
+import type { FieldInput } from '@shared/utils';
+import type { User } from './user';
+import type { Tournament } from './tournament';
 
 export type Team = {
   teamId?: number;
@@ -18,24 +18,24 @@ export type Team = {
   tournament?: Tournament[];
   winrate?: number | null;
   substituteMembers?: number;
-}
+};
 export const teamFields = (): FieldInput[] => [
   {
-    id: "name",
-    name: "name",
-    type: "text",
-    placeholder: "Enter Team Name",
-    iconLabel: "account circle icon",
-    icon: "account_circle",
-    label: "Team Name",
+    id: 'name',
+    name: 'name',
+    type: 'text',
+    placeholder: 'Enter Team Name',
+    iconLabel: 'account circle icon',
+    icon: 'account_circle',
+    label: 'Team Name',
   },
   {
-    id: "tag",
-    name: "tag",
-    type: "text",
-    placeholder: "Enter Team Tag",
-    iconLabel: "code icon",
-    icon: "code",
-    label: "Team Tag"
+    id: 'tag',
+    name: 'tag',
+    type: 'text',
+    placeholder: 'Enter Team Tag',
+    iconLabel: 'code icon',
+    icon: 'code',
+    label: 'Team Tag',
   },
 ];

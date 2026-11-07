@@ -1,11 +1,9 @@
-import { Team } from './team';
-import {User} from './user'
+import type { User } from './user';
+import type { Team } from './team';
 
-export class Request {
-    constructor(
-        public requestId: number,
-        public user?: User,
-        public team?: Team,
-        public accepted?: boolean,
-    ) {}
-}
+export type Request = {
+  requestId: number;
+  user?: User;
+  team?: Team;
+  accepted?: boolean;
+};

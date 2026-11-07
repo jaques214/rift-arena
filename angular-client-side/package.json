@@ -7,19 +7,9 @@
     "start": "NODE_EXTRA_CA_CERTS=../backend-api/RiftARENA/certificates/localhost.crt ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
-  },
-  "prettier": {
-    "printWidth": 100,
-    "singleQuote": true,
-    "overrides": [
-      {
-        "files": "*.html",
-        "options": {
-          "parser": "angular"
-        }
-      }
-    ]
+    "test": "ng test",
+    "lint": "biome check",
+    "format": "biome format --write"
   },
   "private": true,
   "dependencies": {
@@ -45,6 +35,7 @@
     "@angular/build": "^20.3.37",
     "@angular/cli": "^20.3.37",
     "@angular/compiler-cli": "^20.3.33",
+    "@biomejs/biome": "2.6.6",
     "@types/express": "^5.0.6",
     "@types/jasmine": "~5.1.15",
     "@types/node": "^20.19.43",
