@@ -1,9 +1,9 @@
+import { HttpClient, HttpHeaders, type HttpResponse } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
 import { environment } from '@environments/environment';
-import { inject, Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { User } from '@models/user';
-import { Request } from '@models/request';
+import type { Request } from '@models/request';
+import type { User } from '@models/user';
+import type { Observable } from 'rxjs';
 
 const endpoint = `${environment.apiUrl}/api/Users`;
 const httpOptions = {
@@ -21,7 +21,7 @@ export class UserRestService {
 
   // retorna um user com o mesmo id inserido, caso contrário nada retorna
   getUser(): Observable<User> {
-    return this.http.get<User>(endpoint + '/withToken', httpOptions);
+    return this.http.get<User>(`${endpoint}/withToken`, httpOptions);
   }
 
   // retorna todos os users presentes no servidor
@@ -30,27 +30,25 @@ export class UserRestService {
   }
 
   removeProfile() {
-    return this.http.delete<any>(endpoint, httpOptions);
+    return this.http.delete(endpoint, httpOptions);
   }
 
-  addAccount(username: string, region: string): Observable<any> {
+  addAccount(username: string, region: string) {
     const url = `${endpoint}/vincularConta`;
     return this.http.post(url, JSON.stringify({ Username: username, Region: region }), httpOptions);
   }
 
-  updateRiotAccount(username: string, region: string): Observable<any> {
+  updateRiotAccount(username: string, region: string): Observable<HttpResponse<void>> {
     const url = `${endpoint}/updateRiot`;
-    return this.http.post<any>(
-      url,
-      JSON.stringify({ Username: username, Region: region }),
-      //JSON.stringify({ Password: password, Email: email, Poster: poster }),
-      httpOptions,
-    );
+    return this.http.post<void>(url, JSON.stringify({ Username: username, Region: region }), {
+      ...httpOptions,
+      observe: 'response',
+    });
   }
 
-  unlinkAccount(): Observable<any> {
+  unlinkAccount(): Observable<HttpResponse<void>> {
     const url = `${endpoint}/desvincularConta`;
-    return this.http.post(url, JSON.stringify({}), httpOptions);
+    return this.http.post<void>(url, JSON.stringify({}), { ...httpOptions, observe: 'response' });
   }
 
   // envia um user e retorna o mesmo user com a informação atualizada no servidor
@@ -63,22 +61,31 @@ export class UserRestService {
     );
   }
 
-  createRequest(nickname: string): Observable<any> {
+  createRequest(nickname: string): Observable<HttpResponse<void>> {
     const url = `${endpoint}/createRequest`;
-    return this.http.post(url, JSON.stringify({ Nickname: nickname }), httpOptions);
+    return this.http.post<void>(url, JSON.stringify({ Nickname: nickname }), {
+      ...httpOptions,
+      observe: 'response',
+    });
   }
 
-  acceptRequest(requestID: number): Observable<any> {
+  acceptRequest(requestID: number): Observable<HttpResponse<void>> {
     const url = `${endpoint}/acceptRequest`;
-    return this.http.post(url, JSON.stringify({ RequestId: requestID }), httpOptions);
+    return this.http.post<void>(url, JSON.stringify({ RequestId: requestID }), {
+      ...httpOptions,
+      observe: 'response',
+    });
   }
 
-  refuseRequest(requestID: number): Observable<any> {
+  refuseRequest(requestID: number): Observable<HttpResponse<void>> {
     const url = `${endpoint}/refuseRequest`;
-    return this.http.post(url, JSON.stringify({ RequestId: requestID }), httpOptions);
+    return this.http.post<void>(url, JSON.stringify({ RequestId: requestID }), {
+      ...httpOptions,
+      observe: 'response',
+    });
   }
 
   getRequests(): Observable<Request[]> {
-    return this.http.get<Request[]>(endpoint + '/requests', httpOptions);
+    return this.http.get<Request[]>(`${endpoint}/requests`, httpOptions);
   }
 }

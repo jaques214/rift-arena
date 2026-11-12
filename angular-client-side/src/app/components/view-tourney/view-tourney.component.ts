@@ -1,11 +1,20 @@
-import { TourneyRestService } from '@services/tourney-rest/tourney-rest.service';
-import { Component, inject, OnInit } from '@angular/core';
-import { Tournament } from '@src/app/models/tournament';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { environment } from '@src/environments/environment';
-import { MatButtonModule } from '@angular/material/button';
-import { NavBarComponent } from '../nav-bar/nav-bar.component';
 import { NgOptimizedImage } from '@angular/common';
+import { Component, inject, type OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { NavBarComponent } from '@components/nav-bar/nav-bar.component';
+import type { State, Tournament } from '@models/tournament';
+import { TourneyRestService } from '@services/tourney-rest/tourney-rest.service';
+import { environment } from '@src/environments/environment';
+
+const StateRecord: Record<State, string> = {
+  PUBLISHED: 'Published',
+  NOT_PUBLISHED: 'Not Published',
+  CANCELED: 'Canceled',
+  SOON: 'Soon',
+  ONLINE: 'Online',
+  CLOSED: 'Closed',
+};
 
 @Component({
   selector: 'app-view-tourney',
@@ -29,35 +38,12 @@ export class ViewTourneyComponent implements OnInit {
     });
   }
 
-  getColor(state: number): string {
-    return this.getState(state) == 'Online' ? 'green' : 'red';
+  getColor(state: State): string {
+    return this.getState(state) === 'Online' ? 'green' : 'red';
   }
 
-  getState(state: number): string {
-    let result = '';
-    switch (state) {
-      case 0:
-        result = 'Published';
-        break;
-      case 1:
-        result = 'Not Published';
-        break;
-      case 2:
-        result = 'Canceled';
-        break;
-      case 3:
-        result = 'Soon';
-        break;
-      case 4:
-        result = 'Online';
-        break;
-      case 5:
-        result = 'Closed';
-        break;
-      default:
-        break;
-    }
-    return state == 1 ? 'Online' : 'Offline';
+  getState(state: State): string {
+    return StateRecord[state] || 'Offline';
   }
 
   public createImgPath = (serverPath: string) => {

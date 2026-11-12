@@ -25,6 +25,6 @@
 .btn-blue:hover {
   background-color: #20458a;
   color: white;
-  white-space: normal !important;
+  white-space: normal;
   word-wrap: break-word;
 }

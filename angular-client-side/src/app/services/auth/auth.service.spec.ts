@@ -25,7 +25,7 @@ describe('AuthService', () => {
 
   it('should clear currentUser on logout', () => {
     localStorage.setItem('currentUser', 'jwt-token');
-    service.setCurrentUser({ nickname: 'alice' } as any);
+    service.setCurrentUser('alice');
 
     service.logout();
 

@@ -4,16 +4,16 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { AccountFormGroupComponent } from '@components/account-form-group/account-form-group.component';
+import { NavBarComponent } from '@components/nav-bar/nav-bar.component';
+import { SharedFormFieldComponent } from '@components/shared-form-field/shared-form-field.component';
+import { UploadComponent, type UploadResponse } from '@components/upload/upload.component';
 import { accountFields, type LinkedAccount } from '@models/linked_acount';
 import type { Team } from '@models/team';
 import { type User, userFields } from '@models/user';
 import { UserRestService } from '@services/user-rest/user-rest.service';
-import ConfirmedValidator from '@src/app/confirmed.validator';
+import { match } from '@src/app/confirmed.validator';
 import { environment } from '@src/environments/environment';
-import { AccountFormGroupComponent } from '../account-form-group/account-form-group.component';
-import { NavBarComponent } from '../nav-bar/nav-bar.component';
-import { SharedFormFieldComponent } from '../shared-form-field/shared-form-field.component';
-import { UploadComponent, type UploadResponse } from '../upload/upload.component';
 
 type Info = {
   username?: string;
@@ -78,7 +78,7 @@ export class ViewProfileComponent implements OnInit {
           new_password: new FormControl('', [Validators.required]),
         },
         {
-          validators: [ConfirmedValidator.match('password', 'new_password')],
+          validators: [match('password', 'new_password')],
         },
       ),
     });
@@ -175,21 +175,12 @@ export class ViewProfileComponent implements OnInit {
     return convert;
   }
 
-  /* getUserValue(value: string): string {
-    let convert: string = "";
+  getUserValue(value: string): string {
     const currentUser = this.user();
-
-    if (currentUser != null) {
-      const values = Object.entries(currentUser);
-
-      values.forEach(val => {
-        if (val[0] === value) {
-          convert = this.selectValue(value, val[1]);
-        }
-      });
-    }
-    return convert;
-  } */
+    return currentUser[value as keyof User]
+      ? this.selectValue(value, currentUser[value as keyof User] as string)
+      : '';
+  }
 
   removeUser() {
     this.restService.removeProfile().subscribe({

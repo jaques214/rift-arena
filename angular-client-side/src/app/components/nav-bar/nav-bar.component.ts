@@ -38,17 +38,16 @@ export class NavBarComponent implements OnInit {
   isShow: boolean = true;
 
   ngOnInit(): void {
-    const tokenNickname = this.authService.getCurrentUserNickname();
-    if (tokenNickname && !this.user) {
-      this.user = { nickname: tokenNickname } as User;
-      this.authService.setCurrentUser(this.user);
+    const nickname = this.authService.getCurrentUserNickname();
+    this.authService.setCurrentUser(nickname);
+    if (nickname) {
+      this.user = { nickname, teamTag: null };
     }
 
     if (this.isBrowser && localStorage.getItem('currentUser') !== null) {
       this.userService.getUser().subscribe({
         next: (user) => {
           this.user = user;
-          this.authService.setCurrentUser(user);
           if (this.user.teamTag !== null) {
             this.hasTeam = true;
           }
@@ -76,8 +75,9 @@ export class NavBarComponent implements OnInit {
 
   toogleProfileIcon() {
     if (!this.user) return 'assets/images/profile-icon.png';
-    const imageFieldPath = this.createImgPath(this.user.poster!);
-    return this.user.poster ? imageFieldPath : 'assets/images/profile-icon.png';
+    return this.user.poster
+      ? this.createImgPath(this.user.poster)
+      : 'assets/images/profile-icon.png';
   }
 
   openMenu() {

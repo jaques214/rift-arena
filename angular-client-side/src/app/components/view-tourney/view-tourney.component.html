@@ -14,8 +14,8 @@
         <h3>{{ tourney.name }}</h3>
         <p>{{ tourney.description }}</p>
         <div class="status">
-          <div class="round-icon {{ getColor(tourney.state!) }}"></div>
-          <p>{{ getState(tourney.state!) }}</p>
+          <div class="round-icon {{ getColor(tourney.state) }}"></div>
+          <p>{{ getState(tourney.state) }}</p>
         </div>
         <p>{{ "- Date: " + tourney.date }}</p>
         <p>{{ "- Max Teams: " + tourney.maxTeams }}</p>

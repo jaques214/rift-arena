@@ -1,15 +1,15 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { MatRadioModule } from '@angular/material/radio';
-import { NavBarComponent } from '../nav-bar/nav-bar.component';
-import { TeamRestService } from '@services/team-rest/team-rest.service';
-import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { Component, inject, type OnInit } from '@angular/core';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatStepperModule } from '@angular/material/stepper';
-import { Team } from '@models/team';
-import { Observable } from 'rxjs';
+import { NavBarComponent } from '@components/nav-bar/nav-bar.component';
+import type { Team } from '@models/team';
+import { TeamRestService } from '@services/team-rest/team-rest.service';
+import type { Observable } from 'rxjs';
 
 interface Stage {
   value: string;
@@ -85,7 +85,7 @@ export class ManageTourneyComponent implements OnInit {
   }
 
   getAllValues() {
-    let results: string[] = [];
+    const results: string[] = [];
 
     this.radioGroup.forEach((result: RadioGroupType) => {
       results.push(result.v);

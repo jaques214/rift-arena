@@ -1,8 +1,8 @@
-import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Team } from '@models/team';
+import { Injectable, inject } from '@angular/core';
+import type { Team } from '@models/team';
 import { environment } from '@src/environments/environment';
+import type { Observable } from 'rxjs';
 
 const endpoint = `${environment.apiUrl}/api/Teams/`;
 const httpOptions = {
@@ -19,8 +19,8 @@ export class TeamRestService {
   private http = inject(HttpClient);
 
   // por enquanto está ID mas com a alteraçao vai ser pela TAG
-  getTeam(tag: String): Observable<Team> {
-    return this.http.get<Team>(endpoint + tag, httpOptions);
+  getTeam(tag: string): Observable<Team> {
+    return this.http.get<Team>(`${endpoint}${tag}`, httpOptions);
   }
 
   getTeams(): Observable<Team[]> {
@@ -36,8 +36,8 @@ export class TeamRestService {
     );
   }
 
-  removeMember(nickname: string): Observable<any> {
-    return this.http.delete<any>(endpoint + 'removeMember', {
+  removeMember(nickname: string) {
+    return this.http.delete<void>(`${endpoint}removeMember`, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -47,13 +47,13 @@ export class TeamRestService {
     });
   }
 
-  deleteTeam(): Observable<any> {
-    return this.http.delete<any>(endpoint, httpOptions);
+  deleteTeam(): Observable<void> {
+    return this.http.delete<void>(endpoint, httpOptions);
   }
 
-  createTeam(tag: string, nameTeam: string): Observable<any> {
-    return this.http.post<any>(
-      endpoint + 'createTeam',
+  createTeam(tag: string, nameTeam: string): Observable<void> {
+    return this.http.post<void>(
+      `${endpoint}createTeam`,
       JSON.stringify({
         Name: nameTeam,
         Tag: tag,

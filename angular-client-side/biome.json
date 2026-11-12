@@ -15,7 +15,15 @@
     "expand": "auto",
     "useEditorconfig": true
   },
-  "linter": { "enabled": true, "rules": { "preset": "recommended" } },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "recommended",
+      "complexity": {
+        "useLiteralKeys": "off"
+      }
+    }
+  },
   "javascript": {
     "formatter": {
       "jsxQuoteStyle": "double",
@@ -35,7 +43,6 @@
       "selfCloseVoidElements": "always"
     }
   },
-  "overrides": [{ "includes": ["*.html"] }],
   "assist": {
     "enabled": true,
     "actions": { "source": { "organizeImports": "on" } }

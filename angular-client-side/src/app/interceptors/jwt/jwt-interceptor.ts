@@ -1,7 +1,7 @@
-import { HttpRequest, HttpEvent, HttpHandlerFn } from '@angular/common/http';
-import { inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { Observable } from 'rxjs';
+import type { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
+import { inject, PLATFORM_ID } from '@angular/core';
+import type { Observable } from 'rxjs';
 
 export function jwtInterceptor(
   req: HttpRequest<unknown>,

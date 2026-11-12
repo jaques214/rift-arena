@@ -1,11 +1,11 @@
-import { TourneyRestService } from '@services/tourney-rest/tourney-rest.service';
-import { Component, inject, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { environment } from '@src/environments/environment';
-import { MatButtonModule } from '@angular/material/button';
 import { NgOptimizedImage } from '@angular/common';
+import { Component, inject, type OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterLink } from '@angular/router';
+import type { Tournament } from '@models/tournament';
+import { TourneyRestService } from '@services/tourney-rest/tourney-rest.service';
+import { environment } from '@src/environments/environment';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
-import { Tournament } from '@models/tournament';
 
 @Component({
   selector: 'app-view-all-tourneys',
@@ -25,15 +25,15 @@ export class ViewAllTourneysComponent implements OnInit {
   }
 
   getColor(state: number): string {
-    return this.getState(state) == 'Online' ? 'green' : 'red';
+    return this.getState(state) === 'Online' ? 'green' : 'red';
   }
 
   clickEvent(id: number) {
-    return '/view-tourney/' + id;
+    return `/view-tourney/${id}`;
   }
 
   getState(state: number): string {
-    return state == 1 ? 'Online' : 'Offline';
+    return state === 1 ? 'Online' : 'Offline';
   }
 
   public createImgPath = (serverPath: string) => {

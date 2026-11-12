@@ -45,7 +45,7 @@ export class SharedFormFieldComponent implements OnInit {
   readonly value = input.required<string>();
   inputUser = input.required<User | Team>();
   currentUser: WritableSignal<User | Team> = signal({} as User | Team);
-  readonly authForm = input.required<FormGroup>();
+  authForm = input.required<FormGroup>();
   hide = true;
   message!: string;
 
@@ -62,23 +62,26 @@ export class SharedFormFieldComponent implements OnInit {
   populateForm() {
     const user = this.currentUser();
     //if a user already exists populates the formFields inputs.
-    let values = Object.entries(user);
+    const values = Object.entries(user) as [
+      keyof (User | Team),
+      User[keyof User] | Team[keyof Team],
+    ][];
 
     const inputValue = this.input();
     if (inputValue.type === 'password') {
-      let teste = this.authForm().get('pass');
-      values.forEach((val: [string, any]) => {
+      const auth_password = this.authForm().get('pass');
+      values.forEach((val) => {
         const inputVal = this.input();
         if (val[0] === inputVal.name) {
-          teste!.get(inputVal.name)?.setValue(val[1]);
+          auth_password?.get(inputVal.name)?.setValue(val[1]);
         }
       });
     } else {
-      let teste = this.authForm().get(inputValue.name);
+      const auth_username = this.authForm().get(inputValue.name);
 
-      values.forEach((val: [string, any]) => {
+      values.forEach((val) => {
         if (val[0] === this.input().name) {
-          teste?.setValue(val[1]);
+          auth_username?.setValue(val[1]);
         }
       });
     }
@@ -106,7 +109,7 @@ export class SharedFormFieldComponent implements OnInit {
   }
 
   getTeam(): Observable<Team> {
-    return this.teamRestService.getTeam((this.currentUser() as Team).tag!);
+    return this.teamRestService.getTeam((this.currentUser() as Team).tag);
   }
 
   editTeam(team: Team): void {
@@ -133,15 +136,15 @@ export class SharedFormFieldComponent implements OnInit {
     const data = this.currentUser();
     const inputValue = this.input();
     if (inputValue.type === 'password') {
-      (data as any)[inputValue.name!] = this.authForm().get('password')?.value;
+      data[inputValue.name as keyof (Team | User)] = this.authForm().get('password')?.value;
     } else {
-      (data as any)[inputValue.name!] = this.authForm().get(inputValue.name)?.value;
+      data[inputValue.name as keyof (Team | User)] = this.authForm().get(inputValue.name)?.value;
     }
     this.editObj(data);
   }
 
-  editObj(data: any) {
-    this.router.url === '/view-my-team' ? this.editTeam(data) : this.editUser(data);
+  editObj<TData extends Team | User>(data: TData) {
+    this.router.url === '/view-my-team' ? this.editTeam(data as Team) : this.editUser(data as User);
   }
 
   getErrorMessage(name: string) {

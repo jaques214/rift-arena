@@ -37,22 +37,22 @@
                 <li class="list-group-item" style="font-weight: bold">
                   Name:
 
-                  <a style="font-weight: normal">{{ firstTeam.name }}</a>
+                  <a href="{{ '/view-team/' + firstTeam.tag }}" style="font-weight: normal">{{ firstTeam.name }}</a>
                 </li>
                 <li class="list-group-item" style="font-weight: bold">
                   Rank:
 
-                  <a style="font-weight: normal">{{ firstTeam.rank }}</a>
+                  <span style="font-weight: normal">{{ firstTeam.rank }}</span>
                 </li>
                 <li class="list-group-item" style="font-weight: bold">
                   Members:
 
-                  <a style="font-weight: normal">{{ firstTeam.numberMembers }}</a>
+                  <span style="font-weight: normal">{{ firstTeam.numberMembers }}</span>
                 </li>
                 <li class="list-group-item" style="font-weight: bold">
                   Tournaments Won:
 
-                  <a style="font-weight: normal">{{ firstTeam.tournamentsWon }}%</a>
+                  <span style="font-weight: normal">{{ firstTeam.tournamentsWon }}%</span>
                 </li>
               </ul>
               <div class="card-body">
@@ -70,22 +70,22 @@
                   <li class="list-group-item" style="font-weight: bold">
                     Name:
 
-                    <a style="font-weight: normal">{{ team.name }}</a>
+                    <a href="{{ '/view-team/' + team.tag }}" style="font-weight: normal">{{ team.name }}</a>
                   </li>
                   <li class="list-group-item" style="font-weight: bold">
                     Rank:
 
-                    <a style="font-weight: normal">{{ team.rank }}</a>
+                    <span style="font-weight: normal">{{ team.rank }}</span>
                   </li>
                   <li class="list-group-item" style="font-weight: bold">
                     Members:
 
-                    <a style="font-weight: normal">{{ team.numberMembers }}</a>
+                    <span style="font-weight: normal">{{ team.numberMembers }}</span>
                   </li>
                   <li class="list-group-item" style="font-weight: bold">
-                    tournamentsWon:
+                    Tournaments Won:
 
-                    <a style="font-weight: normal">{{ team.tournamentsWon }}%</a>
+                    <span style="font-weight: normal">{{ team.tournamentsWon }}%</span>
                   </li>
                 </ul>
                 <div class="card-body">
@@ -122,17 +122,17 @@
                 <li class="list-group-item" style="font-weight: bold">
                   Teams:
 
-                  <a style="font-weight: normal">{{ firstTourney.numberOfTeams }}</a>
+                  <span style="font-weight: normal">{{ firstTourney.numberOfTeams }}</span>
                 </li>
                 <li class="list-group-item" style="font-weight: bold">
                   Rank:
 
-                  <a style="font-weight: normal">{{ firstTourney.rank }}</a>
+                  <span style="font-weight: normal">{{ firstTourney.rank }}</span>
                 </li>
                 <li class="list-group-item" style="font-weight: bold">
                   Date:
 
-                  <a style="font-weight: normal">{{ firstTourney.date }}</a>
+                  <span style="font-weight: normal">{{ firstTourney.date }}</span>
                 </li>
               </ul>
               <div class="card-body">
@@ -154,17 +154,17 @@
                       <li class="list-group-item" style="font-weight: bold">
                         Teams:
 
-                        <a style="font-weight: normal">{{ tourney.numberOfTeams }}</a>
+                        <span style="font-weight: normal">{{ tourney.numberOfTeams }}</span>
                       </li>
                       <li class="list-group-item" style="font-weight: bold">
                         Rank:
 
-                        <a style="font-weight: normal">{{ tourney.rank }}</a>
+                        <span style="font-weight: normal">{{ tourney.rank }}</span>
                       </li>
                       <li class="list-group-item" style="font-weight: bold">
                         Date:
 
-                        <a style="font-weight: normal">{{ tourney.date }}</a>
+                        <span style="font-weight: normal">{{ tourney.date }}</span>
                       </li>
                     </ul>
                     <div class="card-body">

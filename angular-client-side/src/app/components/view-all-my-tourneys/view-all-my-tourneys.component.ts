@@ -1,7 +1,7 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, type OnInit } from '@angular/core';
+import type { Tournament } from '@models/tournament';
 import { TourneyRestService } from '@services/tourney-rest/tourney-rest.service';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
-import { Tournament } from '@models/tournament';
 
 @Component({
   selector: 'app-view-all-my-tourneys',
@@ -22,10 +22,10 @@ export class ViewAllMyTourneysComponent implements OnInit {
   }
 
   clickEvent(id: number) {
-    return '/view-tourney/' + id;
+    return `/view-tourney/${id}`;
   }
 
   clickEditEvent(id: number) {
-    return '/update-tourney/' + id;
+    return `/update-tourney/${id}`;
   }
 }

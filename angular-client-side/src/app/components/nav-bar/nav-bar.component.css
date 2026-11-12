@@ -13,6 +13,9 @@
   height: 0;
   overflow-x: hidden; /* Disable horizontal scroll */
   transition: height 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .menu-overlay.open {
@@ -21,13 +24,8 @@
 
 .overlay-content {
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 100%;
-  top: 25%;
-  position: relative;
-  margin-top: 30px;
 }
 
 .overlay-content h1 {

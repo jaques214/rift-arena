@@ -1,14 +1,12 @@
-import { AbstractControl, ValidatorFn } from '@angular/forms';
+import type { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export function dateValidator(): ValidatorFn {
-  return (control: AbstractControl): { [key: string]: any } | null => {
-    const today = new Date().getTime();
+  return (control: AbstractControl): ValidationErrors | null => {
+    const today = Date.now();
     const date = new Date(control.value);
 
-    if (!(control && control.value)) {
-      // if there's no control or no value, that's ok
-      return null;
-    }
+    // if there's no control or no value, that's ok
+    if (!control.value) return null;
 
     // return null if there's no errors
     return date.getTime() < today ? { invalidDate: 'You cannot use past dates' } : null;

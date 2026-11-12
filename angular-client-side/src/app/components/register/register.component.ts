@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatCardModule } from '@angular/material/card';
 import { RouterLink } from '@angular/router';
 import { registerFields } from '@models/user';
-import ConfirmedValidator from '@src/app/confirmed.validator';
+import { match } from '@src/app/confirmed.validator';
 import { SharedFormGroupComponent } from '../shared-form-group/shared-form-group.component';
 
 @Component({
@@ -34,7 +34,7 @@ export class RegisterComponent implements OnInit {
         new_password: ['', Validators.required],
       },
       {
-        validators: [ConfirmedValidator.match('password', 'new_password')],
+        validators: [match('password', 'new_password')],
       },
     );
   }

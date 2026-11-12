@@ -9,7 +9,7 @@
             }
           </mat-select>
           <mat-label>
-            <mat-icon aria-hidden="false" aria-label="" matSuffix>
+            <mat-icon aria-hidden="false" aria-label="Account Icon" matSuffix>
               {{ input.icon }}
             </mat-icon>
             {{ input.label }}
@@ -28,7 +28,7 @@
               formControlName="{{ input.name }}"
               required
             />
-            <mat-icon aria-hidden="false" aria-label="" matSuffix>{{ input.icon }}</mat-icon>
+            <mat-icon aria-hidden="false" aria-label="Account Icon" matSuffix>{{ input.icon }}</mat-icon>
             @if (form.get(input.name)?.invalid) {
               <mat-error>{{ getErrorMessage(input.name) }}</mat-error>
             }

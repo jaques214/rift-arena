@@ -1,30 +1,30 @@
+import { NgClass, NgOptimizedImage, ViewportScroller } from '@angular/common';
+import { Component, inject, type OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
-  Validators,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
-import { TeamRestService } from '@services/team-rest/team-rest.service';
-import { UserRestService } from '@services/user-rest/user-rest.service';
-import { Component, inject, OnInit } from '@angular/core';
-import { Team, teamFields } from '@models/team';
-import { User } from '@models/user';
-import { Observable } from 'rxjs';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import ConfirmedValidator from '@src/app/confirmed.validator';
-import { ViewportScroller, NgClass, NgOptimizedImage } from '@angular/common';
-import { getRankIcon } from '@src/app/shared/utils';
-import { environment } from '@src/environments/environment';
-import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { UploadComponent, type UploadResponse } from '../upload/upload.component';
-import { SharedFormFieldComponent } from '../shared-form-field/shared-form-field.component';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { type Team, teamFields } from '@models/team';
+import type { User } from '@models/user';
+import { TeamRestService } from '@services/team-rest/team-rest.service';
+import { UserRestService } from '@services/user-rest/user-rest.service';
+import { matchUser } from '@src/app/confirmed.validator';
+import { getRankIcon } from '@src/app/shared/utils';
+import { environment } from '@src/environments/environment';
+import type { Observable } from 'rxjs';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
+import { SharedFormFieldComponent } from '../shared-form-field/shared-form-field.component';
+import { UploadComponent, type UploadResponse } from '../upload/upload.component';
 
 @Component({
   selector: 'app-view-team',
@@ -85,12 +85,12 @@ export class ViewTeamComponent implements OnInit {
           users: ['', Validators.required],
         },
         {
-          validators: [ConfirmedValidator.matchUser('users', this.nicknameList)],
+          validators: [matchUser('users', this.nicknameList)],
         },
       );
     });
     this.getUser().subscribe((user) => {
-      this.nickname = user.nickname!;
+      this.nickname = user.nickname ?? '';
       this.teamService.getTeam(this.teamTag).subscribe((team) => {
         this.team = team;
       });
@@ -103,7 +103,7 @@ export class ViewTeamComponent implements OnInit {
 
   populateUsers() {
     for (const user of this.users) {
-      this.nicknameList.push(user.nickname!);
+      this.nicknameList.push(user.nickname ?? '');
     }
   }
 

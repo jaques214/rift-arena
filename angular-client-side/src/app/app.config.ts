@@ -1,19 +1,17 @@
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import {
-  ApplicationConfig,
+  type ApplicationConfig,
   provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
 } from '@angular/core';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
-
-import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
-
-import { jwtInterceptor } from '@app/interceptors/jwt/jwt-interceptor';
-import { routes } from './app.routes';
 import {
   provideClientHydration,
   withEventReplay,
   withNoHttpTransferCache,
 } from '@angular/platform-browser';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { jwtInterceptor } from '@app/interceptors/jwt/jwt-interceptor';
+import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [

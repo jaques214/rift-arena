@@ -1,15 +1,15 @@
-import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser, NgClass } from '@angular/common';
+import { Component, inject, type OnInit, PLATFORM_ID } from '@angular/core';
 import {
-  FormGroup,
   FormControl,
-  Validators,
+  FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TeamRestService } from '@src/app/services/team-rest/team-rest.service';
 import { UserRestService } from '@src/app/services/user-rest/user-rest.service';
-import { isPlatformBrowser, NgClass } from '@angular/common';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
@@ -62,12 +62,12 @@ export class CreateTeamComponent implements OnInit {
 
   save() {
     if (this.isEnable()) {
-      let tag: string = this.form.get('tagName')?.value;
-      let teamName: string = this.form.get('teamName')?.value;
+      const tag: string = this.form.get('tagName')?.value;
+      const teamName: string = this.form.get('teamName')?.value;
 
       this.teamService.createTeam(tag, teamName).subscribe({
         next: () => this.router.navigate(['']),
-        error: (err: any) => console.log(err),
+        error: (err) => console.log(err),
       });
     }
   }

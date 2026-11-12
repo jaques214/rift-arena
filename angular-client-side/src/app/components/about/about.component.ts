@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
+import { Component } from '@angular/core';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
@@ -8,6 +8,4 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
   styleUrls: ['./about.component.css'],
   imports: [NavBarComponent, NgOptimizedImage],
 })
-export class AboutComponent implements OnInit {
-  ngOnInit(): void {}
-}
+export class AboutComponent {}

@@ -1,20 +1,20 @@
-import { Tournament } from '@models/tournament';
-import { Component, inject, OnInit } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, inject, type OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
-  Validators,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { dateValidator } from '@app/CustomValidator';
-import { TourneyRestService } from '@services/tourney-rest/tourney-rest.service';
-import { first } from 'rxjs/operators';
 import { RANK_LIST } from '@app/shared/utils';
-import { Observable } from 'rxjs';
-import { UploadComponent, type UploadResponse } from '../upload/upload.component';
-import { NgClass } from '@angular/common';
+import type { Tournament } from '@models/tournament';
+import { TourneyRestService } from '@services/tourney-rest/tourney-rest.service';
+import type { Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
+import { UploadComponent, type UploadResponse } from '../upload/upload.component';
 
 @Component({
   selector: 'app-create-tourney',
@@ -77,11 +77,11 @@ export class CreateTourneyComponent implements OnInit {
   save() {
     if (this.isEnable()) {
       const y: number = this.form.get('maxTeams')?.value;
-      const name: String = this.form.get('tourneyName')?.value;
-      const description: String = this.form.get('description')?.value;
-      const rank: String = this.form.get('rank')?.value;
-      const region: String = this.form.get('region')?.value;
-      const date: String = this.form.get('dateTourney')?.value;
+      const name: string = this.form.get('tourneyName')?.value;
+      const description: string = this.form.get('description')?.value;
+      const rank: string = this.form.get('rank')?.value;
+      const region: string = this.form.get('region')?.value;
+      const date: string = this.form.get('dateTourney')?.value;
 
       this.tourneyRest
         .createTourney({

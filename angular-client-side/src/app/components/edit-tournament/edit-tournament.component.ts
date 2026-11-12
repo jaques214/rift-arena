@@ -1,20 +1,20 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, inject, type OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
-  Validators,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { dateValidator } from '@src/app/CustomValidator';
 import type { Tournament } from '@src/app/models/tournament';
 import { TourneyRestService } from '@src/app/services/tourney-rest/tourney-rest.service';
 import { RANK_LIST } from '@src/app/shared/utils';
-import { first, Observable } from 'rxjs';
-import { UploadComponent, type UploadResponse } from '../upload/upload.component';
-import { NgClass } from '@angular/common';
+import { first, type Observable } from 'rxjs';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
+import { UploadComponent, type UploadResponse } from '../upload/upload.component';
 
 @Component({
   selector: 'app-edit-tournament',
@@ -81,10 +81,10 @@ export class EditTournamentComponent implements OnInit {
   save() {
     if (this.isEnable()) {
       const y: number = this.form.get('maxTeams')?.value;
-      const name: String = this.form.get('tourneyName')?.value;
-      const description: String = this.form.get('description')?.value;
-      const rank: String = this.form.get('rank')?.value;
-      const date: String = this.form.get('dateTourney')?.value;
+      const name: string = this.form.get('tourneyName')?.value;
+      const description: string = this.form.get('description')?.value;
+      const rank: string = this.form.get('rank')?.value;
+      const date: string = this.form.get('dateTourney')?.value;
 
       this.tourneyRest
         .updateTourney(

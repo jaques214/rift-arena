@@ -1,6 +1,6 @@
 import type { FieldInput } from '@shared/utils';
-import type { User } from './user';
 import type { Tournament } from './tournament';
+import type { User } from './user';
 
 export type Team = {
   teamId?: number;

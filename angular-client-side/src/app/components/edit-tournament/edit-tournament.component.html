@@ -97,13 +97,13 @@
 
       <div class="d-flex justify-content-between">
         <button
-          type="submit"
+          type="button"
           onclick="window.location.href='/'"
           class="btn btn-blue"
         >
           Go Back
         </button>
-        <button [ngClass]="{ disabled: !isEnable() }" (submit)="save()" class="btn btn-blue">
+        <button type="submit" [ngClass]="{ disabled: !isEnable() }" (submit)="save()" class="btn btn-blue">
           Create
         </button>
       </div>

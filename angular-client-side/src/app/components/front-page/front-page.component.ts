@@ -1,14 +1,14 @@
-import { Component, inject, OnInit } from '@angular/core';
-import type { Team } from '@src/app/models/team';
-import { TeamRestService } from '@src/app/services/team-rest/team-rest.service';
-import { LoadingCircleService } from '@services/loading-circle/loading-circle.service';
-import { Tournament } from '@src/app/models/tournament';
-import { TourneyRestService } from '@src/app/services/tourney-rest/tourney-rest.service';
-import { Observable } from 'rxjs';
+import { AsyncPipe, SlicePipe } from '@angular/common';
+import { Component, inject, type OnInit } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
-import { AsyncPipe, SlicePipe } from '@angular/common';
-import { NavBarComponent } from '../nav-bar/nav-bar.component';
+import { NavBarComponent } from '@components/nav-bar/nav-bar.component';
+import type { Team } from '@models/team';
+import type { Tournament } from '@models/tournament';
+import { LoadingCircleService } from '@services/loading-circle/loading-circle.service';
+import { TeamRestService } from '@services/team-rest/team-rest.service';
+import { TourneyRestService } from '@services/tourney-rest/tourney-rest.service';
+import type { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-front-page',
@@ -43,13 +43,13 @@ export class FrontPageComponent implements OnInit {
       this.tourneys = data;
       this.firstTourney = this.tourneys.splice(0, 1)[0];
 
-      if (this.firstTeam != undefined || this.firstTourney != undefined) {
+      if (this.firstTeam !== undefined || this.firstTourney !== undefined) {
         this.noInfo = false;
       }
     });
   }
 
-  getWinrate(team: Team): Number {
+  getWinrate(team: Team): number {
     team.wins = 10;
     team.gamesPlayed = 19;
 

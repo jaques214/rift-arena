@@ -1,8 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap");
 
 .dropdown-item:hover {
-  background-color: #234a95 !important;
-  color: white !important;
+  background-color: #234a95;
+  color: white;
 }
 
 .mat-h3,
@@ -38,7 +38,7 @@ app-shared-form-group .btn-blue {
 .btn-blue:hover {
   background-color: #20458a;
   color: white;
-  white-space: normal !important;
+  white-space: normal;
   word-wrap: break-word;
 }
 
@@ -55,15 +55,15 @@ app-shared-form-group .btn-blue {
 }
 
 .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
-  border-color: #234a95 !important;
+  border-color: #234a95;
 }
 
 .mat-radio-button.mat-accent .mat-radio-inner-circle,
 .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
-  background-color: #234a95 !important;
+  background-color: #234a95;
 }
 .mat-expansion-panel-body {
-  padding: 16px 24px 16px !important;
+  padding: 16px 24px 16px;
   background-color: #fff;
 }
 
@@ -131,14 +131,6 @@ table {
   margin: auto;
   border-radius: 10px;
   flex-direction: column;
-}
-
-.profile-container .mat-icon {
-  text-align: center;
-  margin: 0 auto;
-  width: 100%;
-  height: 100%;
-  font-size: 120px;
 }
 
 .profile-container p {
@@ -243,6 +235,20 @@ section {
   text-align: end;
 }
 
+.mat-icon {
+  width: auto;
+  height: auto;
+  text-align: center;
+}
+
+.profile-container .mat-icon {
+  text-align: center;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  font-size: 120px;
+}
+
 .rank-icon {
   width: 75px;
   text-align: center;
@@ -262,12 +268,6 @@ section {
   margin: auto;
   width: 70%;
   height: auto;
-}
-
-.mat-icon {
-  width: auto;
-  height: auto;
-  text-align: center;
 }
 
 .btn-red {
@@ -295,10 +295,6 @@ section {
   margin: auto;
 }
 
-.item:last-child .mat-icon {
-  font-size: 24px;
-}
-
 .mat-form-field {
   width: 80%;
 }
@@ -307,6 +303,10 @@ section {
   cursor: pointer;
   margin-left: 8px;
   align-content: center;
+}
+
+.item:last-child .mat-icon {
+  font-size: 24px;
 }
 
 .item .mat-icon:hover {

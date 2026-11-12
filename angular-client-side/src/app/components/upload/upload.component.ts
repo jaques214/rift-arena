@@ -58,7 +58,7 @@ export class UploadComponent implements OnInit {
       })
       .subscribe((event) => {
         if (event.type === HttpEventType.UploadProgress)
-          this.progress = Math.round((100 * event.loaded) / event.total!);
+          this.progress = Math.round((100 * event.loaded) / (event.total ?? 0));
         else if (event.type === HttpEventType.Response) {
           if (event.body === null) {
             console.error('Upload endpoint returned an empty response.');

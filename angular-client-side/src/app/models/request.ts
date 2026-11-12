@@ -1,5 +1,5 @@
-import type { User } from './user';
 import type { Team } from './team';
+import type { User } from './user';
 
 export type Request = {
   requestId: number;

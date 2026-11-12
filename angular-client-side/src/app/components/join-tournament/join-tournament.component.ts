@@ -1,28 +1,28 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { User } from '@models/user';
-import { Team } from '@models/team';
-import { Tournament } from '@models/tournament';
-import { UserRestService } from '@services/user-rest/user-rest.service';
-import { TeamRestService } from '@services/team-rest/team-rest.service';
-import { TourneyRestService } from '@services/tourney-rest/tourney-rest.service';
+import { SelectionModel } from '@angular/cdk/collections';
+import { NgClass } from '@angular/common';
+import { Component, inject, type OnInit } from '@angular/core';
 import {
+  FormBuilder,
   FormControl,
   FormGroup,
-  FormBuilder,
-  Validators,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
-import ConfirmedValidator from '@src/app/confirmed.validator';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { SelectionModel } from '@angular/cdk/collections';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { NgClass } from '@angular/common';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { NavBarComponent } from '../nav-bar/nav-bar.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { NavBarComponent } from '@components/nav-bar/nav-bar.component';
+import type { Team } from '@models/team';
+import type { Tournament } from '@models/tournament';
+import type { User } from '@models/user';
+import { TeamRestService } from '@services/team-rest/team-rest.service';
+import { TourneyRestService } from '@services/tourney-rest/tourney-rest.service';
+import { UserRestService } from '@services/user-rest/user-rest.service';
+import { matchUser } from '@src/app/confirmed.validator';
+import type { Observable } from 'rxjs';
 
 export interface PeriodicElement {
   name: string;
@@ -70,7 +70,7 @@ export class JoinTournamentComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUser().subscribe((user) => {
-      this.userNickname = user.nickname!;
+      this.userNickname = user.nickname ?? '';
     });
 
     this.getTeams().subscribe((data) => {
@@ -88,7 +88,7 @@ export class JoinTournamentComponent implements OnInit {
           tourneys: ['', Validators.required],
         },
         {
-          validators: [ConfirmedValidator.matchUser('tourneys', this.tourneysList)],
+          validators: [matchUser('tourneys', this.tourneysList)],
         },
       );
     });
@@ -98,7 +98,7 @@ export class JoinTournamentComponent implements OnInit {
     const tam = this.teams.length;
     for (let index = 0; index < tam; index++) {
       this.ELEMENT_DATA[index] = {
-        name: this.teams[index].name!,
+        name: this.teams[index].name,
       };
     }
   }
@@ -180,11 +180,11 @@ export class JoinTournamentComponent implements OnInit {
     this.tournamentRestService.addTeam(id, nickname).subscribe({
       next: () => {
         this.getUser().subscribe((user) => {
-          this.userNickname = user.nickname!;
+          this.userNickname = user.nickname ?? '';
         });
       },
       error: () => {
-        if (this.tourney.rank != this.selectedTeam?.rank) {
+        if (this.tourney.rank !== this.selectedTeam?.rank) {
           this.errorMessage = 'The tournament rank must correspond to team rank.';
         }
       },

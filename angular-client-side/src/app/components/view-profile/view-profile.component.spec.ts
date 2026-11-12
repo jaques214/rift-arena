@@ -1,8 +1,8 @@
 import { provideHttpClient } from '@angular/common/http';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Subject } from 'rxjs';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import type { User } from '@models/user';
 import { UserRestService } from '@services/user-rest/user-rest.service';
+import { Subject } from 'rxjs';
 
 import { ViewProfileComponent } from './view-profile.component';
 

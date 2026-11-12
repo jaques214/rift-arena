@@ -11,7 +11,7 @@
               placeholder="{{ input.placeholder }}"
               name="{{ input.name }}"
               formControlName="{{ input.name }}"
-              autocomplete="{{ getAutoCompleteValue(input.name) }}"
+              [autocomplete]="getAutoCompleteValue(input.name)"
               required
             />
             <mat-icon
@@ -38,7 +38,7 @@
               formControlName="{{ input.name }}"
               required
             />
-            <mat-icon aria-hidden="false" aria-label="" matSuffix>{{ input.icon }}</mat-icon>
+            <mat-icon aria-hidden="false" aria-label="Icon" matSuffix>{{ input.icon }}</mat-icon>
             @if (authForm().get(input.name)?.invalid) {
               <mat-error>{{ getErrorMessage(input.name) }}</mat-error>
             }

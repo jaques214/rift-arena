@@ -1,14 +1,7 @@
-import type { Team } from './team';
 import type { Message } from './message';
+import type { Team } from './team';
 
-export enum State {
-  PUBLISHED,
-  NOT_PUBLISHED,
-  CANCELED,
-  SOON,
-  ONLINE,
-  CLOSED,
-}
+export type State = 'PUBLISHED' | 'NOT_PUBLISHED' | 'CANCELED' | 'SOON' | 'ONLINE' | 'CLOSED';
 
 export type Tournament = {
   tournamentId: number;
@@ -18,7 +11,7 @@ export type Tournament = {
   state: State;
   stages: Team[];
   rank: string;
-  date: any;
+  date: Date | string;
   region: string;
   finalWinner: string;
   description: string;

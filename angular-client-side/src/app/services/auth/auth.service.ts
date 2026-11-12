@@ -1,10 +1,9 @@
-import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from '@src/environments/environment';
+import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from '@models/user';
+import { environment } from '@src/environments/environment';
+import type { Observable } from 'rxjs';
 
 const endpoint = `${environment.apiUrl}/api`;
 const httpOptions = {
@@ -20,10 +19,10 @@ const httpOptions = {
 export class AuthService {
   private http = inject(HttpClient);
   private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
-  currentUser: User | null = null;
+  currentUser: string | null = null;
 
-  setCurrentUser(user: User | null): void {
-    this.currentUser = user;
+  setCurrentUser(nickname: string | null): void {
+    this.currentUser = nickname;
   }
 
   getCurrentUserNickname(): string | null {
@@ -72,7 +71,7 @@ export class AuthService {
    * @return an observable user if it exists in the server
    */
   login(username: string, password: string) {
-    return this.http.post<any>(
+    return this.http.post<{ token: string }>(
       `${endpoint}/Users/login`,
       JSON.stringify({ Nickname: username, Password: password }),
       httpOptions,
@@ -86,8 +85,8 @@ export class AuthService {
    * @param password the user's password
    * @return a new user if valid or else it returns nothing
    */
-  register(email: string, username: string, password: string): Observable<any> {
-    return this.http.post<any>(
+  register(email: string, username: string, password: string): Observable<{ token: string }> {
+    return this.http.post<{ token: string }>(
       `${endpoint}/Users/register`,
       JSON.stringify({ Nickname: username, Email: email, Password: password }),
       httpOptions,
@@ -103,11 +102,11 @@ export class AuthService {
   }
 
   // verifica se o email inserido pertence a um user com conta RIOT vinculada ou nao
-  verifyBoundedAccount(): Observable<any> {
+  /* verifyBoundedAccount(): Observable<any> {
     return this.http.post<any>(
       // isto vai ser preciso alterar quando o controller no backend for feito
       endpoint + `verifyAccount`,
       httpOptions,
     );
-  }
+  } */
 }

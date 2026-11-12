@@ -1,30 +1,31 @@
+import { NgClass, NgOptimizedImage, ViewportScroller } from '@angular/common';
+import { Component, inject, type OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
-  Validators,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
-import { TeamRestService } from '@services/team-rest/team-rest.service';
-import { UserRestService } from '@services/user-rest/user-rest.service';
-import { Component, inject, OnInit } from '@angular/core';
-import { Team, teamFields } from '@models/team';
-import { User } from '@models/user';
-import { Observable } from 'rxjs';
-import { Router, RouterLink } from '@angular/router';
-import ConfirmedValidator from '@src/app/confirmed.validator';
-import { ViewportScroller, NgClass, NgOptimizedImage } from '@angular/common';
-import { getRankIcon } from '@src/app/shared/utils';
-import { environment } from '@src/environments/environment';
-import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { UploadComponent, type UploadResponse } from '../upload/upload.component';
-import { SharedFormFieldComponent } from '../shared-form-field/shared-form-field.component';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { NavBarComponent } from '../nav-bar/nav-bar.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { Router, RouterLink } from '@angular/router';
+import { NavBarComponent } from '@components/nav-bar/nav-bar.component';
+import { SharedFormFieldComponent } from '@components/shared-form-field/shared-form-field.component';
+import { UploadComponent, type UploadResponse } from '@components/upload/upload.component';
+import { type Team, teamFields } from '@models/team';
+import type { User } from '@models/user';
+import { TeamRestService } from '@services/team-rest/team-rest.service';
+import { UserRestService } from '@services/user-rest/user-rest.service';
+import { matchUser } from '@src/app/confirmed.validator';
+import { getRankIcon } from '@src/app/shared/utils';
+import { environment } from '@src/environments/environment';
+import type { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-view-my-team',
@@ -57,7 +58,7 @@ export class ViewMyTeamComponent implements OnInit {
   nicknameList: string[] = [];
   teamTag!: string;
   team!: Team;
-  dataSource: any;
+  dataSource = new MatTableDataSource<Team>();
   users: User[] = [];
   isShow = true;
   bool = true;
@@ -86,13 +87,13 @@ export class ViewMyTeamComponent implements OnInit {
           users: ['', Validators.required],
         },
         {
-          validators: [ConfirmedValidator.matchUser('users', this.nicknameList)],
+          validators: [matchUser('users', this.nicknameList)],
         },
       );
     });
     this.getUser().subscribe((user) => {
-      this.nickname = user.nickname!;
-      this.getTeam(user.teamTag!).subscribe((team) => {
+      this.nickname = user.nickname ?? '';
+      this.getTeam(user.teamTag ?? '').subscribe((team) => {
         this.team = team;
       });
     });
@@ -104,7 +105,7 @@ export class ViewMyTeamComponent implements OnInit {
 
   populateUsers() {
     for (const user of this.users) {
-      this.nicknameList.push(user.nickname!);
+      this.nicknameList.push(user.nickname ?? '');
     }
   }
 

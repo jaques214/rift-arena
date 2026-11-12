@@ -1,5 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { JoinTournamentComponent } from './join-tournament.component';
 
 describe('JoinTournamentComponent', () => {
